@@ -21,6 +21,6 @@ public class Board {
     }
 
     public int getCellLevel(int x, int y){
-        return board[x][y].getLevel().getBlock();
+        return board[x][y].getLevel().getBlockId();
     }
 }
