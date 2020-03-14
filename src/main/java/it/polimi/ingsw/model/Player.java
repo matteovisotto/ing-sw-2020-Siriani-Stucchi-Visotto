@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.Random;
+
 public class Player {
     private Worker[] workers;
     private String playerName;
@@ -17,6 +19,8 @@ public class Player {
     }
 
     public void drawCard(){
+        Random random = new Random();
+        this.godCard = new SimpleGod(SimpleGods.getGod(random.nextInt(8)+1));
 
     }
 
