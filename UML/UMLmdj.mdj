@@ -3997,7 +3997,7 @@
 											"top": 486,
 											"width": 175,
 											"height": 13,
-											"text": "+name: SimpleGods",
+											"text": "-name: SimpleGods",
 											"horizontalAlignment": 0
 										}
 									],
@@ -5294,6 +5294,7 @@
 										"$ref": "AAAAAAFw1Kh8JwC1nH0="
 									},
 									"name": "name",
+									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAFw1HVN4rXddxo="
 									}

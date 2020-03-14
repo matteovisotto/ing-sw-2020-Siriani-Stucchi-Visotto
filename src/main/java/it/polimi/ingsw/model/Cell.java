@@ -1,16 +1,11 @@
 package it.polimi.ingsw.model;
 
 public class Cell {
-    private int x;
-    private int y;
     private Blocks level;
 
-    public int getX () {
-        return x;
-    }
 
-    public int getY () {
-        return y;
+    public Cell(){
+        this.level=Blocks.EMPTY;
     }
 
     public Blocks getLevel () {
