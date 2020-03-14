@@ -20,7 +20,11 @@ public class Player {
 
     public void drawCard(){
         Random random = new Random();
-        this.godCard = new SimpleGod(SimpleGods.getGod(random.nextInt(8)+1));
+        try {
+            this.godCard = new SimpleGod(SimpleGods.getGod(random.nextInt(8) + 1));
+        } catch (IllegalArgumentException e) {
+
+        }
 
     }
 

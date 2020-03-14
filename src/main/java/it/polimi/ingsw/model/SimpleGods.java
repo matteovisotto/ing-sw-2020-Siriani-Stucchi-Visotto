@@ -18,7 +18,7 @@ public enum SimpleGods {
         this.simplegod = simplegod;
     }
 
-    public static SimpleGods getGod(int id) {
+    public static SimpleGods getGod(int id) throws IllegalArgumentException{
         switch(id) {
             case 1:
                 return SimpleGods.APOLLO;
