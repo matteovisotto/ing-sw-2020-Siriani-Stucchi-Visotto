@@ -2277,7 +2277,7 @@
 											"top": 595,
 											"width": 183,
 											"height": 13,
-											"text": "+getCellLevel(): int",
+											"text": "+getCellLevel(): Int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -4730,7 +4730,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFw2WEp8QBqX14="
 											},
-											"type": "int",
+											"type": "Int",
 											"direction": "return"
 										}
 									]
