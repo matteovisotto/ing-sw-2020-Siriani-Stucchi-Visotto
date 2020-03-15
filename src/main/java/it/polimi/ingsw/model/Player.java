@@ -18,6 +18,12 @@ public class Player {
         return (workers[i]);
     }
 
+    public Player(){
+        workers=new Worker[2];
+        drawCard();
+
+    }
+
     public void drawCard(){
         Random random = new Random();
         try {

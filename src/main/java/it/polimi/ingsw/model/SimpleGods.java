@@ -43,7 +43,7 @@ public enum SimpleGods {
         }
     }
 
-    public int getSimpleGod() {
+    public int getSimpleGodId() {
         return simplegod;
     }
 

@@ -3,11 +3,16 @@ package it.polimi.ingsw.model;
 public class Board {
     private Cell[][] board;
 
+    public static Board shared = new Board();
+
     public Board(){
         this.reset();
     }
 
-    public Cell getCell(int x, int y){
+    public Cell getCell(int x, int y) throws IllegalArgumentException{
+        if((x<0 || x>5) || (y<0 || y>5)){
+            throw new IllegalArgumentException();
+        }
         return board[x][y];
     }
 
