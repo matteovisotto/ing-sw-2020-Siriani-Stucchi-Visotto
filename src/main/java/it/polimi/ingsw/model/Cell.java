@@ -12,14 +12,14 @@ public class Cell {
     }
 
     public void increaseLevel() throws IllegalArgumentException {
-        switch(level.toString()) {
-            case "EMPTY":
+        switch(level.getBlockId()) {
+            case 0:
                 level = Blocks.LEVEL1;
-            case "LEVEL1":
+            case 1:
                 level = Blocks.LEVEL2;
-            case "LEVEL2":
+            case 2:
                 level = Blocks.LEVEL3;
-            case "LEVEL3":
+            case 3:
                 level = Blocks.DOME;
             default:
                 throw new IllegalArgumentException();
