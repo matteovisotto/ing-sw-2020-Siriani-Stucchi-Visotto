@@ -18,7 +18,8 @@ public class Player {
         return (workers[i]);
     }
 
-    public Player(){
+    public Player(String playerName){
+        this.playerName = playerName;
         workers=new Worker[2];
         drawCard();
 

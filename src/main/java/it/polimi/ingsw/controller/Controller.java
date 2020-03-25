@@ -9,11 +9,11 @@ import java.util.Observer;
 public class Controller implements Observer {
 
     private Model model;
-    private View view;
+    //private View view;
 
-    public Controller(Model model, View view){
+    public Controller(Model model){
         this.model = model;
-        this.view = view;
+        //this.view = view;
     }
 
     @Override
