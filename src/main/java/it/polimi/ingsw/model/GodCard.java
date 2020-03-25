@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
-public class GodCard {
-    protected SimpleGods name;
+public abstract class GodCard {
 
-    public String getName(){
-        return name.toString();
+    protected SimpleGods card;
+
+
+    public String getName() {
+        return card.toString();
     }
+
+    public abstract void usePower();
 
 }

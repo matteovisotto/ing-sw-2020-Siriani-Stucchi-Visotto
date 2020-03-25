@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.simplegod.*;
+
 public enum SimpleGods {
     APOLLO(1),
     ARTHEMIS(2),
@@ -9,8 +11,7 @@ public enum SimpleGods {
     HEPHAESTUS(6),
     MINOTAUR(7),
     PAN(8),
-    PROMETHEUS(9)
-    ;
+    PROMETHEUS(9);
 
     private int simplegod;
 
@@ -18,26 +19,26 @@ public enum SimpleGods {
         this.simplegod = simplegod;
     }
 
-    public static SimpleGods getGod(int id) throws IllegalArgumentException{
+    public static GodCard getGod(int id) throws IllegalArgumentException{
         switch(id) {
             case 1:
-                return SimpleGods.APOLLO;
+                return new Apollo();
             case 2:
-                return SimpleGods.ARTHEMIS;
+                return new Arthemis();
             case 3:
-                return SimpleGods.ATHENA;
+                return new Athena();
             case 4:
-                return SimpleGods.ATLAS;
+                return new Atlas();
             case 5:
-                return SimpleGods.DEMETER;
+                return new Demeter();
             case 6:
-                return SimpleGods.HEPHAESTUS;
+                return new Hephaestus();
             case 7:
-                return SimpleGods.MINOTAUR;
+                return new Minotaur();
             case 8:
-                return SimpleGods.PAN;
+                return new Pan();
             case 9:
-                return SimpleGods.PROMETHEUS;
+                return new Prometheus();
             default:
                 throw new IllegalArgumentException();
         }
