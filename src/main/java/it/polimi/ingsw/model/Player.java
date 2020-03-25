@@ -14,8 +14,13 @@ public class Player {
         return godCard;
     }
 
-    public Worker getWorker(int i){
+    public Worker getWorker(int i) throws ArrayIndexOutOfBoundsException{
         return (workers[i]);
+    }
+
+    public void setWorkers(Worker worker1, Worker worker2) {
+        this.workers[1] = worker1;
+        this.workers[2] = worker2;
     }
 
     public Player(String playerName){
@@ -30,7 +35,7 @@ public class Player {
         try {
             this.godCard = SimpleGods.getGod(random.nextInt(8) + 1);
         } catch (IllegalArgumentException e) {
-
+            System.err.println(e.getMessage());
         }
 
     }

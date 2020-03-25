@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 public class Board {
     private Cell[][] board;
 
-    public static Board shared = new Board();
+   // public static Board shared = new Board();
 
     public Board(){
         this.reset();

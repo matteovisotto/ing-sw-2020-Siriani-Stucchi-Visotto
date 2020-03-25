@@ -45,7 +45,7 @@ public class Server {
             Connection c1 = waitingConnection.get(keys.get(0));
             Connection c2 = waitingConnection.get(keys.get(1));
             /*RemoteView player1 = new RemoteView(new Player(keys.get(0)), keys.get(1), c1);
-            //RemoteView player2 = new RemoteView(new Player(keys.get(1)), keys.get(0), c2);
+            RemoteView player2 = new RemoteView(new Player(keys.get(1)), keys.get(0), c2);
             Model model = new Model();
             Controller controller = new Controller(model);
             model.addObserver(player1);
