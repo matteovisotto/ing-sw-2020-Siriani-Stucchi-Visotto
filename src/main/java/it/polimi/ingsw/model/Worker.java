@@ -14,4 +14,8 @@ public class Worker {
     public void setCell(Cell cell){
         this.cell = cell;
     }
+
+    public boolean checkCell(){
+        return true;
+    }
 }

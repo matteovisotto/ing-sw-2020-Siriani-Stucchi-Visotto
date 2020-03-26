@@ -14,8 +14,8 @@ public class Player {
         return godCard;
     }
 
-    public Worker getWorker(int i) throws ArrayIndexOutOfBoundsException{
-        return (workers[i]);
+    public Worker getWorker(int number) throws ArrayIndexOutOfBoundsException{
+        return (workers[number]);
     }
 
     public void setWorkers(Worker worker1, Worker worker2) {
@@ -25,7 +25,7 @@ public class Player {
 
     public Player(String playerName){
         this.playerName = playerName;
-        workers=new Worker[2];
+        workers = new Worker[2];
         drawCard();
 
     }

@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 public class View extends Observable implements Runnable, Observer {
 
-    private Scanner in=new Scanner(System.in);
+    private Scanner in = new Scanner(System.in);
     private int players;
 
     @Override
     public void run() {
         boolean end=false;
-        while(end!=true){
+        while(end != true){
             try{
                 do{
                     System.out.println("How many players?");
@@ -20,7 +20,7 @@ public class View extends Observable implements Runnable, Observer {
                 }while(players>3 && players<2);
             }
             catch (Exception e){
-                System.out.println("Inserire un numero valido");
+                System.out.println("Insert a valid number");
             }
             //chiedere nome per ogni giocatore e farli pescare
             //Turno giocatore 1

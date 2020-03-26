@@ -7,7 +7,7 @@ public class Cell {
     private int y;
 
     public Cell(int x, int y){
-        this.level=Blocks.EMPTY;
+        this.level = Blocks.EMPTY;
         this.x = x;
         this.y = y;
     }
