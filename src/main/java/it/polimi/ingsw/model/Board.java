@@ -10,7 +10,7 @@ public class Board {
     }
 
     public Cell getCell(int x, int y) throws IllegalArgumentException{
-        if((x<0 || x>5) || (y<0 || y>5)){
+        if((x<0 || x>=5) || (y<0 || y>=5)){
             throw new IllegalArgumentException();
         }
         return board[x][y];
@@ -25,7 +25,15 @@ public class Board {
         }
     }
 
-    public int getCellLevel(int x, int y){
+/*    public int getCellLevel(int x, int y){
         return board[x][y].getLevel().getBlockId();
+    }*/
+
+    public boolean checkCell (int x, int y, Worker worker) throws IllegalArgumentException{
+        Cell cell = getCell(x,y);
+        Cell other_cell = worker.getCell();
+        if (cell.isFree() && !cell.equals(other_cell) && (other_cell.getLevel().getBlockId() - cell.getLevel().getBlockId()<2) && cell.getLevel().getBlockId() != 4){
+            return true;
+        } else return false;
     }
 }

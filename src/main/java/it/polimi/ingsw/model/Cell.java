@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 public class Cell {
     private Blocks level;
+    private boolean isFree = true;
 
     private int x;
     private int y;
@@ -10,6 +11,15 @@ public class Cell {
         this.level = Blocks.EMPTY;
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Cell) {
+            Cell otherCell = (Cell) obj;
+            if(otherCell.getX() == this.x && otherCell.getY() == this.y) return true;
+            else return false;
+        } else return false;
     }
 
     public int getX() {
@@ -24,18 +34,20 @@ public class Cell {
         return level;
     }
 
-    public void increaseLevel() throws IllegalArgumentException {
-        switch(level.getBlockId()) {
-            case 0:
-                level = Blocks.LEVEL1;
-            case 1:
-                level = Blocks.LEVEL2;
-            case 2:
-                level = Blocks.LEVEL3;
-            case 3:
-                level = Blocks.DOME;
-            default:
-                throw new IllegalArgumentException();
-        }
+    public void setLevel (Blocks level) {
+        this.level = level;
     }
+
+    public boolean isFree () {
+        return isFree;
+    }
+
+    public void freeCell () {
+        this.isFree = true;
+    }
+
+    public void useCell () {
+        this.isFree = false;
+    }
+
 }
