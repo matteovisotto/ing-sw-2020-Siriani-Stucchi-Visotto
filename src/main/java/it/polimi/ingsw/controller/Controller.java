@@ -21,6 +21,8 @@ public class Controller implements Observer {
             worker.setCell(newCell);
             worker.getCell().freeCell();
             newCell.useCell();
+            model.hasMoved(playerId, workerId);
+
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println(e.getMessage());
         }
@@ -42,19 +44,19 @@ public class Controller implements Observer {
         }
     }
 
-    public HashMap<Cell, Boolean> checkCellsAround (Cell cell, Worker worker){
+    public void checkCellsAround (Cell cell, Worker worker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();
         Board board = model.getBoard();
         for (int x = cell.getX()-1; x<=cell.getX()+1; x++) {
             for (int y = cell.getY()-1; y<=cell.getY()+1; y++) {
                 try{
-                        availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
+                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
                 }
                 catch (IllegalArgumentException e){
                 }
             }
         }
-        return availableCells;
+        model.setChanges(availableCells);
     }
 
     @Override

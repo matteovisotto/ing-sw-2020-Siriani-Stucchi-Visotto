@@ -19,4 +19,26 @@ public class Model extends Observable {
     public Board getBoard() {
         return board;
     }
+
+    public void setChanges(Object o){
+        setChanged();
+        notifyObservers(o);
+
+    }
+
+    public void hasMoved(int player, int workerId) {
+        if(getPlayer(player).getWorker(workerId).getCell().getLevel().getBlockId()==3){
+            vittoria(player, workerId);
+        } else {
+            setChanged();
+            notifyObservers();
+        }
+
+    }
+    public void vittoria(int player, int worker){
+
+        setChanged();
+        notifyObservers();
+
+    }
 }

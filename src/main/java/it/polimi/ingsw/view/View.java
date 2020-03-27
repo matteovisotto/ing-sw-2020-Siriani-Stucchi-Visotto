@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -26,6 +27,7 @@ public class View extends Observable implements Runnable, Observer {
             //Turno giocatore 1
 
             //Eseguire la mossa
+            //controlla vittoria
 
 
         }
@@ -36,6 +38,9 @@ public class View extends Observable implements Runnable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if(arg instanceof HashMap){
+
+        }
 
     }
 }
