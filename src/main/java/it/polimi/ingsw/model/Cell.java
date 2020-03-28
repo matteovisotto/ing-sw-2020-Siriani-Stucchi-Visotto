@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class Cell {
+public class Cell implements Cloneable{
     private Blocks level;
     private boolean isFree = true;
 
@@ -11,6 +11,13 @@ public class Cell {
         this.level = Blocks.EMPTY;
         this.x = x;
         this.y = y;
+    }
+
+    private Cell(int x, int y, Blocks level, boolean isFree){
+        this.x = x;
+        this.y = y;
+        this.isFree = isFree;
+        this.level = level;
     }
 
     @Override
@@ -27,6 +34,11 @@ public class Cell {
         int free = 0;
         if(this.isFree()) free = 1;
         return this.getLevel().getBlockId() + " " + free;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Cell(x,y,level,isFree);
     }
 
     public int getX() {

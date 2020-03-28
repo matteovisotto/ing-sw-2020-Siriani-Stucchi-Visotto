@@ -1,9 +1,7 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.ClientConnection;
-import it.polimi.ingsw.server.Connection;
 
 import java.util.Observable;
 import java.util.Observer;

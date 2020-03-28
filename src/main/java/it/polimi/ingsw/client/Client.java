@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -37,8 +38,10 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){
                             System.out.println((String)inputObject);
-                        } else if (inputObject instanceof Board){
-                            ((Board)inputObject).print();
+                        } else if (inputObject instanceof Board) {
+                            ((Board) inputObject).print();
+                        } else if (inputObject instanceof HashMap) {
+                            //Print movable cell
                         } else {
                             throw new IllegalArgumentException();
                         }

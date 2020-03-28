@@ -23,7 +23,6 @@ public class Model extends Observable {
     public void setChanges(Object o){
         setChanged();
         notifyObservers(o);
-
     }
 
     public void hasMoved(int player, int workerId) {
@@ -35,8 +34,7 @@ public class Model extends Observable {
         }
 
     }
-    public void vittoria(int player, int worker){
-
+    public void vittoria(int player, int worker) {
         setChanged();
         notifyObservers();
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class Board {
+import java.io.Serializable;
+
+public class Board implements Serializable, Cloneable {
     private Cell[][] board;
 
    // public static Board shared = new Board();
@@ -46,5 +48,15 @@ public class Board {
             }
             System.out.println();
         }
+    }
+
+    @Override
+    protected final Board clone() throws CloneNotSupportedException{
+        final Board result = new Board();
+        for(int i = 0; i < 5; i++){
+            for(int j=0; j<5; j++)
+            result.board[i][j] = (Cell) board[i][j].clone();
+        }
+        return result;
     }
 }

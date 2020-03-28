@@ -45,18 +45,24 @@ public class Server {
             List<String> keys = new ArrayList<>(waitingConnection.keySet());
             ClientConnection c1 = waitingConnection.get(keys.get(0));
             ClientConnection c2 = waitingConnection.get(keys.get(1));
-            RemoteView player1 = new RemoteView(new Player(keys.get(0)), keys.get(1), c1);
-            RemoteView player2 = new RemoteView(new Player(keys.get(1)), keys.get(0), c2);
-            Model model = new Model(new Player[numPlayer]);
+            Player p1 = new Player(keys.get(0));
+            Player p2 = new Player(keys.get(1));
+            Player[] playerArray = new Player[numPlayer];
+            playerArray[0] = p1;
+            playerArray[1] = p2;
+            RemoteView rv1 = new RemoteView(p1, keys.get(1), c1);
+            RemoteView rv2 = new RemoteView(p2, keys.get(0), c2);
+            Model model = new Model(playerArray);
             Controller controller = new Controller(model);
-            model.addObserver(player1);
-            model.addObserver(player2);
-            player1.addObserver(controller);
-            player2.addObserver(controller);
+            model.addObserver(rv1);
+            model.addObserver(rv2);
+            rv1.addObserver(controller);
+            rv2.addObserver(controller);
             playingConnection.put(c1, c2);
             playingConnection.put(c2, c1);
             waitingConnection.clear();
         }
+        //Gestione turni
 
     }
 
