@@ -45,25 +45,25 @@ public class Server {
         return waitingConnection.size();
     }
 
-    public synchronized void lobby(ClientConnection c, String name, int numPlayer){//!!!! chiedere a client con quanti giocatori desidera giocare
+    public synchronized void lobby(ClientConnection c, String name, int numPlayer){
         if(numPlayer!=0) this.numPlayer = numPlayer;
         waitingConnection.put(name, c);                                     //aggiungo chi ha effettuato l'accesso alla lista dei giocatori in attesa
         if(waitingConnection.size() == this.numPlayer){                          //appena si riempie la stanza
-            ClientConnection c1,c2,c3;
+            ClientConnection c1,c2,c3=null;
             Player p1,p2,p3;
             Player[] playerArray = new Player[this.numPlayer];
             RemoteView rv1,rv2,rv3=null;
             List<String> keys = new ArrayList<>(waitingConnection.keySet());//creo un array di stringhe contenente i nomi dei giocatori
-
-            c1 = waitingConnection.get(keys.get(0));                        //non ho capito
+            //se si è in due o in 3
+            c1 = waitingConnection.get(keys.get(0));
             c2 = waitingConnection.get(keys.get(1));
             p1 = new Player(keys.get(0));
             p2 = new Player(keys.get(1));
             playerArray[0] = p1;
             playerArray[1] = p2;
-
-            if(this.numPlayer==3){//se si è scelto di giocare con 3 giocatori
-                c3 = waitingConnection.get(keys.get(2)); //stesse operazioni fatte sopra
+            //se si è in 3
+            if(this.numPlayer==3){                          //se si è scelto di giocare con 3 giocatori
+                c3 = waitingConnection.get(keys.get(2));    //stesse operazioni fatte sopra
                 p3 = new Player(keys.get(2));
                 playerArray[2] = p3;
                 rv1 = new RemoteView(p1, keys.get(1), keys.get(2), c1);
@@ -79,10 +79,15 @@ public class Server {
             model.addObserver(rv2);
             rv1.addObserver(controller);
             rv2.addObserver(controller);
-            playingConnection.put(c1, c2);
-            playingConnection.put(c2, c1);
             if(numPlayer==3){
                 model.addObserver(rv3);
+                rv3.addObserver(controller);
+                playingConnection.put(c1, c2);
+                playingConnection.put(c2, c3);
+                playingConnection.put(c3, c1);
+            }
+            else{
+                playingConnection.put(c1, c2);
                 playingConnection.put(c2, c1);
             }
             waitingConnection.clear();
