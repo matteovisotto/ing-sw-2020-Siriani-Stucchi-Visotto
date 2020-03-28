@@ -1,46 +1,31 @@
 package it.polimi.ingsw.view;
 
-import java.util.HashMap;
+import it.polimi.ingsw.model.Player;
+
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
-
-public class View extends Observable implements Runnable, Observer {
-
-    private Scanner in = new Scanner(System.in);
-    private int players;
-
-    @Override
-    public void run() {
-        boolean end=false;
-        while(end != true){
-            try{
-                do{
-                    System.out.println("How many players?");
-                    players=in.nextInt();
-                }while(players>3 && players<2);
-            }
-            catch (Exception e){
-                System.out.println("Insert a valid number");
-            }
-            //chiedere nome per ogni giocatore e farli pescare
-            //Turno giocatore 1
-
-            //Eseguire la mossa
-            //controlla vittoria
 
 
-        }
+public abstract class View extends Observable implements Observer {
+    private Player player;
 
+    protected View(Player player){
+        this.player = player;
+    }
 
+    protected Player getPlayer(){
+        return player;
+    }
+
+    protected abstract void showMessage(Object message);
+
+    void handleMove(int row, int column) {
+        System.out.println(row + " " + column);
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof HashMap){
-
-        }
-
+    public void reportError(String message){
+        showMessage(message);
     }
+
 }

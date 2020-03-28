@@ -1,4 +1,6 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.server;
+
+import it.polimi.ingsw.server.Server;
 
 import java.io.IOException;
 import java.io.PrintWriter;

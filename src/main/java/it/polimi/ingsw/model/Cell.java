@@ -22,6 +22,13 @@ public class Cell {
         } else return false;
     }
 
+    @Override
+    public String toString() {
+        int free = 0;
+        if(this.isFree()) free = 1;
+        return this.getLevel().getBlockId() + " " + free;
+    }
+
     public int getX() {
         return x;
     }
