@@ -19,12 +19,21 @@ public class RemoteView extends View {
 
     }
 
+    //Constructor for 2 players
     public RemoteView(Player player, String opponent, ClientConnection c) {
         super(player);
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponent is: " + opponent);
 
+    }
+
+    //Constructor for 3 players
+    public RemoteView(Player player, String opponent1, String opponent2, ClientConnection c) {
+        super(player);
+        this.clientConnection = c;
+        c.addObserver(new MessageReceiver());
+        c.asyncSend("Your opponents are: " + opponent1 + " and " + opponent2);
     }
 
     @Override

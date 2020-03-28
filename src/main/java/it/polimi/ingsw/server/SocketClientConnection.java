@@ -75,11 +75,16 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             send("Welcome!\nWhat is your name?");
             String read = in.nextLine();
             name = read;
-            do{
-                send("How many players?");
-                numPlayer=in.nextInt();
-            }while(numPlayer<2 || numPlayer>3);
-            server.lobby(this, name, numPlayer);
+            if(server.getLobbyWaiter() != 0) {
+                server.lobby(this, name, 0);
+            } else {
+                do {
+                    send("How many players?");
+                    numPlayer = in.nextInt();
+                } while (numPlayer < 2 || numPlayer > 3);
+                server.lobby(this, name, numPlayer);
+
+            }
 
             while(isActive()){
                 read = in.nextLine();
