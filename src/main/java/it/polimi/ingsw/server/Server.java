@@ -22,6 +22,10 @@ public class Server {
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
 
+    //costruttore
+    public Server() throws IOException {
+        this.serverSocket = new ServerSocket(PORT);
+    }
     //Register connection
     private synchronized void registerConnection(ClientConnection c){
         connections.add(c);
@@ -42,7 +46,7 @@ public class Server {
     public synchronized void lobby(ClientConnection c, String name, int numPlayer){ //!!!! chiedere a client con quanti giocatori desidera giocare
         waitingConnection.put(name, c);                                     //aggiungo chi ha effettuato l'accesso alla lista dei giocatori in attesa
         if(waitingConnection.size() == numPlayer){                          //appena si riempie la stanza
-            ClientConnection c1,c2,c3;
+            ClientConnection c1,c2,c3=null;
             Player p1,p2,p3;
             Player[] playerArray = new Player[numPlayer];
             RemoteView rv1,rv2,rv3=null;
@@ -68,21 +72,26 @@ public class Server {
             model.addObserver(rv2);
             rv1.addObserver(controller);
             rv2.addObserver(controller);
-            playingConnection.put(c1, c2);
-            playingConnection.put(c2, c1);
+            //tengo traccia del prossimo giocatore a giocare (in ordine di connessione)
             if(numPlayer==3){
                 model.addObserver(rv3);
-                playingConnection.put(c2, c1);//?????????????
+                playingConnection.put(c1, c2);
+                playingConnection.put(c2, c3);
+                playingConnection.put(c3, c1);
+            }
+            else{
+                playingConnection.put(c1, c2);
+                playingConnection.put(c2, c1);
             }
             waitingConnection.clear();
+            c1.asyncSend("Inizio");
+            c2.asyncSend("Inizio");
         }
         //Gestione turni
 
     }
 
-    public Server() throws IOException {
-        this.serverSocket = new ServerSocket(PORT);
-    }
+
 
     //non dovrebbe essere @override?
     public void run(){
@@ -92,7 +101,7 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 SocketClientConnection connection = new SocketClientConnection(socket, this);
                 registerConnection(connection);
-                executor.submit(connection);
+                executor.submit(connection); //fa partire SocketClientConnection.run()
             } catch (IOException e){
                 System.err.println("Connection error!");
             }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import sun.text.normalizer.NormalizerBase;
 
 import java.util.Observable;
 
