@@ -84,21 +84,21 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                 choice = in.nextInt();
             } while (choice!=1 && choice != 2);
             if(choice == 1){
-                if(server.getLobbyWaiter() != 0) {
-                    server.lobby(this, name, 0);
-                } else {
                     do {
                         send(PlayerMessage.ASK_NUM_PLAYER);
                         numPlayer = in.nextInt();
                     } while (numPlayer < 2 || numPlayer > 3);
                     send(PlayerMessage.ASK_LOBBY_NAME);
-                    String lobbyName = in.nextLine();
-                    server.lobby(this, name, numPlayer);
-                }
+                    String lobbyName = in.next();
+                    //server.lobby(this, name, numPlayer);
+                    server.addLobby(lobbyName, this, name, numPlayer);
+
             } else{
                 send(PlayerMessage.JOIN_LOBBY);
                 send(server.getLobbiesNames());
-                server.lobby(this, name, 0);
+                int lobbyId = in.nextInt();
+                //server.lobby(this, name, 0);
+                server.joinLobby(lobbyId, this, name);
             }
 
 

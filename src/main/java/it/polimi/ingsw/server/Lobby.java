@@ -14,6 +14,7 @@ import java.util.Map;
 public class Lobby {
     private int numPlayers;
     private String lobbyName;
+    private boolean isFull = false;
     private List<ClientConnection> connections = new ArrayList<ClientConnection>();
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
@@ -28,9 +29,14 @@ public class Lobby {
         return this.lobbyName;
     }
 
+    public boolean isFull(){
+        return this.isFull;
+    }
+
     public void addPlayer(String playerName, ClientConnection c) {
         waitingConnection.put(playerName, c);
-        if(waitingConnection.size() == this.numPlayers){                          //appena si riempie la stanza
+        if(waitingConnection.size() == this.numPlayers){    //appena si riempie la stanza
+            this.isFull = true;
             ClientConnection c1,c2,c3=null;
             Player p1,p2,p3;
             Player[] playerArray = new Player[this.numPlayers];

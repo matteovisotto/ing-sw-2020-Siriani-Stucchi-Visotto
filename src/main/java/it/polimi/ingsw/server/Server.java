@@ -52,7 +52,9 @@ public class Server {
     public synchronized String getLobbiesNames() {
         String names = "";
         for(int i=0; i<lobbies.size(); i++){
-            names += i + " - " + lobbies.get(i).getLobbyName()+"\n";
+            String lobbyFull = "";
+            if(lobbies.get(i).isFull()) lobbyFull = " [FULL] ";
+            names += i + " - " + lobbies.get(i).getLobbyName()+lobbyFull+"\n";
         }
         return names;
     }
