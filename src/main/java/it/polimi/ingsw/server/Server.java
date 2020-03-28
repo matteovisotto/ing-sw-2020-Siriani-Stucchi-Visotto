@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.utils.ConnectionMessage;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
@@ -111,7 +112,7 @@ public class Server {
                 registerConnection(connection);
                 executor.submit(connection);
             } catch (IOException e){
-                System.err.println("Connection error!");
+                System.err.println(ConnectionMessage.ERROR);
             }
         }
     }

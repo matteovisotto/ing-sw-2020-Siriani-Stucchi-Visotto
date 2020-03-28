@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server;
 
 
+import it.polimi.ingsw.utils.ConnectionMessage;
+import it.polimi.ingsw.utils.PlayerMessage;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -38,11 +41,11 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
     @Override
     public synchronized void closeConnection() {
-        send("Connection closed!");
+        send(ConnectionMessage.CLOSE_SOCKET);
         try {
             socket.close();
         } catch (IOException e) {
-            System.err.println("Error when closing socket!");
+            System.err.println(ConnectionMessage.CLOSE_SOCKET_ERROR);
         }
         active = false;
     }
@@ -72,14 +75,14 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         try{
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            send("Welcome!\nWhat is your name?");
+            send(PlayerMessage.WELCOME);
             String read = in.nextLine();
             name = read;
             if(server.getLobbyWaiter() != 0) {
                 server.lobby(this, name, 0);
             } else {
                 do {
-                    send("How many players?");
+                    send(PlayerMessage.ASK_NUM_PLAYER);
                     numPlayer = in.nextInt();
                 } while (numPlayer < 2 || numPlayer > 3);
                 server.lobby(this, name, numPlayer);
