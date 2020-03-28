@@ -20,7 +20,7 @@ public class Server {
 
     private ExecutorService executor = Executors.newCachedThreadPool();
 
-    private List<ClientConnection> connections = new ArrayList<ClientConnection>();
+    private List<ClientConnection> connections = new ArrayList<>();
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
     private Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
