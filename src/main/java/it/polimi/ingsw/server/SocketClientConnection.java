@@ -90,14 +90,12 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     } while (numPlayer < 2 || numPlayer > 3);
                     send(PlayerMessage.ASK_LOBBY_NAME);
                     String lobbyName = in.next();
-                    //server.lobby(this, name, numPlayer);
                     server.addLobby(lobbyName, this, name, numPlayer);
 
             } else{
                 send(PlayerMessage.JOIN_LOBBY);
                 send(server.getLobbiesNames());
                 int lobbyId = in.nextInt();
-                //server.lobby(this, name, 0);
                 server.joinLobby(lobbyId, this, name);
             }
 

@@ -23,10 +23,8 @@ public class Server {
     private List<ClientConnection> connections = new ArrayList<ClientConnection>();
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
-
+    private Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
     private List<Lobby> lobbies = new ArrayList<>();
-
-    private int numPlayer = 0;
 
     //Register connection
     private synchronized void registerConnection(ClientConnection c){
@@ -43,10 +41,14 @@ public class Server {
             playingConnection.remove(opponent);
 
         }
+        Lobby lobby = lobbyConnections.get(c);
+        lobbyConnections.get(c).closeLobby();
+        //Clear other map
+        lobbies.remove(lobby);
     }
 
-    public synchronized int getLobbyWaiter(){
-        return waitingConnection.size();
+    public synchronized int getLobbiesCount(){
+        return this.lobbies.size();
     }
 
     public synchronized String getLobbiesNames() {
@@ -60,67 +62,17 @@ public class Server {
     }
 
     public synchronized void addLobby(String lobbyName, ClientConnection c, String playerName, int numPlayer){
-        this.lobbies.add(new Lobby(lobbyName, playerName, c, numPlayer));
+        Lobby lobby = new Lobby(lobbyName, playerName, c, numPlayer);
+        this.lobbies.add(lobby);
+        this.lobbyConnections.put(c, lobby);
     }
 
     public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName){
-        this.lobbies.get(lobbyId).addPlayer(playerName, c);
+        Lobby lobby = this.lobbies.get(lobbyId);
+        lobby.addPlayer(playerName, c);
+        lobbyConnections.put(c, lobby);
     }
 
-    public synchronized void lobby(ClientConnection c, String name, int numPlayer){
-        if(numPlayer!=0) this.numPlayer = numPlayer;
-        waitingConnection.put(name, c);                                     //aggiungo chi ha effettuato l'accesso alla lista dei giocatori in attesa
-        if(waitingConnection.size() == this.numPlayer){                          //appena si riempie la stanza
-            ClientConnection c1,c2,c3=null;
-            Player p1,p2,p3;
-            Player[] playerArray = new Player[this.numPlayer];
-            RemoteView rv1,rv2,rv3=null;
-            List<String> keys = new ArrayList<>(waitingConnection.keySet());//creo un array di stringhe contenente i nomi dei giocatori
-            //se si è in due o in 3
-            c1 = waitingConnection.get(keys.get(0));
-            c2 = waitingConnection.get(keys.get(1));
-            p1 = new Player(keys.get(0));
-            p2 = new Player(keys.get(1));
-            playerArray[0] = p1;
-            playerArray[1] = p2;
-            //se si è in 3
-            if(this.numPlayer==3){                          //se si è scelto di giocare con 3 giocatori
-                c3 = waitingConnection.get(keys.get(2));    //stesse operazioni fatte sopra
-                p3 = new Player(keys.get(2));
-                playerArray[2] = p3;
-                rv1 = new RemoteView(p1, keys.get(1), keys.get(2), c1);
-                rv2 = new RemoteView(p2, keys.get(0), keys.get(2), c2);
-                rv3 = new RemoteView(p3, keys.get(1), keys.get(0), c3);
-            } else {
-                rv1 = new RemoteView(p1, keys.get(1), c1);
-                rv2 = new RemoteView(p2, keys.get(0), c2);
-            }
-            Model model = new Model(playerArray);
-            Controller controller = new Controller(model);
-            model.addObserver(rv1);
-            model.addObserver(rv2);
-            rv1.addObserver(controller);
-            rv2.addObserver(controller);
-            if(numPlayer==3){
-                model.addObserver(rv3);
-                rv3.addObserver(controller);
-                playingConnection.put(c1, c2);
-                playingConnection.put(c2, c3);
-                playingConnection.put(c3, c1);
-            }
-            else{
-                playingConnection.put(c1, c2);
-                playingConnection.put(c2, c1);
-            }
-            waitingConnection.clear();
-            //this.numPlayer=0; //When multithread
-            //Gestione turni
-            c1.asyncSend(PlayerMessage.START_PLAY);
-            c2.asyncSend(PlayerMessage.START_PLAY);
-            if(this.numPlayer == 3) c3.asyncSend(PlayerMessage.START_PLAY);
-        }
-
-    }
 
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(PORT);

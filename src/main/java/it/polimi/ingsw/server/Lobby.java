@@ -22,6 +22,7 @@ public class Lobby {
     public Lobby(String lobbyName, String playerName, ClientConnection c, int numPlayers){
         this.numPlayers = numPlayers;
         this.lobbyName = lobbyName;
+        connections.add(c);
         waitingConnection.put(playerName, c);
     }
 
@@ -33,7 +34,18 @@ public class Lobby {
         return this.isFull;
     }
 
+    public void closeLobby() {
+        for(int i=connections.size()-1; i>=0; i--){
+            ClientConnection clientConnection = connections.get(i);
+            clientConnection.closeConnection();
+            connections.remove(i);
+        }
+        waitingConnection.clear();
+        playingConnection.clear();
+    }
+
     public void addPlayer(String playerName, ClientConnection c) {
+        connections.add(c);
         waitingConnection.put(playerName, c);
         if(waitingConnection.size() == this.numPlayers){    //appena si riempie la stanza
             this.isFull = true;
@@ -85,6 +97,14 @@ public class Lobby {
             c2.asyncSend(PlayerMessage.START_PLAY);
             if(this.numPlayers == 3) c3.asyncSend(PlayerMessage.START_PLAY);
         }
+    }
+
+    private void twoPlayer(){
+
+    }
+
+    private void threePlayer() {
+
     }
 
 
