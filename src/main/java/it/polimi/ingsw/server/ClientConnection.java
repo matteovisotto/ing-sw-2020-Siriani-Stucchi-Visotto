@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server;
 
-public interface ClientConnection{
+import java.util.Observable;
 
-    void closeConnection();
+public abstract class ClientConnection extends Observable {
 
-    void asyncSend(Object message);
+    public abstract void closeConnection();
+
+    public abstract void asyncSend(Object message);
 }

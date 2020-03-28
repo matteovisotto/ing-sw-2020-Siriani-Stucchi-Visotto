@@ -27,7 +27,7 @@ public class Client {
     public synchronized void setActive(boolean active){
         this.active = active;
     }
-
+    //Aggiorna la tabella quando chiamata
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -51,7 +51,7 @@ public class Client {
         t.start();
         return t;
     }
-
+    //invia messaggi al server quando qualcosa nella view muta
     public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut){
         Thread t = new Thread(new Runnable() {
             @Override

@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Connection;
 
+import java.util.Observable;
 import java.util.Observer;
 
 public class RemoteView extends View {
@@ -12,13 +15,13 @@ public class RemoteView extends View {
     private class MessageReceiver implements Observer {
 
         @Override
-        public void update(String message) {
-            System.out.println("Received: " + message);
+        public void update(Observable o, Object arg) {
+            System.out.println("Received: " + arg);
         }
 
     }
 
-    public RemoteView(Player player, String opponent, Connection c) {
+    public RemoteView(Player player, String opponent, ClientConnection c) {
         super(player);
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
@@ -31,13 +34,13 @@ public class RemoteView extends View {
         clientConnection.asyncSend(message);
     }
 
+
+
     @Override
-    public void update(MoveMessage message)
+    public void update(Observable o, Object arg)
     {
-        showMessage(message.getBoard());
+        showMessage(arg);
         String resultMsg = "";
-
-
         showMessage(resultMsg);
     }
 

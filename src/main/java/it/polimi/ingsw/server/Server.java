@@ -39,15 +39,15 @@ public class Server {
         }
     }
 
-    public synchronized void lobby(ClientConnection c, String name){
+    public synchronized void lobby(ClientConnection c, String name, int numPlayer){
         waitingConnection.put(name, c);
-        if(waitingConnection.size() == 2){
+        if(waitingConnection.size() == numPlayer){
             List<String> keys = new ArrayList<>(waitingConnection.keySet());
             ClientConnection c1 = waitingConnection.get(keys.get(0));
             ClientConnection c2 = waitingConnection.get(keys.get(1));
             RemoteView player1 = new RemoteView(new Player(keys.get(0)), keys.get(1), c1);
             RemoteView player2 = new RemoteView(new Player(keys.get(1)), keys.get(0), c2);
-            Model model = new Model();
+            Model model = new Model(new Player[numPlayer]);
             Controller controller = new Controller(model);
             model.addObserver(player1);
             model.addObserver(player2);
@@ -70,7 +70,7 @@ public class Server {
         while(true){
             try {
                 Socket socket = serverSocket.accept();
-                Connection connection = new Connection(socket, this);
+                SocketClientConnection connection = new SocketClientConnection(socket, this);
                 registerConnection(connection);
                 executor.submit(connection);
             } catch (IOException e){

@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Scanner;
 
-public class SocketClientConnection extends Observable implements ClientConnection, Runnable {
+public class SocketClientConnection extends ClientConnection implements Runnable {
 
     private Socket socket;
     private ObjectOutputStream out;
@@ -74,10 +74,12 @@ public class SocketClientConnection extends Observable implements ClientConnecti
             send("Welcome!\nWhat is your name?");
             String read = in.nextLine();
             name = read;
-            server.lobby(this, name);
+            send("2 or 3 players?");
+            int numPlayer=in.nextInt();
+            server.lobby(this, name, numPlayer);
             while(isActive()){
                 read = in.nextLine();
-                notify(read);
+                notifyObservers(read);
             }
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
