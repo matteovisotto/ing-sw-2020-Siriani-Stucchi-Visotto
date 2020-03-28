@@ -78,16 +78,29 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             send(PlayerMessage.WELCOME);
             String read = in.nextLine();
             name = read;
-            if(server.getLobbyWaiter() != 0) {
+            int choice ;
+            do {
+                send(PlayerMessage.GAME_MODE);
+                choice = in.nextInt();
+            } while (choice!=1 && choice != 2);
+            if(choice == 1){
+                if(server.getLobbyWaiter() != 0) {
+                    server.lobby(this, name, 0);
+                } else {
+                    do {
+                        send(PlayerMessage.ASK_NUM_PLAYER);
+                        numPlayer = in.nextInt();
+                    } while (numPlayer < 2 || numPlayer > 3);
+                    send(PlayerMessage.ASK_LOBBY_NAME);
+                    String lobbyName = in.nextLine();
+                    server.lobby(this, name, numPlayer);
+                }
+            } else{
+                send(PlayerMessage.JOIN_LOBBY);
+                send(server.getLobbiesNames());
                 server.lobby(this, name, 0);
-            } else {
-                do {
-                    send(PlayerMessage.ASK_NUM_PLAYER);
-                    numPlayer = in.nextInt();
-                } while (numPlayer < 2 || numPlayer > 3);
-                server.lobby(this, name, numPlayer);
-
             }
+
 
             while(isActive()){
                 read = in.nextLine();

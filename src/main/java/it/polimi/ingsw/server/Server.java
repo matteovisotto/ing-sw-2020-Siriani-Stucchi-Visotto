@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.utils.ConnectionMessage;
+import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class Server {
     private List<ClientConnection> connections = new ArrayList<ClientConnection>();
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
+
+    private List<Lobby> lobbies = new ArrayList<>();
 
     private int numPlayer = 0;
 
@@ -44,6 +47,22 @@ public class Server {
 
     public synchronized int getLobbyWaiter(){
         return waitingConnection.size();
+    }
+
+    public synchronized String getLobbiesNames() {
+        String names = "";
+        for(int i=0; i<lobbies.size(); i++){
+            names += i + " - " + lobbies.get(i).getLobbyName()+"\n";
+        }
+        return names;
+    }
+
+    public synchronized void addLobby(String lobbyName, ClientConnection c, String playerName, int numPlayer){
+        this.lobbies.add(new Lobby(lobbyName, playerName, c, numPlayer));
+    }
+
+    public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName){
+        this.lobbies.get(lobbyId).addPlayer(playerName, c);
     }
 
     public synchronized void lobby(ClientConnection c, String name, int numPlayer){
@@ -92,8 +111,11 @@ public class Server {
                 playingConnection.put(c2, c1);
             }
             waitingConnection.clear();
-            this.numPlayer=0;
+            //this.numPlayer=0; //When multithread
             //Gestione turni
+            c1.asyncSend(PlayerMessage.START_PLAY);
+            c2.asyncSend(PlayerMessage.START_PLAY);
+            if(this.numPlayer == 3) c3.asyncSend(PlayerMessage.START_PLAY);
         }
 
     }
