@@ -78,7 +78,6 @@ public class Server {
         this.serverSocket = new ServerSocket(PORT);
     }
 
-    //non dovrebbe essere @override?
     public void run(){
         System.out.println("Server listening on port: " + PORT);
         while(true){
