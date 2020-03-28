@@ -38,9 +38,9 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){
                             System.out.println((String)inputObject);
-                        } else if (inputObject instanceof Board) {
+                        } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
-                        } else if (inputObject instanceof HashMap) {
+                        } else if (inputObject instanceof HashMap) { //se viene passata una HashMap
                             //Print movable cell
                         } else {
                             throw new IllegalArgumentException();
@@ -85,7 +85,7 @@ public class Client {
             Thread t0 = asyncReadFromSocket(socketIn);
             Thread t1 = asyncWriteToSocket(stdin, socketOut);
             t0.join();
-            t1.join();
+            t1.join();//non dovrebbe fare qualcosa?
         } catch(InterruptedException | NoSuchElementException e){
             System.out.println("Connection closed from the client side");
         } finally {
