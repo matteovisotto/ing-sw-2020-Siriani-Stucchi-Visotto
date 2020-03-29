@@ -101,8 +101,20 @@ public class Lobby {
         playingConnection.put(c2, c1);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        sendAllPlayer(model.getBoard());
-
+        try {
+            sendAllPlayer(model.getBoard());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        
+        if(model.isPlayerTurn(playerArray[0])){
+            c1.asyncSend(PlayerMessage.YOUR_TURN);
+            c2.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);
+        }
+        else{
+            c2.asyncSend(PlayerMessage.YOUR_TURN);
+            c1.asyncSend(playerArray[1].getName()+PlayerMessage.NOT_YOUR_TURN);
+        }
     }
 
     private void threePlayer(List<String> players) {
@@ -142,8 +154,27 @@ public class Lobby {
 
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        sendAllPlayer(model.getBoard());
-    }
+        try {
+            sendAllPlayer(model.getBoard());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
+        if(model.isPlayerTurn(playerArray[0])){
+            c1.asyncSend(PlayerMessage.YOUR_TURN);
+            c2.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c3.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);
+        }
+        else if(model.isPlayerTurn(playerArray[1])){
+            c2.asyncSend(PlayerMessage.YOUR_TURN);
+            c1.asyncSend(playerArray[1].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c3.asyncSend(playerArray[1].getName()+PlayerMessage.NOT_YOUR_TURN);
+        }
+        else{
+            c3.asyncSend(PlayerMessage.YOUR_TURN);
+            c1.asyncSend(playerArray[2].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c2.asyncSend(playerArray[2].getName()+PlayerMessage.NOT_YOUR_TURN);
+        }
+    }
 
 }

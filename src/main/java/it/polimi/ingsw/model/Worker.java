@@ -4,7 +4,6 @@ public class Worker {
     private Cell cell;
     public boolean available = true;
 
-
     public Worker(Cell cell) throws IllegalArgumentException{
         this.cell = cell;
     }

@@ -1,22 +1,22 @@
 package it.polimi.ingsw.model;
-
-
 import java.util.Observable;
 
 public class Model extends Observable {
-    private Player[] players;
     private Board board = new Board();
+    private Player turn[];
+    private int id=0;
 
     public Model(Player[] players){
-        this.players = players;
+        this.turn = players;
+
     }
 
-    public Player getPlayer(int id) throws ArrayIndexOutOfBoundsException{
-        return this.players[id];
+    public boolean isPlayerTurn(Player p){
+        return this.turn[id]==p;
     }
 
-    public Board getBoard() {
-        return board;
+    public Board getBoard() throws CloneNotSupportedException {
+        return board.clone();
     }
 
     public void setChanges(Object o){
@@ -24,8 +24,8 @@ public class Model extends Observable {
         notifyObservers(o);
     }
 
-    public void hasMoved(int player, int workerId) {
-        if(getPlayer(player).getWorker(workerId).getCell().getLevel().getBlockId()==3){
+    public void hasMoved(Player player, int workerId) {
+        if(player.getWorker(workerId).getCell().getLevel().getBlockId()==3){
             vittoria(player, workerId);
         } else {
             setChanged();
@@ -33,9 +33,18 @@ public class Model extends Observable {
         }
 
     }
-    public void vittoria(int player, int worker) {
+
+    public void vittoria(Player player, int worker) {
         setChanged();
         notifyObservers();
 
     }
+
+    public void updateTurn(){
+        id=(id+1)%(turn.length);
+        if(turn[id].getStatus()){
+            updateTurn();
+        }
+    }
 }
+

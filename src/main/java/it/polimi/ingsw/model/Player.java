@@ -6,6 +6,7 @@ public class Player {
     private Worker[] workers;
     private String playerName;
     private GodCard godCard;
+    private boolean lost=false;
 
     public String getName(){
         return playerName;
@@ -27,7 +28,6 @@ public class Player {
         this.playerName = playerName;
         workers = new Worker[2];
         drawCard();
-
     }
 
     public void drawCard(){
@@ -37,7 +37,10 @@ public class Player {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-
     }
 
+    public boolean getStatus(){
+        return lost;
+    }
 }
+

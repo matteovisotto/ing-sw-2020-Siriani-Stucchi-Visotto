@@ -10,8 +10,8 @@ public class Controller implements Observer {
 
 
     public Controller(Model model){
+        super();
         this.model = model;
-
     }
 
     public void move(int playerId, int workerId, Cell newCell) {
