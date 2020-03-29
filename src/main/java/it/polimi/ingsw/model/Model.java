@@ -1,4 +1,6 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.utils.PlayerMessage;
+
 import java.util.Observable;
 
 public class Model extends Observable {
@@ -29,15 +31,6 @@ public class Model extends Observable {
         notifyObservers(o);
     }
 
-    public void hasMoved(Player player, int workerId) {
-        if(player.getWorker(workerId).getCell().getLevel().getBlockId() == 3){
-            vittoria(player, workerId);
-        } else {
-            setChanged();
-            notifyObservers();
-        }
-    }
-
     public void vittoria(Player player, int worker) {
         setChanged();
         notifyObservers();
@@ -49,5 +42,16 @@ public class Model extends Observable {
             updateTurn();
         }
 
+    }
+
+    public void setPlayerWorker (PlayerWorker playerWorker){
+        playerWorker.getPlayer().setWorkers(new Worker(this.getBoard().getCell(playerWorker.getX1(), playerWorker.getY1())), new Worker(this.getBoard().getCell(playerWorker.getX2(), playerWorker.getY2())));
+    }
+
+    public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
+        Worker worker = move.getPlayer().getWorker(move.getWorkerId());
+        worker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
+        worker.getCell().freeCell();
+        this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
     }
 }

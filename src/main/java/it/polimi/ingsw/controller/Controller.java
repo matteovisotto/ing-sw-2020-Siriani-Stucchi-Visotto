@@ -20,11 +20,7 @@ public class Controller implements Observer {
             return;
         }
         try {
-            Worker worker = move.getPlayer().getWorker(move.getWorkerId());
-            worker.setCell(model.getBoard().getCell(move.getRow(), move.getColumn()));
-            worker.getCell().freeCell();
-            model.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
-            model.hasMoved(move.getPlayer(), move.getWorkerId());
+            model.move(move);
             model.updateTurn();
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println(e.getMessage());
@@ -64,13 +60,16 @@ public class Controller implements Observer {
     }
 
     private synchronized void setPlayerWorker (PlayerWorker playerWorker){
-
+        model.setPlayerWorker(playerWorker);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof PlayerMove){
             move((PlayerMove) arg);
+        }
+        else if (arg instanceof PlayerWorker) {
+            setPlayerWorker((PlayerWorker) arg);
         }
     }
 }
