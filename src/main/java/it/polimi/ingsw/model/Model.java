@@ -48,5 +48,6 @@ public class Model extends Observable {
         if(turn[id].getStatus()){
             updateTurn();
         }
+
     }
 }
