@@ -52,7 +52,7 @@ public class Lobby {
     public void addPlayer(String playerName, ClientConnection c) {
         connections.add(c);
         waitingConnection.put(playerName, c);
-        c.asyncSend(PlayerMessage.WAIT_PLAYERS);
+
         if(waitingConnection.size() == this.numPlayers){    //appena si riempie la stanza
             this.isFull = true;
             List<String> players = new ArrayList<>(waitingConnection.keySet());
@@ -63,6 +63,8 @@ public class Lobby {
                 threePlayer(players);
             }
 
+        } else {
+            c.asyncSend(PlayerMessage.WAIT_PLAYERS);
         }
     }
 
@@ -99,6 +101,7 @@ public class Lobby {
         playingConnection.put(c2, c1);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
+        sendAllPlayer(model.getBoard());
 
     }
 
@@ -139,6 +142,7 @@ public class Lobby {
 
 
         sendAllPlayer(PlayerMessage.START_PLAY);
+        sendAllPlayer(model.getBoard());
     }
 
 
