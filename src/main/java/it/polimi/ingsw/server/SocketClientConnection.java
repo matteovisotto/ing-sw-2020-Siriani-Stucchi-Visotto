@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server;
 
 
+import it.polimi.ingsw.exceptions.FullLobbyException;
+import it.polimi.ingsw.exceptions.InvalidLobbyException;
+import it.polimi.ingsw.exceptions.NoLobbyException;
 import it.polimi.ingsw.utils.ConnectionMessage;
 import it.polimi.ingsw.utils.PlayerMessage;
 
@@ -72,6 +75,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         Scanner in;
         String name;
         int numPlayer=0;
+        boolean isConfig = false;
         try{
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -80,10 +84,11 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             name = read;
             int choice ;
             do {
-                send(PlayerMessage.GAME_MODE);
-                choice = in.nextInt();
-            } while (choice!=1 && choice != 2);
-            if(choice == 1){
+                do {
+                    send(PlayerMessage.GAME_MODE);
+                    choice = in.nextInt();
+                } while (choice != 1 && choice != 2);
+                if (choice == 1) {
                     do {
                         send(PlayerMessage.ASK_NUM_PLAYER);
                         numPlayer = in.nextInt();
@@ -91,13 +96,20 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     send(PlayerMessage.ASK_LOBBY_NAME);
                     String lobbyName = in.next();
                     server.addLobby(lobbyName, this, name, numPlayer);
+                    isConfig = true;
+                } else {
+                    try {
+                        send(PlayerMessage.JOIN_LOBBY);
+                        send(server.getLobbiesNames());
+                        int lobbyId = in.nextInt();
+                        server.joinLobby(lobbyId, this, name);
+                        isConfig = true;
+                    } catch (FullLobbyException | NoLobbyException | InvalidLobbyException e) {
+                        send(e.getMessage());
+                    }
 
-            } else{
-                send(PlayerMessage.JOIN_LOBBY);
-                send(server.getLobbiesNames());
-                int lobbyId = in.nextInt();
-                server.joinLobby(lobbyId, this, name);
-            }
+                }
+            }while (!isConfig);
 
 
             while(isActive()){
