@@ -1,4 +1,4 @@
-package it.polimi.ingsw.exceptions;
+package it.polimi.ingsw.utils;
 
 public class LobbyExceptionMessage {
     public static String NO_LOBBY = "No lobby available. Please create a new one.";

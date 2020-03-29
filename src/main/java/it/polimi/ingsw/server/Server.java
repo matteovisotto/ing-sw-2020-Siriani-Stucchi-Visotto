@@ -1,15 +1,10 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.FullLobbyException;
 import it.polimi.ingsw.exceptions.InvalidLobbyException;
-import it.polimi.ingsw.exceptions.LobbyExceptionMessage;
+import it.polimi.ingsw.utils.LobbyExceptionMessage;
 import it.polimi.ingsw.exceptions.NoLobbyException;
-import it.polimi.ingsw.model.Model;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.utils.ConnectionMessage;
-import it.polimi.ingsw.utils.PlayerMessage;
-import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
