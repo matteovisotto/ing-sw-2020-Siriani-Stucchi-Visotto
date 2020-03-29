@@ -46,15 +46,15 @@ public class Server {
     }
 
     public synchronized String getLobbiesNames() throws NoLobbyException {
-        if(lobbies.size()!=0) {
+        if(lobbies.size() != 0) {
             String names = "0 - Go Back\n";
             for (int i = 0; i < lobbies.size(); i++) {
                 Lobby lobby = lobbies.get(i);
                 String lobbyPlayers = "";
                 int playerInLobby = this.playerInLobby.get(lobby).size();
                 if (lobby.isFull()) lobbyPlayers = " [FULL] ";
-                else lobbyPlayers = " ["+playerInLobby+"/"+lobby.getNumPlayers()+"] ";
-                names += i+1 + " - " + lobby.getLobbyName() + lobbyPlayers + "\n";
+                else lobbyPlayers = " [" + playerInLobby + "/" + lobby.getNumPlayers() + "] ";
+                names += (i+1) + " - " + lobby.getLobbyName() + lobbyPlayers + "\n";
             }
             return names;
         } else {

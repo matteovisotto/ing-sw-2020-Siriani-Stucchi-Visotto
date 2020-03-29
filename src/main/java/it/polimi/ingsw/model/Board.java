@@ -11,7 +11,7 @@ public class Board implements Serializable, Cloneable {
     }
 
     public Cell getCell(int x, int y) throws IllegalArgumentException{
-        if((x<0 || x>=5) || (y<0 || y>=5)){
+        if((x < 0 || x >= 5) || (y < 0 || y >= 5)){
             throw new IllegalArgumentException();
         }
         return board[x][y];
@@ -19,7 +19,7 @@ public class Board implements Serializable, Cloneable {
 
     public void reset(){
         board=new Cell[5][5];
-        for(int i=0; i<5; i++){
+        for(int i = 0; i < 5; i++){
             for(int j=0; j<5; j++){
                 board[i][j]=new Cell(i,j);
             }
@@ -50,7 +50,7 @@ public class Board implements Serializable, Cloneable {
     protected final Board clone() throws CloneNotSupportedException{
         final Board result = new Board();
         for(int i = 0; i < 5; i++){
-            for(int j=0; j<5; j++)
+            for(int j = 0; j < 5; j++)
             result.board[i][j] = (Cell) board[i][j].clone();
         }
         return result;

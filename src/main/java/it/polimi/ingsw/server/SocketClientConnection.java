@@ -76,7 +76,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     public void run() {
         Scanner in;
         String name;
-        int numPlayer=0;
+        int numPlayer = 0;
         boolean isConfig = false;
         try{
             in = new Scanner(socket.getInputStream());
@@ -84,7 +84,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             send(PlayerMessage.WELCOME);
             String read = in.nextLine();
             name = read;
-            int choice=0 ;
+            int choice = 0 ;
             do {
                 do {
                     send(PlayerMessage.GAME_MODE);

@@ -14,7 +14,7 @@ public class Controller implements Observer {
         this.model = model;
     }
 
-    public void move(PlayerMove move) {
+    private synchronized void move(PlayerMove move) {
         if(!model.isPlayerTurn(move.getPlayer())){
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
@@ -31,7 +31,7 @@ public class Controller implements Observer {
         }
     }
 
-    public void increaseLevel(Cell cell) throws IllegalArgumentException {
+    private synchronized void increaseLevel(Cell cell) throws IllegalArgumentException {
         Blocks level = this.model.getBoard().getCell(cell.getX(),cell.getY()).getLevel();
         switch(level.getBlockId()) {
             case 0:
@@ -47,11 +47,11 @@ public class Controller implements Observer {
         }
     }
 
-    public void checkCellsAround (Cell cell, Worker worker){
+    private synchronized void checkCellsAround (Cell cell, Worker worker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();
         Board board = model.getBoard();
-        for (int x = cell.getX()-1; x<=cell.getX()+1; x++) {
-            for (int y = cell.getY()-1; y<=cell.getY()+1; y++) {
+        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
+            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
                 try{
                     availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
                 }
@@ -63,8 +63,14 @@ public class Controller implements Observer {
         model.setChanges(availableCells);
     }
 
+    private synchronized void setPlayerWorker (PlayerWorker playerWorker){
+
+    }
+
     @Override
     public void update(Observable o, Object arg) {
-
+        if(arg instanceof PlayerMove){
+            move((PlayerMove) arg);
+        }
     }
 }

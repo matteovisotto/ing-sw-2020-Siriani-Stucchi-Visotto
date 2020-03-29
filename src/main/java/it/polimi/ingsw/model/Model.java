@@ -13,7 +13,7 @@ public class Model extends Observable {
     }
 
     public boolean isPlayerTurn(Player p){
-        return this.turn[id]==p;
+        return this.turn[id] == p;
     }
 
     public Board getBoard() {
@@ -30,7 +30,7 @@ public class Model extends Observable {
     }
 
     public void hasMoved(Player player, int workerId) {
-        if(player.getWorker(workerId).getCell().getLevel().getBlockId()==3){
+        if(player.getWorker(workerId).getCell().getLevel().getBlockId() == 3){
             vittoria(player, workerId);
         } else {
             setChanged();

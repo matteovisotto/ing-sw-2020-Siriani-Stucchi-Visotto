@@ -42,7 +42,7 @@ public class Lobby {
     }
 
     public void closeLobby() {
-        for(int i=connections.size()-1; i>=0; i--){
+        for(int i = connections.size() - 1; i >= 0; i--){
             ClientConnection clientConnection = connections.get(i);
             clientConnection.closeConnection();
             connections.remove(i);
@@ -59,7 +59,7 @@ public class Lobby {
             this.isFull = true;
             List<String> players = new ArrayList<>(waitingConnection.keySet());
             waitingConnection.clear();
-            if(this.numPlayers==2){
+            if(this.numPlayers == 2){
                 twoPlayer(players);
             } else {
                 threePlayer(players);
@@ -71,7 +71,7 @@ public class Lobby {
     }
 
     private void sendAllPlayer(Object o){
-        for(int i=0; i<connections.size(); i++){
+        for(int i = 0; i < connections.size(); i++){
             connections.get(i).asyncSend(o);
         }
     }
@@ -111,11 +111,11 @@ public class Lobby {
 
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
-            c2.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c2.asyncSend(playerArray[0].getName() + PlayerMessage.NOT_YOUR_TURN);
         }
         else{
             c2.asyncSend(PlayerMessage.YOUR_TURN);
-            c1.asyncSend(playerArray[1].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c1.asyncSend(playerArray[1].getName() + PlayerMessage.NOT_YOUR_TURN);
         }
     }
 
@@ -164,18 +164,18 @@ public class Lobby {
 
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
-            c2.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);
-            c3.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c2.asyncSend(playerArray[0].getName() + PlayerMessage.NOT_YOUR_TURN);
+            c3.asyncSend(playerArray[0].getName() + PlayerMessage.NOT_YOUR_TURN);
         }
         else if(model.isPlayerTurn(playerArray[1])){
             c2.asyncSend(PlayerMessage.YOUR_TURN);
-            c1.asyncSend(playerArray[1].getName()+PlayerMessage.NOT_YOUR_TURN);
-            c3.asyncSend(playerArray[1].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c1.asyncSend(playerArray[1].getName() + PlayerMessage.NOT_YOUR_TURN);
+            c3.asyncSend(playerArray[1].getName() + PlayerMessage.NOT_YOUR_TURN);
         }
         else{
             c3.asyncSend(PlayerMessage.YOUR_TURN);
-            c1.asyncSend(playerArray[2].getName()+PlayerMessage.NOT_YOUR_TURN);
-            c2.asyncSend(playerArray[2].getName()+PlayerMessage.NOT_YOUR_TURN);
+            c1.asyncSend(playerArray[2].getName() + PlayerMessage.NOT_YOUR_TURN);
+            c2.asyncSend(playerArray[2].getName() + PlayerMessage.NOT_YOUR_TURN);
         }
     }
 
