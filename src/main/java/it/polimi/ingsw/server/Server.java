@@ -75,19 +75,21 @@ public class Server {
         this.lobbyConnections.put(c, lobby);
     }
 
-    public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName) throws FullLobbyException {
+    public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName) throws FullLobbyException, InvalidLobbyException {
+        Lobby lobby;
         try {
-            Lobby lobby = this.lobbies.get(lobbyId);
-
-            if (!lobby.isFull()) {
-                lobby.addPlayer(playerName, c);
-                lobbyConnections.put(c, lobby);
-            } else {
-                throw new FullLobbyException(LobbyExceptionMessage.FULL_LOBBY);
-            }
+            lobby = this.lobbies.get(lobbyId);
         } catch (Exception e){
             throw new InvalidLobbyException(LobbyExceptionMessage.INVALID_LOBBY);
         }
+
+        if (!lobby.isFull()) {
+            lobby.addPlayer(playerName, c);
+            lobbyConnections.put(c, lobby);
+        } else {
+            throw new FullLobbyException(LobbyExceptionMessage.FULL_LOBBY);
+        }
+
     }
 
 

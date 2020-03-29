@@ -30,6 +30,10 @@ public class Lobby {
         return this.lobbyName;
     }
 
+    public int getNumPlayers(){
+        return this.numPlayers;
+    }
+
     public boolean isFull(){
         return this.isFull;
     }
@@ -104,7 +108,7 @@ public class Lobby {
 
         c1 = connections.get(0);
         c2 = connections.get(1);
-        c3 = connections.get(3);
+        c3 = connections.get(2);
         p1 = new Player(players.get(0));
         p2 = new Player(players.get(1));
         p3 = new Player(players.get(2));
