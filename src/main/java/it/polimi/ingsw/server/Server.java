@@ -25,11 +25,10 @@ public class Server {
     private ExecutorService executor = Executors.newCachedThreadPool();
 
     private List<ClientConnection> connections = new ArrayList<>();
-    private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
     private Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
     private List<Lobby> lobbies = new ArrayList<>();
-
+    private Map<Lobby, ArrayList<ClientConnection>> playerInLobby = new HashMap<>();
     //Register connection
     private synchronized void registerConnection(ClientConnection c){
         connections.add(c);
@@ -57,11 +56,14 @@ public class Server {
 
     public synchronized String getLobbiesNames() throws NoLobbyException {
         if(lobbies.size()!=0) {
-            String names = "";
+            String names = "0 - Go Back\n";
             for (int i = 0; i < lobbies.size(); i++) {
-                String lobbyFull = "";
-                if (lobbies.get(i).isFull()) lobbyFull = " [FULL] ";
-                names += i + " - " + lobbies.get(i).getLobbyName() + lobbyFull + "\n";
+                Lobby lobby = lobbies.get(i);
+                String lobbyPlayers = "";
+                int playerInLobby = this.playerInLobby.get(lobby).size();
+                if (lobby.isFull()) lobbyPlayers = " [FULL] ";
+                else lobbyPlayers = " ["+playerInLobby+"/"+lobby.getNumPlayers()+"] ";
+                names += i+1 + " - " + lobby.getLobbyName() + lobbyPlayers + "\n";
             }
             return names;
         } else {
@@ -73,12 +75,15 @@ public class Server {
         Lobby lobby = new Lobby(lobbyName, playerName, c, numPlayer);
         this.lobbies.add(lobby);
         this.lobbyConnections.put(c, lobby);
+        ArrayList<ClientConnection> arr = new ArrayList<>();
+        arr.add(c);
+        playerInLobby.put(lobby, arr);
     }
 
     public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName) throws FullLobbyException, InvalidLobbyException {
         Lobby lobby;
         try {
-            lobby = this.lobbies.get(lobbyId);
+            lobby = this.lobbies.get(lobbyId-1);
         } catch (Exception e){
             throw new InvalidLobbyException(LobbyExceptionMessage.INVALID_LOBBY);
         }
@@ -86,6 +91,7 @@ public class Server {
         if (!lobby.isFull()) {
             lobby.addPlayer(playerName, c);
             lobbyConnections.put(c, lobby);
+            playerInLobby.get(lobby).add(c);
         } else {
             throw new FullLobbyException(LobbyExceptionMessage.FULL_LOBBY);
         }

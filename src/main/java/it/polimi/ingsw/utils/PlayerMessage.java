@@ -6,6 +6,7 @@ public class PlayerMessage {
     public static String GAME_MODE = "Press 1 to create a new lobby, 2 to join one";
     public static String ASK_LOBBY_NAME = "Insert a lobby name: ";
     public static String JOIN_LOBBY = "Select which lobby you want to join: ";
+    public static String WAIT_PLAYERS = "Waiting for other players...";
     public static String START_PLAY = "Beginning...";
 
 }

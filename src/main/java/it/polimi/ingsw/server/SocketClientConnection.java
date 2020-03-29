@@ -11,6 +11,7 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Scanner;
@@ -83,11 +84,13 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             send(PlayerMessage.WELCOME);
             String read = in.nextLine();
             name = read;
-            int choice ;
+            int choice=0 ;
             do {
                 do {
                     send(PlayerMessage.GAME_MODE);
+
                     choice = in.nextInt();
+
                 } while (choice != 1 && choice != 2);
                 if (choice == 1) {
                     do {
@@ -98,13 +101,19 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     String lobbyName = in.next();
                     server.addLobby(lobbyName, this, name, numPlayer);
                     isConfig = true;
+                    asyncSend(PlayerMessage.WAIT_PLAYERS);
                 } else {
                     try {
                         send(PlayerMessage.JOIN_LOBBY);
                         send(server.getLobbiesNames());
-                        int lobbyId = in.nextInt();
-                        server.joinLobby(lobbyId, this, name);
-                        isConfig = true;
+                        int lobbyId;
+                        lobbyId = in.nextInt();
+                        if (lobbyId != 0) {
+                            server.joinLobby(lobbyId, this, name);
+                            isConfig = true;
+                            asyncSend(PlayerMessage.WAIT_PLAYERS);
+                        }
+
                     } catch (LobbyException e){
                         send(e.getMessage());
                     }
