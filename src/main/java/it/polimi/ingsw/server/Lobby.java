@@ -6,17 +6,14 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.RemoteView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Lobby {
     private int numPlayers;
     private String lobbyName;
     private boolean isFull = false;
     private List<ClientConnection> connections = new ArrayList<>();
-    private Map<String, ClientConnection> waitingConnection = new HashMap<>();
+    private Map<String, ClientConnection> waitingConnection = new LinkedHashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
     private boolean simplePlay;
 
@@ -74,6 +71,12 @@ public class Lobby {
         for(int i = 0; i < connections.size(); i++){
             connections.get(i).asyncSend(o);
         }
+    }
+
+    public boolean isPlayerNameAvailable (String name) {
+        if(waitingConnection.get(name) == null)
+            return true;
+        return false;
     }
 
     private void twoPlayer(List<String> players){

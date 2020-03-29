@@ -1,10 +1,7 @@
 package it.polimi.ingsw.server;
 
 
-import it.polimi.ingsw.exceptions.FullLobbyException;
-import it.polimi.ingsw.exceptions.InvalidLobbyException;
-import it.polimi.ingsw.exceptions.LobbyException;
-import it.polimi.ingsw.exceptions.NoLobbyException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.utils.ConnectionMessage;
 import it.polimi.ingsw.utils.PlayerMessage;
 
@@ -84,18 +81,22 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             send(PlayerMessage.WELCOME);
             String read = in.nextLine();
             name = read;
-            int choice = 0 ;
+            int choice = 0;
             do {
                 do {
                     send(PlayerMessage.GAME_MODE);
-
-                    choice = in.nextInt();
-
+                    if(in.hasNextInt())
+                        choice = in.nextInt();
+                    else
+                        in.next();
                 } while (choice != 1 && choice != 2);
                 if (choice == 1) {
                     do {
                         send(PlayerMessage.ASK_NUM_PLAYER);
-                        numPlayer = in.nextInt();
+                        if(in.hasNextInt()) {
+                            numPlayer = in.nextInt();
+                        }else
+                            in.next();
                     } while (numPlayer < 2 || numPlayer > 3);
                     send(PlayerMessage.ASK_LOBBY_NAME);
                     String lobbyName = in.next();
@@ -111,7 +112,6 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
                 } else {
                     try {
-                        send(PlayerMessage.JOIN_LOBBY);
                         send(server.getLobbiesNames());
                         int lobbyId;
                         lobbyId = in.nextInt();
@@ -121,8 +121,12 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
                         }
 
-                    } catch (LobbyException e){
+                    } catch (FullLobbyException | InvalidLobbyException | NoLobbyException e){
                         send(e.getMessage());
+                    } catch (UnavailablePlayerNameException e1){
+                        send(e1.getMessage());
+                        send(PlayerMessage.WELCOME);
+                        name = in.next();
                     }
 
                 }
