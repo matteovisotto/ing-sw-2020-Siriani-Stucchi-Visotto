@@ -6,7 +6,7 @@ import java.util.Observable;
 public class Model extends Observable {
     private Board board = new Board();
     private Player turn[];
-    private int id=0;
+    private int id = 0;
     private boolean simplePlay;
 
     public Model(Player[] players, boolean simplePlay){

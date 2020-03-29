@@ -6,7 +6,7 @@ public class Player {
     private Worker[] workers;
     private String playerName;
     private GodCard godCard;
-    private boolean lost=false;
+    private boolean lost = false;
 
     public String getName(){
         return playerName;
