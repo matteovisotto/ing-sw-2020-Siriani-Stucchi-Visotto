@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Board implements Serializable, Cloneable {
     private Cell[][] board;
 
-   // public static Board shared = new Board();
 
     public Board(){
         this.reset();
@@ -27,9 +26,6 @@ public class Board implements Serializable, Cloneable {
         }
     }
 
-/*    public int getCellLevel(int x, int y){
-        return board[x][y].getLevel().getBlockId();
-    }*/
 
     public boolean checkCell (int x, int y, Worker worker) throws IllegalArgumentException{
         Cell cell = getCell(x,y);
@@ -40,13 +36,13 @@ public class Board implements Serializable, Cloneable {
     }
 
     public void print(){
-        System.out.println("  0 1 2 3 4");
+        System.out.println(" \t   0\t 1\t   2\t 3\t   4\n");
         for(int i=0; i<5; i++){
-            System.out.print(i + "|");
+            System.out.print(i + "\t| ");
             for(int j=0; j<5; j++){
-                System.out.print(board[i][j] + "|");
+                System.out.print(board[i][j] + " | ");
             }
-            System.out.println();
+            System.out.println("\n");
         }
     }
 

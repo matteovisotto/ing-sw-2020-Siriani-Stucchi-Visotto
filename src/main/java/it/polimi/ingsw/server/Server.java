@@ -25,7 +25,6 @@ public class Server {
     private ExecutorService executor = Executors.newCachedThreadPool();
 
     private List<ClientConnection> connections = new ArrayList<>();
-    private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
     private Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
     private List<Lobby> lobbies = new ArrayList<>();
     private Map<Lobby, ArrayList<ClientConnection>> playerInLobby = new HashMap<>();
@@ -37,16 +36,13 @@ public class Server {
     //Deregister connection
     public synchronized void deregisterConnection(ClientConnection c){
         connections.remove(c);
-        ClientConnection opponent = playingConnection.get(c);
-        if(opponent != null){
-            opponent.closeConnection();
-            playingConnection.remove(c);
-            playingConnection.remove(opponent);
-
-        }
         Lobby lobby = lobbyConnections.get(c);
         lobbyConnections.get(c).closeLobby();
-        //Clear other map
+        ArrayList<ClientConnection> toRemove = playerInLobby.get(lobby);
+        for(int i=0; i<toRemove.size(); i++){
+            lobbyConnections.remove(toRemove.get(i));
+        }
+        playerInLobby.remove(lobby);
         lobbies.remove(lobby);
     }
 
