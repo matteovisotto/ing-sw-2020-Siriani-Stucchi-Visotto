@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.ClientConnection;
 
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -42,7 +43,6 @@ public class RemoteView extends View {
 
     @Override
     public void update(Observable o, Object arg) {
-        showMessage(arg);
         String resultMsg = "";
         showMessage(resultMsg);
     }

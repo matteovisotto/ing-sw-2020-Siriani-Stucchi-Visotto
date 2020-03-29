@@ -62,8 +62,8 @@ public class Server {
         }
     }
 
-    public synchronized void addLobby(String lobbyName, ClientConnection c, String playerName, int numPlayer){
-        Lobby lobby = new Lobby(lobbyName, playerName, c, numPlayer);
+    public synchronized void addLobby(String lobbyName, ClientConnection c, String playerName, int numPlayer, boolean simplePlay){
+        Lobby lobby = new Lobby(lobbyName, playerName, c, numPlayer, simplePlay);
         this.lobbies.add(lobby);
         this.lobbyConnections.put(c, lobby);
         ArrayList<ClientConnection> arr = new ArrayList<>();

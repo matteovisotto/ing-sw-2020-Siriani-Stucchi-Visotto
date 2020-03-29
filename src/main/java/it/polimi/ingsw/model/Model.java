@@ -5,10 +5,11 @@ public class Model extends Observable {
     private Board board = new Board();
     private Player turn[];
     private int id=0;
+    private boolean simplePlay;
 
-    public Model(Player[] players){
+    public Model(Player[] players, boolean simplePlay){
         this.turn = players;
-
+        this.simplePlay = simplePlay;
     }
 
     public boolean isPlayerTurn(Player p){
@@ -22,6 +23,7 @@ public class Model extends Observable {
     public Board getBoardClone() throws CloneNotSupportedException {
         return board.clone();
     }
+
     public void setChanges(Object o){
         setChanged();
         notifyObservers(o);
@@ -34,20 +36,17 @@ public class Model extends Observable {
             setChanged();
             notifyObservers();
         }
-
     }
 
     public void vittoria(Player player, int worker) {
         setChanged();
         notifyObservers();
-
     }
 
     public void updateTurn(){
-        id=(id+1)%(turn.length);
+        id = (id + 1) % (turn.length);
         if(turn[id].getStatus()){
             updateTurn();
         }
     }
 }
-

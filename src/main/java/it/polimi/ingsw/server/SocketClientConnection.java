@@ -99,7 +99,14 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     } while (numPlayer < 2 || numPlayer > 3);
                     send(PlayerMessage.ASK_LOBBY_NAME);
                     String lobbyName = in.next();
-                    server.addLobby(lobbyName, this, name, numPlayer);
+                    do{
+                        send(PlayerMessage.PLAY_MODE);
+                        read = in.next();
+                    }while(!read.equals("y") && !read.equals("n"));
+                    boolean simplePlay = false;
+                    if (read.equals("y"))
+                        simplePlay = true;
+                    server.addLobby(lobbyName, this, name, numPlayer, simplePlay);
                     isConfig = true;
 
                 } else {

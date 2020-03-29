@@ -11,5 +11,5 @@ public class PlayerMessage {
     public static String YOUR_TURN = "It's your turn";
     public static String NOT_YOUR_TURN = "'s turn";
     public static String TURN_ERROR = "Error, not your turn";
-
+    public static String PLAY_MODE = "Would you like to play simple mode? (y/n)";
 }

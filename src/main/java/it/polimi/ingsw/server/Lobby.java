@@ -18,10 +18,12 @@ public class Lobby {
     private List<ClientConnection> connections = new ArrayList<>();
     private Map<String, ClientConnection> waitingConnection = new HashMap<>();
     private Map<ClientConnection, ClientConnection> playingConnection = new HashMap<>();
+    private boolean simplePlay;
 
-    public Lobby(String lobbyName, String playerName, ClientConnection c, int numPlayers){
+    public Lobby(String lobbyName, String playerName, ClientConnection c, int numPlayers, boolean simplePlay){
         this.numPlayers = numPlayers;
         this.lobbyName = lobbyName;
+        this.simplePlay = simplePlay;
         connections.add(c);
         waitingConnection.put(playerName, c);
         c.asyncSend(PlayerMessage.WAIT_PLAYERS);
@@ -90,7 +92,7 @@ public class Lobby {
         rv1 = new RemoteView(p1, players.get(1), c1);
         rv2 = new RemoteView(p2, players.get(0), c2);
 
-        Model model = new Model(playerArray);
+        Model model = new Model(playerArray, simplePlay);
         Controller controller = new Controller(model);
         model.addObserver(rv1);
         model.addObserver(rv2);
@@ -102,7 +104,7 @@ public class Lobby {
 
         sendAllPlayer(PlayerMessage.START_PLAY);
         try {
-            sendAllPlayer(model.getBoard());
+            sendAllPlayer(model.getBoardClone());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -138,7 +140,7 @@ public class Lobby {
         rv3 = new RemoteView(p3, players.get(1), players.get(0), c3);
 
 
-        Model model = new Model(playerArray);
+        Model model = new Model(playerArray, simplePlay);
         Controller controller = new Controller(model);
         model.addObserver(rv1);
         model.addObserver(rv2);
@@ -155,7 +157,7 @@ public class Lobby {
 
         sendAllPlayer(PlayerMessage.START_PLAY);
         try {
-            sendAllPlayer(model.getBoard());
+            sendAllPlayer(model.getBoardClone());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

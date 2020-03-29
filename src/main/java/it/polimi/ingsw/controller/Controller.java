@@ -9,7 +9,6 @@ public class Controller implements Observer {
 
     private Model model;
 
-
     public Controller(Model model){
         super();
         this.model = model;
@@ -57,6 +56,7 @@ public class Controller implements Observer {
                     availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
                 }
                 catch (IllegalArgumentException e){
+                    System.err.println(e.getMessage());
                 }
             }
         }
