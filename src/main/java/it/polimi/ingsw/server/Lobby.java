@@ -24,6 +24,7 @@ public class Lobby {
         this.lobbyName = lobbyName;
         connections.add(c);
         waitingConnection.put(playerName, c);
+        c.asyncSend(PlayerMessage.WAIT_PLAYERS);
     }
 
     public String getLobbyName(){
@@ -51,6 +52,7 @@ public class Lobby {
     public void addPlayer(String playerName, ClientConnection c) {
         connections.add(c);
         waitingConnection.put(playerName, c);
+        c.asyncSend(PlayerMessage.WAIT_PLAYERS);
         if(waitingConnection.size() == this.numPlayers){    //appena si riempie la stanza
             this.isFull = true;
             List<String> players = new ArrayList<>(waitingConnection.keySet());

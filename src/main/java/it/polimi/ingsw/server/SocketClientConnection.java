@@ -101,7 +101,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     String lobbyName = in.next();
                     server.addLobby(lobbyName, this, name, numPlayer);
                     isConfig = true;
-                    asyncSend(PlayerMessage.WAIT_PLAYERS);
+
                 } else {
                     try {
                         send(PlayerMessage.JOIN_LOBBY);
@@ -111,7 +111,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         if (lobbyId != 0) {
                             server.joinLobby(lobbyId, this, name);
                             isConfig = true;
-                            asyncSend(PlayerMessage.WAIT_PLAYERS);
+
                         }
 
                     } catch (LobbyException e){
