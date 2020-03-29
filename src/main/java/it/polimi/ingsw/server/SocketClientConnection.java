@@ -103,7 +103,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     String lobbyName = in.next();
                     do{
                         send(PlayerMessage.PLAY_MODE);
-                        read = in.next();
+                        read = in.next().toLowerCase();
                     }while(!read.equals("y") && !read.equals("n"));
                     boolean simplePlay = false;
                     if (read.equals("y"))
