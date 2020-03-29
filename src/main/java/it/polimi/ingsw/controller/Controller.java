@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.*;
 
@@ -14,14 +15,18 @@ public class Controller implements Observer {
         this.model = model;
     }
 
-    public void move(int playerId, int workerId, Cell newCell) {
+    public void move(PlayerMove move) {
+        if(!model.isPlayerTurn(move.getPlayer())){
+            move.getView().reportError(PlayerMessage.TURN_ERROR);
+            return;
+        }
         try {
-            Worker worker = model.getPlayer(playerId).getWorker(workerId);
-            worker.setCell(newCell);
+            Worker worker = move.getPlayer().getWorker(move.getWorkerId());
+            worker.setCell(model.getBoard().getCell(move.getRow(), move.getColumn()));
             worker.getCell().freeCell();
-            newCell.useCell();
-            model.hasMoved(playerId, workerId);
-
+            model.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
+            model.hasMoved(move.getPlayer(), move.getWorkerId());
+            model.updateTurn();
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println(e.getMessage());
         }

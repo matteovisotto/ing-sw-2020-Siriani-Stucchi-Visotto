@@ -106,7 +106,7 @@ public class Lobby {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        
+
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
             c2.asyncSend(playerArray[0].getName()+PlayerMessage.NOT_YOUR_TURN);

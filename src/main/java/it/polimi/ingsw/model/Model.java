@@ -15,10 +15,13 @@ public class Model extends Observable {
         return this.turn[id]==p;
     }
 
-    public Board getBoard() throws CloneNotSupportedException {
-        return board.clone();
+    public Board getBoard() {
+        return board;
     }
 
+    public Board getBoardClone() throws CloneNotSupportedException {
+        return board.clone();
+    }
     public void setChanges(Object o){
         setChanged();
         notifyObservers(o);

@@ -12,11 +12,9 @@ public abstract class View extends Observable implements Observer {
     protected View(Player player){
         this.player = player;
     }
-
     protected Player getPlayer(){
         return player;
     }
-
     protected abstract void showMessage(Object message);
 
     void handleMove(int row, int column) {

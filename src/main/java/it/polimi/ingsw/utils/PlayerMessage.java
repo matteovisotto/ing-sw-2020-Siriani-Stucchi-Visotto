@@ -10,4 +10,6 @@ public class PlayerMessage {
     public static String START_PLAY = "Beginning";
     public static String YOUR_TURN = "It's your turn";
     public static String NOT_YOUR_TURN = "'s turn";
+    public static String TURN_ERROR = "Error, not your turn";
+
 }

@@ -9,7 +9,6 @@ import java.util.Observer;
 public class RemoteView extends View {
     private ClientConnection clientConnection;
 
-
     private class MessageReceiver implements Observer {
 
         @Override
@@ -41,11 +40,8 @@ public class RemoteView extends View {
         clientConnection.asyncSend(message);
     }
 
-
-
     @Override
-    public void update(Observable o, Object arg)
-    {
+    public void update(Observable o, Object arg) {
         showMessage(arg);
         String resultMsg = "";
         showMessage(resultMsg);
