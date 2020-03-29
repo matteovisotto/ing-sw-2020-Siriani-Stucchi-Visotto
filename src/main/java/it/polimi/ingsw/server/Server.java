@@ -2,9 +2,11 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.exceptions.FullLobbyException;
 import it.polimi.ingsw.exceptions.InvalidLobbyException;
+import it.polimi.ingsw.exceptions.UnavailablePlayerNameException;
 import it.polimi.ingsw.utils.LobbyExceptionMessage;
 import it.polimi.ingsw.exceptions.NoLobbyException;
 import it.polimi.ingsw.utils.ConnectionMessage;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -45,9 +47,10 @@ public class Server {
         return this.lobbies.size();
     }
 
+
     public synchronized String getLobbiesNames() throws NoLobbyException {
         if(lobbies.size() != 0) {
-            String names = "0 - Go Back\n";
+            String names = PlayerMessage.JOIN_LOBBY + "\n0 - Go Back\n";
             for (int i = 0; i < lobbies.size(); i++) {
                 Lobby lobby = lobbies.get(i);
                 String lobbyPlayers = "";
@@ -80,6 +83,9 @@ public class Server {
         }
 
         if (!lobby.isFull()) {
+            if(!lobby.isPlayerNameAvailable(playerName)){
+                throw new UnavailablePlayerNameException(LobbyExceptionMessage.UNAVAILABLE_NAME);
+            }
             lobby.addPlayer(playerName, c);
             lobbyConnections.put(c, lobby);
             playerInLobby.get(lobby).add(c);
