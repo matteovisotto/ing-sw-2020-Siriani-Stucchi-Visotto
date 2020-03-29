@@ -69,6 +69,12 @@ public class Lobby {
 
     private void sendAllPlayer(Object o){
         for(int i = 0; i < connections.size(); i++){
+            connections.get(i).send(o);
+        }
+    }
+
+    private void sendAllPlayerAsync(Object o){
+        for(int i = 0; i < connections.size(); i++){
             connections.get(i).asyncSend(o);
         }
     }

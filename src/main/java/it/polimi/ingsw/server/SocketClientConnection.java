@@ -30,7 +30,8 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         return active;
     }
 
-    private synchronized void send(Object message) {
+    @Override
+    public synchronized void send(Object message) {
             try {
                 out.reset();
                 out.writeObject(message);
