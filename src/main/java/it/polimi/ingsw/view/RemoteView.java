@@ -1,15 +1,13 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.ClientConnection;
 
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 public class RemoteView extends View {
-    private ClientConnection clientConnection;
+    private final ClientConnection clientConnection;
 
     private class MessageReceiver implements Observer {
 

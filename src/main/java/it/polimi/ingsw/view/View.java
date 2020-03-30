@@ -8,7 +8,7 @@ import java.util.Observer;
 
 
 public abstract class View extends Observable implements Observer {
-    private Player player;
+    private final Player player;
 
     protected View(Player player){
         this.player = player;

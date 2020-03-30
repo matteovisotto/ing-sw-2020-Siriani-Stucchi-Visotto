@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 public abstract class GodCard {
 
-    protected SimpleGods card;
+    protected final SimpleGods card;
 
     public GodCard(SimpleGods card){
         this.card = card;
@@ -12,6 +12,7 @@ public abstract class GodCard {
         return card.toString();
     }
 
+    @SuppressWarnings("EmptyMethod")
     public abstract void usePower();
 
 }

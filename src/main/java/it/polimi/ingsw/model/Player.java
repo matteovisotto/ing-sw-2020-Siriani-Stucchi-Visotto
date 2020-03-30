@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 import java.util.Random;
 
 public class Player {
-    private Worker[] workers;
-    private String playerName;
+    private final Worker[] workers;
+    private final String playerName;
     private GodCard godCard = null;
     private boolean lost = false;
 

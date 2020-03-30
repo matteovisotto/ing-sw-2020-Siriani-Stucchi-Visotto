@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Controller implements Observer {
 
-    private Model model;
+    private final Model model;
 
     public Controller(Model model){
         super();

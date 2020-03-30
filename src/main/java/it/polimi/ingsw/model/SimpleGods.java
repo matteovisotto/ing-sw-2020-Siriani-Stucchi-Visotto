@@ -13,7 +13,7 @@ public enum SimpleGods {
     PAN(8),
     PROMETHEUS(9);
 
-    private int simplegod;
+    private final int simplegod;
 
     SimpleGods(int simplegod) {
         this.simplegod = simplegod;

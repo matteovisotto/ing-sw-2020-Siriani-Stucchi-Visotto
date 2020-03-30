@@ -6,8 +6,8 @@ public class Cell implements Serializable, Cloneable{
     private Blocks level;
     private boolean isFree = true;
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Cell(int x, int y){
         this.level = Blocks.EMPTY;
@@ -26,8 +26,7 @@ public class Cell implements Serializable, Cloneable{
     public boolean equals(Object obj) {
         if(obj instanceof Cell) {
             Cell otherCell = (Cell) obj;
-            if(otherCell.getX() == this.x && otherCell.getY() == this.y) return true;
-            else return false;
+            return otherCell.getX() == this.x && otherCell.getY() == this.y;
         } else return false;
     }
 
@@ -40,6 +39,7 @@ public class Cell implements Serializable, Cloneable{
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
+        super.clone();
         return new Cell(x,y,level,isFree);
     }
 

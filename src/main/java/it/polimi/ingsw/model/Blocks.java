@@ -8,7 +8,7 @@ public enum Blocks {
     DOME(4)
     ;
 
-    private int block;
+    private final int block;
 
     Blocks(int block) {
         this.block = block;

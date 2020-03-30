@@ -19,12 +19,12 @@ public class Server {
     private static final int PORT= 12345;
     private ServerSocket serverSocket;
 
-    private ExecutorService executor = Executors.newCachedThreadPool();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
 
-    private Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
-    private List<Lobby> lobbies = new ArrayList<>();
-    private Map<Lobby, ArrayList<ClientConnection>> playerInLobby = new HashMap<>();
+    private final Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
+    private final List<Lobby> lobbies = new ArrayList<>();
+    private final Map<Lobby, ArrayList<ClientConnection>> playerInLobby = new HashMap<>();
 
 
     //Deregister connection

@@ -9,12 +9,12 @@ import it.polimi.ingsw.view.RemoteView;
 import java.util.*;
 
 public class Lobby {
-    private int numPlayers;
-    private String lobbyName;
+    private final int numPlayers;
+    private final String lobbyName;
     private boolean isFull = false;
-    private List<ClientConnection> connections = new ArrayList<>();
-    private Map<String, ClientConnection> waitingConnection = new LinkedHashMap<>();
-    private boolean simplePlay;
+    private final List<ClientConnection> connections = new ArrayList<>();
+    private final Map<String, ClientConnection> waitingConnection = new LinkedHashMap<>();
+    private final boolean simplePlay;
 
     public Lobby(String lobbyName, String playerName, ClientConnection c, int numPlayers, boolean simplePlay){
         this.numPlayers = numPlayers;

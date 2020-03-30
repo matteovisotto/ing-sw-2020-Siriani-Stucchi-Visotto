@@ -1,17 +1,25 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.Observable;
 
 public class Model extends Observable {
     private Board board = new Board();
-    private Player turn[];
+    private final Player[] turn;
     private int id = 0;
-    private boolean simplePlay;
+
+    private final boolean simplePlay;
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
+    }
+
+    public void resetBoard(){
+        this.board = new Board();
+    }
+
+    public boolean isSimplePlay() {
+        return simplePlay;
     }
 
     public boolean isPlayerTurn(Player p){

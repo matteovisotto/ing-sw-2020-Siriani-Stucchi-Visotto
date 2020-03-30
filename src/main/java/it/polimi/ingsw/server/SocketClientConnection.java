@@ -8,16 +8,14 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
-import java.util.Observable;
 import java.util.Scanner;
 
 public class SocketClientConnection extends ClientConnection implements Runnable {
 
-    private Socket socket;
+    private final Socket socket;
     private ObjectOutputStream out;
-    private Server server;
+    private final Server server;
 
     private boolean active = true;
 
@@ -103,7 +101,8 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     String lobbyName = in.next();
                     do{
                         send(PlayerMessage.PLAY_MODE);
-                        read = in.next().toLowerCase();
+                        read = in.next();
+                        read = read.toLowerCase();
                     }while(!read.equals("y") && !read.equals("n"));
                     boolean simplePlay = false;
                     if (read.equals("y"))
