@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "Santorini",
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
@@ -25889,6 +25889,24 @@
 							]
 						}
 					]
+				}
+			]
+		},
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFxLIePaoMpcdQ=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model1",
+			"ownedElements": [
+				{
+					"_type": "UMLUseCaseDiagram",
+					"_id": "AAAAAAFxLIePaoMqLOQ=",
+					"_parent": {
+						"$ref": "AAAAAAFxLIePaoMpcdQ="
+					},
+					"name": "UseCaseDiagram1"
 				}
 			]
 		}
