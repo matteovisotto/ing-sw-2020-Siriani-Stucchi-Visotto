@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.FullWorkerException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
 public class WorkerTest {
+
 
     @Test
     public void getCell() {
@@ -37,4 +41,6 @@ public class WorkerTest {
         worker.setStatus(false);
         assertEquals(false,worker.getStatus());
     }
+
+
 }

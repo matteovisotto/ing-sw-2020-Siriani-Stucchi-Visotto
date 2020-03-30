@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.FullWorkerException;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,11 +23,14 @@ public class Player {
         return godCard;
     }
 
-    public Worker getWorker(int number) throws ArrayIndexOutOfBoundsException {
+    public Worker getWorker(int number) throws IndexOutOfBoundsException {
         return (workers.get(number));
     }
 
-    public void setWorkers(Worker worker) {
+    public void setWorkers(Worker worker) throws FullWorkerException{
+        if(workers.size()==2){
+            throw new FullWorkerException("Went over the number of workers allowed");
+        }
         this.workers.add(worker);
     }
 
