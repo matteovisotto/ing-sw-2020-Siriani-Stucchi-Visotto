@@ -84,8 +84,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             do {
                 do {
                     send(PlayerMessage.GAME_MODE);
-                    if(in.hasNextInt())
+                    if(in.hasNextInt()){
                         choice = in.nextInt();
+                        in.nextLine();
+                    }
                     else
                         in.next();
                 } while (choice != 1 && choice != 2);
@@ -94,14 +96,15 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         send(PlayerMessage.ASK_NUM_PLAYER);
                         if(in.hasNextInt()) {
                             numPlayer = in.nextInt();
+                            in.nextLine();
                         }else
                             in.next();
                     } while (numPlayer < 2 || numPlayer > 3);
                     send(PlayerMessage.ASK_LOBBY_NAME);
-                    String lobbyName = in.next();
+                    String lobbyName = in.nextLine();
                     do{
                         send(PlayerMessage.PLAY_MODE);
-                        read = in.next();
+                        read = in.nextLine();
                         read = read.toLowerCase();
                     }while(!read.equals("y") && !read.equals("n"));
                     boolean simplePlay = false;
@@ -115,6 +118,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         send(server.getLobbiesNames());
                         int lobbyId;
                         lobbyId = in.nextInt();
+                        in.nextLine();
                         if (lobbyId != 0) {
                             server.joinLobby(lobbyId, this, name);
                             isConfig = true;
@@ -126,7 +130,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     } catch (UnavailablePlayerNameException e1){
                         send(e1.getMessage());
                         send(PlayerMessage.WELCOME);
-                        name = in.next();
+                        name = in.nextLine();
                     }
 
                 }
