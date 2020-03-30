@@ -8,7 +8,7 @@ public class Player {
     private GodCard godCard;
     private boolean lost = false;
 
-    public String getName(){
+    public String getPlayerName(){
         return playerName;
     }
     public GodCard getCard(){
@@ -20,8 +20,8 @@ public class Player {
     }
 
     public void setWorkers(Worker worker1, Worker worker2) {
-        this.workers[1] = worker1;
-        this.workers[2] = worker2;
+        this.workers[0] = worker1;
+        this.workers[1] = worker2;
     }
 
     public Player(String playerName){
