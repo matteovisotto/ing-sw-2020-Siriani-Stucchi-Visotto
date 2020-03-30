@@ -21,26 +21,22 @@ public class Server {
 
     private ExecutorService executor = Executors.newCachedThreadPool();
 
-    private List<ClientConnection> connections = new ArrayList<>();
+
     private Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
     private List<Lobby> lobbies = new ArrayList<>();
     private Map<Lobby, ArrayList<ClientConnection>> playerInLobby = new HashMap<>();
-    //Register connection
-    private synchronized void registerConnection(ClientConnection c){
-        connections.add(c);
-    }
+
 
     //Deregister connection
     public synchronized void deregisterConnection(ClientConnection c){
-        connections.remove(c);
-        Lobby lobby = lobbyConnections.get(c);
-        lobbyConnections.get(c).closeLobby();
+        Lobby lobby = this.lobbyConnections.get(c);
+        this.lobbyConnections.get(c).closeLobby();
         ArrayList<ClientConnection> toRemove = playerInLobby.get(lobby);
-        for(int i=0; i<toRemove.size(); i++){
-            lobbyConnections.remove(toRemove.get(i));
+        for (ClientConnection clientConnection : toRemove) {
+            lobbyConnections.remove(clientConnection);
         }
-        playerInLobby.remove(lobby);
-        lobbies.remove(lobby);
+        this.playerInLobby.remove(lobby);
+        this.lobbies.remove(lobby);
     }
 
     public synchronized int getLobbiesCount(){
@@ -49,17 +45,17 @@ public class Server {
 
 
     public synchronized String getLobbiesNames() throws NoLobbyException {
-        if(lobbies.size() != 0) {
-            String names = PlayerMessage.JOIN_LOBBY + "\n0 - Go Back\n";
-            for (int i = 0; i < lobbies.size(); i++) {
-                Lobby lobby = lobbies.get(i);
-                String lobbyPlayers = "";
+        if(this.lobbies.size() != 0) {
+            StringBuilder names = new StringBuilder(PlayerMessage.JOIN_LOBBY + "\n0 - Go Back\n");
+            for (int i = 0; i < this.lobbies.size(); i++) {
+                Lobby lobby = this.lobbies.get(i);
+                String lobbyPlayers;
                 int playerInLobby = this.playerInLobby.get(lobby).size();
                 if (lobby.isFull()) lobbyPlayers = " [FULL] ";
                 else lobbyPlayers = " [" + playerInLobby + "/" + lobby.getNumPlayers() + "] ";
-                names += (i+1) + " - " + lobby.getLobbyName() + lobbyPlayers + "\n";
+                names.append(i + 1).append(" - ").append(lobby.getLobbyName()).append(lobbyPlayers).append("\n");
             }
-            return names;
+            return names.toString();
         } else {
             throw new NoLobbyException(LobbyExceptionMessage.NO_LOBBY);
         }
@@ -71,7 +67,7 @@ public class Server {
         this.lobbyConnections.put(c, lobby);
         ArrayList<ClientConnection> arr = new ArrayList<>();
         arr.add(c);
-        playerInLobby.put(lobby, arr);
+        this.playerInLobby.put(lobby, arr);
     }
 
     public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName) throws FullLobbyException, InvalidLobbyException {
@@ -87,8 +83,8 @@ public class Server {
                 throw new UnavailablePlayerNameException(LobbyExceptionMessage.UNAVAILABLE_NAME);
             }
             lobby.addPlayer(playerName, c);
-            lobbyConnections.put(c, lobby);
-            playerInLobby.get(lobby).add(c);
+            this.lobbyConnections.put(c, lobby);
+            this.playerInLobby.get(lobby).add(c);
         } else {
             throw new FullLobbyException(LobbyExceptionMessage.FULL_LOBBY);
         }
@@ -102,16 +98,15 @@ public class Server {
 
     public void run(){
         System.out.println("Server listening on port: " + PORT);
-        while(true){
+        do{
             try {
                 Socket socket = serverSocket.accept();
                 SocketClientConnection connection = new SocketClientConnection(socket, this);
-                registerConnection(connection);
                 executor.submit(connection);
             } catch (IOException e){
                 System.err.println(ConnectionMessage.ERROR);
             }
-        }
+        }while(true);
     }
 
 }
