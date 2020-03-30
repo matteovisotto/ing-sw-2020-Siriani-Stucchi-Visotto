@@ -1,16 +1,17 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
-    private final Worker[] workers;
+    private final ArrayList<Worker> workers;
     private final String playerName;
     private GodCard godCard = null;
     private boolean lost = false;
 
     public Player(String playerName) {
         this.playerName = playerName;
-        workers = new Worker[2];
+        workers = new ArrayList<>();
     }
 
     public String getPlayerName() {
@@ -21,12 +22,11 @@ public class Player {
     }
 
     public Worker getWorker(int number) throws ArrayIndexOutOfBoundsException {
-        return (workers[number]);
+        return (workers.get(number));
     }
 
-    public void setWorkers(Worker worker1, Worker worker2) {
-        this.workers[0] = worker1;
-        this.workers[1] = worker2;
+    public void setWorkers(Worker worker) {
+        this.workers.add(worker);
     }
 
     public void drawCard() {

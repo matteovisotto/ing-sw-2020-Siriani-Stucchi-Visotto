@@ -53,7 +53,7 @@ public class Model extends Observable {
     }
 
     public void setPlayerWorker (PlayerWorker playerWorker){
-        playerWorker.getPlayer().setWorkers(new Worker(this.getBoard().getCell(playerWorker.getX1(), playerWorker.getY1())), new Worker(this.getBoard().getCell(playerWorker.getX2(), playerWorker.getY2())));
+        playerWorker.getPlayer().setWorkers(new Worker(this.getBoard().getCell(playerWorker.getX(), playerWorker.getY())));
     }
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
