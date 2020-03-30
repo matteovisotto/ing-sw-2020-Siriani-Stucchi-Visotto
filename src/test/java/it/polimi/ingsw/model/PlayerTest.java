@@ -13,7 +13,7 @@ public class PlayerTest {
 
     @Test
     public void getPlayerName() {
-        Player player=new Player("Mario");
+        Player player = new Player("Mario");
         assertEquals("Mario", player.getPlayerName());
     }
 
@@ -25,20 +25,20 @@ public class PlayerTest {
 
     @Test
     public void setWorkers() {
-        Cell cell=new Cell(1,1);
-        Player player=new Player("Mario");
-        Worker worker=new Worker(cell);
+        Cell cell = new Cell(1,1);
+        Player player = new Player("Mario");
+        Worker worker = new Worker(cell);
         player.setWorkers(worker);
         assertEquals(worker, player.getWorker(0));
     }
 
     @Test
     public void getWorker() {
-        Cell cell=new Cell(1,1);
+        Cell cell = new Cell(1,1);
         Cell cell2 = new Cell(2,2);
-        Player player=new Player("Mario");
-        Worker worker=new Worker(cell);
-        Worker worker2=new Worker(cell2);
+        Player player = new Player("Mario");
+        Worker worker = new Worker(cell);
+        Worker worker2 = new Worker(cell2);
         player.setWorkers(worker);
         player.setWorkers(worker2);
 
@@ -64,23 +64,23 @@ public class PlayerTest {
     @Test
     public void setWorkersException(){
         exception.expect(FullWorkerException.class);
-        Player player=new Player("Mario");
-        Worker worker=new Worker(new Cell(1,1));
+        Player player = new Player("Mario");
+        Worker worker = new Worker(new Cell(1,1));
         player.setWorkers(worker);
-        Worker worker1=new Worker(new Cell(2,1));
+        Worker worker1 = new Worker(new Cell(2,1));
         player.setWorkers(worker1);
-        Worker worker2=new Worker(new Cell(3,1));
+        Worker worker2 = new Worker(new Cell(3,1));
         player.setWorkers(worker2);
     }
 
     @Test
     public void getWorkerException(){
         exception.expect(IndexOutOfBoundsException.class);
-        Cell cell=new Cell(1,1);
+        Cell cell = new Cell(1,1);
         Cell cell2 = new Cell(2,2);
-        Player player=new Player("Mario");
-        Worker worker=new Worker(cell);
-        Worker worker2=new Worker(cell2);
+        Player player = new Player("Mario");
+        Worker worker = new Worker(cell);
+        Worker worker2 = new Worker(cell2);
         player.setWorkers(worker);
         player.setWorkers(worker2);
 

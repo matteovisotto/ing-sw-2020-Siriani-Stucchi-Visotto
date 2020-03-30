@@ -83,31 +83,31 @@ public class Lobby {
 
     private void twoPlayer(List<String> players){
         ClientConnection c1,c2;
-        Player p1,p2;
+        Player player1,player2;
         Player[] playerArray = new Player[this.numPlayers];
-        RemoteView rv1,rv2;
+        RemoteView remoteView1,remoteView2;
 
         c1 = connections.get(0);
         c2 = connections.get(1);
-        p1 = new Player(players.get(0));
-        p2 = new Player(players.get(1));
-        playerArray[0] = p1;
-        playerArray[1] = p2;
+        player1 = new Player(players.get(0));
+        player2 = new Player(players.get(1));
+        playerArray[0] = player1;
+        playerArray[1] = player2;
 
         if(!simplePlay){
-            p1.drawCard();
-            p2.drawCard();
+            player1.drawCard();
+            player2.drawCard();
         }
 
-        rv1 = new RemoteView(p1, players.get(1), c1);
-        rv2 = new RemoteView(p2, players.get(0), c2);
+        remoteView1 = new RemoteView(player1, players.get(1), c1);
+        remoteView2 = new RemoteView(player2, players.get(0), c2);
 
         Model model = new Model(playerArray, simplePlay);
         Controller controller = new Controller(model);
-        model.addObserver(rv1);
-        model.addObserver(rv2);
-        rv1.addObserver(controller);
-        rv2.addObserver(controller);
+        model.addObserver(remoteView1);
+        model.addObserver(remoteView2);
+        remoteView1.addObserver(controller);
+        remoteView2.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
         try {
@@ -128,40 +128,40 @@ public class Lobby {
 
     private void threePlayer(List<String> players) {
         ClientConnection c1,c2,c3;
-        Player p1,p2,p3;
+        Player player1,player2,player3;
         Player[] playerArray = new Player[this.numPlayers];
-        RemoteView rv1,rv2,rv3;
+        RemoteView remoteView1,remoteView2,remoteView3;
 
         c1 = connections.get(0);
         c2 = connections.get(1);
         c3 = connections.get(2);
-        p1 = new Player(players.get(0));
-        p2 = new Player(players.get(1));
-        p3 = new Player(players.get(2));
-        playerArray[0] = p1;
-        playerArray[1] = p2;
-        playerArray[2] = p3;
+        player1 = new Player(players.get(0));
+        player2 = new Player(players.get(1));
+        player3 = new Player(players.get(2));
+        playerArray[0] = player1;
+        playerArray[1] = player2;
+        playerArray[2] = player3;
 
         if(!simplePlay){
-            p1.drawCard();
-            p2.drawCard();
-            p3.drawCard();
+            player1.drawCard();
+            player2.drawCard();
+            player3.drawCard();
         }
 
-        rv1 = new RemoteView(p1, players.get(1), players.get(2), c1);
-        rv2 = new RemoteView(p2, players.get(0), players.get(2), c2);
-        rv3 = new RemoteView(p3, players.get(1), players.get(0), c3);
+        remoteView1 = new RemoteView(player1, players.get(1), players.get(2), c1);
+        remoteView2 = new RemoteView(player2, players.get(0), players.get(2), c2);
+        remoteView3 = new RemoteView(player3, players.get(1), players.get(0), c3);
 
 
         Model model = new Model(playerArray, simplePlay);
         Controller controller = new Controller(model);
-        model.addObserver(rv1);
-        model.addObserver(rv2);
-        model.addObserver(rv3);
+        model.addObserver(remoteView1);
+        model.addObserver(remoteView2);
+        model.addObserver(remoteView3);
 
-        rv1.addObserver(controller);
-        rv2.addObserver(controller);
-        rv3.addObserver(controller);
+        remoteView1.addObserver(controller);
+        remoteView2.addObserver(controller);
+        remoteView3.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
         try {

@@ -73,7 +73,7 @@ public class Server {
     public synchronized void joinLobby(int lobbyId, ClientConnection c, String playerName) throws FullLobbyException, InvalidLobbyException {
         Lobby lobby;
         try {
-            lobby = this.lobbies.get(lobbyId-1);
+            lobby = this.lobbies.get(lobbyId - 1);
         } catch (Exception e){
             throw new InvalidLobbyException(LobbyExceptionMessage.INVALID_LOBBY);
         }

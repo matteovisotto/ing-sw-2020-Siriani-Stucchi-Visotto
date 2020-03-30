@@ -11,11 +11,11 @@ public class BlocksTest {
     public final ExpectedException exception = ExpectedException.none();
     @Test
     public void getBlockId() {
-        assertTrue(0==Blocks.EMPTY.getBlockId());
-        assertTrue(1==Blocks.LEVEL1.getBlockId());
-        assertTrue(2==Blocks.LEVEL2.getBlockId());
-        assertTrue(3==Blocks.LEVEL3.getBlockId());
-        assertTrue(4==Blocks.DOME.getBlockId());
+        assertTrue(0 == Blocks.EMPTY.getBlockId());
+        assertTrue(1 == Blocks.LEVEL1.getBlockId());
+        assertTrue(2 == Blocks.LEVEL2.getBlockId());
+        assertTrue(3 == Blocks.LEVEL3.getBlockId());
+        assertTrue(4 == Blocks.DOME.getBlockId());
     }
 
     @Test

@@ -14,7 +14,7 @@ public class BoardTest {
     public void getCell() {
         Board board=new Board();
         for(int i = 0; i < 5; i++){
-            for(int j=0; j<5; j++){
+            for(int j = 0; j < 5; j++){
                 assertTrue(i==board.getCell(i,j).getX());
                 assertTrue(j==board.getCell(i,j).getY());
             }
@@ -25,7 +25,7 @@ public class BoardTest {
     public void getCellException(){
         exception.expect(IllegalArgumentException.class);
         Board board=new Board();
-        int i=-1,j=-1;
+        int i = -1,j = -1;
         board.getCell(i,j).getX();
         board.getCell(i,j).getY();
     }
