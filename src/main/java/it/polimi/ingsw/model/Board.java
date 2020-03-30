@@ -30,9 +30,7 @@ public class Board implements Serializable, Cloneable {
     public boolean checkCell (int x, int y, Worker worker) throws IllegalArgumentException{
         Cell cell = getCell(x,y);
         Cell other_cell = worker.getCell();
-        if (cell.isFree() && !cell.equals(other_cell) && (other_cell.getLevel().getBlockId() - cell.getLevel().getBlockId()<2) && cell.getLevel().getBlockId() != 4){
-            return true;
-        } else return false;
+        return cell.isFree() && !cell.equals(other_cell) && (other_cell.getLevel().getBlockId() - cell.getLevel().getBlockId() < 2) && cell.getLevel().getBlockId() != 4;
     }
 
     public void print(){
@@ -48,6 +46,7 @@ public class Board implements Serializable, Cloneable {
 
     @Override
     protected final Board clone() throws CloneNotSupportedException{
+        super.clone();
         final Board result = new Board();
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++)
