@@ -66,21 +66,19 @@ public class Lobby {
     }
 
     private void sendAllPlayer(Object o){
-        for(int i = 0; i < connections.size(); i++){
-            connections.get(i).send(o);
+        for (ClientConnection connection : connections) {
+            connection.send(o);
         }
     }
 
     private void sendAllPlayerAsync(Object o){
-        for(int i = 0; i < connections.size(); i++){
-            connections.get(i).asyncSend(o);
+        for (ClientConnection connection : connections) {
+            connection.asyncSend(o);
         }
     }
 
     public boolean isPlayerNameAvailable (String name) {
-        if(waitingConnection.get(name) == null)
-            return true;
-        return false;
+        return waitingConnection.get(name) == null;
     }
 
     private void twoPlayer(List<String> players){
@@ -95,6 +93,11 @@ public class Lobby {
         p2 = new Player(players.get(1));
         playerArray[0] = p1;
         playerArray[1] = p2;
+
+        if(!simplePlay){
+            p1.drawCard();
+            p2.drawCard();
+        }
 
         rv1 = new RemoteView(p1, players.get(1), c1);
         rv2 = new RemoteView(p2, players.get(0), c2);
@@ -138,6 +141,12 @@ public class Lobby {
         playerArray[0] = p1;
         playerArray[1] = p2;
         playerArray[2] = p3;
+
+        if(!simplePlay){
+            p1.drawCard();
+            p2.drawCard();
+            p3.drawCard();
+        }
 
         rv1 = new RemoteView(p1, players.get(1), players.get(2), c1);
         rv2 = new RemoteView(p2, players.get(0), players.get(2), c2);

@@ -5,17 +5,22 @@ import java.util.Random;
 public class Player {
     private Worker[] workers;
     private String playerName;
-    private GodCard godCard;
+    private GodCard godCard = null;
     private boolean lost = false;
 
-    public String getPlayerName(){
+    public Player(String playerName) {
+        this.playerName = playerName;
+        workers = new Worker[2];
+    }
+
+    public String getPlayerName() {
         return playerName;
     }
-    public GodCard getCard(){
+    public GodCard getCard() {
         return godCard;
     }
 
-    public Worker getWorker(int number) throws ArrayIndexOutOfBoundsException{
+    public Worker getWorker(int number) throws ArrayIndexOutOfBoundsException {
         return (workers[number]);
     }
 
@@ -24,19 +29,17 @@ public class Player {
         this.workers[1] = worker2;
     }
 
-    public Player(String playerName){
-        this.playerName = playerName;
-        workers = new Worker[2];
-        drawCard();
-    }
-
-    public void drawCard(){
+    public void drawCard() {
         Random random = new Random();
         try {
             this.godCard = SimpleGods.getGod(random.nextInt(8) + 1);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    public void setStatus(boolean status) {
+        this.lost = status;
     }
 
     public boolean getStatus(){
