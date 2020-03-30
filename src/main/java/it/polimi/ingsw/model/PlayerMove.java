@@ -22,12 +22,15 @@ public class PlayerMove {
     public int getRow() {
         return row;
     }
+
     public int getColumn() {
         return column;
     }
+
     public Player getPlayer() {
         return player;
     }
+
     public View getView() {
         return view;
     }

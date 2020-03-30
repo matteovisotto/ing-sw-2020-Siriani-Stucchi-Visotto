@@ -6,7 +6,6 @@ public class Model extends Observable {
     private Board board = new Board();
     private final Player[] turn;
     private int id = 0;
-
     private final boolean simplePlay;
 
     public Model(Player[] players, boolean simplePlay){
