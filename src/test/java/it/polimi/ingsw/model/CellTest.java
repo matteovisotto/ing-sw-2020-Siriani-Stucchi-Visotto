@@ -14,5 +14,7 @@ public class CellTest {
 
     @Test
     public void getY() {
+        Cell cell = new Cell(1,2);
+        assertTrue("Result", 2==cell.getY());
     }
 }
