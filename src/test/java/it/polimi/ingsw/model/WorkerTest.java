@@ -14,8 +14,7 @@ public class WorkerTest {
     public void getCell() {
         Cell cell = new Cell(1,1);
         Worker worker = new Worker(cell);
-
-        assertEquals(cell,worker.getCell());
+        assertEquals(cell, worker.getCell());
     }
 
     @Test
@@ -39,7 +38,7 @@ public class WorkerTest {
         Cell cell = new Cell(1,1);
         Worker worker = new Worker(cell);
         worker.setStatus(false);
-        assertEquals(false,worker.getStatus());
+        assertEquals(false, worker.getStatus());
     }
 
 

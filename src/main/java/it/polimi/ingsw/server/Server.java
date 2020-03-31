@@ -18,14 +18,14 @@ import java.util.concurrent.Executors;
 public class Server {
     private static final int PORT= 12345;
     private ServerSocket serverSocket;
-
     private final ExecutorService executor = Executors.newCachedThreadPool();
-
-
     private final Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
     private final List<Lobby> lobbies = new ArrayList<>();
     private final Map<Lobby, ArrayList<ClientConnection>> playerInLobby = new HashMap<>();
 
+    public Server() throws IOException {
+        this.serverSocket = new ServerSocket(PORT);
+    }
 
     //Deregister connection
     public synchronized void deregisterConnection(ClientConnection c){
@@ -42,7 +42,6 @@ public class Server {
     public synchronized int getLobbiesCount(){
         return this.lobbies.size();
     }
-
 
     public synchronized String getLobbiesNames() throws NoLobbyException {
         if(this.lobbies.size() != 0) {
@@ -89,11 +88,6 @@ public class Server {
             throw new FullLobbyException(LobbyExceptionMessage.FULL_LOBBY);
         }
 
-    }
-
-
-    public Server() throws IOException {
-        this.serverSocket = new ServerSocket(PORT);
     }
 
     public void run(){

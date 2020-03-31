@@ -16,7 +16,6 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     private final Socket socket;
     private ObjectOutputStream out;
     private final Server server;
-
     private boolean active = true;
 
     public SocketClientConnection(Socket socket, Server server) {

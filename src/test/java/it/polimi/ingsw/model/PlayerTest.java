@@ -92,7 +92,6 @@ public class PlayerTest {
         Worker worker2 = new Worker(cell2);
         player.setWorkers(worker);
         player.setWorkers(worker2);
-
         player.getWorker(3);
     }
 }
