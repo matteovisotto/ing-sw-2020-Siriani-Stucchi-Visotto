@@ -14,6 +14,9 @@ public class RemoteView extends View {
         @Override
         public void update(Observable o, Object arg) {
             System.out.println("Received: " + arg);
+            //arg è la stringa ricevuta dall'input del client
+            //inserire quindi qui le chiamate ai metodi di view per fare le mosse
+
         }
 
     }

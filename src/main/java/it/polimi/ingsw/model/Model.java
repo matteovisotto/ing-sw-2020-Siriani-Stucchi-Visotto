@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.model.messageModel.PlayerWorker;
+
 import java.util.Observable;
 
 public class Model extends Observable {

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.*;
