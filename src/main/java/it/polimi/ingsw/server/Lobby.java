@@ -95,8 +95,7 @@ public class Lobby {
         playerArray[1] = player2;
 
         if(!simplePlay){
-            player1.drawCard();
-            player2.drawCard();
+            //player have to draw a card
         }
 
         remoteView1 = new RemoteView(player1, players.get(1), c1);
@@ -143,9 +142,7 @@ public class Lobby {
         playerArray[2] = player3;
 
         if(!simplePlay){
-            player1.drawCard();
-            player2.drawCard();
-            player3.drawCard();
+            //player have to draw a card
         }
 
         remoteView1 = new RemoteView(player1, players.get(1), players.get(2), c1);

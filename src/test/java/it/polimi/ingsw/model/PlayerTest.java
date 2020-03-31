@@ -17,11 +17,20 @@ public class PlayerTest {
         assertEquals("Mario", player.getPlayerName());
     }
 
-    /*@Test
+    @Test
     public void getCard() {
-        Player player=new Player("Mario");
+        Player player = new Player("Luigi");
+        player.setGodCard(SimpleGods.getGod(2));
+        assertEquals(SimpleGods.getGod(2), player.getGodCard());
 
-    }*/
+    }
+
+    @Test
+    public void setGodCard(){
+        Player player = new Player("Luigi");
+        player.setGodCard(SimpleGods.getGod(1));
+        assertEquals(SimpleGods.getGod(1), player.getGodCard());
+    }
 
     @Test
     public void setWorkers() {

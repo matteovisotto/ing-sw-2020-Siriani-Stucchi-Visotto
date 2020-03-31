@@ -19,8 +19,8 @@ public class Player {
     public String getPlayerName() {
         return playerName;
     }
-    public GodCard getCard() {
-        return godCard;
+    public GodCard getGodCard() {
+        return this.godCard;
     }
 
     public Worker getWorker(int number) throws IndexOutOfBoundsException {
@@ -34,13 +34,17 @@ public class Player {
         this.workers.add(worker);
     }
 
-    public void drawCard() {
+    /*public void drawCard() {
         Random random = new Random();
         try {
             this.godCard = SimpleGods.getGod(random.nextInt(8) + 1);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
+    }*/
+
+    public void setGodCard(GodCard godCard){
+        this.godCard = godCard;
     }
 
     public void setStatus(boolean status) {
