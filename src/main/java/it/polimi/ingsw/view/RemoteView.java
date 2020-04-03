@@ -14,8 +14,18 @@ public class RemoteView extends View {
         @Override
         public void update(Observable o, Object arg) {
             System.out.println("Received: " + arg);
+            char c=((String) arg).charAt(0);
             //arg è la stringa ricevuta dall'input del client
             //inserire quindi qui le chiamate ai metodi di view per fare le mosse
+            if(c=='0'){
+                try{
+                    String[] s=((String) arg).substring(1).split(",");
+                    placeWorker(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
+                }
+                catch (IllegalArgumentException e){
+                    clientConnection.asyncSend("Wrong input");
+                }
+            }
 
         }
 

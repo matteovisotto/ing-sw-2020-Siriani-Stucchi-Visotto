@@ -37,6 +37,11 @@ public class Lobby {
         return this.isFull;
     }
 
+    public boolean isSimplePlay(){
+        return this.simplePlay;
+    }
+
+
     public void closeLobby() {
         for(int i = connections.size() - 1; i >= 0; i--){
             ClientConnection clientConnection = connections.get(i);
@@ -117,10 +122,12 @@ public class Lobby {
 
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
+            c1.asyncSend("Posiona il primo worker");
             c2.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }
         else{
             c2.asyncSend(PlayerMessage.YOUR_TURN);
+            c2.asyncSend("Posiona il primo worker");
             c1.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }
     }
@@ -169,16 +176,19 @@ public class Lobby {
 
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
+            c1.asyncSend("Posiona il primo worker");
             c2.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
             c3.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }
         else if(model.isPlayerTurn(playerArray[1])){
             c2.asyncSend(PlayerMessage.YOUR_TURN);
+            c2.asyncSend("Posiona il primo worker");
             c1.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
             c3.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }
         else{
             c3.asyncSend(PlayerMessage.YOUR_TURN);
+            c3.asyncSend("Posiona il primo worker");
             c1.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
             c2.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }

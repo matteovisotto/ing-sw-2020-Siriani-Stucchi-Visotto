@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.model.messageModel.PlayerWorker;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -23,6 +24,10 @@ public abstract class View extends Observable implements Observer {
     void doMove(int row, int column, int workerId) {
         System.out.println(row + " " + column);
         notifyObservers(new PlayerMove(player, workerId, row, column, this));
+    }
+
+    protected void placeWorker(int x, int y){
+        notifyObservers(new PlayerWorker(player,x,y,this));
     }
 
     protected void drawCard(int cardId){
