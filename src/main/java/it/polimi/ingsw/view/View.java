@@ -26,7 +26,7 @@ public abstract class View extends Observable implements Observer {
     }
 
     protected void drawCard(int cardId){
-        //notify observers with a message containing the card 
+        //notify observers with a message containing the card
     }
 
     public void reportError(String message){
