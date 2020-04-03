@@ -50,8 +50,18 @@ public class Server {
                 Lobby lobby = this.lobbies.get(i);
                 String lobbyPlayers;
                 int playerInLobby = this.playerInLobby.get(lobby).size();
-                if (lobby.isFull()) lobbyPlayers = " [FULL] ";
-                else lobbyPlayers = " [" + playerInLobby + "/" + lobby.getNumPlayers() + "] ";
+                if
+                    (lobby.isFull()) lobbyPlayers = " [FULL] ";
+                else {
+                    lobbyPlayers = "\t[" + playerInLobby + "/" + lobby.getNumPlayers() + "]";
+                    if(lobby.isSimplePlay()){
+                        lobbyPlayers+="\tS";
+                    }
+                    else
+                        lobbyPlayers+="\tH";
+                }
+
+
                 names.append(i + 1).append(" - ").append(lobby.getLobbyName()).append(lobbyPlayers).append("\n");
             }
             return names.toString();

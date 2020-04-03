@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
 
 import java.util.Observable;
 
@@ -52,6 +53,11 @@ public class Model extends Observable {
             updateTurn();
         }
 
+        try {
+            notifyObservers(new ViewMessage(getBoardClone(), turn[id]));
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setPlayerWorker (PlayerWorker playerWorker){

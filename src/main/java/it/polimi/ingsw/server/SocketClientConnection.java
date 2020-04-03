@@ -134,7 +134,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                 }
             }while (!isConfig);
 
+            //DA QUA INIZIA LA PARTITA
 
+            read = "0"+in.nextLine();
+            notifyObservers(read);
             while(isActive()){
                 read = in.nextLine();
                 notifyObservers(read);

@@ -21,6 +21,9 @@ public class Controller implements Observer {
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
         }
+        //qua fa la mossa
+
+        //qua aggiorna il model con la mossa eseguita
         try {
             model.move(move);
             model.updateTurn();
