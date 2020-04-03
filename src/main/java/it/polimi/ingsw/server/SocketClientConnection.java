@@ -82,7 +82,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
             int choice = 0;
             do {
                 do {
-                    send(PlayerMessage.GAME_MODE);
+                    send(PlayerMessage.GAME_MODE_SELECTOR);
                     if(in.hasNextInt()){
                         choice = in.nextInt();
                         in.nextLine();
@@ -121,7 +121,6 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         if (lobbyId != 0) {
                             server.joinLobby(lobbyId, this, name);
                             isConfig = true;
-
                         }
 
                     } catch (FullLobbyException | InvalidLobbyException | NoLobbyException e){

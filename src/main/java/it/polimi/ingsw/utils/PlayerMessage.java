@@ -3,7 +3,7 @@ package it.polimi.ingsw.utils;
 public class PlayerMessage {
     public static final String WELCOME = "Welcome! \nWhat's your name?";
     public static final String ASK_NUM_PLAYER = "How many players?";
-    public static final String GAME_MODE = "Press 1 to create a new lobby, press 2 to join one.";
+    public static final String GAME_MODE_SELECTOR = "Press 1 to create a new lobby, press 2 to join one.";
     public static final String ASK_LOBBY_NAME = "Insert a name for the lobby:";
     public static final String JOIN_LOBBY = "Select which lobby you want to join: ";
     public static final String WAIT_PLAYERS = "Waiting for other players";
