@@ -100,7 +100,7 @@ public class Lobby {
         playerArray[1] = player2;
 
         if(!simplePlay){
-            //player have to draw a card
+            //player has to draw a card
         }
 
         remoteView1 = new RemoteView(player1, players.get(1), c1);
