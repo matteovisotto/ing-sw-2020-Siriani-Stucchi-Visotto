@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 
-import java.util.Observable;
-
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
 
@@ -15,12 +13,12 @@ public class RemoteView extends View {
         @Override
         public void update(String msg) {
             System.out.println("Received: " + msg);
-            char c=((String) msg).charAt(0);
+            char c= msg.charAt(0);
             //arg è la stringa ricevuta dall'input del client
             //inserire quindi qui le chiamate ai metodi di view per fare le mosse
             if(c=='0'){
                 try{
-                    String[] s=((String) msg).substring(1).split(",");
+                    String[] s= msg.substring(1).split(",");
                     placeWorker(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
                 }
                 catch (IllegalArgumentException e){

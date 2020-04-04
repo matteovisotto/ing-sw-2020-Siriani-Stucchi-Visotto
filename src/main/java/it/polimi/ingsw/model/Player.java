@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.FullWorkerException;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Player {
     private final ArrayList<Worker> workers;

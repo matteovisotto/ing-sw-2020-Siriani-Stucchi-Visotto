@@ -15,8 +15,8 @@ public class BoardTest {
         Board board=new Board();
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
-                assertTrue(i==board.getCell(i,j).getX());
-                assertTrue(j==board.getCell(i,j).getY());
+                assertEquals(i, board.getCell(i, j).getX());
+                assertEquals(j, board.getCell(i, j).getY());
             }
         }
     }

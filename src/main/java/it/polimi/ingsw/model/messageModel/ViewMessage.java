@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.Player;
 
 public class ViewMessage {
 
-    private Player player;
-    private Board board;
+    private final Player player;
+    private final Board board;
 
     public ViewMessage(Board board, Player player){
         this.player=player;
