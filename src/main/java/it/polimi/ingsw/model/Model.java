@@ -3,10 +3,9 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
+import it.polimi.ingsw.observer.Observable;
 
-import java.util.Observable;
-
-public class Model extends Observable {
+public class Model extends Observable<ViewMessage> {
     private Board board = new Board();
     private final Player[] turn;
     private int id = 0;
@@ -38,13 +37,11 @@ public class Model extends Observable {
     }
 
     public void setChanges(Object o){
-        setChanged();
-        notifyObservers(o);
+        notifyObservers((ViewMessage) o);
     }
 
     public void vittoria(Player player, int worker) {
-        setChanged();
-        notifyObservers();
+        //notifyObservers();
     }
 
     public void updateTurn(){

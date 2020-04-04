@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server;
 
-import java.util.Observable;
+import it.polimi.ingsw.observer.Observable;
 
-public abstract class ClientConnection extends Observable {
+public abstract class ClientConnection extends Observable<String> {
 
     public abstract void closeConnection();
 

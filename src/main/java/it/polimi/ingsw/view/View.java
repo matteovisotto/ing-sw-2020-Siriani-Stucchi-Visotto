@@ -1,14 +1,15 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.Message;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
+import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.observer.Observer;
 
-import java.util.Observable;
-import java.util.Observer;
 
-
-public abstract class View extends Observable implements Observer {
+public abstract class View extends Observable<Message> implements Observer<ViewMessage> {
     private final Player player;
 
     protected View(Player player){

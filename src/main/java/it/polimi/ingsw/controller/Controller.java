@@ -1,13 +1,15 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.Message;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.utils.PlayerMessage;
+import it.polimi.ingsw.observer.Observer;
 
 import java.util.*;
 
-public class Controller implements Observer {
+public class Controller implements Observer<Message> {
 
     private final Model model;
 
@@ -69,12 +71,12 @@ public class Controller implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if(arg instanceof PlayerMove){
-            move((PlayerMove) arg);
+    public void update(Message msg) {
+        if(msg instanceof PlayerMove){
+            move((PlayerMove) msg);
         }
-        else if (arg instanceof PlayerWorker) {
-            setPlayerWorker((PlayerWorker) arg);
+        else if (msg instanceof PlayerWorker) {
+            setPlayerWorker((PlayerWorker) msg);
         }
     }
 }
