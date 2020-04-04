@@ -5,11 +5,16 @@ import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class Model extends Observable<ViewMessage> {
     private Board board = new Board();
     private final Player[] turn;
     private int id = 0;
     private final boolean simplePlay;
+    private Phase phase;
+    private Map<SimpleGods, Player> playerCards = new EnumMap<SimpleGods, Player>(SimpleGods.class);
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;

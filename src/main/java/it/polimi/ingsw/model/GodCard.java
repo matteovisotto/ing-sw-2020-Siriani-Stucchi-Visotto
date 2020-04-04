@@ -3,9 +3,14 @@ package it.polimi.ingsw.model;
 public abstract class GodCard {
 
     protected final SimpleGods card;
+    private boolean active = false;
 
     public GodCard(SimpleGods card){
         this.card = card;
+    }
+
+    public SimpleGods getCardGod() {
+        return this.card;
     }
 
     public String getName() {
@@ -21,5 +26,9 @@ public abstract class GodCard {
             return ((GodCard) obj).card.getSimpleGodId() == this.card.getSimpleGodId();
         }
         return false;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
