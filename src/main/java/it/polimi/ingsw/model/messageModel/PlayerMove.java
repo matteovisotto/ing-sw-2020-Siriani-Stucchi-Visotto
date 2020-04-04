@@ -1,18 +1,16 @@
 package it.polimi.ingsw.model.messageModel;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
-public class PlayerMove {
+
+public class PlayerMove extends Message{
     private final int row;
     private final int column;
-    private final Player player;
-    private final View view;
     private final int workerId;
 
     public PlayerMove(Player player, int workerId, int row, int column, View view) {
-        this.player = player;
+        super(player, view);
         this.row = row;
         this.column = column;
-        this.view = view;
         this.workerId = workerId;
     }
 
@@ -28,12 +26,6 @@ public class PlayerMove {
         return column;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 
-    public View getView() {
-        return view;
-    }
 
 }

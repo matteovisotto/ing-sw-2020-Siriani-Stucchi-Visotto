@@ -3,21 +3,16 @@ package it.polimi.ingsw.model.messageModel;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
-public class PlayerWorker {
-    private final Player player;
-    private final View view;
+public class PlayerWorker extends Message{
+
     private final int x;
     private final int y;
 
     public PlayerWorker(Player player, int x, int y, View view) {
-        this.player = player;
+        super(player, view);
         this.x = x;
         this.y = y;
-        this.view = view;
-    }
 
-    public Player getPlayer() {
-        return player;
     }
 
     public int getX() {
@@ -27,6 +22,7 @@ public class PlayerWorker {
     public int getY() {
         return y;
     }
+
 }
 
 
