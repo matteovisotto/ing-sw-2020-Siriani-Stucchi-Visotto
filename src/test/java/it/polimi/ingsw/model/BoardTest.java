@@ -23,15 +23,6 @@ public class BoardTest {
     }
 
     @Test
-    public void getCellException(){
-        exception.expect(IllegalArgumentException.class);
-        Board board=new Board();
-        int i = -1,j = -1;
-        board.getCell(i,j).getX();
-        board.getCell(i,j).getY();
-    }
-
-    @Test
     public void checkCell() {
         Board board=new Board();
         Worker worker= new Worker(board.getCell(1,1));
@@ -40,5 +31,14 @@ public class BoardTest {
         board.getCell(2,1).setLevel(Blocks.DOME);
         assertFalse(board.checkCell(2,1,worker));
 
+    }
+
+    @Test
+    public void getCellException(){
+        exception.expect(IllegalArgumentException.class);
+        Board board=new Board();
+        int i = -1,j = -1;
+        board.getCell(i,j).getX();
+        board.getCell(i,j).getY();
     }
 }

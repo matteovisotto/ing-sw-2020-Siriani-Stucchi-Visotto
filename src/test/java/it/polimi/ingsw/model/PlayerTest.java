@@ -19,7 +19,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void getCard() {
+    public void getGodCard() {
         Player player = new Player("Luigi");
         player.setGodCard(SimpleGods.getGod(2));
         assertEquals(SimpleGods.getGod(2), player.getGodCard());
@@ -58,17 +58,17 @@ public class PlayerTest {
         assertEquals(worker2, player.getWorker(1));
     }
 
-
-
-
     @Test
     public void setStatus() {
-
+        Player player = new Player("Mario");
+        player.setStatus(true);
+        assertTrue(player.getStatus());
     }
 
     @Test
     public void getStatus() {
-
+        Player player = new Player("Mario");
+        assertFalse(player.getStatus());
     }
 
     @Test

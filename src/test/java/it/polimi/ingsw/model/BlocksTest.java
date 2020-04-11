@@ -10,6 +10,7 @@ public class BlocksTest {
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
+
     @Test
     public void getBlockId() {
         assertEquals(0, Blocks.EMPTY.getBlockId());

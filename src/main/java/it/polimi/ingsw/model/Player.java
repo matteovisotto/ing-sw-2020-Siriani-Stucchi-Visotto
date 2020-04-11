@@ -8,7 +8,7 @@ public class Player {
     private final ArrayList<Worker> workers;
     private final String playerName;
     private GodCard godCard = null;
-    private boolean lost = false;
+    private boolean status = false;
 
     public Player(String playerName) {
         this.playerName = playerName;
@@ -18,6 +18,7 @@ public class Player {
     public String getPlayerName() {
         return playerName;
     }
+
     public GodCard getGodCard() {
         return this.godCard;
     }
@@ -47,11 +48,11 @@ public class Player {
     }
 
     public void setStatus(boolean status) {
-        this.lost = status;
+        this.status = status;
     }
 
     public boolean getStatus(){
-        return lost;
+        return status;
     }
 }
 
