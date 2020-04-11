@@ -9,8 +9,10 @@ import static org.junit.Assert.assertEquals;
 public class PhaseTest {
 
     public class BlocksTest {
+
         @Rule
         public final ExpectedException exception = ExpectedException.none();
+
         @Test
         public void getPhaseId() {
             assertEquals(-3, Phase.DRAWCARD.getPhaseId());
@@ -20,7 +22,6 @@ public class PhaseTest {
             assertEquals(1, Phase.BEGINNING.getPhaseId());
             assertEquals(2, Phase.MOVE.getPhaseId());
             assertEquals(3, Phase.BUILD.getPhaseId());
-
         }
 
         @Test

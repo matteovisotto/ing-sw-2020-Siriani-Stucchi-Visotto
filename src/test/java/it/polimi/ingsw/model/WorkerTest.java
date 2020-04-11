@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 public class WorkerTest {
 
-
     @Test
     public void getCell() {
         Cell cell = new Cell(1,1);

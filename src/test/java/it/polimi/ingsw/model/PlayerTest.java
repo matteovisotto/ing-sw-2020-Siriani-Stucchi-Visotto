@@ -8,6 +8,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.*;
 
 public class PlayerTest {
+
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
