@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.*;
 import java.util.List;
 
 public class Minotaur extends GodCard {
-
+    private final Phase phase=Phase.MOVE;
     public Minotaur() {
         super(SimpleGods.MINOTAUR);
     }
@@ -18,5 +18,9 @@ public class Minotaur extends GodCard {
 
         w1.setCell(w2.getCell());
         w2.setCell(c);
+    }
+    @Override
+    public void reset() {
+
     }
 }

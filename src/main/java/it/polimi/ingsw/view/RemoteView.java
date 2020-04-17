@@ -25,9 +25,7 @@ public class RemoteView extends View {
                     clientConnection.asyncSend("Wrong input");
                 }
             }
-
         }
-
     }
 
     //Constructor for 2 players

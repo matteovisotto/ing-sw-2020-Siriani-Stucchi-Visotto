@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.*;
 import java.util.List;
 
 public class Apollo extends GodCard {
-
+    private final Phase phase=Phase.MOVE;
     public Apollo(){
         super(SimpleGods.APOLLO);
     }
@@ -20,5 +20,10 @@ public class Apollo extends GodCard {
         c=w2.getCell();
         w2.setCell(w1.getCell());
         w1.setCell(c);
+    }
+
+    @Override
+    public void reset() {
+
     }
 }

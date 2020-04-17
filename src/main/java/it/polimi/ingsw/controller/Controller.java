@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.Message;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
@@ -12,7 +13,7 @@ import java.util.*;
 public class Controller implements Observer<Message> {
 
     private final Model model;
-
+    private GodCardController GCC;
     public Controller(Model model){
         super();
         this.model = model;
@@ -24,13 +25,14 @@ public class Controller implements Observer<Message> {
             return;
         }
         //qua fa la mossa
-
-        //qua aggiorna il model con la mossa eseguita
-        try {
-            model.move(move);
-            model.updateTurn();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println(e.getMessage());
+        HashMap<Cell, Boolean> availableCells=checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
+        if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {
+            try {
+                model.move(move);
+                //model.updateTurn();
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 
@@ -50,8 +52,9 @@ public class Controller implements Observer<Message> {
         }
     }
 
-    private synchronized void checkCellsAround (Cell cell, Worker worker){
+    private synchronized HashMap<Cell, Boolean> checkCellsAround (Worker worker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();
+        Cell cell= worker.getCell();
         Board board = model.getBoard();
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
             for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
@@ -59,11 +62,13 @@ public class Controller implements Observer<Message> {
                     availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
                 }
                 catch (IllegalArgumentException e){
-                    System.err.println(e.getMessage());
+                    Cell c= new Cell(x,y);
+                    availableCells.put(c, false);
                 }
             }
         }
-        model.setChanges(availableCells);
+        return availableCells;
+        //model.setChanges(availableCells);
     }
 
     private synchronized void setPlayerWorker (PlayerWorker playerWorker){
@@ -72,11 +77,19 @@ public class Controller implements Observer<Message> {
 
     @Override
     public void update(Message msg) {
+        /*if(msg.getPlayer()==model.getActualPlayer() && !model.getActualPlayer().getGodCard().equals(SimpleGods.ATHENA) ){ && player decided to use power
+            switch(model.getActualPlayer().getGodCard().getCardGod().getSimpleGodId()){
+                case 1://APOLLO
+
+            }
+        }*/
         if(msg instanceof PlayerMove){
             move((PlayerMove) msg);
         }
         else if (msg instanceof PlayerWorker) {
             setPlayerWorker((PlayerWorker) msg);
         }
+
     }
+
 }

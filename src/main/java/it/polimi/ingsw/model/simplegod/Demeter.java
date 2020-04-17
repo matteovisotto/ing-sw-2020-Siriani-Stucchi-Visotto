@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.messageModel.PlayerMove;
 import java.util.List;
 
 public class Demeter extends GodCard {
+    private final Phase phase=Phase.BUILD;
     private Cell firstBuilt;
     public Demeter() {
         super(SimpleGods.DEMETER);
@@ -24,5 +25,9 @@ public class Demeter extends GodCard {
         Model model=(Model)objectList.get(0);
         Worker w=(Worker)objectList.get(1);
         model.increaseLevel( w.getCell(), Blocks.getBlock(w.getCell().getLevel().getBlockId()+1));
+    }
+    @Override
+    public void reset() {
+
     }
 }

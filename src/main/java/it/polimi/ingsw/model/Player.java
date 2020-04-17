@@ -10,10 +10,18 @@ public class Player {
     private GodCard godCard = null;
     private boolean status = false;
     private boolean canMove = true;
-
+    private boolean usePower=false;
     public Player(String playerName) {
         this.playerName = playerName;
         workers = new ArrayList<>();
+    }
+
+    public boolean getUsePower() {
+        return usePower;
+    }
+
+    public void resetUsePower(){
+        usePower=false;
     }
 
     public void setCanMove(boolean b){

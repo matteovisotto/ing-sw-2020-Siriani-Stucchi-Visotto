@@ -22,6 +22,8 @@ public abstract class GodCard {
     @SuppressWarnings("EmptyMethod")
     public abstract void usePower(List<Object> objectList);
 
+    public abstract void reset();
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof GodCard){
