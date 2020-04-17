@@ -38,13 +38,13 @@ public class Controller implements Observer<Message> {
         Blocks level = this.model.getBoard().getCell(cell.getX(),cell.getY()).getLevel();
         switch(level.getBlockId()) {
             case 0:
-                cell.setLevel(Blocks.LEVEL1);
+                model.increaseLevel(cell, Blocks.LEVEL1);
             case 1:
-                cell.setLevel(Blocks.LEVEL2);
+                model.increaseLevel(cell, Blocks.LEVEL2);
             case 2:
-                cell.setLevel(Blocks.LEVEL3);
+                model.increaseLevel(cell, Blocks.LEVEL3);
             case 3:
-                cell.setLevel(Blocks.DOME);
+                model.increaseLevel(cell, Blocks.DOME);
             default:
                 throw new IllegalArgumentException();
         }

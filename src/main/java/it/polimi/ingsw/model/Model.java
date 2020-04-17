@@ -45,7 +45,7 @@ public class Model extends Observable<ViewMessage> {
         notifyObservers((ViewMessage) o);
     }
 
-    public void vittoria(Player player, int worker) {
+    public void victory(Player player) {
         //notifyObservers();
     }
 
@@ -74,5 +74,9 @@ public class Model extends Observable<ViewMessage> {
     }
     public Player getActualPlayer() {
         return turn[id];
+    }
+
+    public void increaseLevel(Cell cell, Blocks level) {
+        cell.setLevel(level);
     }
 }
