@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.List;
+
 public abstract class GodCard {
 
     protected final SimpleGods card;
@@ -18,7 +20,7 @@ public abstract class GodCard {
     }
 
     @SuppressWarnings("EmptyMethod")
-    public abstract void usePower();
+    public abstract void usePower(List<Object> objectList);
 
     @Override
     public boolean equals(Object obj) {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.GodCard;
+import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.SimpleGods;
 
 public class Minotaur extends GodCard {
@@ -10,7 +11,7 @@ public class Minotaur extends GodCard {
     }
 
     @Override
-    public void usePower() {
+    public void usePower(Model model) {
 
     }
 }

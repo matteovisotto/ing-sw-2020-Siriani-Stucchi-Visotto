@@ -72,4 +72,7 @@ public class Model extends Observable<ViewMessage> {
         worker.getCell().freeCell();
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
     }
+    public Player getActualPlayer() {
+        return turn[id];
+    }
 }

@@ -9,10 +9,19 @@ public class Player {
     private final String playerName;
     private GodCard godCard = null;
     private boolean status = false;
+    private boolean canMove = true;
 
     public Player(String playerName) {
         this.playerName = playerName;
         workers = new ArrayList<>();
+    }
+
+    public void setCanMove(boolean b){
+        canMove=b;
+    }
+
+    public boolean getCanMove(){
+        return canMove;
     }
 
     public String getPlayerName() {
