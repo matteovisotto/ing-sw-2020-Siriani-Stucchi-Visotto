@@ -15,7 +15,7 @@ public class Model extends Observable<ViewMessage> {
     private final Player[] turn;
     private int id = 0;
     private final boolean simplePlay;
-    private Phase phase;
+    private Phase phase = Phase.DRAWCARD;
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
 
     public Model(Player[] players, boolean simplePlay){
@@ -68,7 +68,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void updatePhase(){
-        phase= Phase.next(phase);
+        phase = Phase.next(phase);
     }
 
     public void setPlayerWorker (PlayerWorker playerWorker){
@@ -96,7 +96,6 @@ public class Model extends Observable<ViewMessage> {
     public void assignCard(Player p, GodCard gC){
         p.setGodCard(gC);
         playerCards.put(gC.getCardGod(), p);
-
     }
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
@@ -105,6 +104,7 @@ public class Model extends Observable<ViewMessage> {
         worker.getCell().freeCell();
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
     }
+
     public void increaseLevel(Cell cell, Blocks level) {//build
         cell.setLevel(level);
     }

@@ -59,16 +59,16 @@ public class PlayerTest {
     }
 
     @Test
-    public void setStatus() {
+    public void testSetVictory() {
         Player player = new Player("Mario");
-        player.setStatus(true);
-        assertTrue(player.getStatus());
+        player.setVictory(true);
+        assertTrue(player.hasWon());
     }
 
     @Test
-    public void getStatus() {
+    public void testHasWon() {
         Player player = new Player("Mario");
-        assertFalse(player.getStatus());
+        assertFalse(player.hasWon());
     }
 
     @Test
