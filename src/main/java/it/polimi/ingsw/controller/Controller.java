@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.Message;
 import it.polimi.ingsw.model.messageModel.PlayerMove;

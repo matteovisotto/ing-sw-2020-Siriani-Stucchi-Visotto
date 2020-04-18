@@ -16,9 +16,9 @@ public class RemoteView extends View {
             char c= msg.charAt(0);
             //arg è la stringa ricevuta dall'input del client
             //inserire quindi qui le chiamate ai metodi di view per fare le mosse
-            if(c=='0'){
+            if(c=='0'){// se C==0 devo posizionare un worker
                 try{
-                    String[] s= msg.substring(1).split(",");
+                    String[] s= msg.substring(1).split(",");//divido coordinata x dalla y
                     placeWorker(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
                 }
                 catch (IllegalArgumentException e){

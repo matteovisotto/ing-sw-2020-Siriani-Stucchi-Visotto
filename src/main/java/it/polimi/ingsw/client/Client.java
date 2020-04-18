@@ -36,7 +36,7 @@ public class Client {
                 try {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
-                        if(inputObject instanceof String){
+                        if(inputObject instanceof String){//se viene passata una stringa
                             System.out.println((String)inputObject);
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
