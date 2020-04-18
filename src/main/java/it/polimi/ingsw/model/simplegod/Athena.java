@@ -13,6 +13,10 @@ public class Athena extends GodCard {
         super(SimpleGods.ATHENA);
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
     @Override
     public void usePower(List<Object> objectList) {
 

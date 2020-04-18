@@ -10,6 +10,9 @@ public class Apollo extends GodCard {
         super(SimpleGods.APOLLO);
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
 
     @Override
     public void usePower(List<Object> objectList) {

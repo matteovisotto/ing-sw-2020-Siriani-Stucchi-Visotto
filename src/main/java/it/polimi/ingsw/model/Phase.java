@@ -18,6 +18,27 @@ public enum Phase {
         return phaseId;
     }
 
+    public static Phase next(Phase p){
+        int id=p.getPhaseId();
+        switch (id){
+            case -3:
+                return Phase.SETWORKER1;
+            case -2:
+                return Phase.SETWORKER2;
+            case -1:
+            case 3:
+                return Phase.WAIT;
+            case 0:
+                return Phase.BEGINNING;
+            case 1:
+                return Phase.MOVE;
+            case 2:
+                return Phase.BUILD;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
     public static Phase getPhase(int id) throws IllegalArgumentException {
         switch (id){
             case -3:
@@ -38,5 +59,7 @@ public enum Phase {
                 throw new IllegalArgumentException();
         }
     }
+
+
 
 }

@@ -24,6 +24,8 @@ public abstract class GodCard {
 
     public abstract void reset();
 
+    public abstract Phase getPhase();
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof GodCard){

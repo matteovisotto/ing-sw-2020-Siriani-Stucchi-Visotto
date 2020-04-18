@@ -10,6 +10,10 @@ public class Atlas extends GodCard {
         super(SimpleGods.ATLAS);
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
     @Override
     public void usePower(List<Object> objectList) {
         Worker w= (Worker)objectList.get(0);

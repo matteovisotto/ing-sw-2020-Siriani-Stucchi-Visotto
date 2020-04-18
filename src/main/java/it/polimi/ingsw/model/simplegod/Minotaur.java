@@ -10,6 +10,10 @@ public class Minotaur extends GodCard {
         super(SimpleGods.MINOTAUR);
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
     @Override
     public void usePower(List<Object> objectList) {
         Worker w1=(Worker)objectList.get(0);

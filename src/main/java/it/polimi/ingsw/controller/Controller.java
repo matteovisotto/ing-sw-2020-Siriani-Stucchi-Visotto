@@ -1,24 +1,38 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messageModel.Message;
-import it.polimi.ingsw.model.messageModel.PlayerMove;
-import it.polimi.ingsw.model.messageModel.PlayerWorker;
+import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.observer.Observer;
 
 import java.util.*;
 
 public class Controller implements Observer<Message> {
-
+    private final PhaseManager phaseManager=new PhaseManager(this);
     private final Model model;
     private GodCardController GCC;
+
     public Controller(Model model){
         super();
         this.model = model;
     }
 
-    private synchronized void move(PlayerMove move) {
+    protected Model getModel(){
+        return model;
+    }
+
+    private synchronized void phaseManager(){
+        Player p= model.getActualPlayer();
+        Phase ph=p.getGodCard().getPhase();
+
+        if(ph==model.getPhase()){//la fase attuale corrisponde alla fase del godcard
+            //devo inviare un messaggio alla view chiedendo se si vuole attivare il potere
+            model.notifyObservers(new MessageSinglePlayer(model.getActualPlayer(),"Do you want to use your god's power? (y/n)"));
+
+        }
+    }
+
+    protected synchronized void move(PlayerMove move) {
         if(!model.isPlayerTurn(move.getPlayer())){
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
@@ -70,7 +84,7 @@ public class Controller implements Observer<Message> {
         //model.setChanges(availableCells);
     }
 
-    private synchronized void setPlayerWorker (PlayerWorker playerWorker){
+    protected synchronized void setPlayerWorker(PlayerWorker playerWorker){
         model.setPlayerWorker(playerWorker);
     }
 
@@ -82,12 +96,15 @@ public class Controller implements Observer<Message> {
 
             }
         }*/
-        if(msg instanceof PlayerMove){
+
+        /*if(msg instanceof PlayerMove){
             move((PlayerMove) msg);
         }
         else if (msg instanceof PlayerWorker) {
             setPlayerWorker((PlayerWorker) msg);
         }
+        */
+        phaseManager.handlePhase(msg);
 
     }
 

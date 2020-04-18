@@ -6,15 +6,15 @@ import it.polimi.ingsw.model.Player;
 public class ViewMessage {
 
     private final Player player;
-    private final Board board;
+    private final String message;
 
-    public ViewMessage(Board board, Player player){
+    public ViewMessage(Player player, String message){
         this.player=player;
-        this.board=board;
+        this.message=message;
     }
 
-    public Board getBoard(){
-        return board;
+    public String getMessage() {
+        return message;
     }
 
     public Player getPlayer(){

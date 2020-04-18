@@ -22,7 +22,7 @@ public class RemoteView extends View {
                     placeWorker(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
                 }
                 catch (IllegalArgumentException e){
-                    clientConnection.asyncSend("Wrong input");
+                    clientConnection.asyncSend("Wrong input");//TUTTA QUESTA PARTE LA SPOSTEREI NEL CONTROLLER E NEL CATCH CHIAMEREI UNA NUJOVA FUNZIONE DEL MODEL CHIAMATA WRONG INPUT CHE MANDA ALLA VIEW IL MESSAGIIO DI WRONG
                 }
             }
         }

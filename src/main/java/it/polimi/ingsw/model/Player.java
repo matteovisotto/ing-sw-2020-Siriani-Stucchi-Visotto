@@ -8,12 +8,20 @@ public class Player {
     private final ArrayList<Worker> workers;
     private final String playerName;
     private GodCard godCard = null;
-    private boolean status = false;
     private boolean canMove = true;
     private boolean usePower=false;
+    private boolean victory=false;
     public Player(String playerName) {
         this.playerName = playerName;
         workers = new ArrayList<>();
+    }
+
+    public boolean hasWon() {
+        return victory;
+    }
+
+    public void setVictory(boolean victory) {
+        this.victory = victory;
     }
 
     public boolean getUsePower() {
@@ -62,14 +70,6 @@ public class Player {
 
     public void setGodCard(GodCard godCard){
         this.godCard = godCard;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public boolean getStatus(){
-        return status;
     }
 }
 

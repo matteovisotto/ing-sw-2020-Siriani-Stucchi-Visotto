@@ -15,6 +15,9 @@ public class Prometheus extends GodCard {
         return built;
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
 
     @Override
     public void usePower(List<Object> objectList) {

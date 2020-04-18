@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.observer.Observable;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Model extends Observable<ViewMessage> {
     private Board board = new Board();
@@ -14,12 +16,14 @@ public class Model extends Observable<ViewMessage> {
     private int id = 0;
     private final boolean simplePlay;
     private Phase phase;
-    private Map<SimpleGods, Player> playerCards = new EnumMap<SimpleGods, Player>(SimpleGods.class);
+    private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
     }
+
+
 
     public void resetBoard(){
         this.board = new Board();
@@ -45,25 +49,54 @@ public class Model extends Observable<ViewMessage> {
         notifyObservers((ViewMessage) o);
     }
 
-    public void victory(Player player) {
-        //notifyObservers();
-    }
 
     public void updateTurn(){
         id = (id + 1) % (turn.length);
-        if(turn[id].getStatus()){
+        if(turn[id].hasWon()){
             updateTurn();
         }
 
         try {
-            notifyObservers(new ViewMessage(getBoardClone(), turn[id]));
+            notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id]));
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public void updatePhase(){
+        phase= Phase.next(phase);
+    }
+
     public void setPlayerWorker (PlayerWorker playerWorker){
         playerWorker.getPlayer().setWorkers(new Worker(this.getBoard().getCell(playerWorker.getX(), playerWorker.getY())));
+    }
+
+    public Player getActualPlayer() {
+        return turn[id];
+    }
+
+    public GodCard[] chooseCards(){
+        Random random = new Random();
+        GodCard[] gC= new GodCard[turn.length];
+        for(int i=0; i<turn.length; i++){
+            gC[i]=SimpleGods.getGod(random.nextInt(8) + 1);
+            for(int j=i;j>0; j--){
+                if(gC[i].equals(gC[j-1])) {
+                    i--;
+                }
+            }
+        }
+        return gC;
+    }
+
+    public void assignCard(Player p, GodCard gC){
+        p.setGodCard(gC);
+        playerCards.put(gC.getCardGod(), p);
+
     }
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
@@ -72,11 +105,18 @@ public class Model extends Observable<ViewMessage> {
         worker.getCell().freeCell();
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
     }
-    public Player getActualPlayer() {
-        return turn[id];
+    public void increaseLevel(Cell cell, Blocks level) {//build
+        cell.setLevel(level);
     }
 
-    public void increaseLevel(Cell cell, Blocks level) {
-        cell.setLevel(level);
+    public void victory(Player player) {
+        player.setVictory(true);
+        try{
+            ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!");
+            notifyObservers(win);
+        }
+        catch(CloneNotSupportedException e){
+            e.printStackTrace();
+        }
     }
 }

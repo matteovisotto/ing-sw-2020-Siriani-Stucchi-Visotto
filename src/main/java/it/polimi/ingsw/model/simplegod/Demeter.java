@@ -20,6 +20,10 @@ public class Demeter extends GodCard {
         this.firstBuilt = firstBuilt;
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
     @Override
     public void usePower(List<Object> objectList) {
         Model model=(Model)objectList.get(0);

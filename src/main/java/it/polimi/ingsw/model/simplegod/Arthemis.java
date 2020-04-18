@@ -16,6 +16,10 @@ public class Arthemis extends GodCard {
         return moved;
     }
 
+    public Phase getPhase() {
+        return phase;
+    }
+
     @Override
     public void usePower(List<Object> objectList) {
         Model model=(Model)objectList.get(0);
