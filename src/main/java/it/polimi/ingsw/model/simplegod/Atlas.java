@@ -9,9 +9,18 @@ public class Atlas extends GodCard {
     public Atlas() {
         super(SimpleGods.ATLAS);
     }
+    private Cell cell;
 
     public Phase getPhase() {
         return phase;
+    }
+
+    public Cell getFirstBuilt(){
+        return cell;
+    }
+
+    public void setFirstBuilt(Cell firstBuilt){
+
     }
 
     @Override

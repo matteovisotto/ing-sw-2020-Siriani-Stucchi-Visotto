@@ -7,12 +7,21 @@ import java.util.List;
 public class Prometheus extends GodCard {
     private boolean built = false;
     private final Phase phase = Phase.BEGINNING;
+    private Cell cell;
     public Prometheus() {
         super(SimpleGods.PROMETHEUS);
     }
 
     public boolean hasBuilt() {
         return built;
+    }
+
+    public Cell getFirstBuilt(){
+        return cell;
+    }
+
+    public void setFirstBuilt(Cell firstBuilt){
+
     }
 
     public Phase getPhase() {

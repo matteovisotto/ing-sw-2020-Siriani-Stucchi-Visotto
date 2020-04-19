@@ -6,12 +6,21 @@ import java.util.List;
 
 public class Minotaur extends GodCard {
     private final Phase phase = Phase.MOVE;
+    private Cell cell;
     public Minotaur() {
         super(SimpleGods.MINOTAUR);
     }
 
     public Phase getPhase() {
         return phase;
+    }
+
+    public Cell getFirstBuilt(){
+        return cell;
+    }
+
+    public void setFirstBuilt(Cell firstBuilt){
+
     }
 
     @Override

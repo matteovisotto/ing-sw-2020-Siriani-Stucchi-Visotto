@@ -6,12 +6,21 @@ import java.util.List;
 
 public class Apollo extends GodCard {
     private final Phase phase = Phase.MOVE;
+    private Cell cell;
     public Apollo(){
         super(SimpleGods.APOLLO);
     }
 
     public Phase getPhase() {
         return phase;
+    }
+
+    public Cell getFirstBuilt(){
+        return cell;
+    }
+
+    public void setFirstBuilt(Cell firstBuilt){
+
     }
 
     @Override

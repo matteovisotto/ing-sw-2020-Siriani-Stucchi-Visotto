@@ -26,6 +26,10 @@ public abstract class GodCard {
 
     public abstract Phase getPhase();
 
+    public abstract Cell getFirstBuilt();
+
+    public abstract void setFirstBuilt(Cell firstBuilt);
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof GodCard){

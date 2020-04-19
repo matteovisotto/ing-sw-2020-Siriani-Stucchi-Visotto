@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
 
-public class DemeterTest {
+public class HephaestusTest {
     @Test
     public void testUsePower() {
         Cell cell = new Cell(1,2);
         Cell cellBuilt = new Cell(2,2);
-        Cell cellBuiltStatic = new Cell(2,2);
         Cell cell2 = new Cell(3,3);
         Worker worker = new Worker(cell);
         Worker worker1 = new Worker(cell2);
@@ -43,11 +42,14 @@ public class DemeterTest {
             }
         });
         Model model = new Model(players,true);
-        List<Object> builtList = new ArrayList<>();
-        builtList.add(model);
-        builtList.add(cellBuilt);
-        GodCard godCard = new Demeter();
-        godCard.usePower(builtList);
-        assertTrue(cellBuilt.getLevel().getBlockId()==cellBuiltStatic.getLevel().getBlockId()+1);
+        List<Object> buildAgainList = new ArrayList<>();
+        buildAgainList.add(model);
+        GodCard godCard = new Hephaestus();
+        godCard.setFirstBuilt(cellBuilt);
+        model.getActualPlayer().setGodCard(godCard);
+        model.getActualPlayer().getGodCard().setFirstBuilt(cellBuilt);
+        Cell cellFirstBuild = model.getActualPlayer().getGodCard().getFirstBuilt();
+        model.getActualPlayer().getGodCard().usePower(buildAgainList);
+        assertTrue( cellFirstBuild.getLevel().getBlockId() == Blocks.LEVEL1.getBlockId());
     }
 }
