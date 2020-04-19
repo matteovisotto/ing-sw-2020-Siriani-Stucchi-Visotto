@@ -49,13 +49,11 @@ public class Model extends Observable<ViewMessage> {
         notifyObservers((ViewMessage) o);
     }
 
-
     public void updateTurn(){
         id = (id + 1) % (turn.length);
         if(turn[id].hasWon()){
             updateTurn();
         }
-
         try {
             notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id]));
         } catch (CloneNotSupportedException e) {
@@ -81,21 +79,21 @@ public class Model extends Observable<ViewMessage> {
 
     public GodCard[] chooseCards(){
         Random random = new Random();
-        GodCard[] gC= new GodCard[turn.length];
+        GodCard[] godCards= new GodCard[turn.length];
         for(int i=0; i<turn.length; i++){
-            gC[i]=SimpleGods.getGod(random.nextInt(8) + 1);
+            godCards[i]=SimpleGods.getGod(random.nextInt(8) + 1);
             for(int j=i;j>0; j--){
-                if(gC[i].equals(gC[j-1])) {
+                if(godCards[i].equals(godCards[j-1])) {
                     i--;
                 }
             }
         }
-        return gC;
+        return godCards;
     }
 
-    public void assignCard(Player p, GodCard gC){
-        p.setGodCard(gC);
-        playerCards.put(gC.getCardGod(), p);
+    public void assignCard(Player player, GodCard godCard){
+        player.setGodCard(godCard);
+        playerCards.put(godCard.getCardGod(), player);
     }
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {

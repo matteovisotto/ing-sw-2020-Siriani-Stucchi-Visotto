@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.messageModel.PlayerMove;
 import java.util.List;
 
 public class Arthemis extends GodCard {
-    private final Phase phase=Phase.MOVE;
-    private boolean moved=false;
+    private final Phase phase = Phase.MOVE;
+    private boolean moved = false;
     public Arthemis() {
         super(SimpleGods.ARTHEMIS);
     }
@@ -22,7 +22,7 @@ public class Arthemis extends GodCard {
 
     @Override
     public void usePower(List<Object> objectList) {
-        Model model=(Model)objectList.get(0);
+        Model model = (Model)objectList.get(0);
         model.move((PlayerMove)objectList.get(1));
     }
     @Override

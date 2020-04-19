@@ -9,11 +9,11 @@ public class MessageEveryPlayer extends ViewMessage{
 
     public MessageEveryPlayer(Board board, Player player, String message) {//questo invia un messaggio a tutti
         super(player, message);
-        this.board=board;
+        this.board = board;
     }
     public MessageEveryPlayer(Board board, Player player) { //Questo invia la board
         super(player, null);
-        this.board=board;
+        this.board = board;
     }
 
     public Board getBoard() {

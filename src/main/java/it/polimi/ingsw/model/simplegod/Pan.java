@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.*;
 import java.util.List;
 
 public class Pan extends GodCard {
-    private final Phase phase=Phase.MOVE;
+    private final Phase phase = Phase.MOVE;
     public Pan(){
         super(SimpleGods.PAN);
     }
@@ -16,9 +16,9 @@ public class Pan extends GodCard {
 
     @Override
     public void usePower(List<Object> objectList) {
-        Model model=(Model)objectList.get(0);
-        Player p=(Player)objectList.get(1);
-        model.victory(p);
+        Model model = (Model)objectList.get(0);
+        Player player = (Player)objectList.get(1);
+        model.victory(player);
     }
     @Override
     public void reset() {

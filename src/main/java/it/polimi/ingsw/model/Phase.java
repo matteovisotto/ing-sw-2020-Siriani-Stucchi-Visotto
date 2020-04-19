@@ -19,7 +19,7 @@ public enum Phase {
     }
 
     public static Phase next(Phase p){
-        int id=p.getPhaseId();
+        int id = p.getPhaseId();
         switch (id){
             case -3:
                 return Phase.SETWORKER1;

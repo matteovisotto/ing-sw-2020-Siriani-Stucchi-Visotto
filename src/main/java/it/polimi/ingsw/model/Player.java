@@ -9,8 +9,8 @@ public class Player {
     private final String playerName;
     private GodCard godCard = null;
     private boolean canMove = true;
-    private boolean usePower=false;
-    private boolean victory=false;
+    private boolean usePower = false;
+    private boolean victory = false;
     public Player(String playerName) {
         this.playerName = playerName;
         workers = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.*;
 public class Controller implements Observer<Message> {
     private final PhaseManager phaseManager=new PhaseManager(this);
     private final Model model;
-    private GodCardController GCC;
+    private GodCardController godCardController;
 
     public Controller(Model model){
         super();

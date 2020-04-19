@@ -9,8 +9,8 @@ public class ViewMessage {
     private final String message;
 
     public ViewMessage(Player player, String message){
-        this.player=player;
-        this.message=message;
+        this.player = player;
+        this.message = message;
     }
 
     public String getMessage() {
