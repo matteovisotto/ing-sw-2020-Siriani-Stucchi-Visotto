@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Pan extends GodCard {
     private final Phase phase = Phase.MOVE;
+    private boolean moved = false;
     private Cell cell;
     public Pan(){
         super(SimpleGods.PAN);
@@ -20,6 +21,14 @@ public class Pan extends GodCard {
     }
 
     public void setFirstBuilt(Cell firstBuilt){
+
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void hasMoved(boolean moved) {
 
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Minotaur extends GodCard {
     private final Phase phase = Phase.MOVE;
+    private boolean moved = false;
     private Cell cell;
     public Minotaur() {
         super(SimpleGods.MINOTAUR);
@@ -20,6 +21,13 @@ public class Minotaur extends GodCard {
     }
 
     public void setFirstBuilt(Cell firstBuilt){
+
+    }
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void hasMoved(boolean moved) {
 
     }
 

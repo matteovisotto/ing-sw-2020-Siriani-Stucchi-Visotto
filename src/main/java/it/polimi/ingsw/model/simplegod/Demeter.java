@@ -8,6 +8,7 @@ import java.util.List;
 public class Demeter extends GodCard {
     private final Phase phase = Phase.BUILD;
     private Cell firstBuilt;
+    private boolean moved = false;
     public Demeter() {
         super(SimpleGods.DEMETER);
     }
@@ -18,6 +19,14 @@ public class Demeter extends GodCard {
 
     public void setFirstBuilt(Cell firstBuilt) {
         this.firstBuilt = firstBuilt;
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void hasMoved(boolean moved) {
+
     }
 
     public Phase getPhase() {

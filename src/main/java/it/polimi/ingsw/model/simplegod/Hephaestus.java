@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Hephaestus extends GodCard {
     private Cell firstBuilt;
+    private boolean moved = false;
     private final Phase phase = Phase.BUILD;
     public Hephaestus() {
         super(SimpleGods.HEPHAESTUS);
@@ -17,6 +18,14 @@ public class Hephaestus extends GodCard {
 
     public void setFirstBuilt(Cell firstBuilt) {
         this.firstBuilt = firstBuilt;
+    }
+
+    public boolean isMoved() {
+        return moved;
+    }
+
+    public void hasMoved(boolean moved) {
+
     }
 
     public Phase getPhase() {

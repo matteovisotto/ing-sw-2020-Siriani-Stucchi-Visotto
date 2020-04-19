@@ -24,6 +24,10 @@ public abstract class GodCard {
 
     public abstract void reset();
 
+    public abstract boolean isMoved();
+
+    public abstract void hasMoved(boolean moved);
+
     public abstract Phase getPhase();
 
     public abstract Cell getFirstBuilt();
