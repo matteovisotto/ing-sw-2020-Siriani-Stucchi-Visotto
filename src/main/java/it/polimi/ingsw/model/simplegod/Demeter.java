@@ -27,8 +27,8 @@ public class Demeter extends GodCard {
     @Override
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);
-        Worker worker = (Worker)objectList.get(1);
-        model.increaseLevel(worker.getCell(), Blocks.getBlock(worker.getCell().getLevel().getBlockId()+1));
+        Cell cell = (Cell)objectList.get(1);
+        model.increaseLevel(cell, Blocks.getBlock(cell.getLevel().getBlockId()+1)); //mi sa che va meglio se si implementa con PlayerBuilt
     }
     @Override
     public void reset() {
