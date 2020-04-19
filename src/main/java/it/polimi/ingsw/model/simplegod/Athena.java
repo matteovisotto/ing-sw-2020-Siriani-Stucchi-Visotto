@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Athena extends GodCard {
         return moved;
     }
 
-    public void hasMoved(boolean moved) {
+    public void hasMoved(boolean movedUp) {
 
     }
 
@@ -39,7 +40,8 @@ public class Athena extends GodCard {
 
     @Override
     public void usePower(List<Object> objectList) {
-
+        Model model = (Model)objectList.get(0);
+        Model.setMovedUp(true);
     }
     @Override
     public void reset() {

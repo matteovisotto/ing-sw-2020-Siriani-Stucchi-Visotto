@@ -30,7 +30,7 @@ public class Atlas extends GodCard {
     }
 
     public void hasMoved(boolean moved) {
-
+        this.moved = moved;
     }
 
     public boolean hasBuilt() {

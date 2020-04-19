@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
+import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.EnumMap;
@@ -17,13 +18,21 @@ public class Model extends Observable<ViewMessage> {
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
+    public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
+    private static boolean movedUp = false;
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
     }
 
+    public static boolean isMovedUp() {
+        return movedUp;
+    }
 
+    public static void setMovedUp(boolean movedUp) {
+        Model.movedUp = movedUp;
+    }
 
     public void resetBoard(){
         this.board = new Board();
@@ -51,6 +60,9 @@ public class Model extends Observable<ViewMessage> {
 
     public void updateTurn(){
         id = (id + 1) % (turn.length);
+        if (athenaId != -1 && athenaId != -2 && turn[athenaId] == turn[id]) {
+            setMovedUp(false);//questo serve per dire che il potere di Athena é terminato perché é reiniziato il suo turno.
+        }
         if(turn[id].hasWon()){
             updateTurn();
         }
@@ -75,6 +87,17 @@ public class Model extends Observable<ViewMessage> {
 
     public Player getActualPlayer() {
         return turn[id];
+    }
+    //La seguente funzione va chiamata solo una volta, in seguito alla distribuzione delle carte, per vedere dov'é athena.
+    public int getAthenaPlayer(){    //da mettere subito dopo la scelta delle carte dai giocatori ed in seguito assegnare il valore alla variabile athenaId
+        GodCard godCard = new Athena();
+        for (int i = 0; i<turn.length; i++)
+        {
+            if (turn[i].getGodCard().getName().equals(godCard.getName())){
+                return i;
+            }
+        }
+        return -1;
     }
 
     public GodCard[] chooseCards(){
