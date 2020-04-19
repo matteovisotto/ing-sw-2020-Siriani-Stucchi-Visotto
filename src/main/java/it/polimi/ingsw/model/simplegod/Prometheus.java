@@ -40,8 +40,8 @@ public class Prometheus extends GodCard {
     @Override
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);
-        Worker worker = (Worker)objectList.get(1);
-        model.increaseLevel(worker.getCell(), Blocks.getBlock(worker.getCell().getLevel().getBlockId()+1));
+        Cell cell = (Cell)objectList.get(1);//possibilitá che vada scritto con il PlayerBuilt
+        model.increaseLevel(cell, Blocks.getBlock(cell.getLevel().getBlockId()+1));
         built = true;
     }
     @Override

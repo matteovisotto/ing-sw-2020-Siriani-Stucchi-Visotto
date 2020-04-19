@@ -7,6 +7,7 @@ import java.util.List;
 public class Pan extends GodCard {
     private final Phase phase = Phase.MOVE;
     private boolean moved = false;
+    private boolean built = false;
     private Cell cell;
     public Pan(){
         super(SimpleGods.PAN);
@@ -30,6 +31,10 @@ public class Pan extends GodCard {
 
     public void hasMoved(boolean moved) {
 
+    }
+
+    public boolean hasBuilt() {
+        return built;
     }
 
     @Override

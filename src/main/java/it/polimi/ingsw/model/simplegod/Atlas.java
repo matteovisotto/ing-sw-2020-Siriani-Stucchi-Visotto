@@ -11,6 +11,7 @@ public class Atlas extends GodCard {
     }
     private Cell cell;
     private boolean moved = false;
+    private boolean built = false;
 
     public Phase getPhase() {
         return phase;
@@ -30,6 +31,10 @@ public class Atlas extends GodCard {
 
     public void hasMoved(boolean moved) {
 
+    }
+
+    public boolean hasBuilt() {
+        return built;
     }
 
     @Override

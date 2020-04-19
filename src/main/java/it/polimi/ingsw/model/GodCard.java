@@ -26,6 +26,8 @@ public abstract class GodCard {
 
     public abstract boolean isMoved();
 
+    public abstract boolean hasBuilt();
+
     public abstract void hasMoved(boolean moved);
 
     public abstract Phase getPhase();

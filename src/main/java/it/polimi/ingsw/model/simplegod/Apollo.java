@@ -7,6 +7,7 @@ import java.util.List;
 public class Apollo extends GodCard {
     private final Phase phase = Phase.MOVE;
     private Cell cell;
+    private boolean built = false;
     private boolean moved = false;
     public Apollo(){
         super(SimpleGods.APOLLO);
@@ -32,6 +33,9 @@ public class Apollo extends GodCard {
 
     }
 
+    public boolean hasBuilt() {
+        return built;
+    }
 
     @Override
     public void usePower(List<Object> objectList) {

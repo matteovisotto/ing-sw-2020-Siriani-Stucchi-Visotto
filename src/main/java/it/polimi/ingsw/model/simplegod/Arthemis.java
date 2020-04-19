@@ -8,6 +8,7 @@ import java.util.List;
 public class Arthemis extends GodCard {
     private final Phase phase = Phase.MOVE;
     private boolean moved = false;
+    private boolean built = false;
     private Cell cell;
     public Arthemis() {
         super(SimpleGods.ARTHEMIS);
@@ -27,6 +28,10 @@ public class Arthemis extends GodCard {
 
     public void setFirstBuilt(Cell firstBuilt){
 
+    }
+
+    public boolean hasBuilt() {
+        return built;
     }
 
     public Phase getPhase() {

@@ -8,6 +8,7 @@ public class Athena extends GodCard {
     private final Phase phase=Phase.BUILD;
     private Cell cell;
     private boolean moved = false;
+    private boolean built = false;
     public Athena() {
         super(SimpleGods.ATHENA);
     }
@@ -30,6 +31,10 @@ public class Athena extends GodCard {
 
     public void hasMoved(boolean moved) {
 
+    }
+
+    public boolean hasBuilt() {
+        return built;
     }
 
     @Override
