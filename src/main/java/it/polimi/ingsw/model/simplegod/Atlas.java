@@ -16,8 +16,8 @@ public class Atlas extends GodCard {
 
     @Override
     public void usePower(List<Object> objectList) {
-        Worker w = (Worker)objectList.get(0);
-        w.getCell().setLevel(Blocks.DOME);
+        Cell cellBuild = (Cell)objectList.get(0);
+        cellBuild.setLevel(Blocks.DOME);
     }
     @Override
     public void reset() {
