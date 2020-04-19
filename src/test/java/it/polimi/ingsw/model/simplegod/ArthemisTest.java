@@ -46,10 +46,10 @@ public class ArthemisTest {
         movingList.add(model);
         movingList.add(playerMove);
         GodCard godCard = new Arthemis();
-        //model.getActualPlayer().getGodCard().hasMoved(true);
         model.getActualPlayer().setGodCard(godCard);
+        model.getActualPlayer().getGodCard().hasMoved(true);
         model.getActualPlayer().getGodCard().usePower(movingList);
-        //godCard.hasMoved(true);
+        godCard.hasMoved(true);
         godCard.usePower(movingList);
         assertTrue(players[0].getWorker(0).getCell().getX()==2);
         assertTrue(model.getActualPlayer().getWorker(0).getCell().getX()==2);
