@@ -18,7 +18,7 @@ public enum Phase {
         return phaseId;
     }
 
-    public static Phase next(Phase p){
+    public static Phase next(Phase p) throws IllegalArgumentException{
         int id = p.getPhaseId();
         switch (id){
             case -3:

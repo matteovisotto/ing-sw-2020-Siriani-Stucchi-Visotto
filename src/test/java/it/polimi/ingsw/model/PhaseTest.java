@@ -40,5 +40,24 @@ public class PhaseTest {
             exception.expect(IllegalArgumentException.class);
             Phase.getPhase(10);
         }
+
+        @Test
+        public void testNext() {
+            Phase phase = Phase.DRAWCARD;
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(-2), phase);
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(-2), phase);
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(-1), phase);
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(0), phase);
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(1), phase);
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(2), phase);
+            Phase.next(phase);
+            assertEquals(Phase.getPhase(3), phase);
+        }
     }
 }
