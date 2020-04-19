@@ -32,8 +32,8 @@ public class Player {
         usePower=false;
     }
 
-    public void setCanMove(boolean b){
-        canMove=b;
+    public void setCanMove(boolean status){
+        canMove=status;
     }
 
     public boolean getCanMove(){
