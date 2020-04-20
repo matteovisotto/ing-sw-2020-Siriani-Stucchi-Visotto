@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.messageModel.PlayerMove;
 import java.util.List;
 
 public class Athena extends GodCard {
-    private final Phase phase=Phase.BUILD;
+    private final Phase phase = Phase.BUILD;
     private Cell cell;
     private boolean moved = false;
     private boolean built = false;

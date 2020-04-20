@@ -29,11 +29,11 @@ public class Player {
     }
 
     public void resetUsePower(){
-        usePower=false;
+        usePower = false;
     }
 
     public void setCanMove(boolean status){
-        canMove=status;
+        canMove = status;
     }
 
     public boolean getCanMove(){
