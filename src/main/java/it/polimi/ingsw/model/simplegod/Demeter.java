@@ -1,3 +1,6 @@
+/**
+ This class is intended to represent the Demeter's GodCard
+ */
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
