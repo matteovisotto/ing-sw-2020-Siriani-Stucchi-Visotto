@@ -42,7 +42,7 @@ public class Pan extends GodCard {
 
     /**
      * This method makes a player win if his worker moves down two or more levels; it could be used only if the player decide to activate his power.
-     * @param objectList In this List is contained the model of the actual game (objectList.get(0)).
+     * @param objectList contain the model of the actual game (objectList.get(0)).
      * @see Model {@link Model} In the Model is contained the victory method.
      */
     @Override

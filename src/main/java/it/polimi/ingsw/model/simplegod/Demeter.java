@@ -20,7 +20,7 @@ public class Demeter extends GodCard {
 
     /**
      * This method is used to get the first cell built by the player in this turn.
-     * @return The first built cell.
+     * @return the first built cell.
      */
     public Cell getFirstBuilt() {
         return firstBuilt;
@@ -28,7 +28,7 @@ public class Demeter extends GodCard {
 
     /**
      * This method is used to set the first building's cell built by the player.
-     * @param firstBuilt It represent the first cell built by the player in this turn.
+     * @param firstBuilt represent the first cell built by the player in this turn.
      */
     public void setFirstBuilt(Cell firstBuilt) {
         this.firstBuilt = firstBuilt;
@@ -52,7 +52,7 @@ public class Demeter extends GodCard {
 
     /**
      * This method makes a player's worker build another time, but not on the same position; it could be used only if the player decide to activate his power.
-     * @param objectList In this List is contained the model of the actual game (objectList.get(0)) and the cell in which it will be built another time.
+     * @param objectList contain the model of the actual game (objectList.get(0)) and the cell in which it will be built another time.
      * @see Model {@link Model} In the model is contained the increaseLevel Method.
      */
     @Override

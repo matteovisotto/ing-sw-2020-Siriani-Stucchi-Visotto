@@ -42,7 +42,7 @@ public class Atlas extends GodCard {
 
     /**
      * This method makes a player's worker build a DOME at any level; it could be used only if the player decide to activate his power.
-     * @param objectList In this List is contained the cell in which it will be built the DOME (objectList.get(0)).
+     * @param objectList contain the cell in which it will be built the DOME (objectList.get(0)).
      */
     @Override
     public void usePower(List<Object> objectList) {

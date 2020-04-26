@@ -19,7 +19,7 @@ public class Arthemis extends GodCard {
 
     /**
      * This method is used to see if the player has already moved.
-     * @return A boolean: true -> the player has moved; false -> the player has yet to move.
+     * @return a boolean: true -> the player has moved; false -> the player has yet to move.
      */
     public boolean isMoved() {
         return moved;
@@ -27,7 +27,7 @@ public class Arthemis extends GodCard {
 
     /**
      * This method is used to set if the player has moved.
-     * @return A boolean: true -> the player has moved; false -> the player has yet to move.
+     * @return a boolean: true -> the player has moved; false -> the player has yet to move.
      */
     public void hasMoved(boolean moved) {
         this.moved = moved;
@@ -51,7 +51,7 @@ public class Arthemis extends GodCard {
 
     /**
      * This method moves the player; it could be used only if the player decide to activate his power.
-     * @param objectList In this List is contained the model of the actual game (objectList.get(0)) and the class to make the player move objectList.get(1).
+     * @param objectList contain the model of the actual game (objectList.get(0)) and the class to make the player move objectList.get(1).
      * @see PlayerMove {@link PlayerMove}
      */
     @Override

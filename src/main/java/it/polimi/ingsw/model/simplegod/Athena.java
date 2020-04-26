@@ -43,7 +43,7 @@ public class Athena extends GodCard {
 
     /**
      * This method makes the setMovedUp static boolean (contained in the Model) to true -> the other player can't move up; it could be used only if the player decide to activate his power.
-     * @param objectList In this List is contained the model of the actual game (objectList.get(0)).
+     * @param objectList contain the model of the actual game (objectList.get(0)).
      * @see Model {@link Model} In the model is contained the int static boolen MovedUp.
      */
     @Override

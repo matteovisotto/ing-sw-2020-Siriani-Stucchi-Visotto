@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * This class define a worker in the game.
+ */
 public class Worker {
     private Cell cell;
     public boolean available = true;

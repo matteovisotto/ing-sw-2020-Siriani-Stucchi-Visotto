@@ -4,6 +4,9 @@ import it.polimi.ingsw.exceptions.FullWorkerException;
 
 import java.util.ArrayList;
 
+/**
+ * This class define a player in the game.
+ */
 public class Player {
     private final ArrayList<Worker> workers;
     private final String playerName;

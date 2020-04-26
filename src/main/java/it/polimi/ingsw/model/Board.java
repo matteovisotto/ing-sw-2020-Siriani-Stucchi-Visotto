@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
+/**
+ * This class define the board of the game.
+ */
 public class Board implements Serializable, Cloneable {
     private Cell[][] board;
 

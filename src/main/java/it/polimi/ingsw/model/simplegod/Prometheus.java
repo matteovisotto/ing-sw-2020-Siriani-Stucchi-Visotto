@@ -42,7 +42,7 @@ public class Prometheus extends GodCard {
 
     /**
      * This method makes a player build; it could be used only if the player decide to activate his power.
-     * @param objectList In this List is contained the model of the actual game (objectList.get(0)) and the cell in which it will be built.
+     * @param objectList contain the model of the actual game (objectList.get(0)) and the cell in which it will be built (objectList.get(1)).
      */
     @Override
     public void usePower(List<Object> objectList) {

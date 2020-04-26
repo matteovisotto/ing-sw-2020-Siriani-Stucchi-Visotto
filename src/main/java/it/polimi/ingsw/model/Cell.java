@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
+/**
+ * This class define a cell on the board.
+ */
 public class Cell implements Serializable, Cloneable{
     private Blocks level;
     private boolean isFree = true;
