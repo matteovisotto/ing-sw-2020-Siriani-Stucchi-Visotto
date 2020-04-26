@@ -1,12 +1,12 @@
-/**
-This class is intended to represent the Apollo's GodCard
- */
+
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
 
 import java.util.List;
-
+/**
+ This class is intended to represent the Apollo's GodCard
+ */
 public class Apollo extends GodCard {
     private final Phase phase = Phase.MOVE;
     private Cell cell;
@@ -41,7 +41,7 @@ public class Apollo extends GodCard {
     }
 
     /**
-     * This method switch the position of two different workers, it could be used only when the player decide to activate his power
+     * This method switches the position of two different workers; it could be used only if the player decide to activate his power
      * @param objectList In this List is contained the positions of the two different workers; objectList.get(0) = Apollo's worker; objectList.get(1) = other worker
      */
     @Override

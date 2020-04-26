@@ -1,13 +1,14 @@
-/**
- This class is intended to represent the Demeter's GodCard
- */
+
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.PlayerBuilt;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 
 import java.util.List;
-
+/**
+ This class is intended to represent the Demeter's GodCard
+ */
 public class Demeter extends GodCard {
     private final Phase phase = Phase.BUILD;
     private Cell firstBuilt;
@@ -17,10 +18,18 @@ public class Demeter extends GodCard {
         super(SimpleGods.DEMETER);
     }
 
+    /**
+     * This method is used to get the first cell built by the player in this turn.
+     * @return The first built cell.
+     */
     public Cell getFirstBuilt() {
         return firstBuilt;
     }
 
+    /**
+     * This method is used to set the first building's cell built by the player.
+     * @param firstBuilt It represent the first cell built by the player in this turn.
+     */
     public void setFirstBuilt(Cell firstBuilt) {
         this.firstBuilt = firstBuilt;
     }
@@ -41,6 +50,11 @@ public class Demeter extends GodCard {
         return phase;
     }
 
+    /**
+     * This method makes a player's worker build another time, but not on the same position; it could be used only if the player decide to activate his power.
+     * @param objectList In this List is contained the model of the actual game (objectList.get(0)) and the cell in which it will be built another time.
+     * @see Model {@link Model} In the model is contained the increaseLevel Method.
+     */
     @Override
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);

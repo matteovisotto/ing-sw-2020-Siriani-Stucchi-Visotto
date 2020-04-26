@@ -1,13 +1,13 @@
-/**
- This class is intended to represent the Arthemis's GodCard
- */
+
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 
 import java.util.List;
-
+/**
+ This class is intended to represent the Arthemis's GodCard
+ */
 public class Arthemis extends GodCard {
     private final Phase phase = Phase.MOVE;
     private boolean moved = false;
@@ -18,7 +18,7 @@ public class Arthemis extends GodCard {
     }
 
     /**
-     * This class is used to see if the player has already moved.
+     * This method is used to see if the player has already moved.
      * @return A boolean: true -> the player has moved; false -> the player has yet to move.
      */
     public boolean isMoved() {
@@ -26,7 +26,7 @@ public class Arthemis extends GodCard {
     }
 
     /**
-     * This class is used to set if the player has moved.
+     * This method is used to set if the player has moved.
      * @return A boolean: true -> the player has moved; false -> the player has yet to move.
      */
     public void hasMoved(boolean moved) {
@@ -50,7 +50,7 @@ public class Arthemis extends GodCard {
     }
 
     /**
-     * This method moves the player, it could be used only when the player decide to activate his power.
+     * This method moves the player; it could be used only if the player decide to activate his power.
      * @param objectList In this List is contained the model of the actual game (objectList.get(0)) and the class to make the player move objectList.get(1).
      * @see PlayerMove {@link PlayerMove}
      */

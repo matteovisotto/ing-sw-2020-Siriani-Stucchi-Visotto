@@ -1,12 +1,12 @@
-/**
- This class is intended to represent the Atlas's GodCard
- */
+
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
 
 import java.util.List;
-
+/**
+ This class is intended to represent the Atlas's GodCard
+ */
 public class Atlas extends GodCard {
     private final Phase phase = Phase.BUILD;
     public Atlas() {
@@ -40,6 +40,10 @@ public class Atlas extends GodCard {
         return built;
     }
 
+    /**
+     * This method makes a player's worker build a DOME at any level; it could be used only if the player decide to activate his power.
+     * @param objectList In this List is contained the cell in which it will be built the DOME (objectList.get(0)).
+     */
     @Override
     public void usePower(List<Object> objectList) {
         Cell cellBuild = (Cell)objectList.get(0);

@@ -1,12 +1,12 @@
-/**
- This class is intended to represent the Hephaestus's GodCard
- */
+
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
 
 import java.util.List;
-
+/**
+ This class is intended to represent the Hephaestus's GodCard
+ */
 public class Hephaestus extends GodCard {
     private Cell firstBuilt;
     private boolean moved = false;
@@ -16,10 +16,18 @@ public class Hephaestus extends GodCard {
         super(SimpleGods.HEPHAESTUS);
     }
 
+    /**
+     * This method is used to get the first cell built by the player in this turn.
+     * @return The first built cell.
+     */
     public Cell getFirstBuilt() {
         return firstBuilt;
     }
 
+    /**
+     * This method is used to set the first building's cell built by the player.
+     * @param firstBuilt It represent the first cell built by the player in this turn.
+     */
     public void setFirstBuilt(Cell firstBuilt) {
         this.firstBuilt = firstBuilt;
     }
@@ -40,6 +48,11 @@ public class Hephaestus extends GodCard {
         return phase;
     }
 
+    /**
+     * This method makes a player's worker build another time, in the same cell built in this turn; it could be used only if the player decide to activate his power.
+     * @param objectList In this List is contained the model of the actual game (objectList.get(0)).
+     * @see Model {@link Model} In the model is contained the increaseLevel Method.
+     */
     @Override
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);

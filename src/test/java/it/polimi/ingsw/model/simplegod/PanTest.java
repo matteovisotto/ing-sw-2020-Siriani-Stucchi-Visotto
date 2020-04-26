@@ -26,7 +26,7 @@ public class PanTest {
         Model model = new Model(players, true);
         List<Object> winList = new ArrayList<>();
         winList.add(model);
-        winList.add(players[0]);
+        //winList.add(players[0]);
         GodCard godCard = new Pan();
         model.getActualPlayer().setGodCard(godCard);
         model.getActualPlayer().getGodCard().usePower(winList);
