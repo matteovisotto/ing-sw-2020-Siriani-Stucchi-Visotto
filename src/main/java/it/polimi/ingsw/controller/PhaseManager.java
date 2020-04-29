@@ -24,13 +24,13 @@ public class PhaseManager {
         }
     }
 
-    private void messageSender(){
+    private void godMessageSender(){
         Model model = controller.getModel();
         Player player = model.getActualPlayer();
         Phase phase = player.getGodCard().getPhase();
         if(phase == model.getPhase()){//la fase attuale corrisponde alla fase del godcard
             //devo inviare un messaggio alla view chiedendo se si vuole attivare il potere
-            model.notifyObservers(new MessageSinglePlayer(model.getActualPlayer(),"Do you want to use your god's power? (y/n)"));//TUTOR: chiedere come gestire la risposta
+            model.notifyObservers(new MessageSinglePlayer(model.getActualPlayer(),"Do you want to use your god's power? (y/n)"));
         }
     }
 }
