@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUIClient;
+import it.polimi.ingsw.observer.Observer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Initialization extends JFrame {
+public class Initialization extends JFrame implements Observer<String> {
     private JPanel jPanel;
     private final GUIClient GC;
     private JLabel messageLabel;
@@ -23,7 +24,6 @@ public class Initialization extends JFrame {
     public GUIClient getGC() {
         return GC;
     }
-
     private void setLayout(){
         jPanel=new JPanel();
         messageLabel=new JLabel("prova");
@@ -43,5 +43,10 @@ public class Initialization extends JFrame {
         });
         add(jPanel);
         pack();
+    }
+
+    @Override
+    public void update(String msg) {
+        messageLabel.setText(msg);
     }
 }
