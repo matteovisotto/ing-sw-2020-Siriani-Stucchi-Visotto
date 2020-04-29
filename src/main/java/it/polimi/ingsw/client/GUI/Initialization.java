@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.GUIClient;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Initialization extends JFrame {
     private JPanel jPanel;
@@ -26,13 +28,19 @@ public class Initialization extends JFrame {
         jPanel=new JPanel();
         messageLabel=new JLabel("prova");
         jTF=new JTextField();
-
+        JButton jButton=new JButton("SEND");
         jPanel.setLayout(new BorderLayout());
 
         jPanel.add(new JLabel("Connection to server established"), BorderLayout.PAGE_END);
         jPanel.add(messageLabel, BorderLayout.PAGE_START);
         jPanel.add(jTF,BorderLayout.CENTER);
-
+        jPanel.add(jButton, BorderLayout.PAGE_END);
+        jButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GC.send(jTF.getText());
+            }
+        });
         add(jPanel);
         pack();
     }

@@ -16,6 +16,7 @@ public class GUIClient {
     private final int port;
     private boolean active = true;
     private Initialization initialization;
+    private PrintWriter socketOut;
 
     public GUIClient(String ip, int port){
         this.ip = ip;
@@ -76,11 +77,16 @@ public class GUIClient {
         return t;
     }
 
+    public synchronized void send(String s){
+        socketOut.println(s);
+        socketOut.flush();
+    }
+
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+        socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
 
         initialization.setVisible(true);
