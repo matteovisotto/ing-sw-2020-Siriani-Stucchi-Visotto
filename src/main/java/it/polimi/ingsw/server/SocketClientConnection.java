@@ -2,9 +2,12 @@ package it.polimi.ingsw.server;
 
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.utils.ConnectionMessage;
 import it.polimi.ingsw.utils.PlayerMessage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -76,13 +79,14 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         try{
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            send(PlayerMessage.WELCOME);
+            send(new ViewMessage(MessageType.PLAYER_NAME, PlayerMessage.WELCOME));
             String read = in.nextLine();
             name = read;
             int choice = 0;
             do {
                 do {
-                    send(PlayerMessage.GAME_MODE_SELECTOR);
+
+                    send(new ViewMessage(MessageType.JOIN_OR_CREATE_LOBBY, PlayerMessage.GAME_MODE_SELECTOR));
                     if(in.hasNextInt()){
                         choice = in.nextInt();
                         in.nextLine();
@@ -92,17 +96,17 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                 } while (choice != 1 && choice != 2);
                 if (choice == 1) {
                     do {
-                        send(PlayerMessage.ASK_NUM_PLAYER);
+                        send(new ViewMessage(MessageType.NUMBER_OF_PLAYERS, PlayerMessage.ASK_NUM_PLAYER));
                         if(in.hasNextInt()) {
                             numPlayer = in.nextInt();
                             in.nextLine();
                         }else
                             in.next();
                     } while (numPlayer < 2 || numPlayer > 3);
-                    send(PlayerMessage.ASK_LOBBY_NAME);
+                    send(new ViewMessage(MessageType.LOBBY_NAME, PlayerMessage.ASK_LOBBY_NAME));
                     String lobbyName = in.nextLine();
                     do{
-                        send(PlayerMessage.PLAY_MODE);
+                        send(new ViewMessage(MessageType.SIMPLE_OR_NOT, PlayerMessage.PLAY_MODE));
                         read = in.nextLine();
                         read = read.toLowerCase();
                     }while(!read.equals("y") && !read.equals("n"));
@@ -114,7 +118,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
                 } else {
                     try {
-                        send(server.getLobbiesNames());
+                        send(new ViewMessage(MessageType.LOBBY_SELECTOR, server.getLobbiesNames()));
                         int lobbyId;
                         lobbyId = in.nextInt();
                         in.nextLine();
@@ -127,7 +131,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         send(e.getMessage());
                     } catch (UnavailablePlayerNameException e1){
                         send(e1.getMessage());
-                        send(PlayerMessage.WELCOME);
+                        send(new ViewMessage(MessageType.PLAYER_NAME, PlayerMessage.WELCOME));
                         name = in.nextLine();
                     }
 
