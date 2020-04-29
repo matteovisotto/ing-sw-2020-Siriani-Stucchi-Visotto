@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUIClient;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 
 import javax.swing.*;
@@ -9,13 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Initialization extends JFrame implements Observer<String> {
+public class Initialization extends JFrame implements Observer<ViewMessage> {
     private JPanel jPanel;
     private final GUIClient GC;
     private JLabel messageLabel;
     private JTextField jTF;
     //private JComboBox<> jCB;
-
+    private String returnedMessage = "";
     public Initialization(GUIClient GC){
         this.GC=GC;
         setLayout();
@@ -38,7 +40,7 @@ public class Initialization extends JFrame implements Observer<String> {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GC.send(jTF.getText());
+                GC.send(returnedMessage);
             }
         });
         add(jPanel);
@@ -46,7 +48,10 @@ public class Initialization extends JFrame implements Observer<String> {
     }
 
     @Override
-    public void update(String msg) {
-        messageLabel.setText(msg);
+    public void update(ViewMessage msg) {
+        if(msg.getMessageType() == MessageType.PLAYER_NAME)
+            // mostri TF
+            //jPanel.remove(jTF)
+        messageLabel.setText(msg.getMessage());
     }
 }

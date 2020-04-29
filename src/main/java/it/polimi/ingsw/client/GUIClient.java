@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.GUI.Initialization;
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class GUIClient extends Observable<String> {
+public class GUIClient extends Observable<ViewMessage> {
     private final String ip;
     private final int port;
     private boolean active = true;
@@ -41,9 +42,10 @@ public class GUIClient extends Observable<String> {
                 try {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
-                        if(inputObject instanceof String){//se viene passata una stringa
-                            System.out.println((String)inputObject);
-                            notifyObservers((String)inputObject);
+                        if(inputObject instanceof String) {//se viene passata una stringa
+                            System.out.println((String) inputObject);
+                        } else if (inputObject instanceof ViewMessage){
+                            notifyObservers((ViewMessage) inputObject);
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
                         } else if (inputObject instanceof HashMap) { //se viene passata una HashMap
