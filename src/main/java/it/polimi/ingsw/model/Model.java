@@ -51,6 +51,26 @@ public class Model extends Observable<ViewMessage> {
         return this.turn[id] == p;
     }
 
+    public void setNextPhase(Phase phase) {
+        this.phase = phase;
+    }
+
+    public int getActualPlayerId() {
+        return id;
+    }
+
+    public int getNumOfPlayers(){
+        return this.turn.length;
+    }
+
+    public void setNextMessageType(MessageType messageType) {
+        this.messageType = messageType;
+    }
+
+    public void setNextPlayerMessage(String playerMessage) {
+        this.playerMessage = playerMessage;
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -64,10 +84,6 @@ public class Model extends Observable<ViewMessage> {
         return null;
     }
 
-    public void setChanges(Object o){
-        notifyObservers((ViewMessage) o);
-    }
-
     public void updateTurn(){
         id = (id + 1) % (turn.length);
         if (athenaId != -1 && athenaId != -2 && turn[athenaId] == turn[id]) {
@@ -76,7 +92,7 @@ public class Model extends Observable<ViewMessage> {
         if(turn[id].hasWon()){
             updateTurn();
         }
-        notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], MessageType.BEGINNING, this.phase));
+        notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, this.phase));
     }
 
     public Phase getPhase() {
@@ -89,25 +105,9 @@ public class Model extends Observable<ViewMessage> {
 
     public void setPlayerWorker (PlayerWorker playerWorker){
         Cell c= this.getBoard().getCell(playerWorker.getX(), playerWorker.getY());
+        c.useCell();
         playerWorker.getPlayer().setWorkers(new Worker(c));
-
-        if(phase==Phase.SETWORKER2){
-            if(id!=turn.length-1){
-                updateTurn();
-                this.phase=Phase.SETWORKER1;
-                notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], PlayerMessage.PLACE_FIRST_WORKER, MessageType.SET_WORKER_1, this.phase));
-            }
-            else{
-                updateTurn();
-                updatePhase();
-                notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], PlayerMessage.MOVE, MessageType.MOVE, this.phase));
-            }
-        }
-        else{
-            updatePhase();
-            notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], PlayerMessage.PLACE_SECOND_WORKER, MessageType.SET_WORKER_2, this.phase));
-        }
-
+        notifyChanges();
     }
 
     public Player getActualPlayer() {
@@ -146,9 +146,10 @@ public class Model extends Observable<ViewMessage> {
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
         Worker worker = move.getPlayer().getWorker(move.getWorkerId());
-        worker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
         worker.getCell().freeCell();
+        worker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
+        notifyChanges();
     }
 
     public void increaseLevel(Cell cell, Blocks level) {//build
@@ -159,5 +160,10 @@ public class Model extends Observable<ViewMessage> {
         player.setVictory(true);
         ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!", MessageType.VICTORY, this.phase);
         notifyObservers(win);
+    }
+
+    //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
+    public void notifyChanges(){
+        notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
     }
 }

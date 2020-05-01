@@ -42,10 +42,10 @@ public class Client {
                             System.out.println((String)inputObject);
                         } else if(inputObject instanceof ViewMessage){
                             ViewMessage viewMessage=(ViewMessage)inputObject;
-                            System.out.println(viewMessage.getMessage());
                             if(viewMessage instanceof MessageEveryPlayer){
                                 ((MessageEveryPlayer) viewMessage).getBoard().print();
                             }
+                            System.out.println(viewMessage.getMessage());
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
                         } else if (inputObject instanceof HashMap) { //se viene passata una HashMap

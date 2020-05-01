@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
+import it.polimi.ingsw.model.messageModel.GameMessage;
 import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
@@ -54,13 +54,21 @@ public class RemoteView extends View {
     @Override
     public void update(ViewMessage arg) {//questa riceve dal model
         phase=arg.getPhase();
-        if(arg instanceof MessageEveryPlayer){
-            MessageEveryPlayer messageEveryPlayer = (MessageEveryPlayer) arg;
-            if (this.getPlayer() == messageEveryPlayer.getPlayer()){
-                showMessage(arg);
-            } else if(arg.getPhase() == Phase.MOVE) showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait your turn", arg.getPhase()));
+        if(arg instanceof GameMessage) {
+            GameMessage gameMessage = (GameMessage) arg;
+            handleTurnMessage(gameMessage, gameMessage.getPlayer());
+        } else {
+            showMessage(arg);
         }
 
+    }
+
+    private void handleTurnMessage(ViewMessage arg, Player player) {
+        if (this.getPlayer() == player) {
+            showMessage(arg);
+        } else if ((phase == Phase.MOVE || phase == Phase.SETWORKER1 || phase == Phase.DRAWCARD) && this.getPlayer() != player) {
+            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait your turn", arg.getPhase()));
+        }
     }
 
 }

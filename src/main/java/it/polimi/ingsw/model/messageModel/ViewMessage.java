@@ -15,6 +15,7 @@ public class ViewMessage implements Serializable {
         this.phase=phase;
     }
 
+
     public Phase getPhase() {
         return phase;
     }

@@ -35,11 +35,15 @@ public class Controller implements Observer<Message> {
         HashMap<Cell, Boolean> availableCells=checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
         if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {
             try {
+                model.setNextMessageType(MessageType.BUILD);
+                model.setNextPlayerMessage(PlayerMessage.BUILD);
+                model.updatePhase();
                 model.move(move);
-                //model.updateTurn();
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.err.println(e.getMessage());
             }
+        } else {
+            move.getView().reportError("Unable to move in selected position");
         }
     }
 
@@ -75,11 +79,35 @@ public class Controller implements Observer<Message> {
             }
         }
         return availableCells;
-        //model.setChanges(availableCells);
     }
 
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
+        //Check for right turn
+        if(!model.isPlayerTurn(playerWorker.getPlayer())){
+            playerWorker.getView().reportError(PlayerMessage.TURN_ERROR);
+            return;
+        }
+
         if(model.getBoard().getCell(playerWorker.getX(), playerWorker.getY()).isFree()){
+            if(model.getPhase()==Phase.SETWORKER2){
+                if(model.getActualPlayerId()!=model.getNumOfPlayers()-1){
+                    model.updateTurn();
+                    model.setNextPhase(Phase.SETWORKER1);
+                    model.setNextMessageType(MessageType.SET_WORKER_1);
+                    model.setNextPlayerMessage(PlayerMessage.PLACE_FIRST_WORKER);
+                }
+                else{
+                    model.updateTurn();
+                    model.updatePhase();
+                    model.setNextMessageType(MessageType.MOVE);
+                    model.setNextPlayerMessage(PlayerMessage.MOVE);
+                }
+            }
+            else{
+                model.updatePhase();
+                model.setNextMessageType(MessageType.SET_WORKER_2);
+                model.setNextPlayerMessage(PlayerMessage.PLACE_SECOND_WORKER);
+            }
             model.setPlayerWorker(playerWorker);
         }
         else{

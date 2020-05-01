@@ -11,7 +11,6 @@ public class Worker implements Serializable {
 
     public Worker(Cell cell){
         this.cell = cell;
-        cell.useCell();
     }
 
     public Cell getCell() {
