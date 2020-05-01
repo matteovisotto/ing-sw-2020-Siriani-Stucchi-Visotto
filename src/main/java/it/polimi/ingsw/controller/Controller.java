@@ -79,7 +79,12 @@ public class Controller implements Observer<Message> {
     }
 
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
-        model.setPlayerWorker(playerWorker);
+        if(model.getBoard().getCell(playerWorker.getX(), playerWorker.getY()).isFree()){
+            model.setPlayerWorker(playerWorker);
+        }
+        else{
+            playerWorker.getView().reportError("The cell is busy.");
+        }
     }
 
     @Override

@@ -4,7 +4,9 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
-public abstract class Message {
+import java.io.Serializable;
+
+public abstract class Message implements Serializable {
     private final Player player;
     private final View view;
 

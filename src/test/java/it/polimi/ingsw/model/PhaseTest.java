@@ -18,8 +18,8 @@ public class PhaseTest {
             assertEquals(-3, Phase.DRAWCARD.getPhaseId());
             assertEquals(-2, Phase.SETWORKER1.getPhaseId());
             assertEquals(-1, Phase.SETWORKER2.getPhaseId());
-            assertEquals(0, Phase.WAIT.getPhaseId());
-            assertEquals(1, Phase.BEGINNING.getPhaseId());
+            //assertEquals(0, Phase.WAIT.getPhaseId());
+            //assertEquals(1, Phase.BEGINNING.getPhaseId());
             assertEquals(2, Phase.MOVE.getPhaseId());
             assertEquals(3, Phase.BUILD.getPhaseId());
         }
@@ -29,8 +29,8 @@ public class PhaseTest {
             assertEquals(Phase.getPhase(-3), Phase.DRAWCARD);
             assertEquals(Phase.getPhase(-2), Phase.SETWORKER1);
             assertEquals(Phase.getPhase(-1), Phase.SETWORKER2);
-            assertEquals(Phase.getPhase(0), Phase.WAIT);
-            assertEquals(Phase.getPhase(1), Phase.BEGINNING);
+            //assertEquals(Phase.getPhase(0), Phase.WAIT);
+            //assertEquals(Phase.getPhase(1), Phase.BEGINNING);
             assertEquals(Phase.getPhase(2), Phase.MOVE);
             assertEquals(Phase.getPhase(3), Phase.BUILD);
         }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -17,10 +18,17 @@ public class Model extends Observable<ViewMessage> {
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private static boolean movedUp = false;
+    private MessageType messageType=MessageType.DRAW_CARD;
+    private String playerMessage=PlayerMessage.DRAW_CARD;
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
+        if(simplePlay){
+            this.phase=Phase.SETWORKER1;
+            this.messageType=MessageType.SET_WORKER_1;
+            this.playerMessage=PlayerMessage.PLACE_FIRST_WORKER;
+        }
     }
 
     public static boolean isMovedUp() {
@@ -47,8 +55,13 @@ public class Model extends Observable<ViewMessage> {
         return board;
     }
 
-    public Board getBoardClone() throws CloneNotSupportedException {
-        return board.clone();
+    public Board getBoardClone() {
+        try{
+            return board.clone();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setChanges(Object o){
@@ -63,11 +76,7 @@ public class Model extends Observable<ViewMessage> {
         if(turn[id].hasWon()){
             updateTurn();
         }
-        try {
-            notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], MessageType.BEGINNING, this.phase));
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], MessageType.BEGINNING, this.phase));
     }
 
     public Phase getPhase() {
@@ -79,7 +88,26 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void setPlayerWorker (PlayerWorker playerWorker){
-        playerWorker.getPlayer().setWorkers(new Worker(this.getBoard().getCell(playerWorker.getX(), playerWorker.getY())));
+        Cell c= this.getBoard().getCell(playerWorker.getX(), playerWorker.getY());
+        playerWorker.getPlayer().setWorkers(new Worker(c));
+
+        if(phase==Phase.SETWORKER2){
+            if(id!=turn.length-1){
+                updateTurn();
+                this.phase=Phase.SETWORKER1;
+                notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], PlayerMessage.PLACE_FIRST_WORKER, MessageType.SET_WORKER_1, this.phase));
+            }
+            else{
+                updateTurn();
+                updatePhase();
+                notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], PlayerMessage.MOVE, MessageType.MOVE, this.phase));
+            }
+        }
+        else{
+            updatePhase();
+            notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], PlayerMessage.PLACE_SECOND_WORKER, MessageType.SET_WORKER_2, this.phase));
+        }
+
     }
 
     public Player getActualPlayer() {
@@ -129,12 +157,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void victory(Player player) {
         player.setVictory(true);
-        try{
-            ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!", MessageType.VICTORY, this.phase);
-            notifyObservers(win);
-        }
-        catch(CloneNotSupportedException e){
-            e.printStackTrace();
-        }
+        ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!", MessageType.VICTORY, this.phase);
+        notifyObservers(win);
     }
 }

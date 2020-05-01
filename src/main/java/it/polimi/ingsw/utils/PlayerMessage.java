@@ -15,8 +15,11 @@ public class PlayerMessage {
     public static final String PLAY_MODE = "Would you like to play simple mode? (y/n)";
 
     /* Playing messages */
+    public static final String DRAW_CARD = "Drawing cards";
     public static final String YOUR_TURN = "It's your turn.";
     public static final String NOT_YOUR_TURN = "'s turn.";
     public static final String PLACE_FIRST_WORKER = "Please place your first worker";
     public static final String PLACE_SECOND_WORKER = "Please place now your second worker";
+    public static final String MOVE = "Do your move";
+    public static final String BUILD = "Now you can build";
 }

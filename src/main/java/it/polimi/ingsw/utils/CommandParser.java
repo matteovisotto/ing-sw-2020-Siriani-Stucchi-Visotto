@@ -37,10 +37,7 @@ public class CommandParser {
                 string=string.replaceAll(" ", "");
                 s= string.split(",");//x,y
                 return new PlayerBuild(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
+            default: throw new IllegalArgumentException("Can't do it now");
         }
-
-
-
-        return message;
     }
 }

@@ -114,11 +114,7 @@ public class Lobby {
         remoteView2.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        try {
-            sendAllPlayer(model.getBoardClone());
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        sendAllPlayer(model.getBoardClone());
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
             c1.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
@@ -167,11 +163,7 @@ public class Lobby {
         remoteView3.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        try {
-            sendAllPlayer(model.getBoardClone());
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        sendAllPlayer(model.getBoardClone());
 
         if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
@@ -191,6 +183,7 @@ public class Lobby {
             c1.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
             c2.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }
+
     }
 
 }

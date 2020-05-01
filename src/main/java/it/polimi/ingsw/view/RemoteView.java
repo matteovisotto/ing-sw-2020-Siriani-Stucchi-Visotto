@@ -11,21 +11,21 @@ import it.polimi.ingsw.utils.CommandParser;
 
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
-    private Phase phase;
+    private Phase phase=Phase.SETWORKER1;
     private class MessageReceiver implements Observer<String> {
 
         @Override
         public void update(String msg) {//questa riceve dal client
-            char c= msg.charAt(0);
             //arg è la stringa ricevuta dall'input del client
             //inserire quindi qui le chiamate ai metodi di view per fare le mosse
 
             CommandParser commandParser=new CommandParser(phase, msg, getPlayer(), RemoteView.this);
-
-            doAction(commandParser.parse());
-
-
-
+            try{
+                doAction(commandParser.parse());
+            }
+            catch(IllegalArgumentException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -58,7 +58,7 @@ public class RemoteView extends View {
             MessageEveryPlayer messageEveryPlayer = (MessageEveryPlayer) arg;
             if (this.getPlayer() == messageEveryPlayer.getPlayer()){
                 showMessage(arg);
-            } else if(arg.getPhase() == Phase.BEGINNING) showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait your turn", arg.getPhase()));
+            } else if(arg.getPhase() == Phase.MOVE) showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait your turn", arg.getPhase()));
         }
 
     }

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class GodCard {
+public abstract class GodCard implements Serializable {
 
     protected final SimpleGods card;
     private boolean active = false;

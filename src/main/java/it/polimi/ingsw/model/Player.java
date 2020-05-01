@@ -2,12 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.FullWorkerException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class define a player in the game.
  */
-public class Player {
+public class Player implements Serializable {
     private final ArrayList<Worker> workers;
     private final String playerName;
     private GodCard godCard = null;

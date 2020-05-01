@@ -7,10 +7,8 @@ public enum Phase {
     DRAWCARD(-3),
     SETWORKER1(-2),
     SETWORKER2(-1),
-    WAIT(0),
-    BEGINNING(1),
-    MOVE(2),
-    BUILD(3);
+    MOVE(0),
+    BUILD(1);
 
     private int phaseId;
     Phase(int phaseId) {
@@ -35,13 +33,9 @@ public enum Phase {
             case -2:
                 return Phase.SETWORKER2;
             case -1:
-            case 3:
-                return Phase.WAIT;
-            case 0:
-                return Phase.BEGINNING;
             case 1:
                 return Phase.MOVE;
-            case 2:
+            case 0:
                 return Phase.BUILD;
             default:
                 throw new IllegalArgumentException();
@@ -63,12 +57,8 @@ public enum Phase {
             case -1:
                 return Phase.SETWORKER2;
             case 0:
-                return Phase.WAIT;
-            case 1:
-                return Phase.BEGINNING;
-            case 2:
                 return Phase.MOVE;
-            case 3:
+            case 1:
                 return Phase.BUILD;
             default:
                 throw new IllegalArgumentException();
