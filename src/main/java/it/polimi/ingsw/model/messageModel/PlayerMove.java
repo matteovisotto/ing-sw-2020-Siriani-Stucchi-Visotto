@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.messageModel;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
@@ -27,5 +28,8 @@ public class PlayerMove extends Message{
     }
 
 
-
+    @Override
+    public void handler(Controller controller) {
+        controller.move(this);
+    }
 }

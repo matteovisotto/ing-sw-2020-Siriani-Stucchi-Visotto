@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model.messageModel;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
-public class Message {
+public abstract class Message {
     private final Player player;
     private final View view;
 
@@ -19,4 +20,6 @@ public class Message {
     public View getView() {
         return view;
     }
+
+    public abstract void handler(Controller controller);
 }

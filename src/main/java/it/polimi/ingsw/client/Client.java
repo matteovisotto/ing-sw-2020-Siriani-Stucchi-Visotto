@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,6 +39,8 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){//se viene passata una stringa
                             System.out.println((String)inputObject);
+                        } else if(inputObject instanceof ViewMessage){
+                            System.out.println(((ViewMessage)inputObject).getMessage());
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
                         } else if (inputObject instanceof HashMap) { //se viene passata una HashMap

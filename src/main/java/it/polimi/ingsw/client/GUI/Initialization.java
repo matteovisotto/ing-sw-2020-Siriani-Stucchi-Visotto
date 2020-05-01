@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,7 +48,9 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
 
     @Override
     public void update(ViewMessage msg) {
-        if(msg.getMessageType() == MessageType.PLAYER_NAME)
+        if(msg.getMessageType() == MessageType.PLAYER_NAME){
+
+        }
             // mostri TF
             //jPanel.remove(jTF)
         messageLabel.setText(msg.getMessage());
