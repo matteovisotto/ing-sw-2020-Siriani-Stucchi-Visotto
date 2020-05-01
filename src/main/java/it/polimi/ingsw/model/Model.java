@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
-import it.polimi.ingsw.model.messageModel.PlayerMove;
-import it.polimi.ingsw.model.messageModel.PlayerWorker;
-import it.polimi.ingsw.model.messageModel.ViewMessage;
+import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.observer.Observable;
 
@@ -67,7 +64,7 @@ public class Model extends Observable<ViewMessage> {
             updateTurn();
         }
         try {
-            notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id]));
+            notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], MessageType.BEGINNING, this.phase));
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -133,7 +130,7 @@ public class Model extends Observable<ViewMessage> {
     public void victory(Player player) {
         player.setVictory(true);
         try{
-            ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!");
+            ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!", MessageType.VICTORY, this.phase);
             notifyObservers(win);
         }
         catch(CloneNotSupportedException e){

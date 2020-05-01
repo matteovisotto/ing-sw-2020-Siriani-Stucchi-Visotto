@@ -1,30 +1,31 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
+import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.utils.CommandParser;
 
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
-
+    private Phase phase;
     private class MessageReceiver implements Observer<String> {
 
         @Override
-        public void update(String msg) {
-            System.out.println("Received: " + msg);
+        public void update(String msg) {//questa riceve dal client
             char c= msg.charAt(0);
             //arg è la stringa ricevuta dall'input del client
             //inserire quindi qui le chiamate ai metodi di view per fare le mosse
-            if(c=='0'){// se C==0 devo posizionare un worker
-                try{
-                    String[] s= msg.substring(1).split(",");//divido coordinata x dalla y
-                    placeWorker(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
-                }
-                catch (IllegalArgumentException e){
-                    clientConnection.asyncSend("Wrong input");//TUTTA QUESTA PARTE LA SPOSTEREI NEL CONTROLLER E NEL CATCH CHIAMEREI UNA NUJOVA FUNZIONE DEL MODEL CHIAMATA WRONG INPUT CHE MANDA ALLA VIEW IL MESSAGIIO DI WRONG
-                }
-            }
+
+            CommandParser commandParser=new CommandParser(phase, msg, getPlayer(), RemoteView.this);
+
+            doAction(commandParser.parse());
+
+
+
         }
     }
 
@@ -51,9 +52,15 @@ public class RemoteView extends View {
     }
 
     @Override
-    public void update(ViewMessage arg) {
-        String resultMsg = "";
-        showMessage(resultMsg);
+    public void update(ViewMessage arg) {//questa riceve dal model
+        phase=arg.getPhase();
+        if(arg instanceof MessageEveryPlayer){
+            MessageEveryPlayer messageEveryPlayer = (MessageEveryPlayer) arg;
+            if (this.getPlayer() == messageEveryPlayer.getPlayer()){
+                showMessage(arg);
+            } else if(arg.getPhase() == Phase.BEGINNING) showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait your turn", arg.getPhase()));
+        }
+
     }
 
 }

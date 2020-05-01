@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 
 import java.io.IOException;
@@ -40,7 +41,11 @@ public class Client {
                         if(inputObject instanceof String){//se viene passata una stringa
                             System.out.println((String)inputObject);
                         } else if(inputObject instanceof ViewMessage){
-                            System.out.println(((ViewMessage)inputObject).getMessage());
+                            ViewMessage viewMessage=(ViewMessage)inputObject;
+                            System.out.println(viewMessage.getMessage());
+                            if(viewMessage instanceof MessageEveryPlayer){
+                                ((MessageEveryPlayer) viewMessage).getBoard().print();
+                            }
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
                         } else if (inputObject instanceof HashMap) { //se viene passata una HashMap

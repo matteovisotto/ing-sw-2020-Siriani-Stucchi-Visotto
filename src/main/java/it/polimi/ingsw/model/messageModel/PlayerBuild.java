@@ -4,17 +4,15 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
-public class PlayerBuilt extends Message {
+public class PlayerBuild extends Message {
 
     private final int x;
     private final int y;
-    private final int levelId;
 
-    public PlayerBuilt(Player player, View view, int x, int y, int levelId) {
+    public PlayerBuild(Player player, int x, int y, View view) {
         super(player, view);
         this.x = x;
         this.y = y;
-        this.levelId = levelId;
     }
 
     public int getX() {
@@ -23,10 +21,6 @@ public class PlayerBuilt extends Message {
 
     public int getY() {
         return y;
-    }
-
-    public int getLevelId(){
-        return levelId;
     }
 
     @Override

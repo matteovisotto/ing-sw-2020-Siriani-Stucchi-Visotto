@@ -14,7 +14,10 @@ public enum MessageType{
     SET_WORKER_2,
 
     OPPONENT_TURN,
+    BEGINNING,
     MOVE,
-    BUILD
+    BUILD,
+    VICTORY,
+    LOSE
     ;
 }
