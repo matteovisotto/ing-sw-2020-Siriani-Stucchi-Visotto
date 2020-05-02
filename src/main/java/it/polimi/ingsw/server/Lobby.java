@@ -2,7 +2,10 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Model;
+import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -22,7 +25,7 @@ public class Lobby {
         this.simplePlay = simplePlay;
         connections.add(c);
         waitingConnection.put(playerName, c);
-        c.asyncSend(PlayerMessage.WAIT_PLAYERS);
+        c.asyncSend(new ViewMessage(MessageType.WAIT_FOR_START, PlayerMessage.WAIT_PLAYERS, Phase.WAIT_PLAYERS));
     }
 
     public String getLobbyName(){

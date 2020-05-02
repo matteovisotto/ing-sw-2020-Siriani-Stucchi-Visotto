@@ -4,6 +4,7 @@ package it.polimi.ingsw.model;
  * This class define the different phases of the game in a normal match.
  */
 public enum Phase {
+    WAIT_PLAYERS(-4),
     DRAWCARD(-3),
     SETWORKER1(-2),
     SETWORKER2(-1),
@@ -28,6 +29,8 @@ public enum Phase {
     public static Phase next(Phase p) throws IllegalArgumentException{
         int id = p.getPhaseId();
         switch (id){
+            case -4:
+                return Phase.DRAWCARD;
             case -3:
                 return Phase.SETWORKER1;
             case -2:
@@ -50,6 +53,8 @@ public enum Phase {
      */
     public static Phase getPhase(int id) throws IllegalArgumentException {
         switch (id){
+            case -4:
+                return Phase.WAIT_PLAYERS;
             case -3:
                 return Phase.DRAWCARD;
             case -2:
