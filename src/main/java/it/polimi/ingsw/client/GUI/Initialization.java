@@ -5,45 +5,64 @@ import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Initialization extends JFrame implements Observer<ViewMessage> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
     private final GUIClient guiClient;
     private JLabel serverStatusLabel = new JLabel(); //Label for server status
-    JButton sendButton =new JButton("SEND");
+    JButton sendButton =new JButton("Next");
     private JPanel contentPanel; //This contains all elements
     private JLabel messageLabel;
     private JTextField jTextField;
     private String returnedMessage = "";
-    public Initialization(GUIClient guiClient){
+    public Initialization(GUIClient guiClient) {
+        setTitle("Initialization");
+        setPreferredSize(new Dimension(400, 170));
         this.guiClient = guiClient;
-        setLayout();
+        try{
+            setLayout();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public GUIClient getGuiClient() {
         return guiClient;
     }
-
-    private void setLayout(){
+    private void setLayout() throws IOException {
         mainPanel=new JPanel();
         mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBounds(5,5,5,5);
+        mainPanel.setBorder(new EmptyBorder(10,10,10,10)); //Add padding
         mainPanel.setLayout(new BorderLayout(10, 10));
         serverStatusLabel.setText("Connection to server established");
+        serverStatusLabel.setForeground(new Color(1,140,8));
         mainPanel.add(serverStatusLabel, BorderLayout.SOUTH);
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(10, 10));
-        mainPanel.add(contentPanel, BorderLayout.NORTH);
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
         contentPanel.add(sendButton, BorderLayout.SOUTH);
         messageLabel=new JLabel("prova");
         contentPanel.add(messageLabel, BorderLayout.NORTH);
+        contentPanel.setOpaque(false);
+        sendButton.setBackground(new Color(76, 166, 220));
+        sendButton.setOpaque(true);
+        sendButton.setPreferredSize(new Dimension(150, 25));
+        sendButton.setForeground(Color.WHITE);
+        sendButton.setBorder(new LineBorder(new Color(62, 136, 180), 2));
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +77,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
     public void update(ViewMessage msg) {
         setPanelContent(msg.getMessageType());
     }
+
     private void resetPanelContent(){
         Component[] components = contentPanel.getComponents();
         for (Component component : components) {
@@ -65,7 +85,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
                 contentPanel.remove(component);
             }
         }
-
+        this.setSize(400, 170);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
@@ -87,9 +107,11 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
                 break;
             case JOIN_OR_CREATE_LOBBY:
                 JPanel buttonPanel = new JPanel();
+                buttonPanel.setOpaque(false);
                 buttonPanel.setLayout(new GridLayout(1, 2, 10, 10));
                 final JButton createLobby = new JButton("Create a new lobby");
                 final JButton joinLobby = new JButton("Join a lobby");
+                createLobby.setPreferredSize(new Dimension(50,60));
                 buttonPanel.add(createLobby);
                 buttonPanel.add(joinLobby);
                 messageLabel.setText("");
@@ -113,6 +135,19 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
                 break;
             case LOBBY_SELECTOR:
                 messageLabel.setText("Please select the lobby you want to join");
+                JPanel lobbyPanel = new JPanel(new BorderLayout(10,10));
+                lobbyPanel.setOpaque(false);
+                JButton backButton = new JButton("Back");
+                backButton.setSize(70, 45);
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        guiClient.send("0");
+                    }
+                });
+                lobbyPanel.add(backButton, BorderLayout.NORTH);
+                this.setSize(400, 400);
+                contentPanel.add(lobbyPanel, BorderLayout.CENTER);
                 break;
             case LOBBY_NAME:
                 messageLabel.setText("Please insert a name for the lobby");
@@ -160,6 +195,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
                     }
                 });
                 contentPanel.add(simpleMode, BorderLayout.CENTER);
+
                 break;
             case WAIT_FOR_START:
             default:

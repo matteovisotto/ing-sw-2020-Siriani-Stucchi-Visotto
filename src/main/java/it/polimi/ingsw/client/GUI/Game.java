@@ -8,6 +8,8 @@ import javax.swing.*;
 public class Game extends JFrame implements Observer<ViewMessage> {
 
     public Game(){
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Santorini");
 
     }
 
