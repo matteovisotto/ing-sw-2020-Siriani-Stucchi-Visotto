@@ -27,7 +27,7 @@ public class Controller implements Observer<Message> {
     }
 
     public synchronized void move(PlayerMove move) {
-        if(!model.isPlayerTurn(move.getPlayer())){
+        if(!model.isPlayerTurn(move.getPlayer())){//se nopn è il turno del giocatore
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
         }

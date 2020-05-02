@@ -11,7 +11,7 @@ public class PlayerMessage {
     public static final String JOIN_LOBBY = "Select which lobby you want to join: ";
     public static final String WAIT_PLAYERS = "Waiting for other players";
     public static final String START_PLAY = "Beginning";
-    public static final String TURN_ERROR = "Error, not your turn.";
+    public static final String TURN_ERROR = "Error, it's not your turn.";
     public static final String PLAY_MODE = "Would you like to play simple mode? (y/n)";
 
     /* Playing messages */

@@ -67,7 +67,7 @@ public class RemoteView extends View {
         if (this.getPlayer() == player) {
             showMessage(arg);
         } else if ((phase == Phase.MOVE || phase == Phase.SETWORKER1 || phase == Phase.DRAWCARD) && this.getPlayer() != player) {
-            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait your turn", arg.getPhase()));
+            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn", arg.getPhase()));
         }
     }
 
