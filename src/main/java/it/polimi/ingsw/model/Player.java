@@ -12,7 +12,7 @@ public class Player implements Serializable {
     private final ArrayList<Worker> workers;
     private final String playerName;
     private GodCard godCard = null;
-    private boolean canMove = true;
+    private boolean hasLost = false;
     private boolean usePower = false;
     private boolean victory = false;
     public Player(String playerName) {
@@ -36,12 +36,12 @@ public class Player implements Serializable {
         usePower = false;
     }
 
-    public void setCanMove(boolean status){
-        canMove = status;
+    public void setHasLost(boolean status){
+        hasLost = status;
     }
 
-    public boolean getCanMove(){
-        return canMove;
+    public boolean getHasLost(){
+        return hasLost;
     }
 
     public String getPlayerName() {

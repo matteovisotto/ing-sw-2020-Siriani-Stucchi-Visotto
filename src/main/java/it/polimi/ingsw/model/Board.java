@@ -33,7 +33,7 @@ public class Board implements Serializable, Cloneable {
     public boolean checkCell (int x, int y, Worker worker) throws IllegalArgumentException{
         Cell cell = getCell(x,y);
         Cell other_cell = worker.getCell();
-        return cell.isFree() && !cell.equals(other_cell) && (other_cell.getLevel().getBlockId() - cell.getLevel().getBlockId() < 2) && cell.getLevel().getBlockId() != 4;
+        return cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< 2) && cell.getLevel().getBlockId() != 4;
     }
 
     public void print(){

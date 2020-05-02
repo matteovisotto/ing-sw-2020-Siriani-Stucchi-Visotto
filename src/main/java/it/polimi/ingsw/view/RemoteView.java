@@ -22,9 +22,10 @@ public class RemoteView extends View {
             CommandParser commandParser=new CommandParser(phase, msg, getPlayer(), RemoteView.this);
             try{
                 doAction(commandParser.parse());
-            }
-            catch(IllegalArgumentException e){
-                e.printStackTrace();
+            } catch(NumberFormatException f){
+                reportError("Please insert numbers only");
+            } catch(IllegalArgumentException e){
+                reportError("ERROR");
             }
         }
     }

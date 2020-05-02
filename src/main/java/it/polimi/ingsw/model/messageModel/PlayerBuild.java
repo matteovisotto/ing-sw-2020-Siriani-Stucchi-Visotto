@@ -26,5 +26,10 @@ public class PlayerBuild extends Message {
     @Override
     public void handler(Controller controller) {
 
+        try{
+            controller.increaseLevel(this);
+        }catch(IllegalArgumentException e){
+            this.getView().reportError("Can't build there");
+        }
     }
 }

@@ -59,6 +59,10 @@ public class Model extends Observable<ViewMessage> {
         return id;
     }
 
+    public Player[] getPlayers(){
+        return turn;
+    }
+
     public int getNumOfPlayers(){
         return this.turn.length;
     }
@@ -89,9 +93,21 @@ public class Model extends Observable<ViewMessage> {
         if (athenaId != -1 && athenaId != -2 && turn[athenaId] == turn[id]) {
             setMovedUp(false);//questo serve per dire che il potere di Athena é terminato perché é reiniziato il suo turno.
         }
-        if(turn[id].hasWon()){
+        if(turn[id].hasWon() && turn.length==3){
             updateTurn();
         }
+        try{
+            if(!turn[id].getWorker(0).getStatus() && !turn[id].getWorker(1).getStatus()){
+                turn[id].setHasLost(true);
+                if(turn.length==2){
+                    updateTurn();
+                    victory(turn[id]);
+                }
+            }
+        }catch(Exception e){
+
+        }
+
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, this.phase));
     }
 
@@ -154,12 +170,17 @@ public class Model extends Observable<ViewMessage> {
 
     public void increaseLevel(Cell cell, Blocks level) {//build
         cell.setLevel(level);
+        notifyChanges();
     }
 
     public void victory(Player player) {
         player.setVictory(true);
         ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!", MessageType.VICTORY, this.phase);
         notifyObservers(win);
+    }
+
+    public void resetWorkerStatus(Worker worker){
+        worker.setStatus(true);
     }
 
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn

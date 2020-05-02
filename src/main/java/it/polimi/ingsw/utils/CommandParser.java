@@ -21,9 +21,10 @@ public class CommandParser {
         this.view=view;
     }
 
-    public Message parse() throws IllegalArgumentException{
+    public Message parse() throws IllegalArgumentException, NumberFormatException{
         Message message=null;
         String[] s;
+
         switch(phase){
             case SETWORKER1: case SETWORKER2:
                 string=string.replaceAll(" ", "");

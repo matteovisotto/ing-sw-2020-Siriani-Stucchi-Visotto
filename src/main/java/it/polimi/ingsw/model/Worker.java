@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class Worker implements Serializable {
     private Cell cell;
-    public boolean available = true;
+    public boolean available = true; //può muoversi
 
     public Worker(Cell cell){
         this.cell = cell;
