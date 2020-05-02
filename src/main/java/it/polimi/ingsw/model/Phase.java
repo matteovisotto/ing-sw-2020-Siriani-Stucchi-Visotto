@@ -22,9 +22,9 @@ public enum Phase {
 
     /**
      * This method found the next phase of the game.
-     * @param p define the id of the actual phase. The value accepted are: -3 -> SETWORKER1, -2 -> SETWORKER2, -1 || 0 -> WAIT, 0 -> BEGINNING, 1 -> MOVE, 2 -> BUILD.
+     * @param p define the id of the actual phase. The value accepted are: -4 -> DRAWCARD, -3 -> SETWORKER1, -2 -> SETWORKER2, -1 || 1 -> MOVE, 0 -> BUILD.
      * @return the next phase.
-     * @throws IllegalArgumentException if the id is less then -3 or higher then 3.
+     * @throws IllegalArgumentException if the id is less then -4 or higher then 1.
      */
     public static Phase next(Phase p) throws IllegalArgumentException{
         int id = p.getPhaseId();
@@ -47,9 +47,9 @@ public enum Phase {
 
     /**
      * This method assign a value to it's specific phase.
-     * @param id define the id of the phase. The value accepted are: -3 -> DRAWCARD, -2 -> SETWORKER1, -1 -> SETWORKER2, 0 -> WAIT, 1 -> BEGINNING, 2 -> MOVE, 3 -> BUILD.
+     * @param id define the id of the phase. The value accepted are: -4 -> WAIT_PLAYERS, -3 -> DRAWCARD, -2 -> SETWORKER1, -1 -> SETWORKER2, 0 -> MOVE, 1 -> BUILD.
      * @return the phase assigned to a determined id.
-     * @throws IllegalArgumentException if the id is less then -3 or higher then 3.
+     * @throws IllegalArgumentException if the id is less then -4 or higher then 1.
      */
     public static Phase getPhase(int id) throws IllegalArgumentException {
         switch (id){

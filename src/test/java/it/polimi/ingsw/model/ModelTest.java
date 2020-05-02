@@ -44,7 +44,7 @@ public class ModelTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        Phase phase = Phase.SETWORKER1;
+        Phase phase = Phase.SETWORKER2;
         model.updatePhase();
         assertTrue(phase==model.getPhase());
         model.updatePhase();
