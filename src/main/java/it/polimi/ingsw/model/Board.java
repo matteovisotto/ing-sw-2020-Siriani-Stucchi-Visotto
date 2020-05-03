@@ -38,10 +38,10 @@ public class Board implements Serializable, Cloneable {
 
     public void print(){
         System.out.println(" \t   0\t 1\t   2\t 3\t   4\n");
-        for(int i=0; i<5; i++){
+        for(int i = 0; i < 5; i++){
             System.out.print(i + "\t| ");
             for(int j = 0; j < 5; j++){
-                System.out.print(board[i][j] + " | ");
+                System.out.print(board[j][i] + " | ");
             }
             System.out.println("\n");
         }

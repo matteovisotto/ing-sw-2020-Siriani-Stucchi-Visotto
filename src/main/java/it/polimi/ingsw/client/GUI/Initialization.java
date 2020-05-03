@@ -24,7 +24,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
     private final GUIClient guiClient;
     private JLabel serverStatusLabel = new JLabel(); //Label for server status
-    JButton sendButton =new JButton("Next");
+    JButton sendButton = new JButton("Next");
     private JPanel contentPanel; //This contains all elements
     private JLabel messageLabel;
     private JTextField jTextField;
@@ -44,7 +44,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
         return guiClient;
     }
     private void setLayout() throws IOException {
-        mainPanel=new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBorder(new EmptyBorder(10,10,10,10)); //Add padding
         mainPanel.setLayout(new BorderLayout(10, 10));
@@ -55,7 +55,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
         contentPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         contentPanel.add(sendButton, BorderLayout.SOUTH);
-        messageLabel=new JLabel("prova");
+        messageLabel = new JLabel("prova");
         contentPanel.add(messageLabel, BorderLayout.NORTH);
         contentPanel.setOpaque(false);
         sendButton.setBackground(new Color(76, 166, 220));

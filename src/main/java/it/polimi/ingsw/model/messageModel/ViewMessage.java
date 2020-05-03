@@ -10,9 +10,9 @@ public class ViewMessage implements Serializable {
     private final Phase phase;
 
     public ViewMessage(MessageType messageType, String message, Phase phase){
-        this.messageType=messageType;
-        this.message=message;
-        this.phase=phase;
+        this.messageType = messageType;
+        this.message = message;
+        this.phase = phase;
     }
 
 

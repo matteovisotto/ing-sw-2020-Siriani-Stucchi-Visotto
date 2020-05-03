@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.Player;
 public class GameMessage extends ViewMessage{
     private final Player player;
 
-    public GameMessage(Player player, String message, MessageType messageType, Phase ph){
-        super(messageType, message, ph);
+    public GameMessage(Player player, String message, MessageType messageType, Phase phase){
+        super(messageType, message, phase);
         this.player = player;
     }
 

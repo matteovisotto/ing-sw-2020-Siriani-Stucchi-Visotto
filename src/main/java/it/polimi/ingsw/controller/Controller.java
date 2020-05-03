@@ -21,13 +21,13 @@ public class Controller implements Observer<Message> {
     }
 
     private synchronized boolean checkPhase(){//deve controllare che la fase attuale sia la stessa del godpower
-        Player p= model.getActualPlayer();
-        Phase ph=p.getGodCard().getPhase();
-        return ph==model.getPhase();
+        Player p = model.getActualPlayer();
+        Phase ph = p.getGodCard().getPhase();
+        return ph == model.getPhase();
     }
 
     public synchronized void move(PlayerMove move) {
-        boolean test=false;
+        boolean test = false;
         if(!model.isPlayerTurn(move.getPlayer())){//se non è il turno del giocatore
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
@@ -40,14 +40,14 @@ public class Controller implements Observer<Message> {
         HashMap<Cell, Boolean> availableCells=checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
         for(Cell c:availableCells.keySet()){
             if(availableCells.get(c)){
-                test=true;
+                test = true;
             }
         }
         try{
             if(!test){
                 move.getPlayer().getWorker(move.getWorkerId()).setStatus(false);
                 move.getView().reportError("This worker can't move anywhere");
-            } else if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))!=null && availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {
+            } else if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn())) != null && availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {
                 try {
                     model.setNextMessageType(MessageType.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
@@ -70,13 +70,13 @@ public class Controller implements Observer<Message> {
     }
 
     private synchronized void resetWorkerStatus(PlayerMove move){
-        Cell cell=model.getBoard().getCell(move.getRow(), move.getColumn());
-        Player[] players=model.getPlayers();
-        for(int i=0; i<players.length; i++){
-            if(Math.abs(players[i].getWorker(0).getCell().getX()-cell.getX())<2 && Math.abs(players[i].getWorker(0).getCell().getY()-cell.getY())<2){
+        Cell cell = model.getBoard().getCell(move.getRow(), move.getColumn());
+        Player[] players = model.getPlayers();
+        for(int i = 0; i < players.length; i++){
+            if(Math.abs(players[i].getWorker(0).getCell().getX() - cell.getX()) < 2 && Math.abs(players[i].getWorker(0).getCell().getY() - cell.getY()) < 2){
                 model.resetWorkerStatus(players[i].getWorker(0));
             }
-            if(Math.abs(players[i].getWorker(1).getCell().getX()-cell.getX())<2 && Math.abs(players[i].getWorker(1).getCell().getY()-cell.getY())<2){
+            if(Math.abs(players[i].getWorker(1).getCell().getX() - cell.getX()) < 2 && Math.abs(players[i].getWorker(1).getCell().getY() - cell.getY()) < 2){
                 model.resetWorkerStatus(players[i].getWorker(1));
             }
         }
@@ -111,7 +111,7 @@ public class Controller implements Observer<Message> {
 
     private synchronized HashMap<Cell, Boolean> checkCellsAround (Worker worker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();
-        Cell cell= worker.getCell();
+        Cell cell = worker.getCell();
         Board board = model.getBoard();
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
             for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
@@ -135,8 +135,8 @@ public class Controller implements Observer<Message> {
         }
         try{
             if(model.getBoard().getCell(playerWorker.getX(), playerWorker.getY()).isFree()){
-                if(model.getPhase()==Phase.SETWORKER2){
-                    if(model.getActualPlayerId()!=model.getNumOfPlayers()-1){
+                if(model.getPhase() == Phase.SETWORKER2){
+                    if(model.getActualPlayerId() != model.getNumOfPlayers() - 1){
                         model.updateTurn();
                         model.setNextPhase(Phase.SETWORKER1);
                         model.setNextMessageType(MessageType.SET_WORKER_1);

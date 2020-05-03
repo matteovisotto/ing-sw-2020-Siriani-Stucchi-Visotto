@@ -43,7 +43,7 @@ public class Cell implements Serializable, Cloneable{
     @Override
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
-        return new Cell(x,y,level,isFree);
+        return new Cell(x, y, level, isFree);
     }
 
     public int getX() {

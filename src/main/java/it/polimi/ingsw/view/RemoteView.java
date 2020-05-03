@@ -11,7 +11,7 @@ import it.polimi.ingsw.utils.CommandParser;
 
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
-    private Phase phase=Phase.SETWORKER1;
+    private Phase phase = Phase.SETWORKER1;
     private class MessageReceiver implements Observer<String> {
 
         @Override
@@ -54,7 +54,7 @@ public class RemoteView extends View {
 
     @Override
     public void update(ViewMessage arg) {//questa riceve dal model
-        phase=arg.getPhase();
+        phase = arg.getPhase();
         if(arg instanceof GameMessage) {
             GameMessage gameMessage = (GameMessage) arg;
             handleTurnMessage(gameMessage, gameMessage.getPlayer());

@@ -131,10 +131,10 @@ public class Lobby {
     }
 
     private void threePlayer(List<String> players) {
-        ClientConnection c1,c2,c3;
-        Player player1,player2,player3;
+        ClientConnection c1, c2, c3;
+        Player player1, player2, player3;
         Player[] playerArray = new Player[this.numPlayers];
-        RemoteView remoteView1,remoteView2,remoteView3;
+        RemoteView remoteView1, remoteView2, remoteView3;
 
         c1 = connections.get(0);
         c2 = connections.get(1);

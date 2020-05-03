@@ -318,6 +318,9 @@ public class ControllerTest {
         assertTrue(controller.getModel().getBoard().getCell(1,0).getLevel().getBlockId()==2);
         assertTrue(controller.getModel().getBoard().getCell(1,1).getLevel().getBlockId()==2);
         assertTrue(controller.getModel().getActualPlayer().getPlayerName().equals(players[0].getPlayerName()));
-        //assertFalse(controller.getModel().getActualPlayer().getWorker(0).getStatus());
+
+        PlayerMove playerMove = new PlayerMove(players[0],0,1,0,remoteView);
+        controller.move(playerMove);
+        assertFalse(controller.getModel().getActualPlayer().getWorker(0).getStatus());
     }
 }

@@ -18,8 +18,8 @@ public class Model extends Observable<ViewMessage> {
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private static boolean movedUp = false;
-    private MessageType messageType=MessageType.DRAW_CARD;
-    private String playerMessage=PlayerMessage.DRAW_CARD;
+    private MessageType messageType = MessageType.DRAW_CARD;
+    private String playerMessage = PlayerMessage.DRAW_CARD;
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
@@ -99,7 +99,7 @@ public class Model extends Observable<ViewMessage> {
         try{
             if(!turn[id].getWorker(0).getStatus() && !turn[id].getWorker(1).getStatus()){
                 turn[id].setHasLost(true);
-                if(turn.length==2){
+                if(turn.length == 2){
                     updateTurn();
                     victory(turn[id]);
                 }
@@ -132,7 +132,7 @@ public class Model extends Observable<ViewMessage> {
     //La seguente funzione va chiamata solo una volta, in seguito alla distribuzione delle carte, per vedere dov'é athena.
     public int getAthenaPlayer(){    //da mettere subito dopo la scelta delle carte dai giocatori ed in seguito assegnare il valore alla variabile athenaId
         GodCard godCard = new Athena();
-        for (int i = 0; i<turn.length; i++)
+        for (int i = 0; i < turn.length; i++)
         {
             if (turn[i].getGodCard().getName().equals(godCard.getName())){
                 return i;
@@ -144,10 +144,10 @@ public class Model extends Observable<ViewMessage> {
     public GodCard[] chooseCards(){
         Random random = new Random();
         GodCard[] godCards= new GodCard[turn.length];
-        for(int i=0; i<turn.length; i++){
-            godCards[i]=SimpleGods.getGod(random.nextInt(8) + 1);
-            for(int j=i;j>0; j--){
-                if(godCards[i].equals(godCards[j-1])) {
+        for(int i = 0; i < turn.length; i++){
+            godCards[i] = SimpleGods.getGod(random.nextInt(8) + 1);
+            for(int j = i; j > 0; j--){
+                if(godCards[i].equals(godCards[j - 1])) {
                     i--;
                 }
             }

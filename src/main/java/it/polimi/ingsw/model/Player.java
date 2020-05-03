@@ -52,6 +52,10 @@ public class Player implements Serializable {
         return this.godCard;
     }
 
+    public void setGodCard(GodCard godCard){
+        this.godCard = godCard;
+    }
+
     public Worker getWorker(int number) throws IndexOutOfBoundsException {
         return (workers.get(number));
     }
@@ -61,19 +65,6 @@ public class Player implements Serializable {
             throw new FullWorkerException("Went over the number of workers allowed");
         }
         this.workers.add(worker);
-    }
-
-    /*public void drawCard() {
-        Random random = new Random();
-        try {
-            this.godCard = SimpleGods.getGod(random.nextInt(8) + 1);
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }*/
-
-    public void setGodCard(GodCard godCard){
-        this.godCard = godCard;
     }
 }
 
