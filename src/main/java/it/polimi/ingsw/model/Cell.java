@@ -37,7 +37,7 @@ public class Cell implements Serializable, Cloneable{
     public String toString() {
         int free = 0;
         if(this.isFree()) free = 1;
-        return this.getLevel().getBlockId() + " " + free;
+        return "L:"+this.getLevel().getBlockId() + " F:" + free;
     }
 
     @Override

@@ -11,8 +11,8 @@ public class BoardTest {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-    @Test
-    public void getCell() {
+    //@Test
+    /*public void getCell() {
         Board board=new Board();
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
@@ -40,5 +40,5 @@ public class BoardTest {
         int i = -1,j = -1;
         board.getCell(i,j).getX();
         board.getCell(i,j).getY();
-    }
+    }*/
 }

@@ -7,9 +7,10 @@ import java.io.Serializable;
  */
 public class Board implements Serializable, Cloneable {
     private Cell[][] board;
+    private Player[] players;
 
-
-    public Board(){
+    public Board(Player[] players){
+        this.players=players;
         this.reset();
     }
 
@@ -37,20 +38,44 @@ public class Board implements Serializable, Cloneable {
     }
 
     public void print(){
-        System.out.println(" \t   0\t 1\t   2\t 3\t   4\n");
+        System.out.println(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4");
+        System.out.println("\t---------------------------------------------------");
         for(int i = 0; i < 5; i++){
             System.out.print(i + "\t| ");
-            for(int j = 0; j < 5; j++){
+            for(int j = 0; j < 5; j++){//prima riga
                 System.out.print(board[j][i] + " | ");
             }
-            System.out.println("\n");
+            System.out.println();
+            //qui devo stampare player e worker (seconda riga)
+            System.out.print("\t");
+            for(int j = 0; j < 5; j++) {
+                System.out.print("| ");
+                if (!board[i][j].isFree()){
+                    for (int p = 0; p < players.length; p++) {
+                        Player player = players[p];
+                        if(player.getWorker(0).getCell().equals(board[i][j])){
+                            System.out.print("P:"+p+" W:0 ");
+                            break;
+                        }
+                        if(player.getWorker(1).getCell().equals(board[i][j])){
+                            System.out.print("P:"+p+" W:1 ");
+                            break;
+                        }
+                    }
+                }
+                else{
+                    System.out.print("P:n W:n ");
+                }
+            }
+            System.out.print("|");
+            System.out.println("\n\t---------------------------------------------------");
         }
     }
 
     @Override
     protected final Board clone() throws CloneNotSupportedException{
         super.clone();
-        final Board result = new Board();
+        final Board result = new Board(players);
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++)
             result.board[i][j] = (Cell) board[i][j].clone();

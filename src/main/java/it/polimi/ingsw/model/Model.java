@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Model extends Observable<ViewMessage> {
-    private Board board = new Board();
+    private Board board;
     private final Player[] turn;
     private int id = 0;
     private final boolean simplePlay;
@@ -24,7 +24,7 @@ public class Model extends Observable<ViewMessage> {
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
-
+        this.board= new Board(this.turn);
 
         if(simplePlay){
             this.phase=Phase.SETWORKER1;
@@ -48,7 +48,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void resetBoard(){
-        this.board = new Board();
+        this.board = new Board(turn);
     }
 
     public boolean isSimplePlay() {
