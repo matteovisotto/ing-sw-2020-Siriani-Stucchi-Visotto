@@ -102,9 +102,6 @@ public class Lobby {
         playerArray[0] = player1;
         playerArray[1] = player2;
 
-        if(!simplePlay){
-            //player has to draw a card
-        }
 
         remoteView1 = new RemoteView(player1, players.get(1), c1);
         remoteView2 = new RemoteView(player2, players.get(0), c2);
@@ -118,7 +115,8 @@ public class Lobby {
 
         sendAllPlayer(PlayerMessage.START_PLAY);
         sendAllPlayer(model.getBoardClone());
-        if(model.isPlayerTurn(playerArray[0])){
+        model.initialize();
+        /*if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
             c1.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
             c2.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
@@ -127,7 +125,7 @@ public class Lobby {
             c2.asyncSend(PlayerMessage.YOUR_TURN);
             c2.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
             c1.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-        }
+        }*/
     }
 
     private void threePlayer(List<String> players) {
@@ -167,8 +165,8 @@ public class Lobby {
 
         sendAllPlayer(PlayerMessage.START_PLAY);
         sendAllPlayer(model.getBoardClone());
-
-        if(model.isPlayerTurn(playerArray[0])){
+        model.initialize();
+        /*if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
             c1.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
             c2.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
@@ -186,7 +184,7 @@ public class Lobby {
             c1.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
             c2.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
         }
-
+*/
     }
 
 }

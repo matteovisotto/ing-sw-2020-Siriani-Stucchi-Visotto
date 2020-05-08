@@ -15,6 +15,7 @@ public class Player implements Serializable {
     private boolean hasLost = false;
     private boolean usePower = false;
     private boolean victory = false;
+    private int usedWorker= 0;
     public Player(String playerName) {
         this.playerName = playerName;
         workers = new ArrayList<>();
@@ -65,6 +66,14 @@ public class Player implements Serializable {
             throw new FullWorkerException("Went over the number of workers allowed");
         }
         this.workers.add(worker);
+    }
+
+    public int getUsedWorker() {
+        return usedWorker;
+    }
+
+    public void setUsedWorker(int usedWorker) {
+        this.usedWorker = usedWorker;
     }
 }
 

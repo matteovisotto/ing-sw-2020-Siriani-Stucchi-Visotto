@@ -22,10 +22,10 @@ public class RemoteView extends View {
             CommandParser commandParser=new CommandParser(phase, msg, getPlayer(), RemoteView.this);
             try{
                 doAction(commandParser.parse());
-            } catch(NumberFormatException f){
+            } catch(NumberFormatException e){
                 reportError("Please insert numbers only");
-            } catch(IllegalArgumentException e){
-                reportError("ERROR");
+            } catch(IndexOutOfBoundsException | IllegalArgumentException e){
+                reportError("Wrong input");
             }
         }
     }
@@ -67,8 +67,8 @@ public class RemoteView extends View {
     private void handleTurnMessage(ViewMessage arg, Player player) {
         if (this.getPlayer() == player) {
             showMessage(arg);
-        } else if ((phase == Phase.MOVE || phase == Phase.SETWORKER1 || phase == Phase.DRAWCARD) && this.getPlayer() != player) {
-            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn", arg.getPhase()));
+        } else if ((phase == Phase.BEGINNING) && this.getPlayer() != player) {
+            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn, It's "+player.getPlayerName()+"'s turn", arg.getPhase()));
         }
     }
 

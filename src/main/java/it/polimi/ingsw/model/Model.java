@@ -24,11 +24,19 @@ public class Model extends Observable<ViewMessage> {
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
+
+
         if(simplePlay){
             this.phase=Phase.SETWORKER1;
             this.messageType=MessageType.SET_WORKER_1;
             this.playerMessage=PlayerMessage.PLACE_FIRST_WORKER;
         }
+
+    }
+
+    public void initialize(){
+        notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
+        notifyObservers(new GameMessage(turn[id], this.playerMessage, this.messageType, this.phase));
     }
 
     public static boolean isMovedUp() {
@@ -108,7 +116,7 @@ public class Model extends Observable<ViewMessage> {
 
         }
 
-        notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, this.phase));
+        notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
     }
 
     public Phase getPhase() {
@@ -165,6 +173,7 @@ public class Model extends Observable<ViewMessage> {
         worker.getCell().freeCell();
         worker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
+        getActualPlayer().setUsedWorker(move.getWorkerId());
         notifyChanges();
     }
 
@@ -179,9 +188,9 @@ public class Model extends Observable<ViewMessage> {
         notifyObservers(win);
     }
 
-    public void resetWorkerStatus(Worker worker){
+    /*public void resetWorkerStatus(Worker worker){
         worker.setStatus(true);
-    }
+    }*/
 
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
     public void notifyChanges(){

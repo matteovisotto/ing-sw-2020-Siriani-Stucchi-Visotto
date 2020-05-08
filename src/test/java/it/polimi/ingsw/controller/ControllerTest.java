@@ -212,7 +212,7 @@ public class ControllerTest {
         PlayerMove playerMove = new PlayerMove(players[0],0,1,1,remoteView);
         controller.move(playerMove);
 
-        PlayerBuild playerBuild = new PlayerBuild(players[0],1,2,remoteView);
+        PlayerBuild playerBuild = new PlayerBuild(players[0],players[0].getUsedWorker(),1,2,remoteView);
         controller.increaseLevel(playerBuild);
         assertTrue(controller.getModel().getBoard().getCell(1,2).getLevel().getBlockId()==1);
     }
@@ -271,25 +271,25 @@ public class ControllerTest {
         PlayerMove playerMoveWorker1_a = new PlayerMove(players[0],1,0,2,remoteView);
         controller.move(playerMoveWorker1_a);
 
-        PlayerBuild playerBuildWorker1_a = new PlayerBuild(players[0],0,1,remoteView);
+        PlayerBuild playerBuildWorker1_a = new PlayerBuild(players[0],players[0].getUsedWorker(),0,1,remoteView);
         controller.increaseLevel(playerBuildWorker1_a);
 
         PlayerMove playerMove2Worker0_a = new PlayerMove(players[1],0,2,0,remoteView1);
         controller.move(playerMove2Worker0_a);
 
-        PlayerBuild playerBuild2Worker0_a = new PlayerBuild(players[1],1,0,remoteView1);
+        PlayerBuild playerBuild2Worker0_a = new PlayerBuild(players[1],players[1].getUsedWorker(),1,0,remoteView1);
         controller.increaseLevel(playerBuild2Worker0_a);
 
         PlayerMove playerMoveWorker1_i = new PlayerMove(players[0],1,0,3,remoteView);
         controller.move(playerMoveWorker1_i);
 
-        PlayerBuild playerBuildWorker1_i = new PlayerBuild(players[0],0,4,remoteView);
+        PlayerBuild playerBuildWorker1_i = new PlayerBuild(players[0],players[0].getUsedWorker(),0,4,remoteView);
         controller.increaseLevel(playerBuildWorker1_i);
 
         PlayerMove playerMove2Worker1_a = new PlayerMove(players[1],1,1,2,remoteView1);
         controller.move(playerMove2Worker1_a);
 
-        PlayerBuild playerBuild2Worker1_a = new PlayerBuild(players[1],1,1,remoteView1);
+        PlayerBuild playerBuild2Worker1_a = new PlayerBuild(players[1],players[1].getUsedWorker(),1,1,remoteView1);
         controller.increaseLevel(playerBuild2Worker1_a);
 
         controller.move(playerMoveWorker1_a);
@@ -298,7 +298,7 @@ public class ControllerTest {
         PlayerMove playerMove2Worker0_i = new PlayerMove(players[1],0,3,0,remoteView1);
         controller.move(playerMove2Worker0_i);
 
-        PlayerBuild playerBuild2Worker0_i = new PlayerBuild(players[1],4,0,remoteView1);
+        PlayerBuild playerBuild2Worker0_i = new PlayerBuild(players[1],players[1].getUsedWorker(),4,0,remoteView1);
         controller.increaseLevel(playerBuild2Worker0_i);
 
         controller.move(playerMoveWorker1_i);
@@ -308,7 +308,7 @@ public class ControllerTest {
         controller.increaseLevel(playerBuild2Worker0_a);
 
         controller.move(playerMoveWorker1_a);
-        PlayerBuild playerBuildWorker1_l = new PlayerBuild(players[0],1,1,remoteView);
+        PlayerBuild playerBuildWorker1_l = new PlayerBuild(players[0],players[0].getUsedWorker(),1,1,remoteView);
         controller.increaseLevel(playerBuildWorker1_l);
 
         controller.move(playerMove2Worker0_i);

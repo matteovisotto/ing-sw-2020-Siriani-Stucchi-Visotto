@@ -21,7 +21,7 @@ public class CommandParser {
         this.view = view;
     }
 
-    public Message parse() throws IllegalArgumentException, NumberFormatException{
+    public Message parse() throws IllegalArgumentException, NumberFormatException, IndexOutOfBoundsException{
         Message message = null;
         String[] s;
 
@@ -29,15 +29,24 @@ public class CommandParser {
             case SETWORKER1: case SETWORKER2:
                 string = string.replaceAll(" ", "");
                 s = string.split(",");//x,y
+                if(s.length>2){
+                    throw new IllegalArgumentException();
+                }
                 return new PlayerWorker(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
             case MOVE:
                 string = string.replaceAll(" ", "");
                 s = string.split(",");//workerID, x, y
+                if(s.length>3){
+                    throw new IllegalArgumentException();
+                }
                 return new PlayerMove(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), view);
             case BUILD:
                 string = string.replaceAll(" ", "");
                 s = string.split(",");//x,y
-                return new PlayerBuild(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
+                if(s.length>2){
+                    throw new IllegalArgumentException();
+                }
+                return new PlayerBuild(player, player.getUsedWorker() , Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
             default: throw new IllegalArgumentException("Can't do it now");
         }
     }

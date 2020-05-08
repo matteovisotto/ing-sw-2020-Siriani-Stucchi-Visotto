@@ -26,8 +26,24 @@ public class Controller implements Observer<Message> {
         return ph == model.getPhase();
     }
 
+    private synchronized boolean canMove(Worker worker){
+        Cell other_cell= worker.getCell();
+        for (int x = other_cell.getX() - 1; x <= other_cell.getX() + 1; x++) {
+            for (int y = other_cell.getY() - 1; y <= other_cell.getY() + 1; y++) {
+                if(x>=0 && y>=0 && x<5 && y<5){
+                    Cell cell=model.getBoard().getCell(x,y);
+                    if(cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< 2) && cell.getLevel().getBlockId() != 4){
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
     public synchronized void move(PlayerMove move) {
-        boolean test = false;
+        boolean test;
         if(!model.isPlayerTurn(move.getPlayer())){//se non è il turno del giocatore
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
@@ -38,14 +54,16 @@ public class Controller implements Observer<Message> {
             return;
         }
         HashMap<Cell, Boolean> availableCells=checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
+        /*test=false;
         for(Cell c:availableCells.keySet()){
             if(availableCells.get(c)){
                 test = true;
             }
-        }
+        }*/
+        test=canMove(move.getPlayer().getWorker(move.getWorkerId()));
         try{
             if(!test){
-                move.getPlayer().getWorker(move.getWorkerId()).setStatus(false);
+                //move.getPlayer().getWorker(move.getWorkerId()).setStatus(false);
                 move.getView().reportError("This worker can't move anywhere");
             } else if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn())) != null && availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {
                 try {
@@ -53,8 +71,7 @@ public class Controller implements Observer<Message> {
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.updatePhase();
                     model.move(move);
-                    resetWorkerStatus(move);
-
+                    checkVictory();
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println(e.getMessage());
                 }
@@ -63,13 +80,11 @@ public class Controller implements Observer<Message> {
             }
         }catch(IllegalArgumentException e){
             move.getView().reportError("Cell index must be between 0 and 4 (included)");
-
-
         }
 
     }
 
-    private synchronized void resetWorkerStatus(PlayerMove move){
+    /*private synchronized void resetWorkerStatus(PlayerMove move){//quando mi muovo resetta lo status dei worker che prima erano vicini a me
         Cell cell = model.getBoard().getCell(move.getRow(), move.getColumn());
         Player[] players = model.getPlayers();
         for(int i = 0; i < players.length; i++){
@@ -80,33 +95,47 @@ public class Controller implements Observer<Message> {
                 model.resetWorkerStatus(players[i].getWorker(1));
             }
         }
-    }
+    }*/
 
     public synchronized void increaseLevel(PlayerBuild playerBuild) throws IllegalArgumentException {
         if(!model.isPlayerTurn(playerBuild.getPlayer())){//se non è il turno del giocatore
             playerBuild.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
         }
-        Cell cell=this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY());
-        Blocks level = cell.getLevel();
-        model.setNextMessageType(MessageType.MOVE);
-        model.setNextPlayerMessage(PlayerMessage.MOVE);
-        model.updatePhase();
-        model.updateTurn();
-        switch(level.getBlockId()) {
-            case 0:
-                model.increaseLevel(cell, Blocks.LEVEL1);
-                break;
-            case 1:
-                model.increaseLevel(cell, Blocks.LEVEL2);break;
-            case 2:
-                model.increaseLevel(cell, Blocks.LEVEL3);break;
-            case 3:
-                model.increaseLevel(cell, Blocks.DOME);break;
-            default:
-                throw new IllegalArgumentException();
-        }
+        Cell cell=this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()); //ottengo la cella sulla quale costruire
+        Blocks level = cell.getLevel();//ottengo l'altezza della cella
 
+        //qui devo fare i controlli
+        if(     Math.abs(cell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
+                Math.abs(cell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
+                (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell()!=cell) &&
+                (cell.getX()>=0 && cell.getX()<5) &&
+                (cell.getY()>=0 && cell.getY()<5) &&
+                (cell.getLevel().getBlockId()<=3) &&
+                (cell.isFree())
+        ){
+            model.setNextMessageType(MessageType.MOVE);
+            model.setNextPlayerMessage(PlayerMessage.MOVE);
+            model.updatePhase();
+            model.updateTurn();
+            switch(level.getBlockId()) {
+                case 0:
+                    model.increaseLevel(cell, Blocks.LEVEL1);
+                    break;
+                case 1:
+                    model.increaseLevel(cell, Blocks.LEVEL2);break;
+                case 2:
+                    model.increaseLevel(cell, Blocks.LEVEL3);break;
+                case 3:
+                    model.increaseLevel(cell, Blocks.DOME);break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
+        checkVictory();
     }
 
     private synchronized HashMap<Cell, Boolean> checkCellsAround (Worker worker){
@@ -170,4 +199,25 @@ public class Controller implements Observer<Message> {
         msg.handler(this);
     }
 
+    public void checkVictory(){
+        int playerCantMove=0;
+        Player[] players =model.getPlayers();
+        boolean[] playersBool = new boolean[model.getNumOfPlayers()];
+        Arrays.fill(playersBool, false); //do per scontato che tutti i worker si possano muovere
+        for(int i=0; i<model.getNumOfPlayers(); i++){
+            players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0)));
+            players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
+            if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
+                playerCantMove++;
+                playersBool[i]=true;
+            }
+        }
+        if(playerCantMove==model.getNumOfPlayers()-1){
+            for(int i=0; i<players.length;i++){
+                if(!playersBool[i]){
+                    model.victory(players[i]);
+                }
+            }
+        }
+    }
 }

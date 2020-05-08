@@ -8,11 +8,13 @@ public class PlayerBuild extends Message {
 
     private final int x;
     private final int y;
+    private final int workerId;
 
-    public PlayerBuild(Player player, int x, int y, View view) {
+    public PlayerBuild(Player player, int workerId, int x, int y, View view) {
         super(player, view);
         this.x = x;
         this.y = y;
+        this.workerId=workerId;
     }
 
     public int getX() {
@@ -21,6 +23,10 @@ public class PlayerBuild extends Message {
 
     public int getY() {
         return y;
+    }
+
+    public int getWorkerId(){
+        return workerId;
     }
 
     @Override
