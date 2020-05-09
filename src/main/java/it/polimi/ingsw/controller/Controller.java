@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.observer.Observer;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.*;
 
@@ -30,10 +31,11 @@ public class Controller implements Observer<Message> {
         return ph == model.getPhase();
     }
 
-    private synchronized void drawedCards(int x, int y, int z){
-        GodCard[] godCards= new GodCard[model.getNumOfPlayers()];
-        for(int i = 0; i < model.getNumOfPlayers(); i++){
-
+    public synchronized void drawedCards(int x, int y, int z){
+        model.addGod(SimpleGods.getGod(x+1));
+        model.addGod(SimpleGods.getGod(y+1));
+        if(z!=-1){
+            model.addGod(SimpleGods.getGod(z+1));
         }
     }
 

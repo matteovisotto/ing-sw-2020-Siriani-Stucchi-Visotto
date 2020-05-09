@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utils.PlayerMessage;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
@@ -17,6 +18,7 @@ public class Model extends Observable<ViewMessage> {
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
+    private ArrayList<GodCard> gods=new ArrayList<GodCard>();
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private static boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
@@ -165,6 +167,10 @@ public class Model extends Observable<ViewMessage> {
             }
         }
         return godCards;
+    }
+
+    public void addGod(GodCard godCard){
+        gods.add(godCard);
     }
 
     public void assignCard(Player player, GodCard godCard){
