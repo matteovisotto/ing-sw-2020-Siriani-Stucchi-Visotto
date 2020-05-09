@@ -30,6 +30,13 @@ public class Controller implements Observer<Message> {
         return ph == model.getPhase();
     }
 
+    private synchronized void drawedCards(int x, int y, int z){
+        GodCard[] godCards= new GodCard[model.getNumOfPlayers()];
+        for(int i = 0; i < model.getNumOfPlayers(); i++){
+
+        }
+    }
+
     private synchronized boolean canMove(Worker worker){
         Cell other_cell= worker.getCell();
         for (int x = other_cell.getX() - 1; x <= other_cell.getX() + 1; x++) {

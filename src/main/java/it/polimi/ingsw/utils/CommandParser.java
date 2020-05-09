@@ -22,6 +22,10 @@ public class CommandParser {
     public Message parse() throws IllegalArgumentException, NumberFormatException, IndexOutOfBoundsException{
         String[] s;
         switch(phase){
+            case DRAWCARD:
+                string = string.replaceAll(" ", "");
+                s = string.split(",");//x,y
+                return new DrawedCards(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
             case SETWORKER1: case SETWORKER2:
                 string = string.replaceAll(" ", "");
                 s = string.split(",");//x,y

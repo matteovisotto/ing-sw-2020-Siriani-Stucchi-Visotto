@@ -32,7 +32,6 @@ public class Model extends Observable<ViewMessage> {
             this.messageType=MessageType.SET_WORKER_1;
             this.playerMessage=PlayerMessage.PLACE_FIRST_WORKER;
         }
-
     }
 
     public void initialize(){
