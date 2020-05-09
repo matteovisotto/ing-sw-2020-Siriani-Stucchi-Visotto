@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.messageModel.MessageEveryPlayer;
+import it.polimi.ingsw.model.messageModel.GameBoardMessage;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 
 import java.io.IOException;
@@ -42,8 +42,8 @@ public class Client {
                             System.out.println((String)inputObject);
                         } else if(inputObject instanceof ViewMessage){
                             ViewMessage viewMessage=(ViewMessage)inputObject;
-                            if(viewMessage instanceof MessageEveryPlayer){
-                                ((MessageEveryPlayer) viewMessage).getBoard().print();
+                            if(viewMessage instanceof GameBoardMessage){
+                                ((GameBoardMessage) viewMessage).getBoard().print();
                             }
                             System.out.println(viewMessage.getMessage());
                         } else if (inputObject instanceof Board) { // se viene passata una board

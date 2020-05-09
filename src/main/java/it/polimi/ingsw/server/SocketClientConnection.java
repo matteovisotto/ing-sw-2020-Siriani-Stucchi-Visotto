@@ -60,6 +60,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         System.out.println("Done!");
     }
 
+    public void returnToLobby(){
+        this.run();
+    }
+
     @Override
     public void asyncSend(final Object message){
         new Thread(new Runnable() {

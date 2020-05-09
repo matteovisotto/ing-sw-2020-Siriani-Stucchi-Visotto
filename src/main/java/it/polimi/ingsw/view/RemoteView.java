@@ -25,7 +25,7 @@ public class RemoteView extends View {
             } catch(NumberFormatException e){
                 reportError("Please insert numbers only");
             } catch(IndexOutOfBoundsException | IllegalArgumentException e){
-                reportError("Wrong input");
+                reportError(e.getMessage());
             }
         }
     }
@@ -70,6 +70,10 @@ public class RemoteView extends View {
         } else if ((phase == Phase.BEGINNING) && this.getPlayer() != player) {
             showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn, It's "+player.getPlayerName()+"'s turn", arg.getPhase()));
         }
+    }
+
+    public ClientConnection getConnection(){
+        return this.clientConnection;
     }
 
 }

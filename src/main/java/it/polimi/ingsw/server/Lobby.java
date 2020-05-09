@@ -114,7 +114,7 @@ public class Lobby {
         remoteView2.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        sendAllPlayer(model.getBoardClone());
+        //sendAllPlayer(model.getBoardClone());
         model.initialize();
         /*if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);
@@ -146,6 +146,7 @@ public class Lobby {
 
         if(!simplePlay){
             //player have to draw a card
+            //TODO
         }
 
         remoteView1 = new RemoteView(player1, players.get(1), players.get(2), c1);
@@ -164,7 +165,7 @@ public class Lobby {
         remoteView3.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        sendAllPlayer(model.getBoardClone());
+        //sendAllPlayer(model.getBoardClone());
         model.initialize();
         /*if(model.isPlayerTurn(playerArray[0])){
             c1.asyncSend(PlayerMessage.YOUR_TURN);

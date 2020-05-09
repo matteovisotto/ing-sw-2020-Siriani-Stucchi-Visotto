@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
+import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.observer.Observer;
 
@@ -10,6 +11,9 @@ import java.util.*;
 public class Controller implements Observer<Message> {
     private final Model model;
     private GodCardController godCardController;
+    private int counter=0;
+    private int answers=0;
+    private Map<Player, ClientConnection> activeClients = new HashMap<>();
 
     public Controller(Model model){
         super();
@@ -181,12 +185,7 @@ public class Controller implements Observer<Message> {
 
     }
 
-    @Override
-    public void update(Message msg) {//la update gestisce i messaggi
-        msg.handler(this);
-    }
-
-    public void checkVictory(){
+    public synchronized void checkVictory(){
         int playerCantMove=0;
         Player[] players =model.getPlayers();
         boolean[] playersBool = new boolean[model.getNumOfPlayers()];
@@ -209,5 +208,28 @@ public class Controller implements Observer<Message> {
                 }
             }
         }
+    }
+
+    public synchronized void endGame(NewGameMessage newGameMessage){
+        answers++;
+        if(newGameMessage.getChoice()=='y'){
+            this.counter++;
+            activeClients.put(newGameMessage.getPlayer(), newGameMessage.getClientConnection());
+            if(counter==model.getNumOfPlayers()){
+                //TODO model reset
+                model.startOver();
+            }
+            else if(answers==model.getNumOfPlayers()){
+                //TODO return to lobby
+            }
+        }
+        else{
+            newGameMessage.getClientConnection().closeConnection();
+        }
+    }
+
+    @Override
+    public void update(Message msg) {//la update gestisce i messaggi
+        msg.handler(this);
     }
 }

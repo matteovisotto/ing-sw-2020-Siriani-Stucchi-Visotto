@@ -37,7 +37,8 @@ public class Model extends Observable<ViewMessage> {
 
     public void initialize(){
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
-        notifyObservers(new GameMessage(turn[id], this.playerMessage, this.messageType, this.phase));
+        notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
+
     }
 
     public static boolean isMovedUp() {
@@ -117,7 +118,7 @@ public class Model extends Observable<ViewMessage> {
                 loose(turn[id]);
             }
         }catch(Exception e){
-
+            e.printStackTrace();
         }
 
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
@@ -199,9 +200,9 @@ public class Model extends Observable<ViewMessage> {
             leftPlayers--;
         }
         else{
-            for(int i=0; i<turn.length; i++){
-                if(!turn[i].getHasLost() && turn[i]!=player){
-                    victory(turn[i]);
+            for (Player value : turn) {
+                if (!value.getHasLost() && value != player) {
+                    victory(value);
                 }
             }
         }
@@ -209,11 +210,33 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void endGame(){
-        
+        phase=Phase.END_GAME;
+        ViewMessage end = new ViewMessage(MessageType.END_GAME, "The game has ended.\nDo you want to play again?(y/n)\n", this.phase);
+        notifyObservers(end);
     }
 
+    public void close(){
+
+    }
+
+    public void startOver(){
+        resetBoard();
+        leftPlayers=turn.length;
+        if(simplePlay){
+            this.phase=Phase.SETWORKER1;
+            this.messageType=MessageType.SET_WORKER_1;
+            this.playerMessage=PlayerMessage.PLACE_FIRST_WORKER;
+        }
+        else{
+            this.phase=Phase.DRAWCARD;
+        }
+        for (Player player : turn) {
+            player.reset();
+        }
+        initialize();
+    }
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
     public void notifyChanges(){
-        notifyObservers(new MessageEveryPlayer(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
+        notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
     }
 }

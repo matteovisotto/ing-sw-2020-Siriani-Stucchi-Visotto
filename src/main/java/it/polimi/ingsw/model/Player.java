@@ -75,5 +75,13 @@ public class Player implements Serializable {
     public void setUsedWorker(int usedWorker) {
         this.usedWorker = usedWorker;
     }
+
+    public void reset(){
+        this.hasLost=false;
+        this.victory=false;
+        godCard=null;
+        workers.remove(1);
+        workers.remove(0);
+    }
 }
 

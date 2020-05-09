@@ -10,7 +10,8 @@ public enum Phase {
     SETWORKER2(-1),
     BEGINNING(0),
     MOVE(1),
-    BUILD(2);
+    BUILD(2),
+    END_GAME(10);
 
     private int phaseId;
     Phase(int phaseId) {
@@ -42,6 +43,8 @@ public enum Phase {
                 return Phase.MOVE;
             case 1:
                 return Phase.BUILD;
+            case 10:
+                return Phase.END_GAME;
             default:
                 throw new IllegalArgumentException();
         }
@@ -69,6 +72,8 @@ public enum Phase {
                 return Phase.MOVE;
             case 2:
                 return Phase.BUILD;
+            case 10:
+                return Phase.END_GAME;
             default:
                 throw new IllegalArgumentException();
         }

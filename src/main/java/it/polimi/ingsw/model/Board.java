@@ -50,14 +50,14 @@ public class Board implements Serializable, Cloneable {
             System.out.print("\t");
             for(int j = 0; j < 5; j++) {
                 System.out.print("| ");
-                if (!board[i][j].isFree()){
+                if (!board[j][i].isFree()){
                     for (int p = 0; p < players.length; p++) {
                         Player player = players[p];
-                        if(player.getWorker(0).getCell().equals(board[i][j])){
+                        if(player.getWorker(0).getCell().equals(board[j][i])){
                             System.out.print("P:"+p+" W:0 ");
                             break;
                         }
-                        if(player.getWorker(1).getCell().equals(board[i][j])){
+                        if(player.getWorker(1).getCell().equals(board[j][i])){
                             System.out.print("P:"+p+" W:1 ");
                             break;
                         }
