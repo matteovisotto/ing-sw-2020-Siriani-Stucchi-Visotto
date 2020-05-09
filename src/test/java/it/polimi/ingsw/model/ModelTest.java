@@ -31,6 +31,17 @@ public class ModelTest {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
+
+        Worker worker= new Worker(new Cell(0,0));
+        players[0].setWorkers(worker);
+        worker= new Worker(new Cell(0,1));
+        players[0].setWorkers(worker);
+
+        worker= new Worker(new Cell(1,0));
+        players[1].setWorkers(worker);
+        worker= new Worker(new Cell(1,1));
+        players[1].setWorkers(worker);
+
         Model model = new Model(players,true);
         model.updateTurn();
         assertEquals(model.getActualPlayer(),players[1]);
@@ -45,6 +56,16 @@ public class ModelTest {
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
         Phase phase = Phase.SETWORKER2;
+        Worker worker= new Worker(new Cell(0,0));
+        players[0].setWorkers(worker);
+        worker= new Worker(new Cell(0,1));
+        players[0].setWorkers(worker);
+
+        worker= new Worker(new Cell(1,0));
+        players[1].setWorkers(worker);
+        worker= new Worker(new Cell(1,1));
+        players[1].setWorkers(worker);
+
         model.updatePhase();
         assertTrue(phase==model.getPhase());
         model.updatePhase();

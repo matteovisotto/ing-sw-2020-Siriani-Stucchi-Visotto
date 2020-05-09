@@ -117,8 +117,8 @@ public class Model extends Observable<ViewMessage> {
             if(!turn[id].getWorker(0).getStatus() && !turn[id].getWorker(1).getStatus()){
                 loose(turn[id]);
             }
-        }catch(Exception e){
-            e.printStackTrace();
+        }catch(IndexOutOfBoundsException e){
+            //e.printStackTrace();
         }
 
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
