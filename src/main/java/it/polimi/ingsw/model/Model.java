@@ -13,6 +13,7 @@ public class Model extends Observable<ViewMessage> {
     private Board board;
     private final Player[] turn;
     private int id = 0;
+    private int leftPlayers;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
@@ -25,7 +26,7 @@ public class Model extends Observable<ViewMessage> {
         this.turn = players;
         this.simplePlay = simplePlay;
         this.board= new Board(this.turn);
-
+        leftPlayers=players.length;
         if(simplePlay){
             this.phase=Phase.SETWORKER1;
             this.messageType=MessageType.SET_WORKER_1;
@@ -71,6 +72,10 @@ public class Model extends Observable<ViewMessage> {
         return turn;
     }
 
+    public int getLeftPlayers(){
+        return leftPlayers;
+    }
+
     public int getNumOfPlayers(){
         return this.turn.length;
     }
@@ -104,13 +109,12 @@ public class Model extends Observable<ViewMessage> {
         if(turn[id].hasWon() && turn.length==3){
             updateTurn();
         }
+        if(turn[id].getHasLost() && turn.length==3){
+            updateTurn();
+        }
         try{
             if(!turn[id].getWorker(0).getStatus() && !turn[id].getWorker(1).getStatus()){
-                turn[id].setHasLost(true);
-                if(turn.length == 2){
-                    updateTurn();
-                    victory(turn[id]);
-                }
+                loose(turn[id]);
             }
         }catch(Exception e){
 
@@ -184,13 +188,29 @@ public class Model extends Observable<ViewMessage> {
 
     public void victory(Player player) {
         player.setVictory(true);
-        ViewMessage win = new MessageEveryPlayer(getBoardClone(),turn[id],"Player: "+player.getPlayerName()+" has won!!!!", MessageType.VICTORY, this.phase);
+        ViewMessage win = new ViewMessage(MessageType.VICTORY,"Player: "+player.getPlayerName()+" has won!!!!",  this.phase);
         notifyObservers(win);
     }
 
-    /*public void resetWorkerStatus(Worker worker){
-        worker.setStatus(true);
-    }*/
+    public void loose(Player player){
+        player.setHasLost(true);
+        ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: "+player.getPlayerName()+" has lost. Retry, you'll be more lucky", this.phase);
+        if(leftPlayers==3){
+            leftPlayers--;
+        }
+        else{
+            for(int i=0; i<turn.length; i++){
+                if(!turn[i].getHasLost() && turn[i]!=player){
+                    victory(turn[i]);
+                }
+            }
+        }
+        notifyObservers(loose);
+    }
+
+    public void endGame(){
+        
+    }
 
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
     public void notifyChanges(){
