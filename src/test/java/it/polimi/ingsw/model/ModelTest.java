@@ -121,7 +121,7 @@ public class ModelTest {
             assertTrue(godCards2[0]!=null && godCards2[1]!=null && godCards2[2]!=null && godCards2[0]!=godCards2[1] && godCards2[0]!=godCards2[2] && godCards2[1]!=godCards2[2]);
         }
     }
-    @Test
+    /*@Test
     public void testAssignCard() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -130,7 +130,7 @@ public class ModelTest {
         GodCard godCard = new Apollo();
         model.assignCard(players[0],godCard);
         assertEquals(players[0].getGodCard(),godCard);
-    }
+    }*/
 
     @Test
     public void testMove() {

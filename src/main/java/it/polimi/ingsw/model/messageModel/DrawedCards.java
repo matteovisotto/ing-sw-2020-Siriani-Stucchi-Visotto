@@ -21,9 +21,19 @@ public class DrawedCards extends Message {
         this.z=z;
     }
 
+    public int getFirst(){
+        return x;
+    }
+    public int getSecond(){
+        return y;
+    }
+    public int getThird(){
+        return z;
+    }
+
 
     @Override
     public void handler(Controller controller) {
-        controller.drawedCards(x,y,z);
+        controller.drawedCards(this);
     }
 }

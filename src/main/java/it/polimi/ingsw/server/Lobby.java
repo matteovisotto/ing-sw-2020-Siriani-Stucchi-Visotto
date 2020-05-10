@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.GodCardController;
+import it.polimi.ingsw.controller.SimpleController;
+import it.polimi.ingsw.model.GodCard;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
@@ -107,7 +110,14 @@ public class Lobby {
         remoteView2 = new RemoteView(player2, players.get(0), c2);
 
         Model model = new Model(playerArray, simplePlay);
-        Controller controller = new Controller(model);
+        Controller controller;
+        if(simplePlay){
+            controller = new SimpleController(model);
+        }
+        else{
+            controller=new GodCardController(model);
+        }
+
         model.addObserver(remoteView1);
         model.addObserver(remoteView2);
         remoteView1.addObserver(controller);
@@ -155,7 +165,13 @@ public class Lobby {
 
 
         Model model = new Model(playerArray, simplePlay);
-        Controller controller = new Controller(model);
+        Controller controller;
+        if(simplePlay){
+            controller = new SimpleController(model);
+        }
+        else{
+            controller=new GodCardController(model);
+        }
         model.addObserver(remoteView1);
         model.addObserver(remoteView2);
         model.addObserver(remoteView3);

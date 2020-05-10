@@ -24,8 +24,26 @@ public class CommandParser {
         switch(phase){
             case DRAWCARD:
                 string = string.replaceAll(" ", "");
-                s = string.split(",");//x,y
-                return new DrawedCards(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
+                s = string.split(",");//x,y,z
+                if(s.length==2){
+                    if(Integer.parseInt(s[0])>=0 && Integer.parseInt(s[1])>=0 && Integer.parseInt(s[0])<=8 && Integer.parseInt(s[1])<=8){
+                        return new DrawedCards(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
+                    }
+
+                }
+                else if(s.length==3){
+                    if(Integer.parseInt(s[0])>=0 && Integer.parseInt(s[1])>=0 && Integer.parseInt(s[0])<=8 && Integer.parseInt(s[1])<=8 && Integer.parseInt(s[2])>=0 && Integer.parseInt(s[2])<=8) {
+                        return new DrawedCards(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), view);
+                    }
+                }
+                throw new IllegalArgumentException("Wrong input");
+            case PICK_CARD:
+                int p=Integer.parseInt(String.valueOf(string.charAt(0)));
+                if(p<=2 && p>=0){
+                    return new PickedCard(this.player, this.view, p);
+                }
+                throw new IllegalArgumentException("Wrong index input");
+
             case SETWORKER1: case SETWORKER2:
                 string = string.replaceAll(" ", "");
                 s = string.split(",");//x,y

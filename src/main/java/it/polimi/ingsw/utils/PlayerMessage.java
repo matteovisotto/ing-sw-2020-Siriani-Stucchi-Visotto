@@ -16,6 +16,7 @@ public class PlayerMessage {
 
     /* Playing messages */
     public static final String DRAW_CARD = "Drawing cards";
+    public static final String PICK_CARD = "Pick a card:";
     public static final String YOUR_TURN = "It's your turn.";
     public static final String NOT_YOUR_TURN = "'s turn.";
     public static final String PLACE_FIRST_WORKER = "Please place your first worker";

@@ -6,15 +6,15 @@ import it.polimi.ingsw.model.simplegod.*;
  * This class define the different simpleGod of the game.
  */
 public enum SimpleGods {
-    APOLLO(1),
-    ARTHEMIS(2),
-    ATHENA(3),
-    ATLAS(4),
-    DEMETER(5),
-    HEPHAESTUS(6),
-    MINOTAUR(7),
-    PAN(8),
-    PROMETHEUS(9);
+    APOLLO(0),
+    ARTHEMIS(1),
+    ATHENA(2),
+    ATLAS(3),
+    DEMETER(4),
+    HEPHAESTUS(5),
+    MINOTAUR(6),
+    PAN(7),
+    PROMETHEUS(8);
 
     private final int simplegod;
 
@@ -30,23 +30,23 @@ public enum SimpleGods {
      */
     public static GodCard getGod(int id) throws IllegalArgumentException{
         switch(id) {
-            case 1:
+            case 0:
                 return new Apollo();
-            case 2:
+            case 1:
                 return new Arthemis();
-            case 3:
+            case 2:
                 return new Athena();
-            case 4:
+            case 3:
                 return new Atlas();
-            case 5:
+            case 4:
                 return new Demeter();
-            case 6:
+            case 5:
                 return new Hephaestus();
-            case 7:
+            case 6:
                 return new Minotaur();
-            case 8:
+            case 7:
                 return new Pan();
-            case 9:
+            case 8:
                 return new Prometheus();
             default:
                 throw new IllegalArgumentException();

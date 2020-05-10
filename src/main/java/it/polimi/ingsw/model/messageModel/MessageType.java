@@ -10,6 +10,7 @@ public enum MessageType{
     WAIT_FOR_START,
 
     DRAW_CARD,
+    PICK_CARD,
     SET_WORKER_1,
     SET_WORKER_2,
 

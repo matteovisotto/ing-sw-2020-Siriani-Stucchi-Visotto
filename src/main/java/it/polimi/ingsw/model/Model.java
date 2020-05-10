@@ -173,9 +173,25 @@ public class Model extends Observable<ViewMessage> {
         gods.add(godCard);
     }
 
-    public void assignCard(Player player, GodCard godCard){
+    public int getLeftCards(){
+        return gods.size();
+    }
+
+    public boolean isGodAvailable(int x){
+        return gods.size()>=x+1;
+    }
+
+    public Player getGCPlayer(SimpleGods simpleGods){//returna null se non c'é un giocatore assegnato alla carta
+        return playerCards.get(simpleGods);
+    }
+
+    public GodCard assignCard(Player player, int x){
+        GodCard godCard = gods.get(x);
+        gods.remove(x);
+        gods.trimToSize();
         player.setGodCard(godCard);
         playerCards.put(godCard.getCardGod(), player);
+        return godCard;
     }
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
@@ -243,5 +259,9 @@ public class Model extends Observable<ViewMessage> {
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
     public void notifyChanges(){
         notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
+    }
+
+    public void notifyMessage(String message){
+        notifyObservers(new GameMessage(turn[id],message, this.messageType, this.phase));
     }
 }
