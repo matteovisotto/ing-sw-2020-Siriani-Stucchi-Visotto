@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.messageModel;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.GodCardController;
+import it.polimi.ingsw.model.GodCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
@@ -34,6 +36,6 @@ public class DrawedCards extends Message {
 
     @Override
     public void handler(Controller controller) {
-        controller.drawedCards(this);
+        ((GodCardController)controller).drawedCards(this);
     }
 }
