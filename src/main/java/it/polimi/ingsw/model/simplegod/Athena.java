@@ -26,7 +26,7 @@ public class Athena extends GodCard {
     }
 
     public void setFirstBuilt(Cell firstBuilt){
-
+        this.cell = firstBuilt;
     }
 
     public boolean isMoved() {
@@ -34,11 +34,15 @@ public class Athena extends GodCard {
     }
 
     public void hasMoved(boolean movedUp) {
-
+        this.moved = movedUp;
     }
 
     public boolean hasBuilt() {
         return built;
+    }
+
+    public void setBuild(boolean built){
+        this.built = built;
     }
 
     /**
@@ -53,6 +57,6 @@ public class Athena extends GodCard {
     }
     @Override
     public void reset() {
-
+        this.moved = false;
     }
 }

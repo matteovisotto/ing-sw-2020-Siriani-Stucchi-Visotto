@@ -26,10 +26,47 @@ public class PanTest {
         Model model = new Model(players, true);
         List<Object> winList = new ArrayList<>();
         winList.add(model);
-        //winList.add(players[0]);
+        winList.add(players[0]);
         GodCard godCard = new Pan();
         model.getActualPlayer().setGodCard(godCard);
         model.getActualPlayer().getGodCard().usePower(winList);
         assertTrue(model.getActualPlayer().hasWon());
+    }
+
+    @Test
+    public void setFirstBuildTest(){
+        GodCard godCard = new Pan();
+        godCard.setFirstBuilt(new Cell(1,2));
+        Cell cell = new Cell(1,2);
+        assertEquals(godCard.getFirstBuilt(),cell);
+    }
+
+    @Test
+    public void hasMovedTest(){
+        GodCard godCard = new Pan();
+        godCard.hasMoved(true);
+        assertTrue(godCard.isMoved());
+    }
+
+    @Test
+    public void setBuildTest(){
+        GodCard godCard = new Pan();
+        godCard.setBuild(true);
+        assertTrue(godCard.hasBuilt());
+    }
+
+    @Test
+    public void resetTest(){
+        GodCard godCard = new Pan();
+        godCard.hasMoved(true);
+        godCard.reset();
+        assertFalse(godCard.isMoved());
+    }
+
+    @Test
+    public void getPhaseTest(){
+        GodCard godCard = new Pan();
+        Phase phase = godCard.getPhase();
+        assertEquals(phase,Phase.MOVE);
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.FullWorkerException;
+import it.polimi.ingsw.model.simplegod.Apollo;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,7 +24,16 @@ public class PlayerTest {
         Player player = new Player("Luigi");
         player.setGodCard(SimpleGods.getGod(2));
         assertEquals(SimpleGods.getGod(2), player.getGodCard());
+    }
 
+    @Test
+    public void resetUsePowerTest(){
+        Player player = new Player("Luigi");
+        GodCard godCard = new Apollo();
+        player.setGodCard(godCard);
+        player.setUsePower(true);
+        player.resetUsePower();
+        assertFalse(player.getUsePower());
     }
 
     @Test
@@ -94,5 +104,22 @@ public class PlayerTest {
         player.setWorkers(worker);
         player.setWorkers(worker2);
         player.getWorker(3);
+    }
+
+    @Test
+    public void resetTest(){
+        Player player = new Player("Marco");
+        player.setHasLost(true);
+        player.setVictory(true);
+        GodCard godCard = new Apollo();
+        player.setGodCard(godCard);
+        Worker worker1 = new Worker(new Cell(1,2));
+        Worker worker2 = new Worker(new Cell(2,2));
+        player.setWorkers(worker1);
+        player.setWorkers(worker2);
+        player.reset();
+        assertFalse(player.hasWon());
+        assertFalse(player.getHasLost());
+        assertNull(player.getGodCard());
     }
 }

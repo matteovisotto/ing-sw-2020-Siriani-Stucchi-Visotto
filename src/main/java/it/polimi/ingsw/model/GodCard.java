@@ -29,6 +29,8 @@ public abstract class GodCard implements Serializable {
 
     public abstract boolean hasBuilt();
 
+    public abstract void setBuild(boolean built);
+
     public abstract void hasMoved(boolean moved);
 
     public abstract Phase getPhase();
@@ -43,6 +45,10 @@ public abstract class GodCard implements Serializable {
             return ((GodCard) obj).card.getSimpleGodId() == this.card.getSimpleGodId();
         }
         return false;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
     }
 
     public boolean isActive() {

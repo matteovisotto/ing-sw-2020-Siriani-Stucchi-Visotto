@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Prometheus extends GodCard {
     private boolean built = false;
-    private final Phase phase = Phase.MOVE;//VA CAMBIATO IN BEGINNING
+    private final Phase phase = Phase.BEGINNING;//VA CAMBIATO IN BEGINNING
     private boolean moved = false;
     private Cell cell;
     public Prometheus() {
@@ -20,12 +20,16 @@ public class Prometheus extends GodCard {
         return built;
     }
 
+    public void setBuild(boolean built){
+        this.built = built;
+    }
+
     public Cell getFirstBuilt(){
         return cell;
     }
 
     public void setFirstBuilt(Cell firstBuilt){
-
+        this.cell = firstBuilt;
     }
 
     public boolean isMoved() {
@@ -33,7 +37,7 @@ public class Prometheus extends GodCard {
     }
 
     public void hasMoved(boolean moved) {
-
+        this.moved = moved;
     }
 
     public Phase getPhase() {

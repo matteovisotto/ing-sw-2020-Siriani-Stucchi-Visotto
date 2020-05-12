@@ -37,6 +37,10 @@ public class Player implements Serializable {
         usePower = false;
     }
 
+    public void setUsePower(boolean usePower){
+        this.usePower = usePower;
+    }
+
     public void setHasLost(boolean status){
         hasLost = status;
     }

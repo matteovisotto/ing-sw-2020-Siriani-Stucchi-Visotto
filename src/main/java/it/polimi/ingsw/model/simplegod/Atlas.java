@@ -25,7 +25,7 @@ public class Atlas extends GodCard {
     }
 
     public void setFirstBuilt(Cell firstBuilt){
-
+        this.cell = firstBuilt;
     }
 
     public boolean isMoved() {
@@ -40,6 +40,10 @@ public class Atlas extends GodCard {
         return built;
     }
 
+    public void setBuild(boolean built){
+        this.built = built;
+    }
+
     /**
      * This method makes a player's worker build a DOME at any level; it could be used only if the player decide to activate his power.
      * @param objectList contain the cell in which it will be built the DOME (objectList.get(0)).
@@ -51,6 +55,6 @@ public class Atlas extends GodCard {
     }
     @Override
     public void reset() {
-
+        this.moved = false;
     }
 }

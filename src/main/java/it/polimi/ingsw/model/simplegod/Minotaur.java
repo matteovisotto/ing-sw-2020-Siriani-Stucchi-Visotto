@@ -25,18 +25,22 @@ public class Minotaur extends GodCard {
     }
 
     public void setFirstBuilt(Cell firstBuilt){
-
+        this.cell = firstBuilt;
     }
     public boolean isMoved() {
         return moved;
     }
 
     public void hasMoved(boolean moved) {
-
+        this.moved = moved;
     }
 
     public boolean hasBuilt() {
         return built;
+    }
+
+    public void setBuild(boolean built){
+        this.built = built;
     }
 
     /**
@@ -54,6 +58,6 @@ public class Minotaur extends GodCard {
     }
     @Override
     public void reset() {
-
+        this.moved = false;
     }
 }

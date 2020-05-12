@@ -8,8 +8,6 @@ import static org.junit.Assert.assertEquals;
 
 public class PhaseTest {
 
-    public class BlocksTest {
-
         @Rule
         public final ExpectedException exception = ExpectedException.none();
 
@@ -47,21 +45,16 @@ public class PhaseTest {
 
         @Test
         public void testNext() {
-            Phase phase = Phase.WAIT_PLAYERS;
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(-4), phase);
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(-3), phase);
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(-2), phase);
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(-1), phase);
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(0), phase);
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(1), phase);
-            Phase.next(phase);
-            assertEquals(Phase.getPhase(2), phase);
+            assertEquals(Phase.DRAWCARD, Phase.next(Phase.getPhase(-5)));
+            assertEquals(Phase.PICK_CARD, Phase.next(Phase.getPhase(-4)));
+            assertEquals(Phase.SETWORKER1, Phase.next(Phase.getPhase(-3)));
+            assertEquals(Phase.SETWORKER2, Phase.next(Phase.getPhase(-2)));
+            assertEquals(Phase.MOVE, Phase.next(Phase.getPhase(-1)));
+            assertEquals(Phase.MOVE, Phase.next(Phase.getPhase(0)));
+            assertEquals(Phase.BUILD, Phase.next(Phase.getPhase(1)));
+            assertEquals(Phase.MOVE, Phase.next(Phase.getPhase(2)));
+            assertEquals(Phase.BUILD, Phase.next(Phase.getPhase(1)));
+            assertEquals(Phase.END_GAME, Phase.next(Phase.getPhase(10)));
+
         }
-    }
 }

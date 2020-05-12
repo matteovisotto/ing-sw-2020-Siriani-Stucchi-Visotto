@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.simplegod;
 
-import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.GodCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -30,5 +27,42 @@ public class MinotaurTest {
         godCard.usePower(movedList);
         assertTrue(player.getWorker(0).getCell().getX()==2 && player.getWorker(0).getCell().getY()==2);
         assertTrue(player2.getWorker(0).getCell().getX()==1 && player2.getWorker(0).getCell().getY()==2);
+    }
+
+    @Test
+    public void setFirstBuildTest(){
+        GodCard godCard = new Minotaur();
+        godCard.setFirstBuilt(new Cell(1,2));
+        Cell cell = new Cell(1,2);
+        assertEquals(godCard.getFirstBuilt(),cell);
+    }
+
+    @Test
+    public void hasMovedTest(){
+        GodCard godCard = new Minotaur();
+        godCard.hasMoved(true);
+        assertTrue(godCard.isMoved());
+    }
+
+    @Test
+    public void setBuildTest(){
+        GodCard godCard = new Minotaur();
+        godCard.setBuild(true);
+        assertTrue(godCard.hasBuilt());
+    }
+
+    @Test
+    public void resetTest(){
+        GodCard godCard = new Minotaur();
+        godCard.hasMoved(true);
+        godCard.reset();
+        assertFalse(godCard.isMoved());
+    }
+
+    @Test
+    public void getPhaseTest(){
+        GodCard godCard = new Minotaur();
+        Phase phase = godCard.getPhase();
+        assertEquals(phase,Phase.MOVE);
     }
 }

@@ -50,6 +50,43 @@ public class HephaestusTest {
         model.getActualPlayer().getGodCard().setFirstBuilt(cellBuilt);
         Cell cellFirstBuild = model.getActualPlayer().getGodCard().getFirstBuilt();
         model.getActualPlayer().getGodCard().usePower(buildAgainList);
-        assertTrue( cellFirstBuild.getLevel().getBlockId() == Blocks.LEVEL1.getBlockId());
+        assertEquals(cellFirstBuild.getLevel().getBlockId(), Blocks.LEVEL1.getBlockId());
+    }
+
+    @Test
+    public void setFirstBuildTest(){
+        GodCard godCard = new Hephaestus();
+        godCard.setFirstBuilt(new Cell(1,2));
+        Cell cell = new Cell(1,2);
+        assertEquals(godCard.getFirstBuilt(),cell);
+    }
+
+    @Test
+    public void hasMovedTest(){
+        GodCard godCard = new Hephaestus();
+        godCard.hasMoved(true);
+        assertTrue(godCard.isMoved());
+    }
+
+    @Test
+    public void setBuildTest(){
+        GodCard godCard = new Hephaestus();
+        godCard.setBuild(true);
+        assertTrue(godCard.hasBuilt());
+    }
+
+    @Test
+    public void resetTest(){
+        GodCard godCard = new Hephaestus();
+        godCard.hasMoved(true);
+        godCard.reset();
+        assertFalse(godCard.isMoved());
+    }
+
+    @Test
+    public void getPhaseTest(){
+        GodCard godCard = new Hephaestus();
+        Phase phase = godCard.getPhase();
+        assertEquals(phase,Phase.BUILD);
     }
 }

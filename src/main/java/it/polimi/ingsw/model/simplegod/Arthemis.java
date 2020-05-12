@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class Arthemis extends GodCard {
     private final Phase phase = Phase.MOVE;
+    private Cell firstBuilt;
     private boolean moved = false;
     private boolean built = false;
-    private Cell cell;
     public Arthemis() {
         super(SimpleGods.ARTHEMIS);
     }
@@ -27,22 +27,25 @@ public class Arthemis extends GodCard {
 
     /**
      * This method is used to set if the player has moved.
-     * @return a boolean: true -> the player has moved; false -> the player has yet to move.
      */
     public void hasMoved(boolean moved) {
         this.moved = moved;
     }
 
     public Cell getFirstBuilt(){
-        return cell;
+        return firstBuilt;
     }
 
     public void setFirstBuilt(Cell firstBuilt){
-
+        this.firstBuilt = firstBuilt;
     }
 
     public boolean hasBuilt() {
         return built;
+    }
+
+    public void setBuild(boolean built){
+        this.built = built;
     }
 
     public Phase getPhase() {
@@ -61,6 +64,6 @@ public class Arthemis extends GodCard {
     }
     @Override
     public void reset() {
-        moved=false;
+        this.moved = false;
     }
 }

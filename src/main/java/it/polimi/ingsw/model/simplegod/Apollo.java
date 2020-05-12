@@ -25,7 +25,7 @@ public class Apollo extends GodCard {
     }
 
     public void setFirstBuilt(Cell firstBuilt){
-
+        this.cell = firstBuilt;
     }
 
     public boolean isMoved() {
@@ -33,11 +33,15 @@ public class Apollo extends GodCard {
     }
 
     public void hasMoved(boolean moved) {
-
+        this.moved = moved;
     }
 
     public boolean hasBuilt() {
         return built;
+    }
+
+    public void setBuild(boolean built){
+        this.built = built;
     }
 
     /**
@@ -57,6 +61,6 @@ public class Apollo extends GodCard {
 
     @Override
     public void reset() {
-
+        this.moved = false;
     }
 }

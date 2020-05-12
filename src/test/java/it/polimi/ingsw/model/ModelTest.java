@@ -29,6 +29,15 @@ public class ModelTest {
     }
 
     @Test
+    public void isSimplePlayTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,true);
+        assertTrue(model.isSimplePlay());
+    }
+
+    @Test
     public void updateTurnTest(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -74,7 +83,7 @@ public class ModelTest {
 
         model.updateTurn();
         model.updateTurn();
-        assertEquals(model.getActualPlayer().getHasLost(),true);
+        assertTrue(model.getActualPlayer().getHasLost());
     }
 
     @Test
@@ -95,9 +104,9 @@ public class ModelTest {
         players[1].setWorkers(worker);
 
         model.updatePhase();
-        assertTrue(phase==model.getPhase());
+        assertSame(phase, model.getPhase());
         model.updatePhase();
-        assertFalse(phase==model.getPhase());
+        assertNotSame(phase, model.getPhase());
     }
 
     @Test
@@ -210,7 +219,7 @@ public class ModelTest {
         players[1] = new Player("Luigi");
         Model model = new Model(players, true);
         model.victory(players[0]);
-        assertEquals(model.getActualPlayer().hasWon(),true);
+        assertTrue(model.getActualPlayer().hasWon());
     }
 
     @Test
@@ -221,8 +230,8 @@ public class ModelTest {
         players[2] = new Player("Toad");
         Model model = new Model(players, true);
         model.loose(players[0]);
-        assertEquals(model.getActualPlayer().getHasLost(),true);
-        assertTrue(2 == model.getLeftPlayers());
+        assertTrue(model.getActualPlayer().getHasLost());
+        assertEquals(2, model.getLeftPlayers());
     }
 }
 

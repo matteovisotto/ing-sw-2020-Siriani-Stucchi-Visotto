@@ -37,11 +37,15 @@ public class Hephaestus extends GodCard {
     }
 
     public void hasMoved(boolean moved) {
-
+        this.moved = moved;
     }
 
     public boolean hasBuilt() {
         return built;
+    }
+
+    public void setBuild(boolean built){
+        this.built = built;
     }
 
     public Phase getPhase() {
@@ -60,6 +64,6 @@ public class Hephaestus extends GodCard {
     }
     @Override
     public void reset() {
-
+        this.moved = false;
     }
 }

@@ -51,7 +51,44 @@ public class ArthemisTest {
         model.getActualPlayer().getGodCard().usePower(movingList);
         godCard.hasMoved(true);
         godCard.usePower(movingList);
-        assertTrue(players[0].getWorker(0).getCell().getX()==2);
-        assertTrue(model.getActualPlayer().getWorker(0).getCell().getX()==2);
+        assertEquals(2, players[0].getWorker(0).getCell().getX());
+        assertEquals(2, model.getActualPlayer().getWorker(0).getCell().getX());
+    }
+
+    @Test
+    public void hasMovedTest(){
+        GodCard godCard = new Arthemis();
+        godCard.hasMoved(true);
+        assertTrue(godCard.isMoved());
+    }
+
+    @Test
+    public void setFirstBuildTest(){
+        GodCard godCard = new Arthemis();
+        godCard.setFirstBuilt(new Cell(1,2));
+        Cell cell = new Cell(1,2);
+        assertEquals(godCard.getFirstBuilt(),cell);
+    }
+
+    @Test
+    public void setBuildTest(){
+        GodCard godCard = new Arthemis();
+        godCard.setBuild(true);
+        assertTrue(godCard.hasBuilt());
+    }
+
+    @Test
+    public void resetTest(){
+        GodCard godCard = new Arthemis();
+        godCard.hasMoved(true);
+        godCard.reset();
+        assertFalse(godCard.isMoved());
+    }
+
+    @Test
+    public void getPhaseTest(){
+        GodCard godCard = new Arthemis();
+        Phase phase = godCard.getPhase();
+        assertEquals(phase,Phase.MOVE);
     }
 }
