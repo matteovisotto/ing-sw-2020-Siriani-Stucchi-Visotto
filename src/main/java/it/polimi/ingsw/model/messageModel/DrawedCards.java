@@ -7,30 +7,30 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 public class DrawedCards extends Message {
-    int x;
-    int y;
-    int z;
-    public DrawedCards(Player player, int x, int y,View view) {
+    int firstCard;
+    int secondCard;
+    int thirdCard;
+    public DrawedCards(Player player, int firstCard, int secondCard,View view) {
         super(player, view);
-        this.x=x;
-        this.y=y;
-        this.z=-1;
+        this.firstCard = firstCard;
+        this.secondCard = secondCard;
+        this.thirdCard = -1;
     }
-    public DrawedCards(Player player, int x, int y,int z, View view) {
+    public DrawedCards(Player player, int firstCard, int secondCard, int thirdCard, View view) {
         super(player, view);
-        this.x=x;
-        this.y=y;
-        this.z=z;
+        this.firstCard = firstCard;
+        this.secondCard = secondCard;
+        this.thirdCard = thirdCard;
     }
 
     public int getFirst(){
-        return x;
+        return firstCard;
     }
     public int getSecond(){
-        return y;
+        return secondCard;
     }
     public int getThird(){
-        return z;
+        return thirdCard;
     }
 
 

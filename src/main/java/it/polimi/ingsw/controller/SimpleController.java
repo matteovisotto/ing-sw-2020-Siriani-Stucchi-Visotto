@@ -45,7 +45,7 @@ public class SimpleController extends Controller {
             move.getView().reportError("This worker can't move anywhere");
             return;
         }
-        HashMap<Cell, Boolean> availableCells=checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
+        HashMap<Cell, Boolean> availableCells = checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
 
         try{
             if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn())) != null && availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {
@@ -135,7 +135,7 @@ public class SimpleController extends Controller {
     }
     @Override
     public synchronized void checkVictory(){
-        int playerCantMove=0;
+        int playerCantMove = 0;
         Player[] players =model.getPlayers();
         boolean[] playersBool = new boolean[model.getNumOfPlayers()];
         Arrays.fill(playersBool, false); //do per scontato che tutti i worker si possano muovere
@@ -144,14 +144,14 @@ public class SimpleController extends Controller {
             players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
             if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
                 playerCantMove++;
-                playersBool[i]=true;
+                playersBool[i] = true;
             }
         }
-        if(playerCantMove==model.getNumOfPlayers()-1){
-            for(int i=0; i<players.length;i++){
+        if(playerCantMove == model.getNumOfPlayers()-1){
+            for(int i = 0; i < players.length; i++){
                 if(!playersBool[i]){
                     model.victory(players[i]);
-                    if(model.getLeftPlayers()==2){
+                    if(model.getLeftPlayers() == 2){
                         model.endGame();
                     }
                 }

@@ -14,28 +14,28 @@ public class SimpleGodsTest {
 
     @Test
     public void getSimpleGodId() {
-        assertEquals(1, SimpleGods.APOLLO.getSimpleGodId());
-        assertEquals(2, SimpleGods.ARTHEMIS.getSimpleGodId());
-        assertEquals(3, SimpleGods.ATHENA.getSimpleGodId());
-        assertEquals(4, SimpleGods.ATLAS.getSimpleGodId());
-        assertEquals(5, SimpleGods.DEMETER.getSimpleGodId());
-        assertEquals(6, SimpleGods.HEPHAESTUS.getSimpleGodId());
-        assertEquals(7, SimpleGods.MINOTAUR.getSimpleGodId());
-        assertEquals(8, SimpleGods.PAN.getSimpleGodId());
-        assertEquals(9, SimpleGods.PROMETHEUS.getSimpleGodId());
+        assertEquals(0, SimpleGods.APOLLO.getSimpleGodId());
+        assertEquals(1, SimpleGods.ARTHEMIS.getSimpleGodId());
+        assertEquals(2, SimpleGods.ATHENA.getSimpleGodId());
+        assertEquals(3, SimpleGods.ATLAS.getSimpleGodId());
+        assertEquals(4, SimpleGods.DEMETER.getSimpleGodId());
+        assertEquals(5, SimpleGods.HEPHAESTUS.getSimpleGodId());
+        assertEquals(6, SimpleGods.MINOTAUR.getSimpleGodId());
+        assertEquals(7, SimpleGods.PAN.getSimpleGodId());
+        assertEquals(8, SimpleGods.PROMETHEUS.getSimpleGodId());
     }
 
     @Test
     public void getGod() {
-        assertEquals(SimpleGods.getGod(1), new Apollo());
-        assertEquals(SimpleGods.getGod(2), new Arthemis());
-        assertEquals(SimpleGods.getGod(3), new Athena());
-        assertEquals(SimpleGods.getGod(4), new Atlas());
-        assertEquals(SimpleGods.getGod(5), new Demeter());
-        assertEquals(SimpleGods.getGod(6), new Hephaestus());
-        assertEquals(SimpleGods.getGod(7), new Minotaur());
-        assertEquals(SimpleGods.getGod(8), new Pan());
-        assertEquals(SimpleGods.getGod(9), new Prometheus());
+        assertEquals(SimpleGods.getGod(0), new Apollo());
+        assertEquals(SimpleGods.getGod(1), new Arthemis());
+        assertEquals(SimpleGods.getGod(2), new Athena());
+        assertEquals(SimpleGods.getGod(3), new Atlas());
+        assertEquals(SimpleGods.getGod(4), new Demeter());
+        assertEquals(SimpleGods.getGod(5), new Hephaestus());
+        assertEquals(SimpleGods.getGod(6), new Minotaur());
+        assertEquals(SimpleGods.getGod(7), new Pan());
+        assertEquals(SimpleGods.getGod(8), new Prometheus());
     }
 
     @Test

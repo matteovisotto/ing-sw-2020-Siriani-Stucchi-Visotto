@@ -77,9 +77,9 @@ public class Player implements Serializable {
     }
 
     public void reset(){
-        this.hasLost=false;
-        this.victory=false;
-        godCard=null;
+        this.hasLost = false;
+        this.victory = false;
+        godCard = null;
         workers.remove(1);
         workers.remove(0);
     }

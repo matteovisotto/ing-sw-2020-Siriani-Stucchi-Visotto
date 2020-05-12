@@ -11,8 +11,8 @@ import java.util.*;
 public abstract class Controller implements Observer<Message> {
     protected final Model model;
     protected GodCardController godCardController;
-    protected int counter=0;
-    protected int answers=0;
+    protected int counter = 0;
+    protected int answers = 0;
     protected Map<Player, ClientConnection> activeClients = new HashMap<>();
 
     public Controller(Model model){
@@ -24,7 +24,7 @@ public abstract class Controller implements Observer<Message> {
         return model;
     }
 
-    protected abstract  boolean canMove(Worker worker);
+    protected abstract boolean canMove(Worker worker);
 
     public abstract void move(PlayerMove move);
 
@@ -71,16 +71,17 @@ public abstract class Controller implements Observer<Message> {
     }
 
     public abstract void checkVictory();
+
     public synchronized void endGame(NewGameMessage newGameMessage){
         answers++;
-        if(newGameMessage.getChoice()=='y'){
+        if(newGameMessage.getChoice() == 'y'){
             this.counter++;
             activeClients.put(newGameMessage.getPlayer(), newGameMessage.getClientConnection());
-            if(counter==model.getNumOfPlayers()){
+            if(counter == model.getNumOfPlayers()){
                 //TODO model reset
                 model.startOver();
             }
-            else if(answers==model.getNumOfPlayers()){
+            else if(answers == model.getNumOfPlayers()){
                 //TODO return to lobby
             }
         }

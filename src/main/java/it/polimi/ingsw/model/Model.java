@@ -18,7 +18,7 @@ public class Model extends Observable<ViewMessage> {
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
-    private ArrayList<GodCard> gods=new ArrayList<GodCard>();
+    private ArrayList<GodCard> gods = new ArrayList<GodCard>();
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private static boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
@@ -108,10 +108,10 @@ public class Model extends Observable<ViewMessage> {
         if (athenaId != -1 && athenaId != -2 && turn[athenaId] == turn[id]) {
             setMovedUp(false);//questo serve per dire che il potere di Athena é terminato perché é reiniziato il suo turno.
         }
-        if(turn[id].hasWon() && turn.length==3){
+        if(turn[id].hasWon() && turn.length == 3){
             updateTurn();
         }
-        if(turn[id].getHasLost() && turn.length==3){
+        if(turn[id].getHasLost() && turn.length == 3){
             updateTurn();
         }
         try{
@@ -155,7 +155,7 @@ public class Model extends Observable<ViewMessage> {
         return -1;
     }
 
-    public GodCard[] chooseCards(){
+    /*public GodCard[] chooseCards(){
         Random random = new Random();
         GodCard[] godCards= new GodCard[turn.length];
         for(int i = 0; i < turn.length; i++){
@@ -167,10 +167,18 @@ public class Model extends Observable<ViewMessage> {
             }
         }
         return godCards;
-    }
+    }*/
 
     public void addGod(GodCard godCard){
         gods.add(godCard);
+    }
+
+    public ArrayList<GodCard> getGods() {
+        return gods;
+    }
+
+    public Player getPlayer(int i){
+        return turn[i];
     }
 
     public int getLeftCards(){
@@ -178,7 +186,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public boolean isGodAvailable(int x){
-        return gods.size()>=x+1;
+        return gods.size() >= x+1;
     }
 
     public Player getGCPlayer(SimpleGods simpleGods){//returna null se non c'é un giocatore assegnato alla carta
@@ -217,7 +225,7 @@ public class Model extends Observable<ViewMessage> {
     public void loose(Player player){
         player.setHasLost(true);
         ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: "+player.getPlayerName()+" has lost. Retry, you'll be more lucky", this.phase);
-        if(leftPlayers==3){
+        if(leftPlayers == 3){
             leftPlayers--;
         }
         else{
@@ -231,7 +239,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void endGame(){
-        phase=Phase.END_GAME;
+        phase = Phase.END_GAME;
         ViewMessage end = new ViewMessage(MessageType.END_GAME, "The game has ended.\nDo you want to play again?(y/n)\n", this.phase);
         notifyObservers(end);
     }
@@ -242,14 +250,14 @@ public class Model extends Observable<ViewMessage> {
 
     public void startOver(){
         resetBoard();
-        leftPlayers=turn.length;
+        leftPlayers = turn.length;
         if(simplePlay){
-            this.phase=Phase.SETWORKER1;
-            this.messageType=MessageType.SET_WORKER_1;
-            this.playerMessage=PlayerMessage.PLACE_FIRST_WORKER;
+            this.phase = Phase.SETWORKER1;
+            this.messageType = MessageType.SET_WORKER_1;
+            this.playerMessage = PlayerMessage.PLACE_FIRST_WORKER;
         }
         else{
-            this.phase=Phase.DRAWCARD;
+            this.phase = Phase.DRAWCARD;
         }
         for (Player player : turn) {
             player.reset();

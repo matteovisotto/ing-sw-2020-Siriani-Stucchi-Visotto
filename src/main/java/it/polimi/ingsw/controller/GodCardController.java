@@ -23,10 +23,10 @@ public class GodCardController extends Controller{
     public synchronized void drawedCards(DrawedCards drawedCards){
         model.addGod(SimpleGods.getGod(drawedCards.getFirst()));
         model.addGod(SimpleGods.getGod(drawedCards.getSecond()));
-        if(drawedCards.getThird()!=-1 && model.getNumOfPlayers()==3){
+        if(drawedCards.getThird() != -1 && model.getNumOfPlayers() == 3){
             model.addGod(SimpleGods.getGod(drawedCards.getThird()));
         }
-        else if(model.getNumOfPlayers()==2 && drawedCards.getThird()!=-1){
+        else if(model.getNumOfPlayers() == 2 && drawedCards.getThird() != -1){
             drawedCards.getView().reportError("Insert 2 god cards only");
             return;
         }
@@ -40,7 +40,7 @@ public class GodCardController extends Controller{
     }
 
     public synchronized void pickACard(PickedCard pickedCard){
-        if(pickedCard.getCardId()>model.getNumOfPlayers()-1){
+        if(pickedCard.getCardId() > model.getNumOfPlayers() - 1){
             pickedCard.getView().reportError("Insert a valid input");
             return;
         }
@@ -52,7 +52,7 @@ public class GodCardController extends Controller{
             pickedCard.getView().reportError("The selected god isn't available");
             return;
         }
-        if(model.getLeftCards()==1){
+        if(model.getLeftCards() == 1){
             model.updateTurn();
             String godName = model.assignCard(model.getActualPlayer(),0).getName();
             model.notifyMessage("Only "+godName+" was left, that's your card, good luck!");
@@ -91,12 +91,12 @@ public class GodCardController extends Controller{
         }
         //qua fa la mossa
 
-        test=move.getPlayer().getWorker(move.getWorkerId()).getStatus();
+        test = move.getPlayer().getWorker(move.getWorkerId()).getStatus();
         if(!test){
             move.getView().reportError("This worker can't move anywhere");
             return;
         }
-        HashMap<Cell, Boolean> availableCells=checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
+        HashMap<Cell, Boolean> availableCells = checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
 
         try{
             if (availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn())) != null && availableCells.get(model.getBoard().getCell(move.getRow(), move.getColumn()))) {

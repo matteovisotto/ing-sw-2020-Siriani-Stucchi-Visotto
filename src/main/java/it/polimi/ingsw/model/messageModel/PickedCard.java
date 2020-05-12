@@ -6,10 +6,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 public class PickedCard extends Message {
-    private final int x;
-    public PickedCard(Player player, View view, int x) {
+    private final int card;
+    public PickedCard(Player player, View view, int card) {
         super(player, view);
-        this.x=x;
+        this.card = card;
     }
 
     @Override
@@ -18,6 +18,6 @@ public class PickedCard extends Message {
     }
 
     public int getCardId() {
-        return x;
+        return card;
     }
 }

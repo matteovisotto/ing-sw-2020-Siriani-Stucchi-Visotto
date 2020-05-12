@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.simplegod.Apollo;
+import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.model.simplegod.Atlas;
 import it.polimi.ingsw.model.simplegod.Minotaur;
 import it.polimi.ingsw.server.ClientConnection;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.view.RemoteView;
 import it.polimi.ingsw.view.View;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,19 +29,19 @@ public class ModelTest {
     }
 
     @Test
-    public void testUpdateTurn(){
+    public void updateTurnTest(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
 
-        Worker worker= new Worker(new Cell(0,0));
+        Worker worker = new Worker(new Cell(0,0));
         players[0].setWorkers(worker);
-        worker= new Worker(new Cell(0,1));
+        worker = new Worker(new Cell(0,1));
         players[0].setWorkers(worker);
 
-        worker= new Worker(new Cell(1,0));
+        worker = new Worker(new Cell(1,0));
         players[1].setWorkers(worker);
-        worker= new Worker(new Cell(1,1));
+        worker = new Worker(new Cell(1,1));
         players[1].setWorkers(worker);
 
         Model model = new Model(players,true);
@@ -47,6 +49,32 @@ public class ModelTest {
         assertEquals(model.getActualPlayer(),players[1]);
         model.updateTurn();
         assertEquals(model.getActualPlayer(),players[0]);
+    }
+
+    @Test
+    public void updateTurnLoseTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+
+        Worker worker = new Worker(new Cell(0,0));
+        players[0].setWorkers(worker);
+        worker = new Worker(new Cell(0,1));
+        players[0].setWorkers(worker);
+
+        worker = new Worker(new Cell(1,0));
+        players[1].setWorkers(worker);
+        worker = new Worker(new Cell(1,1));
+        players[1].setWorkers(worker);
+
+        Model model = new Model(players,true);
+
+        players[0].getWorker(0).setStatus(false);
+        players[0].getWorker(1).setStatus(false);
+
+        model.updateTurn();
+        model.updateTurn();
+        assertEquals(model.getActualPlayer().getHasLost(),true);
     }
 
     @Test
@@ -101,7 +129,7 @@ public class ModelTest {
         assertTrue(cell.getX()==playerWorker.getX() && cell.getY()==playerWorker.getY());
     }
 
-    @Test
+    /*@Test
     public void testChooseCard(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -120,20 +148,24 @@ public class ModelTest {
             GodCard[] godCards2 = model2.chooseCards();
             assertTrue(godCards2[0]!=null && godCards2[1]!=null && godCards2[2]!=null && godCards2[0]!=godCards2[1] && godCards2[0]!=godCards2[2] && godCards2[1]!=godCards2[2]);
         }
-    }
-    /*@Test
-    public void testAssignCard() {
-        Player[] players = new Player[2];
-        players[0] = new Player("Mario");
-        players[1] = new Player("Luigi");
-        Model model = new Model(players, true);
-        GodCard godCard = new Apollo();
-        model.assignCard(players[0],godCard);
-        assertEquals(players[0].getGodCard(),godCard);
     }*/
 
     @Test
-    public void testMove() {
+    public void assignCardTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, false);
+        GodCard godCard = new Apollo();
+        GodCard godCard1 = new Athena();
+        model.addGod(godCard);
+        model.addGod(godCard1);
+        model.assignCard(players[0],0);
+        assertEquals(godCard,model.getActualPlayer().getGodCard());
+    }
+
+    @Test
+    public void moveTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
@@ -159,8 +191,9 @@ public class ModelTest {
         model.move(playerMove);
         assertTrue(players[0].getWorker(0).getCell().getX()==2 && players[0].getWorker(0).getCell().getX()==2);
     }
+
     @Test
-    public void testIncreaseLevel() {
+    public void increaseLevelTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
@@ -168,6 +201,28 @@ public class ModelTest {
         Cell cell = model.getBoard().getCell(1,2);
         model.increaseLevel(cell,Blocks.LEVEL1);
         assertEquals(1, model.getBoard().getCell(1, 2).getLevel().getBlockId());
+    }
+
+    @Test
+    public void victoryTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, true);
+        model.victory(players[0]);
+        assertEquals(model.getActualPlayer().hasWon(),true);
+    }
+
+    @Test
+    public void looseTest(){
+        Player[] players = new Player[3];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        players[2] = new Player("Toad");
+        Model model = new Model(players, true);
+        model.loose(players[0]);
+        assertEquals(model.getActualPlayer().getHasLost(),true);
+        assertTrue(2 == model.getLeftPlayers());
     }
 }
 
