@@ -87,6 +87,63 @@ public class ModelTest {
     }
 
     @Test
+    public void getPlayerTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,true);
+        assertEquals(model.getPlayer(0),players[0]);
+        assertEquals(model.getPlayer(1),players[1]);
+    }
+
+    @Test
+    public void getLeftCardTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, false);
+        GodCard godCard = new Apollo();
+        GodCard godCard1 = new Athena();
+        GodCard godCard2 = new Atlas();
+        model.addGod(godCard);
+        assertEquals(model.getLeftCards(),1);
+        model.addGod(godCard1);
+        assertEquals(model.getLeftCards(),2);
+        model.addGod(godCard2);
+        assertEquals(model.getLeftCards(),3);
+    }
+
+    @Test
+    public void isGodAvailableTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, false);
+        GodCard godCard = new Apollo();
+        GodCard godCard1 = new Athena();
+        model.addGod(godCard);
+        model.addGod(godCard1);
+        assertTrue(model.isGodAvailable(0));
+        assertTrue(model.isGodAvailable(1));
+    }
+
+    @Test
+    public void getGCPlayerTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, false);
+        GodCard godCard = new Apollo();
+        GodCard godCard1 = new Athena();
+        model.addGod(godCard);
+        model.addGod(godCard1);
+        model.assignCard(players[1],1);
+        model.assignCard(players[0],0);
+        assertEquals(players[0],model.getGCPlayer(godCard.getCardGod()));
+        assertEquals(players[1],model.getGCPlayer(godCard1.getCardGod()));
+    }
+
+    @Test
     public void testUpdatePhase(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");

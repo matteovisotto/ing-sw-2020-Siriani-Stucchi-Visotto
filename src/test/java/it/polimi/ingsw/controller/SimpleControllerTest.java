@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.messageModel.PlayerBuild;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.view.View;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -329,5 +331,161 @@ public class SimpleControllerTest {
         controller.move(playerMoveWorker0_win);
 
         assertEquals(model.getActualPlayer().hasWon(),true);
+    }
+
+    @Test
+    public void buildADomeTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,true);
+        SimpleController controller = new SimpleController(model);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        });
+        PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        RemoteView remoteView1 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        });
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1],3,0,remoteView1);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMoveWorker1_s = new PlayerMove(players[0],1,0,1,remoteView);
+        controller.move(playerMoveWorker1_s);
+
+        PlayerBuild playerBuildWorker1_d = new PlayerBuild(players[0],players[0].getUsedWorker(),1,0,remoteView);
+        controller.increaseLevel(playerBuildWorker1_d);
+
+        PlayerMove playerMove2Worker0_a = new PlayerMove(players[1],0,2,1,remoteView1);
+        controller.move(playerMove2Worker0_a);
+
+        PlayerBuild playerBuild2Worker0_a = new PlayerBuild(players[1],players[1].getUsedWorker(),1,0,remoteView1);
+        controller.increaseLevel(playerBuild2Worker0_a);
+
+        PlayerMove playerMoveWorker1_d = new PlayerMove(players[0],1,1,1,remoteView);
+        controller.move(playerMoveWorker1_d);
+
+        PlayerBuild playerBuildWorker1_a = new PlayerBuild(players[0],players[0].getUsedWorker(),1,0,remoteView);
+        controller.increaseLevel(playerBuildWorker1_a);
+
+        PlayerMove playerMove2Worker1_s = new PlayerMove(players[1],1,2,0,remoteView1);
+        controller.move(playerMove2Worker1_s);
+
+        PlayerBuild playerBuild2Worker1_s = new PlayerBuild(players[1],players[1].getUsedWorker(),1,0,remoteView1);
+        controller.increaseLevel(playerBuild2Worker1_s);
+
+        assertTrue(model.getBoard().getCell(1,0).getLevel().getBlockId() == 4);
+    }
+
+    @Test
+    public void IllegalBuildException(){
+        exception.expect(IllegalArgumentException.class);
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,true);
+        SimpleController controller = new SimpleController(model);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        });
+        PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        RemoteView remoteView1 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        });
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1],3,0,remoteView1);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMoveWorker1_s = new PlayerMove(players[0],1,0,1,remoteView);
+        controller.move(playerMoveWorker1_s);
+
+        PlayerBuild playerBuildWorker1_d = new PlayerBuild(players[0],players[0].getUsedWorker(),1,0,remoteView);
+        controller.increaseLevel(playerBuildWorker1_d);
+
+        PlayerMove playerMove2Worker0_a = new PlayerMove(players[1],0,2,1,remoteView1);
+        controller.move(playerMove2Worker0_a);
+
+        PlayerBuild playerBuild2Worker0_a = new PlayerBuild(players[1],players[1].getUsedWorker(),1,0,remoteView1);
+        controller.increaseLevel(playerBuild2Worker0_a);
+
+        PlayerMove playerMoveWorker1_d = new PlayerMove(players[0],1,1,1,remoteView);
+        controller.move(playerMoveWorker1_d);
+
+        PlayerBuild playerBuildWorker1_a = new PlayerBuild(players[0],players[0].getUsedWorker(),1,0,remoteView);
+        controller.increaseLevel(playerBuildWorker1_a);
+
+        PlayerMove playerMove2Worker1_s = new PlayerMove(players[1],1,2,0,remoteView1);
+        controller.move(playerMove2Worker1_s);
+
+        PlayerBuild playerBuild2Worker1_s = new PlayerBuild(players[1],players[1].getUsedWorker(),1,0,remoteView1);
+        controller.increaseLevel(playerBuild2Worker1_s);
+
+        controller.move(playerMoveWorker1_s);
+        controller.increaseLevel(playerBuildWorker1_d);
     }
 }
