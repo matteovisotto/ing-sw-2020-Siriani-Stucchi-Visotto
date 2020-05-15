@@ -40,7 +40,7 @@ public class PhaseTest {
         @Test
         public void getPhaseException(){
             exception.expect(IllegalArgumentException.class);
-            Phase.getPhase(11);
+            Phase phase = Phase.getPhase(11);
         }
 
         @Test

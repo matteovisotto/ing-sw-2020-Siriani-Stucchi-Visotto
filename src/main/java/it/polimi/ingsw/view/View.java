@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
 
-import java.io.Serializable;
 
 
 public abstract class View extends Observable<Message> implements Observer<ViewMessage> {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.view.RemoteView;
-import it.polimi.ingsw.view.View;
 
 public class CommandParser {
     private final Phase phase;
@@ -19,7 +18,7 @@ public class CommandParser {
         this.view = view;
     }
 
-    public Message parse() throws IllegalArgumentException, NumberFormatException, IndexOutOfBoundsException{
+    public Message parse() throws IllegalArgumentException, IndexOutOfBoundsException{
         String[] s;
         switch(phase){
             case DRAWCARD:

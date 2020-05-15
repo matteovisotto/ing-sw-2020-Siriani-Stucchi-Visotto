@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.utils.ConnectionMessage;
 import it.polimi.ingsw.utils.PlayerMessage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -124,12 +123,14 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     try {
                         send(new ViewMessage(MessageType.LOBBY_SELECTOR, server.getLobbiesNames(),null));
                         int lobbyId;
-                        lobbyId = in.nextInt();
+                        lobbyId = in.nextInt();//qua si bugga
                         in.nextLine();
                         if (lobbyId != 0) {
                             server.joinLobby(lobbyId, this, name);
                             isConfig = true;
                         }
+
+
 
                     } catch (FullLobbyException | InvalidLobbyException | NoLobbyException e){
                         send(e.getMessage());

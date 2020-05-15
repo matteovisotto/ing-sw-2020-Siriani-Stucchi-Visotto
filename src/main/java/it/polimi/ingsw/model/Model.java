@@ -8,7 +8,6 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Random;
 
 public class Model extends Observable<ViewMessage> {
     private Board board;
@@ -221,7 +220,7 @@ public class Model extends Observable<ViewMessage> {
         player.setVictory(true);
         ViewMessage win = new ViewMessage(MessageType.VICTORY,"Player: "+player.getPlayerName()+" has won!!!!",  this.phase);
         notifyObservers(win);
-        if(leftPlayers==2){
+        if(leftPlayers == 2){
             endGame();
         }
     }

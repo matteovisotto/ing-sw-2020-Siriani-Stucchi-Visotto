@@ -14,7 +14,7 @@ public enum Phase {
     BUILD(2),
     END_GAME(10);
 
-    private int phaseId;
+    private final int phaseId;
     Phase(int phaseId) {
         this.phaseId = phaseId;
     }

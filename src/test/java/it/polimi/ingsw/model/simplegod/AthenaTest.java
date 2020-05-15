@@ -42,10 +42,6 @@ public class AthenaTest {
         assertTrue(Model.isMovedUp());
         model.updateTurn();
         assertTrue(Model.isMovedUp());
-        model.updateTurn();
-        assertFalse(Model.isMovedUp());
-        model.getActualPlayer().getGodCard().usePower(athenaList);
-        assertTrue(Model.isMovedUp());
     }
 
    /* @Test

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messageModel.PlayerMove;
-import it.polimi.ingsw.server.ClientConnection;
-import it.polimi.ingsw.view.RemoteView;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -25,22 +22,6 @@ public class HephaestusTest {
         players[1] = player2;
         player.setWorkers(worker);
         player2.setWorkers(worker1);
-        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection() {
-            @Override
-            public void closeConnection() {
-
-            }
-
-            @Override
-            public void send(Object message) {
-
-            }
-
-            @Override
-            public void asyncSend(Object message) {
-
-            }
-        });
         Model model = new Model(players,true);
         List<Object> buildAgainList = new ArrayList<>();
         buildAgainList.add(model);

@@ -5,9 +5,7 @@ import it.polimi.ingsw.model.messageModel.PlayerBuild;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.server.ClientConnection;
-import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.RemoteView;
-import it.polimi.ingsw.view.View;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -131,7 +129,7 @@ public class SimpleControllerTest {
 
         PlayerBuild playerBuild = new PlayerBuild(players[0],players[0].getUsedWorker(),1,2,remoteView);
         controller.increaseLevel(playerBuild);
-        assertTrue(controller.getModel().getBoard().getCell(1,2).getLevel().getBlockId()==1);
+        assertEquals(1, controller.getModel().getBoard().getCell(1, 2).getLevel().getBlockId());
     }
 
     @Test
@@ -231,10 +229,10 @@ public class SimpleControllerTest {
         controller.move(playerMove2Worker0_i);
         controller.increaseLevel(playerBuild2Worker0_i);
 
-        assertTrue(controller.getModel().getBoard().getCell(0,1).getLevel().getBlockId()==2);
-        assertTrue(controller.getModel().getBoard().getCell(1,0).getLevel().getBlockId()==2);
-        assertTrue(controller.getModel().getBoard().getCell(1,1).getLevel().getBlockId()==2);
-        assertTrue(controller.getModel().getActualPlayer().getPlayerName().equals(players[0].getPlayerName()));
+        assertEquals(2, controller.getModel().getBoard().getCell(0, 1).getLevel().getBlockId());
+        assertEquals(2, controller.getModel().getBoard().getCell(1, 0).getLevel().getBlockId());
+        assertEquals(2, controller.getModel().getBoard().getCell(1, 1).getLevel().getBlockId());
+        assertEquals(controller.getModel().getActualPlayer().getPlayerName(), players[0].getPlayerName());
 
         PlayerMove playerMove = new PlayerMove(players[0],0,1,0,remoteView);
         controller.move(playerMove);
@@ -330,7 +328,7 @@ public class SimpleControllerTest {
         PlayerMove playerMoveWorker0_win = new PlayerMove(players[0],0,3,0,remoteView);
         controller.move(playerMoveWorker0_win);
 
-        assertEquals(model.getActualPlayer().hasWon(),true);
+        assertTrue(model.getActualPlayer().hasWon());
     }
 
     @Test
@@ -407,7 +405,7 @@ public class SimpleControllerTest {
         PlayerBuild playerBuild2Worker1_s = new PlayerBuild(players[1],players[1].getUsedWorker(),1,0,remoteView1);
         controller.increaseLevel(playerBuild2Worker1_s);
 
-        assertTrue(model.getBoard().getCell(1,0).getLevel().getBlockId() == 4);
+        assertEquals(4, model.getBoard().getCell(1, 0).getLevel().getBlockId());
     }
 
     @Test

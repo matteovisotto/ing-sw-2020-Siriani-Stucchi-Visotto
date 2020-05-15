@@ -5,15 +5,10 @@ import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.simplegod.Apollo;
 import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.model.simplegod.Atlas;
-import it.polimi.ingsw.model.simplegod.Minotaur;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.view.RemoteView;
-import it.polimi.ingsw.view.View;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -173,7 +168,6 @@ public class ModelTest {
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
         Cell cell = new Cell(1,2);
-        Worker worker = new Worker(cell);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection() {
             @Override
             public void closeConnection() {

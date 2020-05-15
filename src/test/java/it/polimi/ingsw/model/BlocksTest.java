@@ -32,6 +32,6 @@ public class BlocksTest {
     @Test
     public void getBlockException(){
         exception.expect(IllegalArgumentException.class);
-        Blocks.getBlock(10);
+        Blocks blocks = Blocks.getBlock(10);
     }
 }

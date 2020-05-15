@@ -16,7 +16,7 @@ public class GodCardController extends Controller{
         super(model);
     }
 
-    private synchronized boolean checkPhase(){//deve controllare che la fase attuale sia la stessa del godpower
+    public synchronized boolean checkPhase(){//deve controllare che la fase attuale sia la stessa del godpower
         Player p = model.getActualPlayer();
         Phase ph = p.getGodCard().getPhase();
         return ph == model.getPhase();
@@ -117,16 +117,16 @@ public class GodCardController extends Controller{
                     model.setNextMessageType(MessageType.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.updatePhase();
-                    if(move.getPlayer().getGodCard().getCardGod()==SimpleGods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
+                    if(move.getPlayer().getGodCard().getCardGod() == SimpleGods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
                         List<Object> objectList= new ArrayList<>();
                         //primo worker di quello che vuole muovere
                         objectList.add(move.getPlayer().getWorker(move.getWorkerId()));
-                        for(int i=0; i<model.getNumOfPlayers(); i++){
-                            if(model.getPlayer(i).getGodCard().getCardGod()!=SimpleGods.APOLLO){
-                                if(model.getPlayer(i).getWorker(0).getCell()==model.getBoard().getCell(move.getRow(), move.getColumn())){
+                        for(int i = 0; i < model.getNumOfPlayers(); i++){
+                            if(model.getPlayer(i).getGodCard().getCardGod() != SimpleGods.APOLLO){
+                                if(model.getPlayer(i).getWorker(0).getCell() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                     objectList.add(model.getPlayer(i).getWorker(0));
                                 }
-                                else if(model.getPlayer(i).getWorker(1).getCell()==model.getBoard().getCell(move.getRow(), move.getColumn())){
+                                else if(model.getPlayer(i).getWorker(1).getCell() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                     objectList.add(model.getPlayer(i).getWorker(1));
                                 }
                             }
@@ -138,6 +138,7 @@ public class GodCardController extends Controller{
                     else if(model.getGCPlayer(SimpleGods.PAN) == move.getPlayer()){// se è il turno del player con pan
                         if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==2){
                             model.victory(model.getActualPlayer());
+                            return;
                         }
                         model.move(move);
                     }
@@ -269,23 +270,23 @@ public class GodCardController extends Controller{
 
     @Override
     public synchronized void checkVictory(){
-        int playerCantMove=0;
-        Player[] players =model.getPlayers();
+        int playerCantMove = 0;
+        Player[] players = model.getPlayers();
         boolean[] playersBool = new boolean[model.getNumOfPlayers()];
         Arrays.fill(playersBool, false); //do per scontato che tutti i worker si possano muovere
-        for(int i=0; i<model.getNumOfPlayers(); i++){
+        for(int i = 0; i < model.getNumOfPlayers(); i++){
             players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0)));
             players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
             if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
                 playerCantMove++;
-                playersBool[i]=true;
+                playersBool[i] = true;
             }
         }
-        if(playerCantMove==model.getNumOfPlayers()-1){
-            for(int i=0; i<players.length;i++){
+        if(playerCantMove == model.getNumOfPlayers()-1){
+            for(int i = 0; i < players.length; i++){
                 if(!playersBool[i]){
                     model.victory(players[i]);
-                    if(model.getLeftPlayers()==2){
+                    if(model.getLeftPlayers() == 2){
                         model.endGame();
                     }
                 }

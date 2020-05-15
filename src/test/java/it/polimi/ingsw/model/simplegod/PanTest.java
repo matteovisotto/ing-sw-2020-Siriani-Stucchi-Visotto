@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.server.ClientConnection;
-import it.polimi.ingsw.view.RemoteView;
 import org.junit.Test;
 
 import java.util.ArrayList;
