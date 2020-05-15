@@ -221,6 +221,9 @@ public class Model extends Observable<ViewMessage> {
         player.setVictory(true);
         ViewMessage win = new ViewMessage(MessageType.VICTORY,"Player: "+player.getPlayerName()+" has won!!!!",  this.phase);
         notifyObservers(win);
+        if(leftPlayers==2){
+            endGame();
+        }
     }
 
     public void loose(Player player){

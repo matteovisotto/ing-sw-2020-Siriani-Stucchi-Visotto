@@ -135,6 +135,12 @@ public class GodCardController extends Controller{
                         model.getActualPlayer().setUsedWorker(move.getWorkerId());
                         model.notifyChanges();
                     }
+                    else if(model.getGCPlayer(SimpleGods.PAN) == move.getPlayer()){// se è il turno del player con pan
+                        if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==2){
+                            model.victory(model.getActualPlayer());
+                        }
+                        model.move(move);
+                    }
                     else if(model.getGCPlayer(SimpleGods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
                         if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
                             move.getPlayer().getGodCard().usePower(null);
