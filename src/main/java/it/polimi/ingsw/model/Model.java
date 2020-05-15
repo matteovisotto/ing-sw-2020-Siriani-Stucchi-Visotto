@@ -18,7 +18,7 @@ public class Model extends Observable<ViewMessage> {
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
-    private ArrayList<GodCard> gods = new ArrayList<GodCard>();
+    private ArrayList<GodCard> gods = new ArrayList<>();
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private static boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
@@ -103,7 +103,7 @@ public class Model extends Observable<ViewMessage> {
         return null;
     }
 
-    public void updateTurn(){
+    public synchronized void updateTurn(){
         id = (id + 1) % (turn.length);
         if (athenaId != -1 && athenaId != -2 && turn[athenaId] == turn[id]) {
             setMovedUp(false);//questo serve per dire che il potere di Athena é terminato perché é reiniziato il suo turno.

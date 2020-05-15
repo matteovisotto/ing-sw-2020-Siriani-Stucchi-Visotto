@@ -21,21 +21,34 @@ public class GodCardController extends Controller{
     }
 
     public synchronized void drawedCards(DrawedCards drawedCards){
-        model.addGod(SimpleGods.getGod(drawedCards.getFirst()));
-        model.addGod(SimpleGods.getGod(drawedCards.getSecond()));
         if(drawedCards.getThird() != -1 && model.getNumOfPlayers() == 3){
+            model.addGod(SimpleGods.getGod(drawedCards.getFirst()));
+            model.addGod(SimpleGods.getGod(drawedCards.getSecond()));
             model.addGod(SimpleGods.getGod(drawedCards.getThird()));
         }
         else if(model.getNumOfPlayers() == 2 && drawedCards.getThird() != -1){
             drawedCards.getView().reportError("Insert 2 god cards only");
             return;
         }
+        else{
+            model.addGod(SimpleGods.getGod(drawedCards.getFirst()));
+            model.addGod(SimpleGods.getGod(drawedCards.getSecond()));
+        }
         model.notifyMessage(SimpleGods.getGod(drawedCards.getFirst()).getName());
         model.notifyMessage(SimpleGods.getGod(drawedCards.getSecond()).getName());
+        if(model.getNumOfPlayers()==3){
+            model.notifyMessage(SimpleGods.getGod(drawedCards.getThird()).getName());
+        }
         model.updatePhase();
         model.updateTurn();
         model.setNextMessageType(MessageType.PICK_CARD);
-        model.setNextPlayerMessage("Pick a God");
+
+        if(model.getNumOfPlayers()==3){
+            model.setNextPlayerMessage("Pick a God between: \n0 - "+SimpleGods.getGod(drawedCards.getFirst()).getName()+"\n1 - "+SimpleGods.getGod(drawedCards.getSecond()).getName()+"\n2 - "+SimpleGods.getGod(drawedCards.getThird()).getName());
+        }
+        else{
+            model.setNextPlayerMessage("Pick a God between: \n0 - "+SimpleGods.getGod(drawedCards.getFirst()).getName()+"\n1 - "+SimpleGods.getGod(drawedCards.getSecond()).getName());
+        }
         model.notifyChanges();
     }
 
@@ -63,7 +76,7 @@ public class GodCardController extends Controller{
         }
         else{
             model.updateTurn();
-            model.notifyMessage(PlayerMessage.PICK_CARD);
+            model.notifyMessage(PlayerMessage.PICK_CARD+"\n0 - "+model.getGods().get(0).getName()+"\n1 - "+model.getGods().get(1).getName());
         }
     }
     @Override
@@ -84,15 +97,13 @@ public class GodCardController extends Controller{
     }
     @Override
     public synchronized void move(PlayerMove move) {
-        boolean test;
         if(!model.isPlayerTurn(move.getPlayer())){//se non è il turno del giocatore
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
         }
-        //qua fa la mossa
 
-        test = move.getPlayer().getWorker(move.getWorkerId()).getStatus();
-        if(!test){
+        //qua fa la mossa
+        if(!move.getPlayer().getWorker(move.getWorkerId()).getStatus()){
             move.getView().reportError("This worker can't move anywhere");
             return;
         }
