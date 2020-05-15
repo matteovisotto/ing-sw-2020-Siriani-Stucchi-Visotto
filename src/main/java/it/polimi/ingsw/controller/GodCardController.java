@@ -4,8 +4,10 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.utils.PlayerMessage;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class GodCardController extends Controller{
 
@@ -115,7 +117,27 @@ public class GodCardController extends Controller{
                     model.setNextMessageType(MessageType.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.updatePhase();
-                    model.move(move);
+                    if(move.getPlayer().getGodCard().getCardGod()==SimpleGods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
+                        List<Object> objectList= new ArrayList<>();
+                        //primo worker di quello che vuole muovere
+                        objectList.add(move.getPlayer().getWorker(move.getWorkerId()));
+                        for(int i=0; i<model.getNumOfPlayers(); i++){
+                            if(model.getPlayer(i).getGodCard().getCardGod()!=SimpleGods.APOLLO){
+                                if(model.getPlayer(i).getWorker(0).getCell()==model.getBoard().getCell(move.getRow(), move.getColumn())){
+                                    objectList.add(model.getPlayer(i).getWorker(0));
+                                }
+                                else if(model.getPlayer(i).getWorker(1).getCell()==model.getBoard().getCell(move.getRow(), move.getColumn())){
+                                    objectList.add(model.getPlayer(i).getWorker(1));
+                                }
+                            }
+                        }
+                        move.getPlayer().getGodCard().usePower(objectList);
+                        model.getActualPlayer().setUsedWorker(move.getWorkerId());
+                        model.notifyChanges();
+                    }
+                    else{
+                        model.move(move);
+                    }
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
                         model.victory(move.getPlayer());
                         if(model.getNumOfPlayers()==2){
@@ -182,14 +204,30 @@ public class GodCardController extends Controller{
         HashMap<Cell, Boolean> availableCells = new HashMap<>();
         Cell cell = worker.getCell();
         Board board = model.getBoard();
-        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
-            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
-                try{
-                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
+        Player player=model.getActualPlayer();
+        if(model.getGCPlayer(SimpleGods.APOLLO)== player){
+            for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
+                for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+                    try{
+                        availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,worker));
+                    }
+                    catch (IllegalArgumentException e){
+                        Cell c= new Cell(x,y);
+                        availableCells.put(c, false);
+                    }
                 }
-                catch (IllegalArgumentException e){
-                    Cell c= new Cell(x,y);
-                    availableCells.put(c, false);
+            }
+        }
+        else{
+            for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
+                for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+                    try{
+                        availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
+                    }
+                    catch (IllegalArgumentException e){
+                        Cell c= new Cell(x,y);
+                        availableCells.put(c, false);
+                    }
                 }
             }
         }

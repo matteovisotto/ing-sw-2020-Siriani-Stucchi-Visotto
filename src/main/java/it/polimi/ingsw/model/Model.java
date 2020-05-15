@@ -17,7 +17,7 @@ public class Model extends Observable<ViewMessage> {
     private int leftPlayers;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
-    private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);//questo serve per athena
+    private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);
     private ArrayList<GodCard> gods = new ArrayList<>();
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private static boolean movedUp = false;
@@ -201,6 +201,7 @@ public class Model extends Observable<ViewMessage> {
         playerCards.put(godCard.getCardGod(), player);
         return godCard;
     }
+
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
         Worker worker = move.getPlayer().getWorker(move.getWorkerId());
