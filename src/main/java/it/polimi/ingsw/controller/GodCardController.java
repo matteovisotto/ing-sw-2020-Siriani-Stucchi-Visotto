@@ -135,6 +135,15 @@ public class GodCardController extends Controller{
                         model.getActualPlayer().setUsedWorker(move.getWorkerId());
                         model.notifyChanges();
                     }
+                    else if(model.getGCPlayer(SimpleGods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
+                        if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
+                            move.getPlayer().getGodCard().usePower(null);
+                        }
+                        else{
+                            Model.setMovedUp(false);
+                        }
+                        model.move(move);
+                    }
                     else{
                         model.move(move);
                     }
@@ -145,6 +154,7 @@ public class GodCardController extends Controller{
                         }
                     }
                     checkVictory();
+                    //checkCantBuild(move);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println(e.getMessage());
                 }
@@ -156,6 +166,22 @@ public class GodCardController extends Controller{
         }
 
     }
+
+    /*public synchronized void checkCantBuild(PlayerMove move){
+        Cell cell=model.getBoard().getCell(move.getRow(), move.getColumn());
+        Board board=model.getBoardClone();
+        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
+            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+                if((x>=0 && x<=4) && (y>=0 && y<=4)){
+                    if(board.getCell(x,y).getLevel().getBlockId()!=4){
+                        return;
+                    }
+                }
+            }
+        }
+        model.loose(move.getPlayer());
+    }*/
+
     @Override
     public synchronized void increaseLevel(PlayerBuild playerBuild) throws IllegalArgumentException {
         if(!model.isPlayerTurn(playerBuild.getPlayer())){//se non è il turno del giocatore
@@ -205,6 +231,7 @@ public class GodCardController extends Controller{
         Cell cell = worker.getCell();
         Board board = model.getBoard();
         Player player=model.getActualPlayer();
+
         if(model.getGCPlayer(SimpleGods.APOLLO)== player){
             for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
                 for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {

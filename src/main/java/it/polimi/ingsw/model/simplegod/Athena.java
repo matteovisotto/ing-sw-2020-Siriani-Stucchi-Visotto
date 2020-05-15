@@ -52,7 +52,6 @@ public class Athena extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Model model = (Model)objectList.get(0);
         Model.setMovedUp(true);
     }
     @Override

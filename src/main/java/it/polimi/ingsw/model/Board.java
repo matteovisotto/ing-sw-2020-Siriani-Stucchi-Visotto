@@ -34,12 +34,20 @@ public class Board implements Serializable, Cloneable {
     public boolean checkCell (int x, int y, Worker worker) throws IllegalArgumentException{
         Cell cell = getCell(x,y);
         Cell other_cell = worker.getCell();
-        return cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< 2) && cell.getLevel().getBlockId() != 4;
+        int maxUpDifference=2;
+        if(Model.isMovedUp()){
+            maxUpDifference=1;
+        }
+        return cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
     }
     public boolean checkCellApollo (int x, int y, Worker worker) throws IllegalArgumentException{
         Cell cell = getCell(x,y);
         Cell other_cell = worker.getCell();
         boolean test=false;
+        int maxUpDifference=2;
+        if(Model.isMovedUp()){
+            maxUpDifference=1;
+        }
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
@@ -49,7 +57,7 @@ public class Board implements Serializable, Cloneable {
                 }
             }
         }
-        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< 2) && cell.getLevel().getBlockId() != 4;
+        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
     }
 
     public synchronized void print(){

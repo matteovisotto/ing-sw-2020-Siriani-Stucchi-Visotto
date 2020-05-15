@@ -34,7 +34,7 @@ public class AthenaTest {
         players[2].setGodCard(godCard3);
         List<Object> athenaList = new ArrayList<>();
         Model model = new Model(players,true);
-        athenaList.add(model);
+        athenaList.add(null);
         Model.athenaId = model.getAthenaPlayer();         //Con questa doppia assegnazione il codice funziona
         model.getActualPlayer().getGodCard().usePower(athenaList);
         assertTrue(Model.isMovedUp());
