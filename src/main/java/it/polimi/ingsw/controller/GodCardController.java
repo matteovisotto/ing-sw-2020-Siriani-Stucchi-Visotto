@@ -155,7 +155,11 @@ public class GodCardController extends Controller{
                     }
                     else if(model.getGCPlayer(SimpleGods.ARTHEMIS) == move.getPlayer()){
                         if(((Arthemis)move.getPlayer().getGodCard()).hasUsedPower()){
-                            if(((Arthemis)move.getPlayer().getGodCard()).getFirstBuilt() == model.getBoard().getCell(move.getRow(), move.getColumn())){
+
+                            if(((Arthemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
+                                move.getView().reportError("you have to move the same worker");
+                            }
+                            else if(((Arthemis)move.getPlayer().getGodCard()).getFirstBuilt() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                 move.getView().reportError("you can't move into the previous cell");
                             }
                             else{
@@ -164,8 +168,9 @@ public class GodCardController extends Controller{
                             }
                         }
                         else{
-                            model.move(move);
                             ((Arthemis)move.getPlayer().getGodCard()).setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
+                            ((Arthemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
+                            model.move(move);
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);

@@ -15,6 +15,7 @@ public class Arthemis extends GodCard {
     private boolean moved = false;
     private boolean built = false;
     private boolean usedPower;
+    private Worker previousWorker;
 
     public Arthemis() {
         super(SimpleGods.ARTHEMIS, Phase.MOVE);
@@ -80,5 +81,13 @@ public class Arthemis extends GodCard {
 
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
+    }
+
+    public Worker getPreviousWorker() {
+        return previousWorker;
+    }
+
+    public void setPreviousWorker(Worker previousWorker) {
+        this.previousWorker = previousWorker;
     }
 }
