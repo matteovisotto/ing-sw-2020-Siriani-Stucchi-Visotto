@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
+import it.polimi.ingsw.model.simplegod.Arthemis;
 import it.polimi.ingsw.model.simplegod.Atlas;
 import it.polimi.ingsw.utils.PlayerMessage;
 
@@ -152,9 +153,28 @@ public class GodCardController extends Controller{
                         }
                         model.move(move);
                     }
+                    else if(model.getGCPlayer(SimpleGods.ARTHEMIS) == move.getPlayer()){
+                        if(((Arthemis)move.getPlayer().getGodCard()).hasUsedPower()){
+                            if(((Arthemis)move.getPlayer().getGodCard()).getFirstBuilt() == model.getBoard().getCell(move.getRow(), move.getColumn())){
+                                move.getView().reportError("you can't move into the previous cell");
+                            }
+                            else{
+                                ((Arthemis)move.getPlayer().getGodCard()).setUsedPower(false);
+                                model.move(move);
+                            }
+                        }
+                        else{
+                            model.move(move);
+                            ((Arthemis)move.getPlayer().getGodCard()).setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
+                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                            model.setNextMessageType(MessageType.USE_POWER);
+                            model.notifyChanges();
+                        }
+                    }
                     else{
                         model.move(move);
-                        if(model.getGCPlayer(SimpleGods.ARTHEMIS) == move.getPlayer() || model.getGCPlayer(SimpleGods.ATLAS) == move.getPlayer()){
+                        if(model.getGCPlayer(SimpleGods.ATLAS) == move.getPlayer()){
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);

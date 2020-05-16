@@ -2,6 +2,8 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
 /**
@@ -53,6 +55,11 @@ public class Atlas extends GodCard {
     @Override
     public void usePower(List<Object> objectList) {
         usedPower=true;
+        Model model=(Model)objectList.get(0);
+        model.setNextPhase(getPhase());
+        model.setNextPlayerMessage(PlayerMessage.BUILD);
+        model.setNextMessageType(MessageType.BUILD);
+        model.notifyChanges();
     }
     @Override
     public void reset() {

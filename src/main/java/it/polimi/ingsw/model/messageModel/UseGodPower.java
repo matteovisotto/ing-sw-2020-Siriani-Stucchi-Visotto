@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.simplegod.Atlas;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.View;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class UseGodPower extends Message {
     char c;
     public UseGodPower(Player player, View view, char c) {
@@ -20,7 +23,9 @@ public class UseGodPower extends Message {
         if(c=='y'){
             switch(player.getGodCard().getCardGod()){
                 case ATLAS:
-                    godCard.usePower(null);
+                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                case ARTHEMIS:
+                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
             }
 
         }

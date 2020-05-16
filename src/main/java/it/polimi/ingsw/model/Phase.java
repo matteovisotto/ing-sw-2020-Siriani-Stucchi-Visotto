@@ -81,6 +81,8 @@ public enum Phase {
                 return Phase.MOVE;
             case 2:
                 return Phase.BUILD;
+            case 5:
+                return Phase.WAIT_GOD_ANSWER;
             case 10:
                 return Phase.END_GAME;
             default:

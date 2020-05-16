@@ -2,7 +2,9 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
 /**
@@ -12,6 +14,8 @@ public class Arthemis extends GodCard {
     private Cell firstBuilt;
     private boolean moved = false;
     private boolean built = false;
+    private boolean usedPower;
+
     public Arthemis() {
         super(SimpleGods.ARTHEMIS, Phase.MOVE);
     }
@@ -58,11 +62,23 @@ public class Arthemis extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Model model = (Model)objectList.get(0);
-        model.move((PlayerMove) objectList.get(1));
+        usedPower=true;
+        Model model=(Model)objectList.get(0);
+        model.setNextPhase(getPhase());
+        model.setNextPlayerMessage(PlayerMessage.MOVE);
+        model.setNextMessageType(MessageType.MOVE);
+        model.notifyChanges();
     }
     @Override
     public void reset() {
         this.moved = false;
+    }
+
+    public boolean hasUsedPower() {
+        return usedPower;
+    }
+
+    public void setUsedPower(boolean usedPower) {
+        this.usedPower = usedPower;
     }
 }
