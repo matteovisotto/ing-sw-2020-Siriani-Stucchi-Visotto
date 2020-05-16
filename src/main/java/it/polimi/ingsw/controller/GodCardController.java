@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
+import it.polimi.ingsw.model.simplegod.Atlas;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.ArrayList;
@@ -153,6 +154,12 @@ public class GodCardController extends Controller{
                     }
                     else{
                         model.move(move);
+                        if(model.getGCPlayer(SimpleGods.ARTHEMIS) == move.getPlayer() || model.getGCPlayer(SimpleGods.ATLAS) == move.getPlayer()){
+                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                            model.setNextMessageType(MessageType.USE_POWER);
+                            model.notifyChanges();
+                        }
                     }
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
                         model.victory(move.getPlayer());
@@ -199,6 +206,7 @@ public class GodCardController extends Controller{
         Cell cell=this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()); //ottengo la cella sulla quale costruire
         Blocks level = cell.getLevel();//ottengo l'altezza della cella
 
+
         //qui devo fare i controlli
         if(     Math.abs(cell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
                 Math.abs(cell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
@@ -212,19 +220,26 @@ public class GodCardController extends Controller{
             model.setNextPlayerMessage(PlayerMessage.MOVE);
             model.updatePhase();
             model.updateTurn();
-            switch(level.getBlockId()) {
-                case 0:
-                    model.increaseLevel(cell, Blocks.LEVEL1);
-                    break;
-                case 1:
-                    model.increaseLevel(cell, Blocks.LEVEL2);break;
-                case 2:
-                    model.increaseLevel(cell, Blocks.LEVEL3);break;
-                case 3:
-                    model.increaseLevel(cell, Blocks.DOME);break;
-                default:
-                    throw new IllegalArgumentException();
+            if(model.getGCPlayer(SimpleGods.ATLAS)==playerBuild.getPlayer() && ((Atlas)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
+                ((Atlas)playerBuild.getPlayer().getGodCard()).setUsedPower(false);
+                model.increaseLevel(cell, Blocks.DOME);
             }
+            else{
+                switch(level.getBlockId()) {
+                    case 0:
+                        model.increaseLevel(cell, Blocks.LEVEL1);
+                        break;
+                    case 1:
+                        model.increaseLevel(cell, Blocks.LEVEL2);break;
+                    case 2:
+                        model.increaseLevel(cell, Blocks.LEVEL3);break;
+                    case 3:
+                        model.increaseLevel(cell, Blocks.DOME);break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            }
+
         }
         else{
             throw new IllegalArgumentException();

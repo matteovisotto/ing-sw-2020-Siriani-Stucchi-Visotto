@@ -8,12 +8,11 @@ import java.util.List;
  This class is intended to represent the Athena's GodCard
  */
 public class Athena extends GodCard {
-    private final Phase phase = Phase.BUILD;
     private Cell cell;
     private boolean moved = false;
     private boolean built = false;
     public Athena() {
-        super(SimpleGods.ATHENA);
+        super(SimpleGods.ATHENA, Phase.BUILD);
     }
 
     public Phase getPhase() {

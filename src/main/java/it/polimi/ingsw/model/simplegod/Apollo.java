@@ -8,16 +8,11 @@ import java.util.List;
  This class is intended to represent the Apollo's GodCard
  */
 public class Apollo extends GodCard {
-    private final Phase phase = Phase.MOVE;
     private Cell cell;
     private boolean built = false;
     private boolean moved = false;
     public Apollo(){
-        super(SimpleGods.APOLLO);
-    }
-
-    public Phase getPhase() {
-        return phase;
+        super(SimpleGods.APOLLO, Phase.MOVE);
     }
 
     public Cell getFirstBuilt(){
@@ -35,6 +30,7 @@ public class Apollo extends GodCard {
     public void hasMoved(boolean moved) {
         this.moved = moved;
     }
+
 
     public boolean hasBuilt() {
         return built;

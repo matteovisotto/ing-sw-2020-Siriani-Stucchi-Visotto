@@ -64,6 +64,12 @@ public class CommandParser {
                     throw new IllegalArgumentException("Wrong input, please insert x,y");
                 }
                 return new PlayerBuild(player, player.getUsedWorker() , Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
+            case WAIT_GOD_ANSWER:
+                char ch = string.toLowerCase().charAt(0);
+                if(ch!='y' && ch!='n'){
+                    throw new IllegalArgumentException("Please insert only y or n");
+                }
+                return new UseGodPower(player, view, ch);
             case END_GAME:
                 char c=string.toLowerCase().charAt(0);
                 if(c!='y' && c!='n'){

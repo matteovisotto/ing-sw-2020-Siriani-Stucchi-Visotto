@@ -8,12 +8,11 @@ import java.util.List;
  This class is intended to represent the Prometheus's GodCard
  */
 public class Prometheus extends GodCard {
-    private boolean built = false;
-    private final Phase phase = Phase.BEGINNING;//VA CAMBIATO IN BEGINNING
+    private boolean built = false; //se ha usato il potere
     private boolean moved = false;
     private Cell cell;
     public Prometheus() {
-        super(SimpleGods.PROMETHEUS);
+        super(SimpleGods.PROMETHEUS, Phase.BEGINNING);
     }
 
     public boolean hasBuilt() {

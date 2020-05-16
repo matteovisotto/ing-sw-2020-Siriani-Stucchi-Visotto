@@ -7,8 +7,8 @@ import it.polimi.ingsw.view.View;
 import java.io.Serializable;
 
 public abstract class Message implements Serializable {
-    private final Player player;
-    private final View view;
+    protected final Player player;
+    protected final View view;
 
     public Message(Player player, View view){
         this.player = player;

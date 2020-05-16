@@ -12,7 +12,11 @@ public enum Phase {
     BEGINNING(0),
     MOVE(1),
     BUILD(2),
-    END_GAME(10);
+
+    WAIT_GOD_ANSWER(5),
+
+    END_GAME(10)
+    ;
 
     private final int phaseId;
     Phase(int phaseId) {

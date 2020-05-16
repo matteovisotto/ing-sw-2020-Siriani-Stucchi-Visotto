@@ -8,12 +8,11 @@ import java.util.List;
  This class is intended to represent the Demeter's GodCard
  */
 public class Demeter extends GodCard {
-    private final Phase phase = Phase.BUILD;
     private Cell firstBuilt;
     private boolean moved = false;
     private boolean built = false;
     public Demeter() {
-        super(SimpleGods.DEMETER);
+        super(SimpleGods.DEMETER, Phase. BUILD);
     }
 
     /**

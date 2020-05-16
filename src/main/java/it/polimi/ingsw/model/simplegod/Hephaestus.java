@@ -11,9 +11,8 @@ public class Hephaestus extends GodCard {
     private Cell firstBuilt;
     private boolean moved = false;
     private boolean built = false;
-    private final Phase phase = Phase.BUILD;
     public Hephaestus() {
-        super(SimpleGods.HEPHAESTUS);
+        super(SimpleGods.HEPHAESTUS, Phase.BUILD);
     }
 
     /**

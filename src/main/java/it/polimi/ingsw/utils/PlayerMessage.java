@@ -34,4 +34,5 @@ public class PlayerMessage {
     public static final String PLACE_SECOND_WORKER = "Please place now your second worker";
     public static final String MOVE = "Do your move";
     public static final String BUILD = "Now you can build";
+    public static final String USE_POWER = "Would you like to use your God's power?(y/n)";
 }

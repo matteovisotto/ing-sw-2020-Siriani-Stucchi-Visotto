@@ -8,12 +8,11 @@ import java.util.List;
  This class is intended to represent the Pan's GodCard
  */
 public class Pan extends GodCard {
-    private final Phase phase = Phase.MOVE;
     private boolean moved = false;
     private boolean built = false;
     private Cell cell;
     public Pan(){
-        super(SimpleGods.PAN);
+        super(SimpleGods.PAN, Phase.MOVE);
     }
 
     public Phase getPhase() {

@@ -20,7 +20,7 @@ public abstract class Controller implements Observer<Message> {
         this.model = model;
     }
 
-    protected Model getModel(){
+    public Model getModel(){
         return model;
     }
 

@@ -18,6 +18,7 @@ public enum MessageType{
     BEGINNING,
     MOVE,
     BUILD,
+    USE_POWER,
     VICTORY,
     LOSE,
     END_GAME

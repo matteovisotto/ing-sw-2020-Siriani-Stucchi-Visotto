@@ -7,9 +7,11 @@ public abstract class GodCard implements Serializable {
 
     protected final SimpleGods card;
     private boolean active = false;
+    protected final Phase phase;
 
-    public GodCard(SimpleGods card){
+    public GodCard(SimpleGods card, Phase phase){
         this.card = card;
+        this.phase=phase;
     }
 
     public SimpleGods getCardGod() {
@@ -33,7 +35,9 @@ public abstract class GodCard implements Serializable {
 
     public abstract void hasMoved(boolean moved);
 
-    public abstract Phase getPhase();
+    public Phase getPhase(){
+        return phase;
+    }
 
     public abstract Cell getFirstBuilt();
 

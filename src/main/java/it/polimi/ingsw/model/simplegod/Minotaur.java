@@ -8,12 +8,11 @@ import java.util.List;
  This class is intended to represent the Minotaur's GodCard
  */
 public class Minotaur extends GodCard {
-    private final Phase phase = Phase.MOVE;
     private boolean moved = false;
     private boolean built = false;
     private Cell cell;
     public Minotaur() {
-        super(SimpleGods.MINOTAUR);
+        super(SimpleGods.MINOTAUR, Phase.MOVE);
     }
 
     public Phase getPhase() {

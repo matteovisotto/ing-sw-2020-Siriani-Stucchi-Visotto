@@ -8,13 +8,13 @@ import java.util.List;
  This class is intended to represent the Atlas's GodCard
  */
 public class Atlas extends GodCard {
-    private final Phase phase = Phase.BUILD;
     public Atlas() {
-        super(SimpleGods.ATLAS);
+        super(SimpleGods.ATLAS, Phase.BUILD);
     }
     private Cell cell;
     private boolean moved = false;
     private boolean built = false;
+    private boolean usedPower=false;
 
     public Phase getPhase() {
         return phase;
@@ -44,17 +44,26 @@ public class Atlas extends GodCard {
         this.built = built;
     }
 
+
+
     /**
      * This method makes a player's worker build a DOME at any level; it could be used only if the player decide to activate his power.
      * @param objectList contain the cell in which it will be built the DOME (objectList.get(0)).
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Cell cellBuild = (Cell)objectList.get(0);
-        cellBuild.setLevel(Blocks.DOME);
+        usedPower=true;
     }
     @Override
     public void reset() {
         this.moved = false;
+    }
+
+    public boolean hasUsedPower() {
+        return usedPower;
+    }
+
+    public void setUsedPower(boolean usedPower) {
+        this.usedPower = usedPower;
     }
 }

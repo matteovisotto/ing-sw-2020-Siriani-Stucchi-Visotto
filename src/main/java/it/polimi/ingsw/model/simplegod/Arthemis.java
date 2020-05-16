@@ -9,12 +9,11 @@ import java.util.List;
  This class is intended to represent the Arthemis's GodCard
  */
 public class Arthemis extends GodCard {
-    private final Phase phase = Phase.MOVE;
     private Cell firstBuilt;
     private boolean moved = false;
     private boolean built = false;
     public Arthemis() {
-        super(SimpleGods.ARTHEMIS);
+        super(SimpleGods.ARTHEMIS, Phase.MOVE);
     }
 
     /**
