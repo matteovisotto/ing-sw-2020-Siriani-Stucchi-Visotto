@@ -144,10 +144,10 @@ public class GodCardController extends Controller{
                     }
                     else if(model.getGCPlayer(SimpleGods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
                         if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
-                            move.getPlayer().getGodCard().usePower(null);
+                            move.getPlayer().getGodCard().usePower(new ArrayList<Object>(Arrays.asList(model)));
                         }
                         else{
-                            Model.setMovedUp(false);
+                            model.setMovedUp(false);
                         }
                         model.move(move);
                     }
@@ -239,11 +239,16 @@ public class GodCardController extends Controller{
         Board board = model.getBoard();
         Player player=model.getActualPlayer();
 
-        if(model.getGCPlayer(SimpleGods.APOLLO)== player){
+        if(model.getGCPlayer(SimpleGods.APOLLO) == player){
             for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
                 for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
                     try{
-                        availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,worker));
+                        if (model.isMovedUp()){
+                            availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,worker,1));
+                        }
+                        else {
+                            availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,worker));
+                        }
                     }
                     catch (IllegalArgumentException e){
                         Cell c= new Cell(x,y);
@@ -256,7 +261,12 @@ public class GodCardController extends Controller{
             for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
                 for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
                     try{
-                        availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
+                        if (model.isMovedUp()){
+                            availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker,1));
+                        }
+                        else{
+                            availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
+                        }
                     }
                     catch (IllegalArgumentException e){
                         Cell c= new Cell(x,y);

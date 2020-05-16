@@ -19,7 +19,7 @@ public class Model extends Observable<ViewMessage> {
     private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);
     private ArrayList<GodCard> gods = new ArrayList<>();
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
-    private static boolean movedUp = false;
+    private boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
     private String playerMessage = PlayerMessage.DRAW_CARD;
 
@@ -41,12 +41,12 @@ public class Model extends Observable<ViewMessage> {
 
     }
 
-    public static boolean isMovedUp() {
+    public boolean isMovedUp() {
         return movedUp;
     }
 
-    public static void setMovedUp(boolean movedUp) {
-        Model.movedUp = movedUp;
+    public void setMovedUp(boolean movedUp) {
+        this.movedUp = movedUp;
     }
 
     public void resetBoard(){
