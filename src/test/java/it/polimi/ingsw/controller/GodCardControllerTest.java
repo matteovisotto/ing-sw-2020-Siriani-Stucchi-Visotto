@@ -442,7 +442,7 @@ public class GodCardControllerTest {
         assertTrue(model.getPlayer(0).hasWon());
     }
 
-   /* @Test
+    @Test
     public void useAthenaPowerTest(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -503,11 +503,12 @@ public class GodCardControllerTest {
 
         PlayerMove playerMove2 = new PlayerMove(players[1],0,1,0,remoteView2);
         controller.move(playerMove2);
-        PlayerBuild playerBuild2 = new PlayerBuild(players[1],players[1].getUsedWorker(),1,1,remoteView2);
+        PlayerBuild playerBuild2 = new PlayerBuild(players[1],players[1].getUsedWorker(),2,0,remoteView2);
         controller.increaseLevel(playerBuild2);
 
-        assertTrue(Model.isMovedUp());
-    }*/
+
+        assertTrue(model.isMovedUp());
+    }
 
     @Test
     public void buildADomeTest(){

@@ -154,20 +154,6 @@ public class Model extends Observable<ViewMessage> {
         return -1;
     }
 
-    /*public GodCard[] chooseCards(){
-        Random random = new Random();
-        GodCard[] godCards= new GodCard[turn.length];
-        for(int i = 0; i < turn.length; i++){
-            godCards[i] = SimpleGods.getGod(random.nextInt(8) + 1);
-            for(int j = i; j > 0; j--){
-                if(godCards[i].equals(godCards[j - 1])) {
-                    i--;
-                }
-            }
-        }
-        return godCards;
-    }*/
-
     public void addGod(GodCard godCard){
         gods.add(godCard);
     }
@@ -261,6 +247,8 @@ public class Model extends Observable<ViewMessage> {
         }
         else{
             this.phase = Phase.DRAWCARD;
+            this.messageType = MessageType.DRAW_CARD;
+            this.playerMessage = PlayerMessage.DRAW_CARD;
         }
         for (Player player : turn) {
             player.reset();

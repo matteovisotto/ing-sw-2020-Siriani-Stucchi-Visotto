@@ -123,14 +123,17 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                     try {
                         send(new ViewMessage(MessageType.LOBBY_SELECTOR, server.getLobbiesNames(),null));
                         int lobbyId;
-                        lobbyId = in.nextInt();//qua si bugga
-                        in.nextLine();
-                        if (lobbyId != 0) {
-                            server.joinLobby(lobbyId, this, name);
-                            isConfig = true;
+                        if(in.hasNextInt()){
+                            lobbyId = in.nextInt();//qua si bugga
+                            in.nextLine();
+                            if (lobbyId != 0) {
+                                server.joinLobby(lobbyId, this, name);
+                                isConfig = true;
+                            }
                         }
-
-
+                        else{
+                            send("Invalid input");
+                        }
 
                     } catch (FullLobbyException | InvalidLobbyException | NoLobbyException e){
                         send(e.getMessage());
