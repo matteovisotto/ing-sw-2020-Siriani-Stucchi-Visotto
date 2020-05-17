@@ -155,7 +155,6 @@ public class GodCardController extends Controller{
                     }
                     else if(model.getGCPlayer(Gods.ARTHEMIS) == move.getPlayer()){
                         if(((Arthemis)move.getPlayer().getGodCard()).hasUsedPower()){
-
                             if(((Arthemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
                                 move.getView().reportError("you have to move the same worker");
                             }
@@ -170,11 +169,10 @@ public class GodCardController extends Controller{
                         else{
                             ((Arthemis)move.getPlayer().getGodCard()).setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
                             ((Arthemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
-                            model.move(move);
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);
-                            model.notifyChanges();
+                            model.move(move);
                         }
                     }
                     else{
