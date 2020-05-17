@@ -14,6 +14,7 @@ public enum Phase {
     BUILD(2),
 
     WAIT_GOD_ANSWER(5),
+    PROMETHEUS_WORKER(6),
 
     END_GAME(10)
     ;
@@ -49,6 +50,7 @@ public enum Phase {
             case 2:
                 return Phase.MOVE;
             case 1:
+            case 6:
                 return Phase.BUILD;
             case 10:
                 return Phase.END_GAME;
@@ -83,6 +85,8 @@ public enum Phase {
                 return Phase.BUILD;
             case 5:
                 return Phase.WAIT_GOD_ANSWER;
+            case 6:
+                return Phase.PROMETHEUS_WORKER;
             case 10:
                 return Phase.END_GAME;
             default:

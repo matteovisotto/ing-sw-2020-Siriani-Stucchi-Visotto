@@ -2,10 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
-import it.polimi.ingsw.model.simplegod.Arthemis;
-import it.polimi.ingsw.model.simplegod.Atlas;
-import it.polimi.ingsw.model.simplegod.Demeter;
-import it.polimi.ingsw.model.simplegod.Hephaestus;
+import it.polimi.ingsw.model.simplegod.*;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.ArrayList;
@@ -251,6 +248,7 @@ public class GodCardController extends Controller{
         Cell cell=this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()); //ottengo la cella sulla quale costruire
         Blocks level = cell.getLevel();//ottengo l'altezza della cella
         //qui devo fare i controlli
+
         if(     Math.abs(cell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
                 Math.abs(cell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
                 (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell()!=cell) &&
@@ -302,6 +300,36 @@ public class GodCardController extends Controller{
                 build(level.getBlockId(), cell);
 
             }
+            else if(model.getGCPlayer(Gods.PROMETHEUS)==playerBuild.getPlayer()) {
+                if(((Prometheus)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
+                    if(((Prometheus)playerBuild.getPlayer().getGodCard()).getWorkerID() != playerBuild.getWorkerId()){
+                        playerBuild.getView().reportError("Utilizzare il worker precedentemente selzionato");
+                        return;
+                    }
+                    if(!playerBuild.getPlayer().getGodCard().hasBuilt()){
+                        model.setNextMessageType(MessageType.MOVE);
+                        model.setNextPlayerMessage(PlayerMessage.MOVE);
+                        model.setNextPhase(Phase.MOVE);
+                        ((Prometheus)playerBuild.getPlayer().getGodCard()).setBuild(true);
+                    }
+                    else{
+                        ((Prometheus)playerBuild.getPlayer().getGodCard()).setUsedPower(false);
+                        ((Prometheus)playerBuild.getPlayer().getGodCard()).setBuild(false);
+                        model.setNextMessageType(MessageType.MOVE);
+                        model.setNextPlayerMessage(PlayerMessage.MOVE);
+                        model.updatePhase();
+                        model.updateTurn();
+                    }
+                    build(level.getBlockId(), cell);
+                }
+                else{
+                    model.setNextMessageType(MessageType.MOVE);
+                    model.setNextPlayerMessage(PlayerMessage.MOVE);
+                    model.updatePhase();
+                    model.updateTurn();
+                    build(level.getBlockId(), cell);
+                }
+            }
             else{
                 model.setNextMessageType(MessageType.MOVE);
                 model.setNextPlayerMessage(PlayerMessage.MOVE);
@@ -318,6 +346,11 @@ public class GodCardController extends Controller{
     }
 
     private void build(int blockId, Cell cell) {
+        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+            model.setNextMessageType(MessageType.USE_POWER);
+        }
         switch(blockId) {
             case 0:
                 model.increaseLevel(cell, Blocks.LEVEL1);

@@ -35,4 +35,5 @@ public class PlayerMessage {
     public static final String MOVE = "Do your move";
     public static final String BUILD = "Now you can build";
     public static final String USE_POWER = "Would you like to use your God's power?(y/n)";
+    public static final String PROMETHEUS_ASK_WORKER = "Which worker would you like to move?";
 }

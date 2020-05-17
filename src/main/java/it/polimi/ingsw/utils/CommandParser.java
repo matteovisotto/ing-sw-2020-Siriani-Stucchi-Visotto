@@ -70,6 +70,12 @@ public class CommandParser {
                     throw new IllegalArgumentException("Please insert only y or n");
                 }
                 return new UseGodPower(player, view, ch);
+            case PROMETHEUS_WORKER:
+                int x=Integer.parseInt(string);
+                if(x>=2 || x<0){
+                    throw new IllegalArgumentException("Please insert only 0 or 1");
+                }
+                return new SetPrometheus(player, view, x);
             case END_GAME:
                 char c=string.toLowerCase().charAt(0);
                 if(c!='y' && c!='n'){

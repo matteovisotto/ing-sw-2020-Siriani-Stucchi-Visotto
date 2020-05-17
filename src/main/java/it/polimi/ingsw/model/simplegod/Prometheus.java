@@ -2,6 +2,8 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
 /**
@@ -11,8 +13,10 @@ public class Prometheus extends GodCard {
     private boolean built = false; //se ha usato il potere
     private boolean moved = false;
     private Cell cell;
+    private boolean usedPower;
+    private int workerID=0;
     public Prometheus() {
-        super(Gods.PROMETHEUS, Phase.BEGINNING);
+        super(Gods.PROMETHEUS, Phase.PROMETHEUS_WORKER);
     }
 
     public boolean hasBuilt() {
@@ -49,10 +53,21 @@ public class Prometheus extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Model model = (Model)objectList.get(0);
-        Cell cell = (Cell)objectList.get(1);//possibilitá che vada scritto con il PlayerBuilt
-        model.increaseLevel(cell, Blocks.getBlock(cell.getLevel().getBlockId()+1));
-        built = true;
+        usedPower=true;
+        Model model=(Model)objectList.get(0);
+        model.setNextPhase(getPhase());
+        model.setNextPlayerMessage(PlayerMessage.PROMETHEUS_ASK_WORKER);
+        model.setNextMessageType(MessageType.PROMETHEUS);
+        model.notifyChanges();
+    }
+
+
+    public boolean hasUsedPower() {
+        return usedPower;
+    }
+
+    public void setUsedPower(boolean usedPower) {
+        this.usedPower = usedPower;
     }
 
     /**
@@ -61,5 +76,13 @@ public class Prometheus extends GodCard {
     @Override
     public void reset() {
         built = false;
+    }
+
+    public int getWorkerID() {
+        return workerID;
+    }
+
+    public void setWorkerID(int workerID) {
+        this.workerID = workerID;
     }
 }

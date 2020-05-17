@@ -19,6 +19,7 @@ public enum MessageType{
     MOVE,
     BUILD,
     USE_POWER,
+    PROMETHEUS,
     VICTORY,
     LOSE,
     END_GAME
