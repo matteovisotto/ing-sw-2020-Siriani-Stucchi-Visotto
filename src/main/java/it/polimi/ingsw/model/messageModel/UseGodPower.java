@@ -26,6 +26,10 @@ public class UseGodPower extends Message {
                     godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
                 case ARTHEMIS:
                     godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                case DEMETER:
+                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                case HEPHAESTUS:
+                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
             }
 
         }

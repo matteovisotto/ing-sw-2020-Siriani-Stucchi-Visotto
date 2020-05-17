@@ -48,12 +48,19 @@ public class Minotaur extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Worker worker1 = (Worker)objectList.get(0);
-        Worker worker2 = (Worker)objectList.get(1);
-        Cell cell = (Cell)objectList.get(2);
+        Worker w1 = (Worker)objectList.get(0);
+        Worker w2 = (Worker)objectList.get(1);
+        Cell behindCell = (Cell)objectList.get(2);
+        Cell c, c2;
+        //scambia le celle dei worker
+        behindCell.useCell();
+        c=w2.getCell();
+        w2.setCell(behindCell);
+        c2=w1.getCell();
+        w1.setCell(c);
+        c2.freeCell();
 
-        worker1.setCell(worker2.getCell());
-        worker2.setCell(cell);
+
     }
     @Override
     public void reset() {

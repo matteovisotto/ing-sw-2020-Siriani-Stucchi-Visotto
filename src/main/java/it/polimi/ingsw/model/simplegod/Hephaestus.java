@@ -2,6 +2,8 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
 /**
@@ -58,7 +60,12 @@ public class Hephaestus extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Model model = (Model)objectList.get(0);
+        Model model=(Model)objectList.get(0);
+
+        model.setNextPhase(Phase.next(getPhase()));
+        model.setNextPlayerMessage(PlayerMessage.MOVE);
+        model.setNextMessageType(MessageType.MOVE);
+        model.updateTurn();
         model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId()+1));
     }
     @Override

@@ -76,6 +76,45 @@ public class Board implements Serializable, Cloneable {
         }
         return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
     }
+    public boolean checkCellMinotaur (int x, int y, Worker worker, int maxUpDifference) throws IllegalArgumentException{
+        Cell cell = getCell(x,y);
+        Cell other_cell = worker.getCell();
+        Cell behindCell;
+        boolean test=false;
+        for (int p = 0; p < players.length; p++) {
+            Player player = players[p];
+            //controllo che il player non sia quello del turno
+            if(!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)){
+                if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
+                    behindCell=this.getCell((cell.getX()-other_cell.getX())+cell.getX(), (cell.getY()-other_cell.getY())+cell.getY());
+                    if(behindCell.getLevel().getBlockId()!=4 && behindCell.isFree()){
+                        test=true;
+                    }
+                }
+            }
+        }
+        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
+    }
+    public boolean checkCellMinotaur (int x, int y, Worker worker) throws IllegalArgumentException{
+        Cell cell = getCell(x,y);
+        Cell other_cell = worker.getCell();
+        Cell behindCell;
+        boolean test=false;
+        int maxUpDifference=2;
+        for (int p = 0; p < players.length; p++) {
+            Player player = players[p];
+            //controllo che il player non sia quello del turno
+            if(!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)){
+                if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
+                    behindCell=this.getCell((cell.getX()-other_cell.getX())+cell.getX(), (cell.getY()-other_cell.getY())+cell.getY());
+                    if(behindCell.getLevel().getBlockId()!=4 && behindCell.isFree()){
+                        test=true;
+                    }
+                }
+            }
+        }
+        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
+    }
 
     public synchronized void print(){
         System.out.println(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4");

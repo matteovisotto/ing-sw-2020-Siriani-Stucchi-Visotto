@@ -2,6 +2,8 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
 /**
@@ -11,6 +13,7 @@ public class Demeter extends GodCard {
     private Cell firstBuilt;
     private boolean moved = false;
     private boolean built = false;
+    private boolean usedPower;
     public Demeter() {
         super(Gods.DEMETER, Phase. BUILD);
     }
@@ -58,10 +61,22 @@ public class Demeter extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Model model = (Model)objectList.get(0);
-        Cell cell = (Cell)objectList.get(1);
-        model.increaseLevel(cell, Blocks.getBlock(cell.getLevel().getBlockId()+1)); //mi sa che va meglio se si implementa con PlayerBuilt
+        usedPower=true;
+        Model model=(Model)objectList.get(0);
+        model.setNextPhase(getPhase());
+        model.setNextPlayerMessage(PlayerMessage.BUILD);
+        model.setNextMessageType(MessageType.BUILD);
+        model.notifyChanges();
     }
+
+    public boolean hasUsedPower() {
+        return usedPower;
+    }
+
+    public void setUsedPower(boolean usedPower) {
+        this.usedPower = usedPower;
+    }
+
     @Override
     public void reset() {
         this.moved = false;
