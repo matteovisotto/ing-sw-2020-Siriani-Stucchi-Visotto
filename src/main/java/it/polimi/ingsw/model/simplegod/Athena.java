@@ -12,7 +12,7 @@ public class Athena extends GodCard {
     private boolean moved = false;
     private boolean built = false;
     public Athena() {
-        super(SimpleGods.ATHENA, Phase.BUILD);
+        super(Gods.ATHENA, Phase.BUILD);
     }
 
     public Phase getPhase() {

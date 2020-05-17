@@ -5,16 +5,16 @@ import java.util.List;
 
 public abstract class GodCard implements Serializable {
 
-    protected final SimpleGods card;
+    protected final Gods card;
     private boolean active = false;
     protected final Phase phase;
 
-    public GodCard(SimpleGods card, Phase phase){
+    public GodCard(Gods card, Phase phase){
         this.card = card;
         this.phase=phase;
     }
 
-    public SimpleGods getCardGod() {
+    public Gods getCardGod() {
         return this.card;
     }
 

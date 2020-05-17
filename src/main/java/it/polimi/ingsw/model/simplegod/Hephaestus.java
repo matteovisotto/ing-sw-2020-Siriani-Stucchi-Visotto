@@ -12,7 +12,7 @@ public class Hephaestus extends GodCard {
     private boolean moved = false;
     private boolean built = false;
     public Hephaestus() {
-        super(SimpleGods.HEPHAESTUS, Phase.BUILD);
+        super(Gods.HEPHAESTUS, Phase.BUILD);
     }
 
     /**

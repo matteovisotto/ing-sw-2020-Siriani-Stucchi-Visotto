@@ -7,9 +7,7 @@ import it.polimi.ingsw.model.simplegod.Arthemis;
 import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.view.RemoteView;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 
 import static org.junit.Assert.*;
@@ -321,7 +319,7 @@ public class GodCardControllerTest {
         });
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,1);
         controller.pickACard(pickedCard);
-        assertEquals(model.getPlayer(0).getGodCard().getCardGod(),SimpleGods.APOLLO);
+        assertEquals(model.getPlayer(0).getGodCard().getCardGod(), Gods.APOLLO);
 
         PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
         controller.setPlayerWorker(playerWorker);
@@ -394,7 +392,7 @@ public class GodCardControllerTest {
         });
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,1);
         controller.pickACard(pickedCard);
-        assertEquals(model.getPlayer(0).getGodCard().getCardGod(),SimpleGods.PAN);
+        assertEquals(model.getPlayer(0).getGodCard().getCardGod(), Gods.PAN);
 
         PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
         controller.setPlayerWorker(playerWorker);

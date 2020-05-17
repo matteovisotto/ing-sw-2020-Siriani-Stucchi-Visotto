@@ -16,7 +16,7 @@ public class Model extends Observable<ViewMessage> {
     private int leftPlayers;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
-    private Map<SimpleGods, Player> playerCards = new EnumMap<>(SimpleGods.class);
+    private Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
     private ArrayList<GodCard> gods = new ArrayList<>();
     public static int athenaId = -2;     //-2->valore inizializzato, -1-> non c'é athena in partita
     private boolean movedUp = false;
@@ -174,8 +174,8 @@ public class Model extends Observable<ViewMessage> {
         return gods.size() >= x+1;
     }
 
-    public Player getGCPlayer(SimpleGods simpleGods){//returna null se non c'é un giocatore assegnato alla carta
-        return playerCards.get(simpleGods);
+    public Player getGCPlayer(Gods gods){//returna null se non c'é un giocatore assegnato alla carta
+        return playerCards.get(gods);
     }
 
     public GodCard assignCard(Player player, int x){

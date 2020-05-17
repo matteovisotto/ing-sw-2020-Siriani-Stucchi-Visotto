@@ -12,7 +12,7 @@ public class Demeter extends GodCard {
     private boolean moved = false;
     private boolean built = false;
     public Demeter() {
-        super(SimpleGods.DEMETER, Phase. BUILD);
+        super(Gods.DEMETER, Phase. BUILD);
     }
 
     /**

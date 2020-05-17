@@ -22,8 +22,8 @@ public class PlayerTest {
     @Test
     public void getGodCard() {
         Player player = new Player("Luigi");
-        player.setGodCard(SimpleGods.getGod(2));
-        assertEquals(SimpleGods.getGod(2), player.getGodCard());
+        player.setGodCard(Gods.getGod(2));
+        assertEquals(Gods.getGod(2), player.getGodCard());
     }
 
     @Test
@@ -39,8 +39,8 @@ public class PlayerTest {
     @Test
     public void setGodCard(){
         Player player = new Player("Luigi");
-        player.setGodCard(SimpleGods.getGod(1));
-        assertEquals(SimpleGods.getGod(1), player.getGodCard());
+        player.setGodCard(Gods.getGod(1));
+        assertEquals(Gods.getGod(1), player.getGodCard());
     }
 
     @Test

@@ -26,32 +26,32 @@ public class GodCardController extends Controller{
 
     public synchronized void drawedCards(DrawedCards drawedCards){
         if(drawedCards.getThird() != -1 && model.getNumOfPlayers() == 3){
-            model.addGod(SimpleGods.getGod(drawedCards.getFirst()));
-            model.addGod(SimpleGods.getGod(drawedCards.getSecond()));
-            model.addGod(SimpleGods.getGod(drawedCards.getThird()));
+            model.addGod(Gods.getGod(drawedCards.getFirst()));
+            model.addGod(Gods.getGod(drawedCards.getSecond()));
+            model.addGod(Gods.getGod(drawedCards.getThird()));
         }
         else if(model.getNumOfPlayers() == 2 && drawedCards.getThird() != -1){
             drawedCards.getView().reportError("Insert 2 god cards only");
             return;
         }
         else{
-            model.addGod(SimpleGods.getGod(drawedCards.getFirst()));
-            model.addGod(SimpleGods.getGod(drawedCards.getSecond()));
+            model.addGod(Gods.getGod(drawedCards.getFirst()));
+            model.addGod(Gods.getGod(drawedCards.getSecond()));
         }
-        model.notifyMessage(SimpleGods.getGod(drawedCards.getFirst()).getName());
-        model.notifyMessage(SimpleGods.getGod(drawedCards.getSecond()).getName());
+        model.notifyMessage(Gods.getGod(drawedCards.getFirst()).getName());
+        model.notifyMessage(Gods.getGod(drawedCards.getSecond()).getName());
         if(model.getNumOfPlayers()==3){
-            model.notifyMessage(SimpleGods.getGod(drawedCards.getThird()).getName());
+            model.notifyMessage(Gods.getGod(drawedCards.getThird()).getName());
         }
         model.updatePhase();
         model.updateTurn();
         model.setNextMessageType(MessageType.PICK_CARD);
 
         if(model.getNumOfPlayers()==3){
-            model.setNextPlayerMessage("Pick a God between: \n0 - "+SimpleGods.getGod(drawedCards.getFirst()).getName()+"\n1 - "+SimpleGods.getGod(drawedCards.getSecond()).getName()+"\n2 - "+SimpleGods.getGod(drawedCards.getThird()).getName());
+            model.setNextPlayerMessage("Pick a God between: \n0 - "+ Gods.getGod(drawedCards.getFirst()).getName()+"\n1 - "+ Gods.getGod(drawedCards.getSecond()).getName()+"\n2 - "+ Gods.getGod(drawedCards.getThird()).getName());
         }
         else{
-            model.setNextPlayerMessage("Pick a God between: \n0 - "+SimpleGods.getGod(drawedCards.getFirst()).getName()+"\n1 - "+SimpleGods.getGod(drawedCards.getSecond()).getName());
+            model.setNextPlayerMessage("Pick a God between: \n0 - "+ Gods.getGod(drawedCards.getFirst()).getName()+"\n1 - "+ Gods.getGod(drawedCards.getSecond()).getName());
         }
         model.notifyChanges();
     }
@@ -119,12 +119,12 @@ public class GodCardController extends Controller{
                     model.setNextMessageType(MessageType.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.updatePhase();
-                    if(move.getPlayer().getGodCard().getCardGod() == SimpleGods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
+                    if(move.getPlayer().getGodCard().getCardGod() == Gods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
                         List<Object> objectList= new ArrayList<>();
                         //primo worker di quello che vuole muovere
                         objectList.add(move.getPlayer().getWorker(move.getWorkerId()));
                         for(int i = 0; i < model.getNumOfPlayers(); i++){
-                            if(model.getPlayer(i).getGodCard().getCardGod() != SimpleGods.APOLLO){
+                            if(model.getPlayer(i).getGodCard().getCardGod() != Gods.APOLLO){
                                 if(model.getPlayer(i).getWorker(0).getCell() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                     objectList.add(model.getPlayer(i).getWorker(0));
                                 }
@@ -137,14 +137,14 @@ public class GodCardController extends Controller{
                         model.getActualPlayer().setUsedWorker(move.getWorkerId());
                         model.notifyChanges();
                     }
-                    else if(model.getGCPlayer(SimpleGods.PAN) == move.getPlayer()){// se è il turno del player con pan
+                    else if(model.getGCPlayer(Gods.PAN) == move.getPlayer()){// se è il turno del player con pan
                         if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==2){
                             model.victory(model.getActualPlayer());
                             return;
                         }
                         model.move(move);
                     }
-                    else if(model.getGCPlayer(SimpleGods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
+                    else if(model.getGCPlayer(Gods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
                         if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
                             move.getPlayer().getGodCard().usePower(new ArrayList<Object>(Arrays.asList(model)));
                         }
@@ -153,7 +153,7 @@ public class GodCardController extends Controller{
                         }
                         model.move(move);
                     }
-                    else if(model.getGCPlayer(SimpleGods.ARTHEMIS) == move.getPlayer()){
+                    else if(model.getGCPlayer(Gods.ARTHEMIS) == move.getPlayer()){
                         if(((Arthemis)move.getPlayer().getGodCard()).hasUsedPower()){
 
                             if(((Arthemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
@@ -179,7 +179,7 @@ public class GodCardController extends Controller{
                     }
                     else{
                         model.move(move);
-                        if(model.getGCPlayer(SimpleGods.ATLAS) == move.getPlayer()){
+                        if(model.getGCPlayer(Gods.ATLAS) == move.getPlayer()){
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);
@@ -245,7 +245,7 @@ public class GodCardController extends Controller{
             model.setNextPlayerMessage(PlayerMessage.MOVE);
             model.updatePhase();
             model.updateTurn();
-            if(model.getGCPlayer(SimpleGods.ATLAS)==playerBuild.getPlayer() && ((Atlas)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
+            if(model.getGCPlayer(Gods.ATLAS)==playerBuild.getPlayer() && ((Atlas)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
                 ((Atlas)playerBuild.getPlayer().getGodCard()).setUsedPower(false);
                 model.increaseLevel(cell, Blocks.DOME);
             }
@@ -279,7 +279,7 @@ public class GodCardController extends Controller{
         Board board = model.getBoard();
         Player player=model.getActualPlayer();
 
-        if(model.getGCPlayer(SimpleGods.APOLLO) == player){
+        if(model.getGCPlayer(Gods.APOLLO) == player){
             for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
                 for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
                     try{

@@ -18,7 +18,7 @@ public class Arthemis extends GodCard {
     private Worker previousWorker;
 
     public Arthemis() {
-        super(SimpleGods.ARTHEMIS, Phase.MOVE);
+        super(Gods.ARTHEMIS, Phase.MOVE);
     }
 
     /**

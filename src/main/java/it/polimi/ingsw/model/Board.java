@@ -52,7 +52,7 @@ public class Board implements Serializable, Cloneable {
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
-            if(!player.getGodCard().getCardGod().equals(SimpleGods.APOLLO)){
+            if(!player.getGodCard().getCardGod().equals(Gods.APOLLO)){
                 if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
                     test=true;
                 }
@@ -68,7 +68,7 @@ public class Board implements Serializable, Cloneable {
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
-            if(!player.getGodCard().getCardGod().equals(SimpleGods.APOLLO)){
+            if(!player.getGodCard().getCardGod().equals(Gods.APOLLO)){
                 if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
                     test=true;
                 }

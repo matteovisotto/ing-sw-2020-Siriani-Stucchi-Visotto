@@ -12,7 +12,7 @@ public class Apollo extends GodCard {
     private boolean built = false;
     private boolean moved = false;
     public Apollo(){
-        super(SimpleGods.APOLLO, Phase.MOVE);
+        super(Gods.APOLLO, Phase.MOVE);
     }
 
     public Cell getFirstBuilt(){

@@ -12,7 +12,7 @@ public class Minotaur extends GodCard {
     private boolean built = false;
     private Cell cell;
     public Minotaur() {
-        super(SimpleGods.MINOTAUR, Phase.MOVE);
+        super(Gods.MINOTAUR, Phase.MOVE);
     }
 
     public Phase getPhase() {

@@ -12,7 +12,7 @@ public class Prometheus extends GodCard {
     private boolean moved = false;
     private Cell cell;
     public Prometheus() {
-        super(SimpleGods.PROMETHEUS, Phase.BEGINNING);
+        super(Gods.PROMETHEUS, Phase.BEGINNING);
     }
 
     public boolean hasBuilt() {

@@ -12,7 +12,7 @@ public class Pan extends GodCard {
     private boolean built = false;
     private Cell cell;
     public Pan(){
-        super(SimpleGods.PAN, Phase.MOVE);
+        super(Gods.PAN, Phase.MOVE);
     }
 
     public Phase getPhase() {
