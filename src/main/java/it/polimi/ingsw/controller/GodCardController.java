@@ -17,6 +17,53 @@ public class GodCardController extends Controller{
         super(model);
     }
 
+    @Override
+    public synchronized void setPlayerWorker(PlayerWorker playerWorker){
+        //Check for right turn
+        if(!model.isPlayerTurn(playerWorker.getPlayer())){
+            playerWorker.getView().reportError(PlayerMessage.TURN_ERROR);
+            return;
+        }
+        try{
+            if(model.getBoard().getCell(playerWorker.getX(), playerWorker.getY()).isFree()){
+                if(model.getPhase() == Phase.SETWORKER2){
+                    if(model.getActualPlayerId() != model.getNumOfPlayers() - 1){
+                        model.updateTurn();
+                        model.setNextPhase(Phase.SETWORKER1);
+                        model.setNextMessageType(MessageType.SET_WORKER_1);
+                        model.setNextPlayerMessage(PlayerMessage.PLACE_FIRST_WORKER);
+                    }
+                    else{
+                        model.updateTurn();
+                        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                            model.setNextMessageType(MessageType.USE_POWER);
+                        }
+                        else{
+                            model.updatePhase();
+                            model.setNextMessageType(MessageType.MOVE);
+                            model.setNextPlayerMessage(PlayerMessage.MOVE);
+                        }
+
+                    }
+                }
+                else{
+                    model.updatePhase();
+                    model.setNextMessageType(MessageType.SET_WORKER_2);
+                    model.setNextPlayerMessage(PlayerMessage.PLACE_SECOND_WORKER);
+                }
+                model.setPlayerWorker(playerWorker);
+            }
+            else{
+                playerWorker.getView().reportError("The cell is busy.");
+            }
+        }catch (IllegalArgumentException e){
+            playerWorker.getView().reportError("Cell index must be between 0 and 4 (included)");
+        }
+
+    }
+
     public synchronized boolean checkPhase(){//deve controllare che la fase attuale sia la stessa del godpower
         Player p = model.getActualPlayer();
         Phase ph = p.getGodCard().getPhase();
@@ -117,7 +164,7 @@ public class GodCardController extends Controller{
                 try {
                     model.setNextMessageType(MessageType.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
-                    model.updatePhase();
+                    model.setNextPhase(Phase.BUILD);
                     if(move.getPlayer().getGodCard().getCardGod() == Gods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
                         List<Object> objectList= new ArrayList<>();
                         //primo worker di quello che vuole muovere
@@ -203,6 +250,9 @@ public class GodCardController extends Controller{
                                 move.getView().reportError("you can't move up");
                             }
                             else{
+                                model.setNextMessageType(MessageType.BUILD);
+                                model.setNextPlayerMessage(PlayerMessage.BUILD);
+                                model.setNextPhase(Phase.BUILD);
                                 model.move(move);
                             }
                         }
@@ -338,7 +388,7 @@ public class GodCardController extends Controller{
                         ((Prometheus)playerBuild.getPlayer().getGodCard()).setBuild(false);
                         model.setNextMessageType(MessageType.MOVE);
                         model.setNextPlayerMessage(PlayerMessage.MOVE);
-                        model.updatePhase();
+                        model.setNextPhase(Phase.MOVE);
                         model.updateTurn();
                     }
                     build(level.getBlockId(), cell);

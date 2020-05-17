@@ -32,43 +32,7 @@ public abstract class Controller implements Observer<Message> {
 
     protected abstract HashMap<Cell, Boolean> checkCellsAround (Worker worker);
 
-    public synchronized void setPlayerWorker(PlayerWorker playerWorker){
-        //Check for right turn
-        if(!model.isPlayerTurn(playerWorker.getPlayer())){
-            playerWorker.getView().reportError(PlayerMessage.TURN_ERROR);
-            return;
-        }
-        try{
-            if(model.getBoard().getCell(playerWorker.getX(), playerWorker.getY()).isFree()){
-                if(model.getPhase() == Phase.SETWORKER2){
-                    if(model.getActualPlayerId() != model.getNumOfPlayers() - 1){
-                        model.updateTurn();
-                        model.setNextPhase(Phase.SETWORKER1);
-                        model.setNextMessageType(MessageType.SET_WORKER_1);
-                        model.setNextPlayerMessage(PlayerMessage.PLACE_FIRST_WORKER);
-                    }
-                    else{
-                        model.updateTurn();
-                        model.updatePhase();
-                        model.setNextMessageType(MessageType.MOVE);
-                        model.setNextPlayerMessage(PlayerMessage.MOVE);
-                    }
-                }
-                else{
-                    model.updatePhase();
-                    model.setNextMessageType(MessageType.SET_WORKER_2);
-                    model.setNextPlayerMessage(PlayerMessage.PLACE_SECOND_WORKER);
-                }
-                model.setPlayerWorker(playerWorker);
-            }
-            else{
-                playerWorker.getView().reportError("The cell is busy.");
-            }
-        }catch (IllegalArgumentException e){
-            playerWorker.getView().reportError("Cell index must be between 0 and 4 (included)");
-        }
-
-    }
+    public abstract void setPlayerWorker(PlayerWorker playerWorker);
 
     public abstract void checkVictory();
 
