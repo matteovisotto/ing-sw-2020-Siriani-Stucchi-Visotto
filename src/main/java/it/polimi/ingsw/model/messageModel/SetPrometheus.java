@@ -18,6 +18,7 @@ public class SetPrometheus extends Message{
     @Override
     public void handler(Controller controller) {
         ((Prometheus)player.getGodCard()).setWorkerID(x);
+        player.setUsedWorker(x);
         Model model= controller.getModel();
         model.setNextPhase(Phase.BUILD);
         model.setNextPlayerMessage(PlayerMessage.BUILD);

@@ -194,6 +194,27 @@ public class GodCardController extends Controller{
                             model.move(move);
                         }
                     }
+                    else if(model.getGCPlayer(Gods.PROMETHEUS) == move.getPlayer()){// se è il turno del player con athena
+                        if(((Prometheus)move.getPlayer().getGodCard()).hasUsedPower()){
+                            if(((Prometheus)move.getPlayer().getGodCard()).getWorkerID() != move.getWorkerId()){
+                                move.getView().reportError("you have to move the same worker");
+                            }
+                            else if(move.getPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()<model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()){
+                                move.getView().reportError("you can't move up");
+                            }
+                            else{
+                                model.move(move);
+                            }
+                        }
+                        else{
+                            ((Arthemis)move.getPlayer().getGodCard()).setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
+                            ((Arthemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
+                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                            model.setNextMessageType(MessageType.USE_POWER);
+                            model.move(move);
+                        }
+                    }
                     else{
                         model.move(move);
                         if(model.getGCPlayer(Gods.ATLAS) == move.getPlayer()){
@@ -303,7 +324,7 @@ public class GodCardController extends Controller{
             else if(model.getGCPlayer(Gods.PROMETHEUS)==playerBuild.getPlayer()) {
                 if(((Prometheus)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
                     if(((Prometheus)playerBuild.getPlayer().getGodCard()).getWorkerID() != playerBuild.getWorkerId()){
-                        playerBuild.getView().reportError("Utilizzare il worker precedentemente selzionato");
+                        playerBuild.getView().reportError("Utilizzare il worker precedentemente selezionato");
                         return;
                     }
                     if(!playerBuild.getPlayer().getGodCard().hasBuilt()){
