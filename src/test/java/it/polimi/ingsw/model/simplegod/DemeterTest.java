@@ -11,8 +11,6 @@ public class DemeterTest {
     @Test
     public void testUsePower() {
         Cell cell = new Cell(1,2);
-        Cell cellBuilt = new Cell(2,2);
-        Cell cellBuiltStatic = new Cell(2,2);
         Cell cell2 = new Cell(3,3);
         Worker worker = new Worker(cell);
         Worker worker1 = new Worker(cell2);
@@ -26,10 +24,11 @@ public class DemeterTest {
         Model model = new Model(players,true);
         List<Object> builtList = new ArrayList<>();
         builtList.add(model);
-        builtList.add(cellBuilt);
         GodCard godCard = new Demeter();
-        godCard.usePower(builtList);
-        assertEquals(cellBuilt.getLevel().getBlockId(), cellBuiltStatic.getLevel().getBlockId() + 1);
+        model.getActualPlayer().setGodCard(godCard);
+        model.getActualPlayer().getGodCard().usePower(builtList);
+        assertTrue(((Demeter)model.getActualPlayer().getGodCard()).hasUsedPower());
+        assertEquals(model.getPhase(),Phase.BUILD);
     }
 
     @Test

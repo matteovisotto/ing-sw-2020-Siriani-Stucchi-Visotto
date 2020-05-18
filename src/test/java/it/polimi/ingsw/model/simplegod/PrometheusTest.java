@@ -11,7 +11,6 @@ public class PrometheusTest{
     @Test
     public void testUsePower() {
         Cell cell = new Cell(1, 2);
-        Cell cellFirstBuilt = new Cell(2,2);
         Cell cell2 = new Cell(3, 3);
         Worker worker = new Worker(cell);
         Worker worker1 = new Worker(cell2);
@@ -25,12 +24,11 @@ public class PrometheusTest{
         Model model = new Model(players, true);
         List<Object> buildList = new ArrayList<>();
         buildList.add(model);
-        buildList.add(cellFirstBuilt);
         GodCard godCard = new Prometheus();
         model.getActualPlayer().setGodCard(godCard);
         model.getActualPlayer().getGodCard().usePower(buildList);
-        assertEquals(1, cellFirstBuilt.getLevel().getBlockId());
-        assertTrue(model.getActualPlayer().getGodCard().hasBuilt());
+        assertTrue(((Prometheus)model.getActualPlayer().getGodCard()).hasUsedPower());
+        assertEquals(model.getPhase(),Phase.PROMETHEUS_WORKER);
     }
 
     @Test
@@ -67,7 +65,7 @@ public class PrometheusTest{
     public void getPhaseTest(){
         GodCard godCard = new Prometheus();
         Phase phase = godCard.getPhase();
-        assertEquals(phase,Phase.BEGINNING);
+        assertEquals(phase,Phase.PROMETHEUS_WORKER);
     }
 }
 

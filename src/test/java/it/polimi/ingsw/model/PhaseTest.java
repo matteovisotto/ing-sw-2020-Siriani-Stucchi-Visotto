@@ -21,6 +21,8 @@ public class PhaseTest {
             assertEquals(0, Phase.BEGINNING.getPhaseId());
             assertEquals(1, Phase.MOVE.getPhaseId());
             assertEquals(2, Phase.BUILD.getPhaseId());
+            assertEquals(5, Phase.WAIT_GOD_ANSWER.getPhaseId());
+            assertEquals(6, Phase.PROMETHEUS_WORKER.getPhaseId());
             assertEquals(10, Phase.END_GAME.getPhaseId());
         }
 
@@ -34,6 +36,8 @@ public class PhaseTest {
             assertEquals(Phase.getPhase(0), Phase.BEGINNING);
             assertEquals(Phase.getPhase(1), Phase.MOVE);
             assertEquals(Phase.getPhase(2), Phase.BUILD);
+            assertEquals(Phase.getPhase(5), Phase.WAIT_GOD_ANSWER);
+            assertEquals(Phase.getPhase(6), Phase.PROMETHEUS_WORKER);
             assertEquals(Phase.getPhase(10), Phase.END_GAME);
         }
 
@@ -54,6 +58,7 @@ public class PhaseTest {
             assertEquals(Phase.BUILD, Phase.next(Phase.getPhase(1)));
             assertEquals(Phase.MOVE, Phase.next(Phase.getPhase(2)));
             assertEquals(Phase.BUILD, Phase.next(Phase.getPhase(1)));
+            assertEquals(Phase.BUILD, Phase.next(Phase.getPhase(6)));
             assertEquals(Phase.END_GAME, Phase.next(Phase.getPhase(10)));
 
         }

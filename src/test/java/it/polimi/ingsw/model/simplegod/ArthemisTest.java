@@ -44,15 +44,11 @@ public class ArthemisTest {
         PlayerMove playerMove = new PlayerMove(players[0],0,2,2,remoteView);
         List<Object> movingList = new ArrayList<>();
         movingList.add(model);
-        movingList.add(playerMove);
         GodCard godCard = new Arthemis();
         model.getActualPlayer().setGodCard(godCard);
-        model.getActualPlayer().getGodCard().hasMoved(true);
         model.getActualPlayer().getGodCard().usePower(movingList);
-        godCard.hasMoved(true);
-        godCard.usePower(movingList);
-        assertEquals(2, players[0].getWorker(0).getCell().getX());
-        assertEquals(2, model.getActualPlayer().getWorker(0).getCell().getX());
+        assertTrue(((Arthemis)model.getActualPlayer().getGodCard()).hasUsedPower());
+        assertEquals(Phase.MOVE,model.getPhase());
     }
 
     @Test
