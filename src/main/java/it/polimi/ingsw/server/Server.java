@@ -97,8 +97,19 @@ public class Server {
         } else {
             throw new FullLobbyException(LobbyExceptionMessage.FULL_LOBBY);
         }
-
     }
+
+    /*public synchronized void addLobbyEndGame(String lobbyName, ArrayList<ClientConnection> clientConnections, ArrayList<String> playerNames, int numPlayer, boolean simplePlay){
+        Lobby lobby = new Lobby(lobbyName, playerNames.get(0), clientConnections.get(0), numPlayer, simplePlay);
+        this.lobbies.add(lobby);
+        this.lobbyConnections.put(clientConnections.get(0), lobby);
+        ArrayList<ClientConnection> arr = new ArrayList<>();
+        arr.add(clientConnections.get(0));
+        this.playerInLobby.put(lobby, arr);
+        if (playerNames.size()>1){
+            joinLobby(lobbies.size()-1,clientConnections.get(1),playerNames.get(1));
+        }
+    }*/
 
     public void run(){
         System.out.println("Server listening on port: " + PORT);

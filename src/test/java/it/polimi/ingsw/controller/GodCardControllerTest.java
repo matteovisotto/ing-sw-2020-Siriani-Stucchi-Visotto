@@ -41,7 +41,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,2,remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection () {
@@ -59,7 +59,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,1);
         controller.pickACard(pickedCard);
 
@@ -110,7 +110,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,1,remoteView);
         controller.drawedCards(drawedCards);
         Phase phase = Phase.PICK_CARD;
@@ -144,7 +144,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,1,2,remoteView);
         controller.drawedCards(drawedCards);
         Phase phase = Phase.PICK_CARD;
@@ -179,7 +179,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,1,remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection () {
@@ -197,7 +197,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,0);
 
         controller.pickACard(pickedCard);
@@ -233,7 +233,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,1,2,remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), players[2].getPlayerName(), new ClientConnection () {
@@ -251,7 +251,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         RemoteView remoteView3 = new RemoteView(players[2], players[0].getPlayerName(), players[1].getPlayerName(), new ClientConnection() {
             @Override
             public void closeConnection() {
@@ -267,7 +267,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,2);
         PickedCard pickedCard1 = new PickedCard(players[2],remoteView3,1);
         controller.pickACard(pickedCard);
@@ -304,7 +304,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
 
         DrawedCards drawedCards = new DrawedCards(players[0],7,0,remoteView);
         controller.drawedCards(drawedCards);
@@ -324,7 +324,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
 
         PickedCard pickedCard = new PickedCard(players[1],remoteView1,1);
         controller.pickACard(pickedCard);
@@ -388,7 +388,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,2,remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection () {
@@ -406,7 +406,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,1);
         controller.pickACard(pickedCard);
         assertEquals(model.getPlayer(0).getGodCard().getCardGod(), Gods.APOLLO);
@@ -461,7 +461,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0],0,2,remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection () {
@@ -479,7 +479,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,1);
         controller.pickACard(pickedCard);
 
@@ -529,7 +529,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 1, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -547,7 +547,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -597,7 +597,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 3, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -615,7 +615,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -662,7 +662,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 4, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -680,7 +680,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -731,7 +731,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 5, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -749,7 +749,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -800,7 +800,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 5, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -818,7 +818,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -884,7 +884,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 6, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -902,7 +902,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -945,7 +945,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0],7,0,remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection () {
@@ -963,7 +963,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1],remoteView2,1);
         controller.pickACard(pickedCard);
         assertEquals(model.getPlayer(0).getGodCard().getCardGod(), Gods.PAN);
@@ -1036,7 +1036,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 8, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -1054,7 +1054,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -1113,7 +1113,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 8, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -1131,7 +1131,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 1);
         controller.pickACard(pickedCard);
 
@@ -1196,7 +1196,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 8, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -1214,7 +1214,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 
@@ -1267,7 +1267,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         DrawedCards drawedCards = new DrawedCards(players[0], 5, 6, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
@@ -1285,7 +1285,7 @@ public class GodCardControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
         controller.pickACard(pickedCard);
 

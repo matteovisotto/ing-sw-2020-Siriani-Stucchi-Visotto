@@ -39,7 +39,7 @@ public class ArthemisTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         Model model = new Model(players,true);
         PlayerMove playerMove = new PlayerMove(players[0],0,2,2,remoteView);
         List<Object> movingList = new ArrayList<>();

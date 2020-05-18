@@ -183,7 +183,7 @@ public class ModelTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],1,2,remoteView);
         model.setPlayerWorker(playerWorker);
         assertTrue(cell.getX()==playerWorker.getX() && cell.getY()==playerWorker.getY());
@@ -246,7 +246,7 @@ public class ModelTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerMove playerMove = new PlayerMove(players[0],0,2,2,remoteView);
         model.move(playerMove);
         assertTrue(players[0].getWorker(0).getCell().getX()==2 && players[0].getWorker(0).getCell().getX()==2);

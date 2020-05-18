@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.messageModel.PlayerBuild;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.RemoteView;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class ControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],1,2,remoteView);
         controller.setPlayerWorker(playerWorker);
         assertFalse(controller.getModel().getBoard().getCell(1,2).isFree());
@@ -63,7 +64,7 @@ public class ControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],3,4,remoteView1);
         controller.setPlayerWorker(playerWorker3);
@@ -97,7 +98,7 @@ public class ControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],1,2,remoteView);
         controller.setPlayerWorker(playerWorker);
         assertFalse(controller.getModel().getBoard().getCell(-1,2).isFree());

@@ -7,11 +7,19 @@ import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.server.Lobby;
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.CommandParser;
 
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
     private Phase phase = Phase.SETWORKER1;
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    private Lobby lobby;
     private class MessageReceiver implements Observer<String> {
 
         @Override
@@ -31,7 +39,7 @@ public class RemoteView extends View {
     }
 
     //Constructor for 2 players
-    public RemoteView(Player player, String opponent, ClientConnection c) {
+    public RemoteView(Player player, String opponent, ClientConnection c, Lobby lobby) {
         super(player);
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
@@ -40,7 +48,7 @@ public class RemoteView extends View {
     }
 
     //Constructor for 3 players
-    public RemoteView(Player player, String opponent1, String opponent2, ClientConnection c) {
+    public RemoteView(Player player, String opponent1, String opponent2, ClientConnection c, Lobby lobby) {
         super(player);
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());

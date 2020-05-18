@@ -81,7 +81,7 @@ public class CommandParser {
                 if(c!='y' && c!='n'){
                     throw new IllegalArgumentException("Please insert only y or n");
                 }
-                return new NewGameMessage(player, view, c, view.getConnection());
+                return new NewGameMessage(player, view, c, view.getConnection(), view.getLobby());
             default: throw new IllegalArgumentException("Can't do it now");
         }
     }

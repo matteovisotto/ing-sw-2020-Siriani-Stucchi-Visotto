@@ -106,8 +106,8 @@ public class Lobby {
         playerArray[1] = player2;
 
 
-        remoteView1 = new RemoteView(player1, players.get(1), c1);
-        remoteView2 = new RemoteView(player2, players.get(0), c2);
+        remoteView1 = new RemoteView(player1, players.get(1), c1, this);
+        remoteView2 = new RemoteView(player2, players.get(0), c2, this);
 
         Model model = new Model(playerArray, simplePlay);
         Controller controller;
@@ -159,9 +159,9 @@ public class Lobby {
             //TODO
         }
 
-        remoteView1 = new RemoteView(player1, players.get(1), players.get(2), c1);
-        remoteView2 = new RemoteView(player2, players.get(0), players.get(2), c2);
-        remoteView3 = new RemoteView(player3, players.get(1), players.get(0), c3);
+        remoteView1 = new RemoteView(player1, players.get(1), players.get(2), c1, this);
+        remoteView2 = new RemoteView(player2, players.get(0), players.get(2), c2, this);
+        remoteView3 = new RemoteView(player3, players.get(1), players.get(0), c3, this);
 
 
         Model model = new Model(playerArray, simplePlay);

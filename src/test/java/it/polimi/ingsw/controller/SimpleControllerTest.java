@@ -40,7 +40,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],1,2,remoteView);
         controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,4,remoteView);
@@ -61,7 +61,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],3,4,remoteView1);
         controller.setPlayerWorker(playerWorker3);
@@ -96,7 +96,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],1,2,remoteView);
         controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,4,remoteView);
@@ -117,7 +117,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],3,4,remoteView1);
         controller.setPlayerWorker(playerWorker3);
@@ -155,7 +155,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        },null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
         controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0],0,3,remoteView);
@@ -176,7 +176,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],3,0,remoteView1);
         controller.setPlayerWorker(playerWorker3);
@@ -261,7 +261,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
         controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
@@ -282,7 +282,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
         controller.setPlayerWorker(playerWorker3);
@@ -353,7 +353,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
         controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
@@ -374,7 +374,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
         controller.setPlayerWorker(playerWorker3);
@@ -431,7 +431,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
         PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
         controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
@@ -452,7 +452,7 @@ public class SimpleControllerTest {
             public void asyncSend(Object message) {
 
             }
-        });
+        }, null);
 
         PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
         controller.setPlayerWorker(playerWorker3);
