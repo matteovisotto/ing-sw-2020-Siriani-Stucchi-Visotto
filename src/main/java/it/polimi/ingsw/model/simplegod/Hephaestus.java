@@ -65,8 +65,10 @@ public class Hephaestus extends GodCard {
         model.setNextPhase(Phase.next(getPhase()));
         model.setNextPlayerMessage(PlayerMessage.MOVE);
         model.setNextMessageType(MessageType.MOVE);
-        model.updateTurn();
-        model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId()+1));
+        if (model.getActualPlayer().getGodCard().getCardGod() == Gods.HEPHAESTUS) {
+            model.updateTurn();
+            model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId() + 1));
+        }
     }
     @Override
     public void reset() {
