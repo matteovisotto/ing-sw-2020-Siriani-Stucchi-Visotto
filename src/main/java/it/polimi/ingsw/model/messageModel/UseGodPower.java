@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class UseGodPower extends Message {
     char c;
@@ -23,15 +24,15 @@ public class UseGodPower extends Message {
         if(c=='y'){
             switch(player.getGodCard().getCardGod()){
                 case ATLAS:
-                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case ARTHEMIS:
-                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case DEMETER:
-                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case HEPHAESTUS:
-                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case PROMETHEUS:
-                    godCard.usePower(new ArrayList<Object>(Arrays.asList(model)));
+                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
             }
 
         }
@@ -46,6 +47,11 @@ public class UseGodPower extends Message {
                     model.setNextPlayerMessage(PlayerMessage.MOVE);
                     model.setNextMessageType(MessageType.MOVE);
                     model.updateTurn();
+                    model.notifyChanges();
+                case PROMETHEUS_WORKER:
+                    model.setNextPhase(Phase.MOVE);
+                    model.setNextPlayerMessage(PlayerMessage.MOVE);
+                    model.setNextMessageType(MessageType.MOVE);
                     model.notifyChanges();
             }
         }

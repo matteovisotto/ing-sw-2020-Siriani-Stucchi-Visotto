@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.model.simplegod.*;
 import it.polimi.ingsw.utils.PlayerMessage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class GodCardController extends Controller{
 
@@ -35,7 +32,7 @@ public class GodCardController extends Controller{
                     }
                     else{
                         model.updateTurn();
-                        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+                        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !model.getGCPlayer(Gods.PROMETHEUS).getGodCard().hasBuilt()){
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);
@@ -212,7 +209,7 @@ public class GodCardController extends Controller{
                     }
                     else if(model.getGCPlayer(Gods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
                         if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
-                            move.getPlayer().getGodCard().usePower(new ArrayList<Object>(Arrays.asList(model)));
+                            move.getPlayer().getGodCard().usePower(new ArrayList<Object>(Collections.singletonList(model)));
                         }
                         else{
                             model.setMovedUp(false);
@@ -224,7 +221,7 @@ public class GodCardController extends Controller{
                             if(((Arthemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
                                 move.getView().reportError("you have to move the same worker");
                             }
-                            else if(((Arthemis)move.getPlayer().getGodCard()).getFirstBuilt() == model.getBoard().getCell(move.getRow(), move.getColumn())){
+                            else if(move.getPlayer().getGodCard().getFirstBuilt() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                 move.getView().reportError("you can't move into the previous cell");
                             }
                             else{
@@ -233,7 +230,7 @@ public class GodCardController extends Controller{
                             }
                         }
                         else{
-                            ((Arthemis)move.getPlayer().getGodCard()).setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
+                            move.getPlayer().getGodCard().setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
                             ((Arthemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
@@ -257,11 +254,9 @@ public class GodCardController extends Controller{
                             }
                         }
                         else{
-                            ((Arthemis)move.getPlayer().getGodCard()).setFirstBuilt(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
-                            ((Arthemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
-                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
-                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
-                            model.setNextMessageType(MessageType.USE_POWER);
+                            model.setNextMessageType(MessageType.BUILD);
+                            model.setNextPlayerMessage(PlayerMessage.BUILD);
+                            model.setNextPhase(Phase.BUILD);
                             model.move(move);
                         }
                     }
@@ -274,10 +269,26 @@ public class GodCardController extends Controller{
                             model.notifyChanges();
                         }
                     }
-                    if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
+                    if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() == 3){
                         model.victory(move.getPlayer());
-                        if(model.getNumOfPlayers()==2){
+                        if(model.getNumOfPlayers() == 2){
                             model.endGame();
+                        }
+                    }
+                    else if (model.getGCPlayer(Gods.MINOTAUR) == move.getPlayer()){
+                        Player[] players = model.getPlayers();
+                        for (Player player : players) {
+                            //controllo che il player non sia quello del turno
+                            if (!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)) {
+                                for (int w = 0; w < 2; w++) {
+                                    if (player.getWorker(w).getCell().getLevel().getBlockId() == 3) {
+                                        model.victory(player);
+                                        if (model.getNumOfPlayers() == 2) {
+                                            model.endGame();
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     checkVictory();
@@ -334,7 +345,7 @@ public class GodCardController extends Controller{
             }
             else if(model.getGCPlayer(Gods.DEMETER)==playerBuild.getPlayer()){
                 if(((Demeter)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
-                    if(((Demeter)playerBuild.getPlayer().getGodCard()).getFirstBuilt() == model.getBoard().getCell(playerBuild.getX(), playerBuild.getY())){
+                    if(playerBuild.getPlayer().getGodCard().getFirstBuilt() == model.getBoard().getCell(playerBuild.getX(), playerBuild.getY())){
                         playerBuild.getView().reportError("you can't build into the previous cell");
                         return;
                     }
@@ -348,7 +359,7 @@ public class GodCardController extends Controller{
                     }
                 }
                 else{
-                    ((Demeter)playerBuild.getPlayer().getGodCard()).setFirstBuilt(model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()));
+                    playerBuild.getPlayer().getGodCard().setFirstBuilt(model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()));
                     model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                     model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                     model.setNextMessageType(MessageType.USE_POWER);
@@ -357,7 +368,7 @@ public class GodCardController extends Controller{
             }
             else if(model.getGCPlayer(Gods.HEPHAESTUS)==playerBuild.getPlayer()) {
                 if(model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()).getLevel().getBlockId()<2){
-                    ((Hephaestus)playerBuild.getPlayer().getGodCard()).setFirstBuilt(model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()));
+                    playerBuild.getPlayer().getGodCard().setFirstBuilt(model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()));
                     model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                     model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                     model.setNextMessageType(MessageType.USE_POWER);
@@ -381,11 +392,11 @@ public class GodCardController extends Controller{
                         model.setNextMessageType(MessageType.MOVE);
                         model.setNextPlayerMessage(PlayerMessage.MOVE);
                         model.setNextPhase(Phase.MOVE);
-                        ((Prometheus)playerBuild.getPlayer().getGodCard()).setBuild(true);
+                        playerBuild.getPlayer().getGodCard().setBuild(true);
                     }
                     else{
                         ((Prometheus)playerBuild.getPlayer().getGodCard()).setUsedPower(false);
-                        ((Prometheus)playerBuild.getPlayer().getGodCard()).setBuild(false);
+                        playerBuild.getPlayer().getGodCard().setBuild(false);
                         model.setNextMessageType(MessageType.MOVE);
                         model.setNextPlayerMessage(PlayerMessage.MOVE);
                         model.setNextPhase(Phase.MOVE);
@@ -417,7 +428,7 @@ public class GodCardController extends Controller{
     }
 
     private void build(int blockId, Cell cell) {
-        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !model.getGCPlayer(Gods.PROMETHEUS).getGodCard().hasBuilt()){
             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
             model.setNextMessageType(MessageType.USE_POWER);
