@@ -44,6 +44,7 @@ public class RemoteView extends View {
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponent is: " + opponent);
+        this.lobby = lobby;
 
     }
 
@@ -53,6 +54,7 @@ public class RemoteView extends View {
         this.clientConnection = c;
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponents are: " + opponent1 + " and " + opponent2);
+        this.lobby = lobby;
     }
 
     @Override
