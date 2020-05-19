@@ -156,8 +156,8 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                 read = in.nextLine();
                 notifyObservers(read);
             }
-            read = in.nextLine();
-            notifyObservers(read);
+            /*read = in.nextLine();
+            notifyObservers(read);*/
         } catch (IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         }finally{

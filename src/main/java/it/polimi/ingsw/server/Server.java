@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.exceptions.FullLobbyException;
 import it.polimi.ingsw.exceptions.InvalidLobbyException;
 import it.polimi.ingsw.exceptions.UnavailablePlayerNameException;
@@ -31,7 +32,7 @@ public class Server {
     //Deregister connection
     public synchronized void deregisterConnection(ClientConnection c){
         Lobby lobby = this.lobbyConnections.get(c);
-        this.lobbyConnections.get(c).closeLobby();
+        //this.lobbyConnections.get(c).closeLobby();
         ArrayList<ClientConnection> toRemove = playerInLobby.get(lobby);
         for (ClientConnection clientConnection : toRemove) {
             lobbyConnections.remove(clientConnection);
@@ -102,21 +103,28 @@ public class Server {
 
     public synchronized void addLobbyEndGame(EndGameServerMessage endGameServerMessage){
         deleteOldLobby(endGameServerMessage);
-        Lobby lobby = new Lobby(endGameServerMessage.getLobbyName(), endGameServerMessage.getPlayerNames().get(0), endGameServerMessage.getClientConnections().get(0), endGameServerMessage.getNumPlayer(), endGameServerMessage.isSimplePlay());
-        this.lobbies.add(lobby);
-        this.lobbyConnections.put(endGameServerMessage.getClientConnections().get(0), lobby);
+        Lobby lobbyNewGame = new Lobby(endGameServerMessage.getLobbyName(), endGameServerMessage.getPlayerNames().get(0), endGameServerMessage.getClientConnections().get(0), endGameServerMessage.getNumPlayer(), endGameServerMessage.isSimplePlay());
+        this.lobbies.add(lobbyNewGame);
+        this.lobbyConnections.put(endGameServerMessage.getClientConnections().get(0), lobbyNewGame);
         ArrayList<ClientConnection> arr = new ArrayList<>();
         arr.add(endGameServerMessage.getClientConnections().get(0));
-        this.playerInLobby.put(lobby, arr);
+        this.playerInLobby.put(lobbyNewGame, arr);
         if (endGameServerMessage.getPlayerNames().size()>1){
             joinLobby(lobbies.size(),endGameServerMessage.getClientConnections().get(1),endGameServerMessage.getPlayerNames().get(1));
         }
     }
 
     private void deleteOldLobby(EndGameServerMessage endGameServerMessage) {
-        for (ClientConnection clientConnection: endGameServerMessage.getClientConnections()) {
-            lobbyConnections.remove(clientConnection);
+        try{
+            for (Map.Entry<ClientConnection,Lobby> clientConnections: lobbyConnections.entrySet()) {
+                if (clientConnections.getValue() == endGameServerMessage.getLobby())
+                    lobbyConnections.remove(clientConnections.getKey());
+            }
+        }catch (Exception e){
+            //e.printStackTrace();
         }
+
+
         lobbies.remove(endGameServerMessage.getLobby());
         playerInLobby.remove(endGameServerMessage.getLobby());
     }
