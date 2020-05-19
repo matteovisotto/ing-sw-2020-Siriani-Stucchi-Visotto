@@ -11,15 +11,11 @@ import java.util.*;
 
 public abstract class Controller implements Observer<Message> {
     protected final Model model;
-    protected GodCardController godCardController;
-    protected SimpleController simpleController;
     protected ArrayList<String> playersName = new ArrayList<>();
     protected ArrayList<ClientConnection> clientConnections = new ArrayList<>();
     protected int counter = 0;
     protected int answers = 0;
     protected Map<Player, ClientConnection> activeClients = new LinkedHashMap<>();
-    protected Server server;
-    protected Player player;
 
     public Controller(Model model){
         super();
@@ -43,7 +39,6 @@ public abstract class Controller implements Observer<Message> {
     public abstract void checkVictory();
 
     public synchronized void endGame(NewGameMessage newGameMessage){
-        int i = 0;
         answers++;
         if(newGameMessage.getChoice() == 'y'){
             this.counter++;
@@ -51,10 +46,7 @@ public abstract class Controller implements Observer<Message> {
             if(counter == model.getNumOfPlayers()){
                 //TODO model reset
                 model.startOver();
-            }
-
-        } else if(answers == model.getNumOfPlayers()){
-            if(counter != 0) {
+            } else if(answers == model.getNumOfPlayers()){
                 for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
                     this.playersName.add(names.getKey().getPlayerName());
                     this.clientConnections.add(names.getValue());
@@ -62,11 +54,19 @@ public abstract class Controller implements Observer<Message> {
                 EndGameServerMessage endGameServerMessage = new EndGameServerMessage(newGameMessage.getLobby(),clientConnections,playersName,answers, model.getGods() == null);
                 newGameMessage.getClientConnection().send(endGameServerMessage);
             }
-            if(newGameMessage.getChoice() == 'n') {
-                newGameMessage.getClientConnection().closeConnection();
+
+        } else {
+            if(answers == model.getNumOfPlayers() && counter != 0){
+                for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
+                    this.playersName.add(names.getKey().getPlayerName());
+                    this.clientConnections.add(names.getValue());
+                }
+                EndGameServerMessage endGameServerMessage = new EndGameServerMessage(newGameMessage.getLobby(),clientConnections,playersName,answers, model.getGods() == null);
+                newGameMessage.getClientConnection().send(endGameServerMessage);
             }
-        } else{
+
             newGameMessage.getClientConnection().closeConnection();
         }
+
     }
 }
