@@ -20,7 +20,6 @@ public abstract class Controller implements Observer<Message> {
     protected Map<Player, ClientConnection> activeClients = new LinkedHashMap<>();
     protected Server server;
     protected Player player;
-    protected String lobbyName;
 
     public Controller(Model model){
         super();
@@ -53,19 +52,20 @@ public abstract class Controller implements Observer<Message> {
                 //TODO model reset
                 model.startOver();
             }
-            else if(answers == model.getNumOfPlayers()){
-                //TODO return to lobby
-                //Map.Entry<Player,ClientConnection> entry = activeClients.entrySet().iterator().next();
-                /*for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
+
+        } else if(answers == model.getNumOfPlayers()){
+            if(counter != 0) {
+                for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
                     this.playersName.add(names.getKey().getPlayerName());
                     this.clientConnections.add(names.getValue());
                 }
-                lobbyName = newGameMessage.getLobby().getLobbyName();*/
-                //server.addLobbyEndGame(lobbyName,clientConnections,playersName,answers, model.getGods() == null);
-
+                EndGameServerMessage endGameServerMessage = new EndGameServerMessage(newGameMessage.getLobby(),clientConnections,playersName,answers, model.getGods() == null);
+                newGameMessage.getClientConnection().send(endGameServerMessage);
             }
-        }
-        else{
+            if(newGameMessage.getChoice() == 'n') {
+                newGameMessage.getClientConnection().closeConnection();
+            }
+        } else{
             newGameMessage.getClientConnection().closeConnection();
         }
     }

@@ -101,6 +101,7 @@ public class Server {
     }
 
     public synchronized void addLobbyEndGame(EndGameServerMessage endGameServerMessage){
+        deleteOldLobby(endGameServerMessage);
         Lobby lobby = new Lobby(endGameServerMessage.getLobbyName(), endGameServerMessage.getPlayerNames().get(0), endGameServerMessage.getClientConnections().get(0), endGameServerMessage.getNumPlayer(), endGameServerMessage.isSimplePlay());
         this.lobbies.add(lobby);
         this.lobbyConnections.put(endGameServerMessage.getClientConnections().get(0), lobby);
@@ -108,8 +109,16 @@ public class Server {
         arr.add(endGameServerMessage.getClientConnections().get(0));
         this.playerInLobby.put(lobby, arr);
         if (endGameServerMessage.getPlayerNames().size()>1){
-            joinLobby(lobbies.size()-1,endGameServerMessage.getClientConnections().get(1),endGameServerMessage.getPlayerNames().get(1));
+            joinLobby(lobbies.size(),endGameServerMessage.getClientConnections().get(1),endGameServerMessage.getPlayerNames().get(1));
         }
+    }
+
+    private void deleteOldLobby(EndGameServerMessage endGameServerMessage) {
+        for (ClientConnection clientConnection: endGameServerMessage.getClientConnections()) {
+            lobbyConnections.remove(clientConnection);
+        }
+        lobbies.remove(endGameServerMessage.getLobby());
+        playerInLobby.remove(endGameServerMessage.getLobby());
     }
 
     public void run(){
