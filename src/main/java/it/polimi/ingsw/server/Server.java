@@ -114,15 +114,15 @@ public class Server {
         }
     }
 
-    private void deleteOldLobby(EndGameServerMessage endGameServerMessage) {
-        try{
+    private synchronized void deleteOldLobby(EndGameServerMessage endGameServerMessage) {
+        //try{
             for (Map.Entry<ClientConnection,Lobby> clientConnections: lobbyConnections.entrySet()) {
                 if (clientConnections.getValue() == endGameServerMessage.getLobby())
                     lobbyConnections.remove(clientConnections.getKey());
             }
-        }catch (Exception e){
+       // }catch (Exception e){
             //e.printStackTrace();
-        }
+        //}
 
 
         lobbies.remove(endGameServerMessage.getLobby());
