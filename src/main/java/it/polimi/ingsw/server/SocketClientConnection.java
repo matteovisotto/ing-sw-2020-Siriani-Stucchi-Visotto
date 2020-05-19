@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.EndGameServerMessage;
 import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.utils.ConnectionMessage;
@@ -31,6 +32,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
     @Override
     public synchronized void send(Object message) {
+        if(message instanceof EndGameServerMessage){
+            server.addLobbyEndGame((EndGameServerMessage) message);
+            return;
+        }
             try {
                 out.reset();
                 out.writeObject(message);

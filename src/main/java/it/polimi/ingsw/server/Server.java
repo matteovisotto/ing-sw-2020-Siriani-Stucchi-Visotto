@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.exceptions.FullLobbyException;
 import it.polimi.ingsw.exceptions.InvalidLobbyException;
 import it.polimi.ingsw.exceptions.UnavailablePlayerNameException;
+import it.polimi.ingsw.model.EndGameServerMessage;
 import it.polimi.ingsw.utils.LobbyExceptionMessage;
 import it.polimi.ingsw.exceptions.NoLobbyException;
 import it.polimi.ingsw.utils.ConnectionMessage;
@@ -99,17 +100,17 @@ public class Server {
         }
     }
 
-    /*public synchronized void addLobbyEndGame(String lobbyName, ArrayList<ClientConnection> clientConnections, ArrayList<String> playerNames, int numPlayer, boolean simplePlay){
-        Lobby lobby = new Lobby(lobbyName, playerNames.get(0), clientConnections.get(0), numPlayer, simplePlay);
+    public synchronized void addLobbyEndGame(EndGameServerMessage endGameServerMessage){
+        Lobby lobby = new Lobby(endGameServerMessage.getLobbyName(), endGameServerMessage.getPlayerNames().get(0), endGameServerMessage.getClientConnections().get(0), endGameServerMessage.getNumPlayer(), endGameServerMessage.isSimplePlay());
         this.lobbies.add(lobby);
-        this.lobbyConnections.put(clientConnections.get(0), lobby);
+        this.lobbyConnections.put(endGameServerMessage.getClientConnections().get(0), lobby);
         ArrayList<ClientConnection> arr = new ArrayList<>();
-        arr.add(clientConnections.get(0));
+        arr.add(endGameServerMessage.getClientConnections().get(0));
         this.playerInLobby.put(lobby, arr);
-        if (playerNames.size()>1){
-            joinLobby(lobbies.size()-1,clientConnections.get(1),playerNames.get(1));
+        if (endGameServerMessage.getPlayerNames().size()>1){
+            joinLobby(lobbies.size()-1,endGameServerMessage.getClientConnections().get(1),endGameServerMessage.getPlayerNames().get(1));
         }
-    }*/
+    }
 
     public void run(){
         System.out.println("Server listening on port: " + PORT);

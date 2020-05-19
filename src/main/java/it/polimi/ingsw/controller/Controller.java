@@ -60,8 +60,9 @@ public abstract class Controller implements Observer<Message> {
                     this.playersName.add(names.getKey().getPlayerName());
                     this.clientConnections.add(names.getValue());
                 }
-                lobbyName = newGameMessage.getLobby().getLobbyName();
-                server.addLobbyEndGame(lobbyName,clientConnections,playersName,answers, model.getGods() == null);*/
+                lobbyName = newGameMessage.getLobby().getLobbyName();*/
+                //server.addLobbyEndGame(lobbyName,clientConnections,playersName,answers, model.getGods() == null);
+
             }
         }
         else{
