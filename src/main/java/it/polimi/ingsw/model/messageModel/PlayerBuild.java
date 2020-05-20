@@ -14,7 +14,7 @@ public class PlayerBuild extends Message {
         super(player, view);
         this.x = x;
         this.y = y;
-        this.workerId=workerId;
+        this.workerId = workerId;
     }
 
     public int getX() {

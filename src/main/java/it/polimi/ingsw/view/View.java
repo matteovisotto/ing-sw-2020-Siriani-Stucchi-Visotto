@@ -27,9 +27,9 @@ public abstract class View extends Observable<Message> implements Observer<ViewM
         notifyObservers(message);
     }
 
-    void doMove(int row, int column, int workerId) {
-        System.out.println(row + " " + column);
-        notifyObservers(new PlayerMove(player, workerId, row, column, this));
+    void doMove(int x, int y, int workerId) {
+        System.out.println(x + " " + y);
+        notifyObservers(new PlayerMove(player, workerId, x, y, this));
     }
 
     protected void placeWorker(int x, int y){

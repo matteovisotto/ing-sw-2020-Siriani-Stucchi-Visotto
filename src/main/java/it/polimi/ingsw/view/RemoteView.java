@@ -27,7 +27,7 @@ public class RemoteView extends View {
             //arg è la stringa ricevuta dall'input del client
             //inserire quindi qui le chiamate ai metodi di view per fare le mosse
 
-            CommandParser commandParser=new CommandParser(phase, msg, getPlayer(), RemoteView.this);
+            CommandParser commandParser = new CommandParser(phase, msg, getPlayer(), RemoteView.this);
             try{
                 doAction(commandParser.parse());
             } catch(NumberFormatException e){
@@ -78,7 +78,7 @@ public class RemoteView extends View {
         if (this.getPlayer() == player) {
             showMessage(arg);
         } else if ((phase == Phase.BEGINNING) && this.getPlayer() != player) {
-            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn, It's "+player.getPlayerName()+"'s turn", arg.getPhase()));
+            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn, It's " + player.getPlayerName() + "'s turn", arg.getPhase()));
         }
     }
 

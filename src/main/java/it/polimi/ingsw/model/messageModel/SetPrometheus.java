@@ -9,17 +9,17 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.View;
 
 public class SetPrometheus extends Message{
-    int x;
-    public SetPrometheus(Player player, View view, int x) {
+    int usedWorkerId;
+    public SetPrometheus(Player player, View view, int usedWorkerId) {
         super(player, view);
-        this.x=x;
+        this.usedWorkerId = usedWorkerId;
     }
 
     @Override
     public void handler(Controller controller) {
-        ((Prometheus)player.getGodCard()).setWorkerID(x);
-        player.setUsedWorker(x);
-        Model model= controller.getModel();
+        ((Prometheus)player.getGodCard()).setWorkerID(usedWorkerId);
+        player.setUsedWorker(usedWorkerId);
+        Model model = controller.getModel();
         model.setNextPhase(Phase.BUILD);
         model.setNextPlayerMessage(PlayerMessage.BUILD);
         model.setNextMessageType(MessageType.BUILD);

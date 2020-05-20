@@ -60,8 +60,7 @@ public class Hephaestus extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Model model=(Model)objectList.get(0);
-
+        Model model = (Model)objectList.get(0);
         model.setNextPhase(Phase.next(getPhase()));
         model.setNextPlayerMessage(PlayerMessage.MOVE);
         model.setNextMessageType(MessageType.MOVE);

@@ -8,13 +8,13 @@ import it.polimi.ingsw.server.*;
 import it.polimi.ingsw.view.View;
 
 public class NewGameMessage extends Message {
-    private char c;
-    private ClientConnection clientConnection;
-    private Lobby lobby;
+    private final char choice;
+    private final ClientConnection clientConnection;
+    private final Lobby lobby;
 
-    public NewGameMessage(Player player, View view, char c, ClientConnection clientConnection, Lobby lobby) {
+    public NewGameMessage(Player player, View view, char choice, ClientConnection clientConnection, Lobby lobby) {
         super(player, view);
-        this.c=c;
+        this.choice = choice;
         this.clientConnection = clientConnection;
         this.lobby = lobby;
     }
@@ -24,7 +24,7 @@ public class NewGameMessage extends Message {
     }
 
     public char getChoice(){
-        return this.c;
+        return this.choice;
     }
 
 

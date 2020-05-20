@@ -11,7 +11,7 @@ public abstract class GodCard implements Serializable {
 
     public GodCard(Gods card, Phase phase){
         this.card = card;
-        this.phase=phase;
+        this.phase = phase;
     }
 
     public Gods getCardGod() {

@@ -9,15 +9,15 @@ import java.util.Scanner;
 public class ClientApp
 {
     public static void main(String[] args){
-        char c;
-        Scanner in=new Scanner(System.in);
+        char graphicInterface;
+        Scanner in = new Scanner(System.in);
         do{
             System.out.println("Would you like to use the graphic interface?(y/n)");
-            c=in.nextLine().toLowerCase().charAt(0);
-        }while(c!='y' && c!='n');
+            graphicInterface = in.nextLine().toLowerCase().charAt(0);
+        }while(graphicInterface != 'y' && graphicInterface != 'n');
 
         try{
-            if(c=='n'){
+            if(graphicInterface == 'n'){
                 Client client = new Client("127.0.0.1", 12345);
                 client.run();
             }

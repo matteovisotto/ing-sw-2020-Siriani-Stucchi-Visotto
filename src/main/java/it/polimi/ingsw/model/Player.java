@@ -15,7 +15,7 @@ public class Player implements Serializable {
     private boolean hasLost = false;
     private boolean usePower = false;
     private boolean victory = false;
-    private int usedWorker= 0;
+    private int usedWorker = 0;
     public Player(String playerName) {
         this.playerName = playerName;
         workers = new ArrayList<>();

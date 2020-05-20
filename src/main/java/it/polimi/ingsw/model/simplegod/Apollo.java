@@ -46,13 +46,13 @@ public class Apollo extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        Worker w1 = (Worker)objectList.get(0);
-        Worker w2 = (Worker)objectList.get(1);
-        Cell c;
+        Worker apolloWorker = (Worker)objectList.get(0);
+        Worker enemyWorker = (Worker)objectList.get(1);
+        Cell cell;
         //scambia le celle dei worker
-        c = w2.getCell();
-        w2.setCell(w1.getCell());
-        w1.setCell(c);
+        cell = enemyWorker.getCell();
+        enemyWorker.setCell(apolloWorker.getCell());
+        apolloWorker.setCell(cell);
     }
 
     @Override

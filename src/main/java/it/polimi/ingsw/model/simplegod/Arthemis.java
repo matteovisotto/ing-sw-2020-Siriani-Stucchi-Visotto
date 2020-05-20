@@ -63,8 +63,8 @@ public class Arthemis extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        usedPower=true;
-        Model model=(Model)objectList.get(0);
+        usedPower = true;
+        Model model = (Model)objectList.get(0);
         model.setNextPhase(getPhase());
         model.setNextPlayerMessage(PlayerMessage.MOVE);
         model.setNextMessageType(MessageType.MOVE);

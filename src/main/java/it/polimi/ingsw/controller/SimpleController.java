@@ -56,13 +56,13 @@ public class SimpleController extends Controller {
     }
 
     @Override
-    protected synchronized boolean canMove(Worker worker){
-        Cell other_cell= worker.getCell();
-        for (int x = other_cell.getX() - 1; x <= other_cell.getX() + 1; x++) {
-            for (int y = other_cell.getY() - 1; y <= other_cell.getY() + 1; y++) {
-                if(x>=0 && y>=0 && x<5 && y<5){
-                    Cell cell=model.getBoard().getCell(x,y);
-                    if(cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< 2) && cell.getLevel().getBlockId() != 4){
+    protected synchronized boolean canMove(Worker actualWorker){
+        Cell actualCell= actualWorker.getCell();
+        for (int x = actualCell.getX() - 1; x <= actualCell.getX() + 1; x++) {
+            for (int y = actualCell.getY() - 1; y <= actualCell.getY() + 1; y++) {
+                if(x >= 0 && y >= 0 && x < 5 && y < 5){
+                    Cell nextCell = model.getBoard().getCell(x,y);
+                    if(nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId()< 2) && nextCell.getLevel().getBlockId() != 4){
                         return true;
                     }
                 }
@@ -73,15 +73,15 @@ public class SimpleController extends Controller {
     }
     @Override
     public synchronized void move(PlayerMove move) {
-        boolean test;
+        boolean canMove;
         if(!model.isPlayerTurn(move.getPlayer())){//se non è il turno del giocatore
             move.getView().reportError(PlayerMessage.TURN_ERROR);
             return;
         }
         //qua fa la mossa
 
-        test=move.getPlayer().getWorker(move.getWorkerId()).getStatus();
-        if(!test){
+        canMove = move.getPlayer().getWorker(move.getWorkerId()).getStatus();
+        if(!canMove){
             move.getView().reportError("This worker can't move anywhere");
             return;
         }
@@ -96,7 +96,7 @@ public class SimpleController extends Controller {
                     model.move(move);
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
                         model.victory(move.getPlayer());
-                        if(model.getNumOfPlayers()==2){
+                        if(model.getNumOfPlayers() == 2){
                             model.endGame();
                         }
                     }
@@ -119,17 +119,17 @@ public class SimpleController extends Controller {
             return;
         }
 
-        Cell cell=this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()); //ottengo la cella sulla quale costruire
-        Blocks level = cell.getLevel();//ottengo l'altezza della cella
+        Cell buildingCell = this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()); //ottengo la cella sulla quale costruire
+        Blocks level = buildingCell.getLevel();//ottengo l'altezza della cella
 
         //qui devo fare i controlli
-        if(     Math.abs(cell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
-                Math.abs(cell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
-                (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell()!=cell) &&
-                (cell.getX()>=0 && cell.getX()<5) &&
-                (cell.getY()>=0 && cell.getY()<5) &&
-                (cell.getLevel().getBlockId()<=3) &&
-                (cell.isFree())
+        if(     Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
+                Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
+                (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&
+                (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
+                (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
+                (buildingCell.getLevel().getBlockId() <= 3) &&
+                (buildingCell.isFree())
         ){
             model.setNextMessageType(MessageType.MOVE);
             model.setNextPlayerMessage(PlayerMessage.MOVE);
@@ -137,14 +137,14 @@ public class SimpleController extends Controller {
             model.updateTurn();
             switch(level.getBlockId()) {
                 case 0:
-                    model.increaseLevel(cell, Blocks.LEVEL1);
+                    model.increaseLevel(buildingCell, Blocks.LEVEL1);
                     break;
                 case 1:
-                    model.increaseLevel(cell, Blocks.LEVEL2);break;
+                    model.increaseLevel(buildingCell, Blocks.LEVEL2);break;
                 case 2:
-                    model.increaseLevel(cell, Blocks.LEVEL3);break;
+                    model.increaseLevel(buildingCell, Blocks.LEVEL3);break;
                 case 3:
-                    model.increaseLevel(cell, Blocks.DOME);break;
+                    model.increaseLevel(buildingCell, Blocks.DOME);break;
                 default:
                     throw new IllegalArgumentException();
             }
@@ -156,14 +156,14 @@ public class SimpleController extends Controller {
 
     }
     @Override
-    protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker worker){
+    protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();
-        Cell cell = worker.getCell();
+        Cell actualWorkerCell = actualWorker.getCell();
         Board board = model.getBoard();
-        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
-            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+        for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
+            for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
                 try{
-                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,worker));
+                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker));
                 }
                 catch (IllegalArgumentException e){
                     Cell c= new Cell(x,y);
@@ -176,7 +176,7 @@ public class SimpleController extends Controller {
     @Override
     public synchronized void checkVictory(){
         int playerCantMove = 0;
-        Player[] players =model.getPlayers();
+        Player[] players = model.getPlayers();
         boolean[] playersBool = new boolean[model.getNumOfPlayers()];
         Arrays.fill(playersBool, false); //do per scontato che tutti i worker si possano muovere
         for(int i=0; i<model.getNumOfPlayers(); i++){
@@ -187,7 +187,7 @@ public class SimpleController extends Controller {
                 playersBool[i] = true;
             }
         }
-        if(playerCantMove == model.getNumOfPlayers()-1){
+        if(playerCantMove == model.getNumOfPlayers() -1){
             for(int i = 0; i < players.length; i++){
                 if(!playersBool[i]){
                     model.victory(players[i]);

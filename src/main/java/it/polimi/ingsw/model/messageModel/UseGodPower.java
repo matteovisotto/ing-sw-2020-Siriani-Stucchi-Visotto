@@ -11,34 +11,34 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class UseGodPower extends Message {
-    char c;
-    public UseGodPower(Player player, View view, char c) {
+    char usePower;
+    public UseGodPower(Player player, View view, char usePower) {
         super(player, view);
-        this.c=c;
+        this.usePower = usePower;
     }
 
     @Override
     public void handler(Controller controller) {
-        Model model=controller.getModel();
-        GodCard godCard= player.getGodCard();
-        if(c=='y'){
+        Model model = controller.getModel();
+        GodCard playerGodCard = player.getGodCard();
+        if(usePower == 'y'){
             switch(player.getGodCard().getCardGod()){
                 case ATLAS:
-                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
+                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case ARTHEMIS:
-                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
+                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case DEMETER:
-                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
+                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case HEPHAESTUS:
-                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
+                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
                 case PROMETHEUS:
-                    godCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
+                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
             }
 
         }
         else{
-            model.setNextPhase(Phase.next(godCard.getPhase()));
-            switch(godCard.getPhase()){
+            model.setNextPhase(Phase.next(playerGodCard.getPhase()));
+            switch(playerGodCard.getPhase()){
                 case MOVE:
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.setNextMessageType(MessageType.BUILD);

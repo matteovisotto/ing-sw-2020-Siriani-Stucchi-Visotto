@@ -27,11 +27,11 @@ public class Model extends Observable<ViewMessage> {
         this.turn = players;
         this.simplePlay = simplePlay;
         this.board= new Board(this.turn);
-        leftPlayers=players.length;
+        leftPlayers = players.length;
         if(simplePlay){
-            this.phase=Phase.SETWORKER1;
-            this.messageType=MessageType.SET_WORKER_1;
-            this.playerMessage=PlayerMessage.PLACE_FIRST_WORKER;
+            this.phase = Phase.SETWORKER1;
+            this.messageType = MessageType.SET_WORKER_1;
+            this.playerMessage = PlayerMessage.PLACE_FIRST_WORKER;
         }
     }
 
@@ -133,9 +133,9 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void setPlayerWorker (PlayerWorker playerWorker){
-        Cell c= this.getBoard().getCell(playerWorker.getX(), playerWorker.getY());
-        c.useCell();
-        playerWorker.getPlayer().setWorkers(new Worker(c));
+        Cell chosenCell = this.getBoard().getCell(playerWorker.getX(), playerWorker.getY());
+        chosenCell.useCell();
+        playerWorker.getPlayer().setWorkers(new Worker(chosenCell));
         notifyChanges();
     }
 
@@ -170,17 +170,17 @@ public class Model extends Observable<ViewMessage> {
         return gods.size();
     }
 
-    public boolean isGodAvailable(int x){
-        return gods.size() >= x+1;
+    public boolean isGodAvailable(int card){
+        return gods.size() >= card + 1;
     }
 
     public Player getGCPlayer(Gods gods){//returna null se non c'é un giocatore assegnato alla carta
         return playerCards.get(gods);
     }
 
-    public GodCard assignCard(Player player, int x){
-        GodCard godCard = gods.get(x);
-        gods.remove(x);
+    public GodCard assignCard(Player player, int card){
+        GodCard godCard = gods.get(card);
+        gods.remove(card);
         gods.trimToSize();
         player.setGodCard(godCard);
         playerCards.put(godCard.getCardGod(), player);
@@ -189,9 +189,9 @@ public class Model extends Observable<ViewMessage> {
 
 
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
-        Worker worker = move.getPlayer().getWorker(move.getWorkerId());
-        worker.getCell().freeCell();
-        worker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
+        Worker movingWorker = move.getPlayer().getWorker(move.getWorkerId());
+        movingWorker.getCell().freeCell();
+        movingWorker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
         getActualPlayer().setUsedWorker(move.getWorkerId());
         notifyChanges();
@@ -204,7 +204,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void victory(Player player) {
         player.setVictory(true);
-        ViewMessage win = new ViewMessage(MessageType.VICTORY,"Player: "+player.getPlayerName()+" has won!!!!",  this.phase);
+        ViewMessage win = new ViewMessage(MessageType.VICTORY,"Player: " + player.getPlayerName() + " has won!!!!",  this.phase);
         notifyObservers(win);
         if(leftPlayers == 2){
             endGame();
@@ -213,7 +213,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void loose(Player player){
         player.setHasLost(true);
-        ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: "+player.getPlayerName()+" has lost. Retry, you'll be more lucky", this.phase);
+        ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: " + player.getPlayerName() + " has lost. Retry, you'll be more lucky", this.phase);
         if(leftPlayers == 3){
             leftPlayers--;
         }

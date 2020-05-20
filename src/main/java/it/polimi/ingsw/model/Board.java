@@ -10,7 +10,7 @@ public class Board implements Serializable, Cloneable {
     private Player[] players;
 
     public Board(Player[] players){
-        this.players=players;
+        this.players = players;
         this.reset();
     }
 
@@ -24,96 +24,96 @@ public class Board implements Serializable, Cloneable {
     public void reset(){
         board=new Cell[5][5];
         for(int i = 0; i < 5; i++){
-            for(int j=0; j<5; j++){
-                board[i][j]=new Cell(i,j);
+            for(int j = 0; j < 5; j++){
+                board[i][j] = new Cell(i,j);
             }
         }
     }
 
 
-    public boolean checkCell (int x, int y, Worker worker, int maxUpDifference) throws IllegalArgumentException{
-        Cell cell = getCell(x,y);
-        Cell other_cell = worker.getCell();
-        return cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId() < maxUpDifference) && cell.getLevel().getBlockId() != 4;
+    public boolean checkCell (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
+        Cell nextCell = getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
+        return nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
-    public boolean checkCell (int x, int y, Worker worker) throws IllegalArgumentException{
-        Cell cell = getCell(x,y);
-        Cell other_cell = worker.getCell();
+    public boolean checkCell (int x, int y, Worker actualWorker) throws IllegalArgumentException{
+        Cell nextCell = getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
         int maxUpDifference = 2;
-        return cell.isFree() && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId() < maxUpDifference) && cell.getLevel().getBlockId() != 4;
+        return nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
-    public boolean checkCellApollo (int x, int y, Worker worker) throws IllegalArgumentException{
-        Cell cell = getCell(x,y);
-        Cell other_cell = worker.getCell();
-        boolean test=false;
-        int maxUpDifference=2;
+    public boolean checkCellApollo (int x, int y, Worker actualWorker) throws IllegalArgumentException{
+        Cell nextCell = getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
+        boolean isPlayerSwitchable = false;
+        int maxUpDifference = 2;
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
             if(!player.getGodCard().getCardGod().equals(Gods.APOLLO)){
-                if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
-                    test=true;
+                if(!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)){
+                    isPlayerSwitchable = true;
                 }
             }
         }
-        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
+        return (nextCell.isFree() || isPlayerSwitchable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId()< maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
-    public boolean checkCellApollo (int x, int y, Worker worker, int maxUpDifference) throws IllegalArgumentException{
-        Cell cell = getCell(x,y);
-        Cell other_cell = worker.getCell();
-        boolean test=false;
+    public boolean checkCellApollo (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
+        Cell nextCell = getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
+        boolean isPlayerSwitchable = false;
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
             if(!player.getGodCard().getCardGod().equals(Gods.APOLLO)){
-                if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
-                    test=true;
+                if(!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)){
+                    isPlayerSwitchable = true;
                 }
             }
         }
-        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
+        return (nextCell.isFree() || isPlayerSwitchable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId()< maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
-    public boolean checkCellMinotaur (int x, int y, Worker worker, int maxUpDifference) throws IllegalArgumentException{
-        Cell cell = getCell(x,y);
-        Cell other_cell = worker.getCell();
+    public boolean checkCellMinotaur (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
+        Cell nextCell = getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
         Cell behindCell;
-        boolean test=false;
+        boolean isEnemyPushable = false;
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
             if(!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)){
-                if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
-                    behindCell=this.getCell((cell.getX()-other_cell.getX())+cell.getX(), (cell.getY()-other_cell.getY())+cell.getY());
-                    if(behindCell.getLevel().getBlockId()!=4 && behindCell.isFree()){
-                        test=true;
+                if(!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)){
+                    behindCell = this.getCell((nextCell.getX() - actualCell.getX()) + nextCell.getX(), (nextCell.getY() - actualCell.getY()) + nextCell.getY());
+                    if(behindCell.getLevel().getBlockId() != 4 && behindCell.isFree()){
+                        isEnemyPushable = true;
                     }
                 }
             }
         }
-        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
+        return (nextCell.isFree() || isEnemyPushable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
-    public boolean checkCellMinotaur (int x, int y, Worker worker) throws IllegalArgumentException{
-        Cell cell = getCell(x,y);
-        Cell other_cell = worker.getCell();
+    public boolean checkCellMinotaur (int x, int y, Worker actualWorker) throws IllegalArgumentException{
+        Cell nextCell = getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
         Cell behindCell;
-        boolean test=false;
-        int maxUpDifference=2;
+        boolean isEnemyPushable = false;
+        int maxUpDifference = 2;
         for (int p = 0; p < players.length; p++) {
             Player player = players[p];
             //controllo che il player non sia quello del turno
             if(!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)){
-                if(!cell.isFree() && (player.getWorker(0).getCell()==cell || player.getWorker(1).getCell()==cell)){
-                    behindCell=this.getCell((cell.getX()-other_cell.getX())+cell.getX(), (cell.getY()-other_cell.getY())+cell.getY());
-                    if(behindCell.getLevel().getBlockId()!=4 && behindCell.isFree()){
-                        test=true;
+                if(!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)){
+                    behindCell = this.getCell((nextCell.getX() - actualCell.getX()) + nextCell.getX(), (nextCell.getY() - actualCell.getY()) + nextCell.getY());
+                    if(behindCell.getLevel().getBlockId() != 4 && behindCell.isFree()){
+                        isEnemyPushable = true;
                     }
                 }
             }
         }
-        return (cell.isFree() || test) && !cell.equals(other_cell) && (cell.getLevel().getBlockId() -  other_cell.getLevel().getBlockId()< maxUpDifference) && cell.getLevel().getBlockId() != 4;
+        return (nextCell.isFree() || isEnemyPushable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
     public synchronized void print(){
@@ -133,11 +133,11 @@ public class Board implements Serializable, Cloneable {
                     for (int p = 0; p < players.length; p++) {
                         Player player = players[p];
                         if(player.getWorker(0).getCell().equals(board[j][i])){
-                            System.out.print("P:"+p+" W:0 ");
+                            System.out.print("P:" + p + " W:0 ");
                             break;
                         }
                         if(player.getWorker(1).getCell().equals(board[j][i])){
-                            System.out.print("P:"+p+" W:1 ");
+                            System.out.print("P:" + p + " W:1 ");
                             break;
                         }
                     }

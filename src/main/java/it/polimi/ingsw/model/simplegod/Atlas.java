@@ -16,7 +16,7 @@ public class Atlas extends GodCard {
     private Cell cell;
     private boolean moved = false;
     private boolean built = false;
-    private boolean usedPower=false;
+    private boolean usedPower = false;
 
     public Phase getPhase() {
         return phase;
@@ -54,8 +54,8 @@ public class Atlas extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        usedPower=true;
-        Model model=(Model)objectList.get(0);
+        usedPower = true;
+        Model model = (Model)objectList.get(0);
         model.setNextPhase(getPhase());
         model.setNextPlayerMessage(PlayerMessage.BUILD);
         model.setNextMessageType(MessageType.BUILD);

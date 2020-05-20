@@ -14,7 +14,7 @@ public class Prometheus extends GodCard {
     private boolean moved = false;
     private Cell cell;
     private boolean usedPower;
-    private int workerID=0;
+    private int workerID = 0;
     public Prometheus() {
         super(Gods.PROMETHEUS, Phase.PROMETHEUS_WORKER);
     }
@@ -53,8 +53,8 @@ public class Prometheus extends GodCard {
      */
     @Override
     public void usePower(List<Object> objectList) {
-        usedPower=true;
-        Model model=(Model)objectList.get(0);
+        usedPower = true;
+        Model model = (Model)objectList.get(0);
         model.setNextPhase(getPhase());
         model.setNextPlayerMessage(PlayerMessage.PROMETHEUS_ASK_WORKER);
         model.setNextMessageType(MessageType.PROMETHEUS);

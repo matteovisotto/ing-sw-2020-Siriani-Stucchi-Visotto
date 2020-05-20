@@ -18,8 +18,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private static final int PORT= 12345;
-    private ServerSocket serverSocket;
+    private static final int PORT = 12345;
+    private final ServerSocket serverSocket;
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private final Map<ClientConnection, Lobby> lobbyConnections = new HashMap<>();
     private final List<Lobby> lobbies = new ArrayList<>();
@@ -109,7 +109,7 @@ public class Server {
         ArrayList<ClientConnection> arr = new ArrayList<>();
         arr.add(endGameServerMessage.getClientConnections().get(0));
         this.playerInLobby.put(lobbyNewGame, arr);
-        if (endGameServerMessage.getPlayerNames().size()>1){
+        if (endGameServerMessage.getPlayerNames().size() > 1){
             joinLobby(lobbies.size(),endGameServerMessage.getClientConnections().get(1),endGameServerMessage.getPlayerNames().get(1));
         }
     }
