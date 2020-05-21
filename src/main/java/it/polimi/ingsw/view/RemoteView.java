@@ -19,7 +19,7 @@ public class RemoteView extends View {
         return lobby;
     }
 
-    private Lobby lobby;
+    private final Lobby lobby;
     private class MessageReceiver implements Observer<String> {
 
         @Override

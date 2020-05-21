@@ -107,12 +107,8 @@ public class Player implements Serializable {
             return false;
         Player other = (Player) obj;
         if (playerName == null) {
-            if (other.playerName != null) {
-                return false;
-            }
+            return other.playerName == null;
         } else return playerName.equals(other.playerName);
-
-        return true;
     }
 }
 
