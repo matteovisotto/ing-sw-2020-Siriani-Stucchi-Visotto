@@ -105,6 +105,8 @@ public class Lobby {
         playerArray[0] = player1;
         playerArray[1] = player2;
 
+        c1.send(player1);
+        c2.send(player2);
 
         remoteView1 = new RemoteView(player1, players.get(1), c1, this);
         remoteView2 = new RemoteView(player2, players.get(0), c2, this);
@@ -150,6 +152,10 @@ public class Lobby {
         player1 = new Player(players.get(0));
         player2 = new Player(players.get(1));
         player3 = new Player(players.get(2));
+        c1.send(player1);
+        c2.send(player2);
+        c3.send(player3);
+
         playerArray[0] = player1;
         playerArray[1] = player2;
         playerArray[2] = player3;

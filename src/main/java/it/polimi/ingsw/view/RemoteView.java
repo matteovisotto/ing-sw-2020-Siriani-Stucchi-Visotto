@@ -65,22 +65,11 @@ public class RemoteView extends View {
     @Override
     public void update(ViewMessage arg) {//questa riceve dal model
         phase = arg.getPhase();
-        if(arg instanceof GameMessage) {
-            GameMessage gameMessage = (GameMessage) arg;
-            handleTurnMessage(gameMessage, gameMessage.getPlayer());
-        } else {
-            showMessage(arg);
-        }
+        showMessage(arg);
 
     }
 
-    private void handleTurnMessage(ViewMessage arg, Player player) {
-        if (this.getPlayer() == player) {
-            showMessage(arg);
-        } else if ((phase == Phase.BEGINNING) && this.getPlayer() != player) {
-            showMessage(new ViewMessage(MessageType.OPPONENT_TURN, "Wait for your turn, It's " + player.getPlayerName() + "'s turn", arg.getPhase()));
-        }
-    }
+
 
     public ClientConnection getConnection(){
         return this.clientConnection;

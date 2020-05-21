@@ -1,7 +1,11 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Phase;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.GameBoardMessage;
+import it.polimi.ingsw.model.messageModel.GameMessage;
+import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 
 import java.io.IOException;
@@ -16,7 +20,7 @@ public class Client {
     private final String ip;
     private final int port;
     private boolean active = true;
-
+    private Player player;
 
     public Client(String ip, int port){
         this.ip = ip;
@@ -25,6 +29,26 @@ public class Client {
 
     public synchronized boolean isActive(){
         return active;
+    }
+
+    private synchronized void handleTurnMessage(ViewMessage arg, Player player) {
+        if (this.player.equals(player)) {
+            if(arg instanceof GameBoardMessage){
+                ((GameBoardMessage) arg).getBoard().print();
+            }
+            System.out.println(arg.getMessage());
+        } else if ((arg.getPhase() == Phase.BEGINNING) && !this.player.equals(player)) {
+            System.out.println("It isn't your turn, is " + player.getPlayerName() + "'s turn");
+        }
+    }
+
+    private synchronized void messageHandler(ViewMessage arg) {
+        if(arg instanceof GameMessage) {
+            GameMessage gameMessage = (GameMessage) arg;
+            handleTurnMessage(gameMessage, gameMessage.getPlayer());
+        } else {
+            System.out.println(arg.getMessage());
+        }
     }
 
     public synchronized void setActive(boolean active){
@@ -40,16 +64,13 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){//se viene passata una stringa
                             System.out.println((String)inputObject);
-                        } else if(inputObject instanceof ViewMessage){
-                            ViewMessage viewMessage=(ViewMessage)inputObject;
-                            if(viewMessage instanceof GameBoardMessage){
-                                ((GameBoardMessage) viewMessage).getBoard().print();
-                            }
-                            System.out.println(viewMessage.getMessage());
+                        } else if(inputObject instanceof Player) {
+                            player = (Player) inputObject;
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
-                        } else if (inputObject instanceof HashMap) { //se viene passata una HashMap
-                            //Print movable cell
+                        } else if (inputObject instanceof ViewMessage) {
+                            ViewMessage viewMessage=(ViewMessage)inputObject;
+                            messageHandler(viewMessage);
                         } else {
                             throw new IllegalArgumentException();
                         }

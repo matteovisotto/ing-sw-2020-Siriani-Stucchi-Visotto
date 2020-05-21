@@ -2,8 +2,6 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.Message;
-import it.polimi.ingsw.model.messageModel.PlayerMove;
-import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.observer.Observer;
@@ -25,19 +23,6 @@ public abstract class View extends Observable<Message> implements Observer<ViewM
 
     void doAction(Message message){
         notifyObservers(message);
-    }
-
-    void doMove(int x, int y, int workerId) {
-        System.out.println(x + " " + y);
-        notifyObservers(new PlayerMove(player, workerId, x, y, this));
-    }
-
-    protected void placeWorker(int x, int y){
-        notifyObservers(new PlayerWorker(player,x,y,this));
-    }
-
-    protected void drawCard(int cardId){
-        //notify observers with a message containing the card
     }
 
     public void reportError(String message){
