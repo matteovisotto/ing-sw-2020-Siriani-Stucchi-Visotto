@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class Hephaestus extends GodCard {
     private Cell firstBuilt;
-    private boolean moved = false;
-    private boolean built = false;
     public Hephaestus() {
         super(Gods.HEPHAESTUS, Phase.BUILD);
     }
