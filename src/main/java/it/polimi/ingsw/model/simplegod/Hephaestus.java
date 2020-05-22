@@ -61,13 +61,18 @@ public class Hephaestus extends GodCard {
     @Override
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);
-        model.setNextPhase(Phase.next(getPhase()));
-        model.setNextPlayerMessage(PlayerMessage.MOVE);
-        model.setNextMessageType(MessageType.MOVE);
-        if (model.getActualPlayer().getGodCard().getCardGod() == Gods.HEPHAESTUS) {
-            model.updateTurn();
-            model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId() + 1));
+        if(model.getNextPlayerGC().getCardGod()==Gods.PROMETHEUS){
+            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+            model.setNextMessageType(MessageType.USE_POWER);
         }
+        else{
+            model.setNextPhase(Phase.next(getPhase()));
+            model.setNextPlayerMessage(PlayerMessage.MOVE);
+            model.setNextMessageType(MessageType.MOVE);
+        }
+        model.updateTurn();
+        model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId() + 1));
     }
     @Override
     public void reset() {

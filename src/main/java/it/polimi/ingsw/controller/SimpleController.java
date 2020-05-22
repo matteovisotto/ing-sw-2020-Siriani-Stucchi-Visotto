@@ -19,8 +19,7 @@ public class SimpleController extends Controller {
     @Override
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
         //Check for right turn
-        if(!model.isPlayerTurn(playerWorker.getPlayer())){
-            playerWorker.getView().reportError(PlayerMessage.TURN_ERROR);
+        if(!turnCheck(playerWorker)){
             return;
         }
         try{
@@ -56,26 +55,9 @@ public class SimpleController extends Controller {
     }
 
     @Override
-    protected synchronized boolean canMove(Worker actualWorker){
-        Cell actualCell= actualWorker.getCell();
-        for (int x = actualCell.getX() - 1; x <= actualCell.getX() + 1; x++) {
-            for (int y = actualCell.getY() - 1; y <= actualCell.getY() + 1; y++) {
-                if(x >= 0 && y >= 0 && x < 5 && y < 5){
-                    Cell nextCell = model.getBoard().getCell(x,y);
-                    if(nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId()< 2) && nextCell.getLevel().getBlockId() != 4){
-                        return true;
-                    }
-                }
-
-            }
-        }
-        return false;
-    }
-    @Override
     public synchronized void move(PlayerMove move) {
         boolean canMove;
-        if(!model.isPlayerTurn(move.getPlayer())){//se non è il turno del giocatore
-            move.getView().reportError(PlayerMessage.TURN_ERROR);
+        if(!turnCheck(move)){
             return;
         }
         //qua fa la mossa
@@ -113,9 +95,8 @@ public class SimpleController extends Controller {
 
     }
     @Override
-    public synchronized void increaseLevel(PlayerBuild playerBuild) throws IllegalArgumentException {
-        if(!model.isPlayerTurn(playerBuild.getPlayer())){//se non è il turno del giocatore
-            playerBuild.getView().reportError(PlayerMessage.TURN_ERROR);
+    public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {
+        if(!turnCheck(playerBuild)){
             return;
         }
 
@@ -123,31 +104,13 @@ public class SimpleController extends Controller {
         Blocks level = buildingCell.getLevel();//ottengo l'altezza della cella
 
         //qui devo fare i controlli
-        if(     Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
-                Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
-                (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&
-                (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
-                (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
-                (buildingCell.getLevel().getBlockId() <= 3) &&
-                (buildingCell.isFree())
-        ){
+        if(checkBuild(buildingCell, playerBuild)){
             model.setNextMessageType(MessageType.MOVE);
             model.setNextPlayerMessage(PlayerMessage.MOVE);
             model.updatePhase();
             model.updateTurn();
-            switch(level.getBlockId()) {
-                case 0:
-                    model.increaseLevel(buildingCell, Blocks.LEVEL1);
-                    break;
-                case 1:
-                    model.increaseLevel(buildingCell, Blocks.LEVEL2);break;
-                case 2:
-                    model.increaseLevel(buildingCell, Blocks.LEVEL3);break;
-                case 3:
-                    model.increaseLevel(buildingCell, Blocks.DOME);break;
-                default:
-                    throw new IllegalArgumentException();
-            }
+
+            super.increaseLevel(level.getBlockId(), buildingCell);
         }
         else{
             throw new IllegalArgumentException();
@@ -163,7 +126,7 @@ public class SimpleController extends Controller {
         for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
             for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
                 try{
-                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker));
+                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker,2));
                 }
                 catch (IllegalArgumentException e){
                     Cell c= new Cell(x,y);
@@ -173,31 +136,7 @@ public class SimpleController extends Controller {
         }
         return availableCells;
     }
-    @Override
-    public synchronized void checkVictory(){
-        int playerCantMove = 0;
-        Player[] players = model.getPlayers();
-        boolean[] playersBool = new boolean[model.getNumOfPlayers()];
-        Arrays.fill(playersBool, false); //do per scontato che tutti i worker si possano muovere
-        for(int i=0; i<model.getNumOfPlayers(); i++){
-            players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0)));
-            players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
-            if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
-                playerCantMove++;
-                playersBool[i] = true;
-            }
-        }
-        if(playerCantMove == model.getNumOfPlayers() -1){
-            for(int i = 0; i < players.length; i++){
-                if(!playersBool[i]){
-                    model.victory(players[i]);
-                    if(model.getLeftPlayers() == 2){
-                        model.endGame();
-                    }
-                }
-            }
-        }
-    }
+
     @Override
     public void update(Message msg) {//la update gestisce i messaggi
         msg.handler(this);

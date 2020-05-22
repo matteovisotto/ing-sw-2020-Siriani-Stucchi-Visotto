@@ -32,10 +32,10 @@ public class BoardTest {
         players[1]=new Player("Amedeus");
         Board board=new Board(players);
         Worker worker= new Worker(board.getCell(1,1));
-        assertTrue(board.checkCell(1,2,worker));
-        assertFalse(board.checkCell(1,1,worker));
+        assertTrue(board.checkCell(1,2,worker,2));
+        assertFalse(board.checkCell(1,1,worker,2));
         board.getCell(2,1).setLevel(Blocks.DOME);
-        assertFalse(board.checkCell(2,1,worker));
+        assertFalse(board.checkCell(2,1,worker,2));
 
     }
 

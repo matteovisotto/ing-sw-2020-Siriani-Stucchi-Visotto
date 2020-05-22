@@ -33,7 +33,7 @@ public class PlayerBuild extends Message {
     public void handler(Controller controller) {
 
         try{
-            controller.increaseLevel(this);
+            controller.build(this);
         }catch(IllegalArgumentException e){
             this.getView().reportError("Can't build there");
         }

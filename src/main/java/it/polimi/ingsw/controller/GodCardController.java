@@ -17,8 +17,7 @@ public class GodCardController extends Controller{
     @Override
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
         //Check for right turn
-        if(!model.isPlayerTurn(playerWorker.getPlayer())){
-            playerWorker.getView().reportError(PlayerMessage.TURN_ERROR);
+        if(!turnCheck(playerWorker)){
             return;
         }
         try{
@@ -61,13 +60,16 @@ public class GodCardController extends Controller{
 
     }
 
-    public synchronized boolean checkPhase(){//deve controllare che la fase attuale sia la stessa del godpower
-        Player actualPlayer = model.getActualPlayer();
-        Phase actualPhase = actualPlayer.getGodCard().getPhase();
-        return actualPhase == model.getPhase();
-    }
-
     public synchronized void drawedCards(DrawedCards drawedCards){
+        if(drawedCards.getFirst() == drawedCards.getSecond() || drawedCards.getFirst()==drawedCards.getThird() || drawedCards.getSecond()==drawedCards.getThird()){
+            if(drawedCards.getThird()!=-1) {
+                drawedCards.getView().reportError("Please select 2 different cards");
+            }else{
+                drawedCards.getView().reportError("Please select 3 different cards");
+            }
+            return;
+        }
+
         if(drawedCards.getThird() != -1 && model.getNumOfPlayers() == 3){
             model.addGod(Gods.getGod(drawedCards.getFirst()));
             model.addGod(Gods.getGod(drawedCards.getSecond()));
@@ -100,6 +102,10 @@ public class GodCardController extends Controller{
     }
 
     public synchronized void pickACard(PickedCard pickedCard){
+        if(!turnCheck(pickedCard)){
+            return;
+        }
+
         if(pickedCard.getCardId() > model.getNumOfPlayers() - 1){
             pickedCard.getView().reportError("Insert a valid input");
             return;
@@ -126,26 +132,11 @@ public class GodCardController extends Controller{
             model.notifyMessage(PlayerMessage.PICK_CARD + "\n0 - " + model.getGods().get(0).getName() + "\n1 - " + model.getGods().get(1).getName());
         }
     }
-    @Override
-    protected synchronized boolean canMove(Worker actualWorker){
-        Cell actualCell = actualWorker.getCell();
-        for (int x = actualCell.getX() - 1; x <= actualCell.getX() + 1; x++) {
-            for (int y = actualCell.getY() - 1; y <= actualCell.getY() + 1; y++) {
-                if(x >= 0 && y >= 0 && x < 5 && y < 5){
-                    Cell nextCell = model.getBoard().getCell(x,y);
-                    if(nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId() < 2) && nextCell.getLevel().getBlockId() != 4){
-                        return true;
-                    }
-                }
 
-            }
-        }
-        return false;
-    }
     @Override
     public synchronized void move(PlayerMove move) {
-        if(!model.isPlayerTurn(move.getPlayer())){//se non è il turno del giocatore
-            move.getView().reportError(PlayerMessage.TURN_ERROR);
+        int oldLevel=model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId();
+        if(!turnCheck(move)){
             return;
         }
 
@@ -162,12 +153,12 @@ public class GodCardController extends Controller{
                     model.setNextMessageType(MessageType.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.setNextPhase(Phase.BUILD);
-                    if(move.getPlayer().getGodCard().getCardGod() == Gods.APOLLO && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
+                    if((move.getPlayer().getGodCard().getCardGod() == Gods.APOLLO || move.getPlayer().getGodCard().getCardGod() == Gods.MINOTAUR) && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
                         List<Object> objectList = new ArrayList<>();
                         //primo worker di quello che vuole muovere
                         objectList.add(move.getPlayer().getWorker(move.getWorkerId()));
                         for(int i = 0; i < model.getNumOfPlayers(); i++){
-                            if(model.getPlayer(i).getGodCard().getCardGod() != Gods.APOLLO){
+                            if(model.getPlayer(i).getGodCard().getCardGod() != move.getPlayer().getGodCard().getCardGod()){
                                 if(model.getPlayer(i).getWorker(0).getCell() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                     objectList.add(model.getPlayer(i).getWorker(0));
                                 }
@@ -176,26 +167,10 @@ public class GodCardController extends Controller{
                                 }
                             }
                         }
-                        move.getPlayer().getGodCard().usePower(objectList);
-                        model.getActualPlayer().setUsedWorker(move.getWorkerId());
-                        model.notifyChanges();
-                    }
-                    else if(move.getPlayer().getGodCard().getCardGod() == Gods.MINOTAUR && !model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
-                        List<Object> objectList = new ArrayList<>();
-                        //primo worker di quello che vuole muovere
-                        objectList.add(move.getPlayer().getWorker(move.getWorkerId()));
-                        for(int i = 0; i < model.getNumOfPlayers(); i++){
-                            if(model.getPlayer(i).getGodCard().getCardGod() != Gods.MINOTAUR){
-                                //se uno dei due worker nemici sono coinvolti
-                                if(model.getPlayer(i).getWorker(0).getCell() == model.getBoard().getCell(move.getRow(), move.getColumn())){
-                                    objectList.add(model.getPlayer(i).getWorker(0));
-                                }
-                                else if(model.getPlayer(i).getWorker(1).getCell() == model.getBoard().getCell(move.getRow(), move.getColumn())){
-                                    objectList.add(model.getPlayer(i).getWorker(1));
-                                }
-                            }
+                        //QUESTO IF AGGIUNGE LA BEHIND CELL SE HO MINOTAUR
+                        if(move.getPlayer().getGodCard().getCardGod() == Gods.MINOTAUR){
+                            objectList.add(model.getBoard().getCell((((Worker)objectList.get(1)).getCell().getX() - ((Worker)objectList.get(0)).getCell().getX()) + ((Worker)objectList.get(1)).getCell().getX(), (((Worker)objectList.get(1)).getCell().getY() - ((Worker)objectList.get(0)).getCell().getY()) + ((Worker)objectList.get(1)).getCell().getY()));
                         }
-                        objectList.add(model.getBoard().getCell((((Worker)objectList.get(1)).getCell().getX() - ((Worker)objectList.get(0)).getCell().getX()) + ((Worker)objectList.get(1)).getCell().getX(), (((Worker)objectList.get(1)).getCell().getY() - ((Worker)objectList.get(0)).getCell().getY()) + ((Worker)objectList.get(1)).getCell().getY()));
                         move.getPlayer().getGodCard().usePower(objectList);
                         model.getActualPlayer().setUsedWorker(move.getWorkerId());
                         model.notifyChanges();
@@ -261,34 +236,17 @@ public class GodCardController extends Controller{
                         }
                     }
                     else{
-                        model.move(move);
                         if(model.getGCPlayer(Gods.ATLAS) == move.getPlayer()){
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);
-                            model.notifyChanges();
                         }
+                        model.move(move);
                     }
-                    if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() == 3){
+                    if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() == 3 && oldLevel!=3){
                         model.victory(move.getPlayer());
                         if(model.getNumOfPlayers() == 2){
                             model.endGame();
-                        }
-                    }
-                    else if (model.getGCPlayer(Gods.MINOTAUR) == move.getPlayer()){
-                        Player[] players = model.getPlayers();
-                        for (Player winnerPlayer : players) {
-                            //controllo che il player non sia quello del turno
-                            if (!winnerPlayer.getGodCard().getCardGod().equals(Gods.MINOTAUR)) {
-                                for (int winnerWorker = 0; winnerWorker < 2; winnerWorker++) {
-                                    if (winnerPlayer.getWorker(winnerWorker).getCell().getLevel().getBlockId() == 3) {
-                                        model.victory(winnerPlayer);
-                                        if (model.getNumOfPlayers() == 2) {
-                                            model.endGame();
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                     checkVictory();
@@ -321,9 +279,8 @@ public class GodCardController extends Controller{
     }*/
 
     @Override
-    public synchronized void increaseLevel(PlayerBuild playerBuild) throws IllegalArgumentException {
-        if(!model.isPlayerTurn(playerBuild.getPlayer())){//se non è il turno del giocatore
-            playerBuild.getView().reportError(PlayerMessage.TURN_ERROR);
+    public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {
+        if(!turnCheck(playerBuild)){
             return;
         }
 
@@ -331,17 +288,15 @@ public class GodCardController extends Controller{
         Blocks level = buildingCell.getLevel();//ottengo l'altezza della cella
         //qui devo fare i controlli
 
-        if(     Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
-                Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
-                (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&
-                (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
-                (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
-                (buildingCell.getLevel().getBlockId() <= 3) &&
-                (buildingCell.isFree())
-        ){
+        if(checkBuild(buildingCell, playerBuild)){
             if(model.getGCPlayer(Gods.ATLAS) == playerBuild.getPlayer() && ((Atlas)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
                 ((Atlas)playerBuild.getPlayer().getGodCard()).setUsedPower(false);
+                model.setNextMessageType(MessageType.MOVE);
+                model.setNextPlayerMessage(PlayerMessage.MOVE);
+                model.updatePhase();
+                model.updateTurn();
                 model.increaseLevel(buildingCell, Blocks.DOME);
+
             }
             else if(model.getGCPlayer(Gods.DEMETER) == playerBuild.getPlayer()){
                 if(((Demeter)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
@@ -355,7 +310,7 @@ public class GodCardController extends Controller{
                         model.setNextPlayerMessage(PlayerMessage.MOVE);
                         model.updatePhase();
                         model.updateTurn();
-                        build(level.getBlockId(), buildingCell);
+                        godIncreaseLevel(level.getBlockId(), buildingCell);
                     }
                 }
                 else{
@@ -363,7 +318,7 @@ public class GodCardController extends Controller{
                     model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                     model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                     model.setNextMessageType(MessageType.USE_POWER);
-                    build(level.getBlockId(), buildingCell);
+                    godIncreaseLevel(level.getBlockId(), buildingCell);
                 }
             }
             else if(model.getGCPlayer(Gods.HEPHAESTUS)==playerBuild.getPlayer()) {
@@ -379,7 +334,7 @@ public class GodCardController extends Controller{
                     model.updatePhase();
                     model.updateTurn();
                 }
-                build(level.getBlockId(), buildingCell);
+                godIncreaseLevel(level.getBlockId(), buildingCell);
 
             }
             else if(model.getGCPlayer(Gods.PROMETHEUS)==playerBuild.getPlayer()) {
@@ -409,14 +364,14 @@ public class GodCardController extends Controller{
                     model.updatePhase();
                     model.updateTurn();
                 }
-                build(level.getBlockId(), buildingCell);
+                godIncreaseLevel(level.getBlockId(), buildingCell);
             }
             else{
                 model.setNextMessageType(MessageType.MOVE);
                 model.setNextPlayerMessage(PlayerMessage.MOVE);
                 model.updatePhase();
                 model.updateTurn();
-                build(level.getBlockId(), buildingCell);
+                godIncreaseLevel(level.getBlockId(), buildingCell);
             }
         }
         else{
@@ -426,28 +381,13 @@ public class GodCardController extends Controller{
 
     }
 
-    private void build(int blockId, Cell buildingCell) {
+    private void godIncreaseLevel(int blockId, Cell buildingCell) {
         if(model.getActualPlayer() == model.getGCPlayer(Gods.PROMETHEUS) && !model.getGCPlayer(Gods.PROMETHEUS).getGodCard().hasBuilt()){
             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
             model.setNextMessageType(MessageType.USE_POWER);
         }
-        switch(blockId) {
-            case 0:
-                model.increaseLevel(buildingCell, Blocks.LEVEL1);
-                break;
-            case 1:
-                model.increaseLevel(buildingCell, Blocks.LEVEL2);
-                break;
-            case 2:
-                model.increaseLevel(buildingCell, Blocks.LEVEL3);
-                break;
-            case 3:
-                model.increaseLevel(buildingCell, Blocks.DOME);
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+        super.increaseLevel(blockId, buildingCell);
     }
 
     @Override
@@ -456,88 +396,32 @@ public class GodCardController extends Controller{
         Cell actualWorkerCell = actualWorker.getCell();
         Board board = model.getBoard();
         Player actualPlayer = model.getActualPlayer();
+        int maxUpDifference=2;
+        if (model.isMovedUp()){
+            maxUpDifference=1;
+        }
 
-        if(model.getGCPlayer(Gods.APOLLO) == actualPlayer){
-            for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
-                for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
-                    try{
-                        if (model.isMovedUp()){
-                            availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,actualWorker,1));
-                        }
-                        else {
-                            availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,actualWorker));
-                        }
-                    }
-                    catch (IllegalArgumentException e){
-                        Cell notAvailableCell = new Cell(x,y);
-                        availableCells.put(notAvailableCell, false);
+        for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
+            for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
+                try{
+                    switch(actualPlayer.getGodCard().getCardGod()){
+                        case APOLLO:
+                            availableCells.put(board.getCell(x,y), board.checkCellApollo(x,y,actualWorker,maxUpDifference));
+                            break;
+                        case MINOTAUR:
+                            availableCells.put(board.getCell(x,y), board.checkCellMinotaur(x,y,actualWorker,maxUpDifference));
+                            break;
+                        default:
+                            availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker,maxUpDifference));
                     }
                 }
-            }
-        }
-        else if(model.getGCPlayer(Gods.MINOTAUR) == actualPlayer){
-            for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
-                for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
-                    try{
-                        if (model.isMovedUp()){
-                            availableCells.put(board.getCell(x,y), board.checkCellMinotaur(x,y,actualWorker,1));
-                        }
-                        else {
-                            availableCells.put(board.getCell(x,y), board.checkCellMinotaur(x,y,actualWorker));
-                        }
-                    }
-                    catch (IllegalArgumentException e){
-                        Cell notAvailableCell = new Cell(x,y);
-                        availableCells.put(notAvailableCell, false);
-                    }
-                }
-            }
-        }
-        else{
-            for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
-                for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
-                    try{
-                        if (model.isMovedUp()){
-                            availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker,1));
-                        }
-                        else{
-                            availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker));
-                        }
-                    }
-                    catch (IllegalArgumentException e){
-                        Cell notAvailableCell = new Cell(x,y);
-                        availableCells.put(notAvailableCell, false);
-                    }
+                catch (IllegalArgumentException e){
+                    Cell notAvailableCell = new Cell(x,y);
+                    availableCells.put(notAvailableCell, false);
                 }
             }
         }
         return availableCells;
-    }
-
-    @Override
-    public synchronized void checkVictory(){
-        int playerCantMove = 0;
-        Player[] players = model.getPlayers();
-        boolean[] playersBool = new boolean[model.getNumOfPlayers()];
-        Arrays.fill(playersBool, false); //do per scontato che tutti i worker si possano muovere
-        for(int i = 0; i < model.getNumOfPlayers(); i++){
-            players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0)));
-            players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
-            if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
-                playerCantMove++;
-                playersBool[i] = true;
-            }
-        }
-        if(playerCantMove == model.getNumOfPlayers() - 1){
-            for(int i = 0; i < players.length; i++){
-                if(!playersBool[i]){
-                    model.victory(players[i]);
-                    if(model.getLeftPlayers() == 2){
-                        model.endGame();
-                    }
-                }
-            }
-        }
     }
 
     @Override

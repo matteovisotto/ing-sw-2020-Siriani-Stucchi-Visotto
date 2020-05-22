@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Atlas extends GodCard {
     public Atlas() {
-        super(Gods.ATLAS, Phase.BUILD);
+        super(Gods.ATLAS, Phase.MOVE);
     }
     private Cell cell;
     private boolean moved = false;

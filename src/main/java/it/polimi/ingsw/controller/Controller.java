@@ -26,17 +26,55 @@ public abstract class Controller implements Observer<Message> {
         return model;
     }
 
-    protected abstract boolean canMove(Worker worker);
+    public synchronized boolean turnCheck(Message message){
+        if(!model.isPlayerTurn(message.getPlayer())){
+            message.getView().reportError(PlayerMessage.TURN_ERROR);
+            return false;
+        }
+        return true;
+    }
 
-    public abstract void move(PlayerMove move);
+    public synchronized void increaseLevel(int blockId, Cell buildingCell){
+        switch(blockId) {
+            case 0:
+                model.increaseLevel(buildingCell, Blocks.LEVEL1);
+                break;
+            case 1:
+                model.increaseLevel(buildingCell, Blocks.LEVEL2);
+                break;
+            case 2:
+                model.increaseLevel(buildingCell, Blocks.LEVEL3);
+                break;
+            case 3:
+                model.increaseLevel(buildingCell, Blocks.DOME);
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
 
-    public abstract void increaseLevel(PlayerBuild playerBuild) throws IllegalArgumentException;
+    protected boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild){
+        return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
+                Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
+                (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&
+                (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
+                (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
+                (buildingCell.getLevel().getBlockId() <= 3) &&
+                (buildingCell.isFree());
+    }
 
-    protected abstract HashMap<Cell, Boolean> checkCellsAround (Worker worker);
-
-    public abstract void setPlayerWorker(PlayerWorker playerWorker);
-
-    public abstract void checkVictory();
+    protected synchronized void checkVictory(){
+        Player[] players = model.getPlayers();
+        //in questo for controllo
+        for(int i = 0; i < model.getNumOfPlayers(); i++){
+            players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0)));
+            players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
+            //se tutti e due non si possono muovere
+            if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
+                model.loose(players[i]);
+            }
+        }
+    }
 
     public synchronized void endGame(NewGameMessage newGameMessage){
         answers++;
@@ -69,4 +107,29 @@ public abstract class Controller implements Observer<Message> {
         }
 
     }
+
+    protected synchronized boolean canMove(Worker worker){
+        Cell actualCell = worker.getCell();
+        for (int x = actualCell.getX() - 1; x <= actualCell.getX() + 1; x++) {
+            for (int y = actualCell.getY() - 1; y <= actualCell.getY() + 1; y++) {
+                if(x >= 0 && y >= 0 && x < 5 && y < 5){
+                    Cell nextCell = model.getBoard().getCell(x,y);
+                    if(nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId() < 2) && nextCell.getLevel().getBlockId() != 4){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    protected abstract HashMap<Cell, Boolean> checkCellsAround (Worker worker);
+
+    public abstract void setPlayerWorker(PlayerWorker playerWorker);
+
+    public abstract void move(PlayerMove move);
+
+    public abstract void build(PlayerBuild playerBuild) throws IllegalArgumentException;
+
+
 }

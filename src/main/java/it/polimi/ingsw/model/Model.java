@@ -178,6 +178,14 @@ public class Model extends Observable<ViewMessage> {
         return playerCards.get(gods);
     }
 
+    public GodCard getNextPlayerGC(){
+        int next=(id+1)%(turn.length);
+        if(turn[next].hasWon() || turn[next].getHasLost()){
+            next=(next+1)%(turn.length);
+        }
+        return turn[next].getGodCard();
+    }
+
     public GodCard assignCard(Player player, int card){
         GodCard godCard = gods.get(card);
         gods.remove(card);
@@ -213,7 +221,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void loose(Player player){
         player.setHasLost(true);
-        ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: " + player.getPlayerName() + " has lost. Retry, you'll be more lucky", this.phase);
+        ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", this.phase);
         if(leftPlayers == 3){
             leftPlayers--;
         }

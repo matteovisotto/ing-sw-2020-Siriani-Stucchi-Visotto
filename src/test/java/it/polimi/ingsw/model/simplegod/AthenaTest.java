@@ -86,6 +86,6 @@ public class AthenaTest {
     public void getPhaseTest(){
         GodCard godCard = new Athena();
         Phase phase = godCard.getPhase();
-        assertEquals(phase,Phase.BUILD);
+        assertEquals(phase,Phase.MOVE);
     }
 }

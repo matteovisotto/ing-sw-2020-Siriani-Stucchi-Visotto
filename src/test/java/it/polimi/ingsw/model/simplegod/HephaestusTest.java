@@ -28,6 +28,8 @@ public class HephaestusTest {
         GodCard godCard = new Hephaestus();
         godCard.setFirstBuilt(cellBuilt);
         model.getActualPlayer().setGodCard(godCard);
+        GodCard godCard2 = new Prometheus();
+        model.getPlayer(1).setGodCard(godCard2);
         model.getActualPlayer().getGodCard().setFirstBuilt(cellBuilt);
         Cell cellFirstBuild = model.getActualPlayer().getGodCard().getFirstBuilt();
         model.getActualPlayer().getGodCard().usePower(buildAgainList);

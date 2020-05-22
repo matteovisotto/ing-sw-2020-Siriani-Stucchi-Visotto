@@ -22,38 +22,36 @@ public class UseGodPower extends Message {
         Model model = controller.getModel();
         GodCard playerGodCard = player.getGodCard();
         if(usePower == 'y'){
-            switch(player.getGodCard().getCardGod()){
-                case ATLAS:
-                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
-                case ARTHEMIS:
-                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
-                case DEMETER:
-                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
-                case HEPHAESTUS:
-                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
-                case PROMETHEUS:
-                    playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
-            }
-
+            playerGodCard.usePower(new ArrayList<Object>(Collections.singletonList(model)));
         }
         else{
-            model.setNextPhase(Phase.next(playerGodCard.getPhase()));
+
             switch(playerGodCard.getPhase()){
                 case MOVE:
+                    model.setNextPhase(Phase.BUILD);
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.setNextMessageType(MessageType.BUILD);
-                    model.notifyChanges();
+                    break;
                 case BUILD:
+                    if(controller.getModel().getNextPlayerGC().getCardGod()==Gods.PROMETHEUS){
+                        model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                        model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                        model.setNextMessageType(MessageType.USE_POWER);
+                        model.updateTurn();
+                        break;
+                    }
+                    model.setNextPhase(Phase.MOVE);
                     model.setNextPlayerMessage(PlayerMessage.MOVE);
                     model.setNextMessageType(MessageType.MOVE);
                     model.updateTurn();
-                    model.notifyChanges();
+                    break;
                 case PROMETHEUS_WORKER:
                     model.setNextPhase(Phase.MOVE);
                     model.setNextPlayerMessage(PlayerMessage.MOVE);
                     model.setNextMessageType(MessageType.MOVE);
-                    model.notifyChanges();
+                    break;
             }
+            model.notifyChanges();
         }
     }
 }
