@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class Demeter extends GodCard {
     private Cell firstBuilt;
-    private boolean moved = false;
-    private boolean built = false;
     private boolean usedPower;
     public Demeter() {
         super(Gods.DEMETER, Phase. BUILD);
@@ -22,7 +20,7 @@ public class Demeter extends GodCard {
      * This method is used to get the first cell built by the player in this turn.
      * @return the first built cell.
      */
-    public Cell getFirstBuilt() {
+    public Cell getFirstBuild() {
         return firstBuilt;
     }
 
@@ -32,22 +30,6 @@ public class Demeter extends GodCard {
      */
     public void setFirstBuilt(Cell firstBuilt) {
         this.firstBuilt = firstBuilt;
-    }
-
-    public boolean isMoved() {
-        return moved;
-    }
-
-    public void hasMoved(boolean moved) {
-        this.moved = moved;
-    }
-
-    public boolean hasBuilt() {
-        return built;
-    }
-
-    public void setBuild(boolean built){
-        this.built = built;
     }
 
     public Phase getPhase() {
@@ -75,10 +57,5 @@ public class Demeter extends GodCard {
 
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
-    }
-
-    @Override
-    public void reset() {
-        this.moved = false;
     }
 }

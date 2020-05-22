@@ -35,51 +35,13 @@ public class AthenaTest {
         List<Object> athenaList = new ArrayList<>();
         Model model = new Model(players,true);
         athenaList.add(model);
-        Model.athenaId = model.getAthenaPlayer();         //Con questa doppia assegnazione il codice funziona
+        Model.athenaId = model.getAthenaPlayer();
         model.getActualPlayer().getGodCard().usePower(athenaList);
         assertTrue(model.isMovedUp());
         model.updateTurn();
         assertTrue(model.isMovedUp());
         model.updateTurn();
         assertTrue(model.isMovedUp());
-    }
-
-   /* @Test
-    public void resetTest(){
-        GodCard godCard = new Athena();
-        godCard.hasMoved(true);
-        godCard.reset();
-        assertFalse(godCard.isMoved());
-    }*/
-
-    @Test
-    public void setFirstBuildTest(){
-        GodCard godCard = new Athena();
-        godCard.setFirstBuilt(new Cell(1,2));
-        Cell cell = new Cell(1,2);
-        assertEquals(godCard.getFirstBuilt(),cell);
-    }
-
-    @Test
-    public void hasMovedTest(){
-        GodCard godCard = new Athena();
-        godCard.hasMoved(true);
-        assertTrue(godCard.isMoved());
-    }
-
-    @Test
-    public void setBuildTest(){
-        GodCard godCard = new Athena();
-        godCard.setBuild(true);
-        assertTrue(godCard.hasBuilt());
-    }
-
-    @Test
-    public void resetTest(){
-        GodCard godCard = new Athena();
-        godCard.hasMoved(true);
-        godCard.reset();
-        assertFalse(godCard.isMoved());
     }
 
     @Test

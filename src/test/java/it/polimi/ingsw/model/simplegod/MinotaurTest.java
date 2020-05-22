@@ -30,36 +30,6 @@ public class MinotaurTest {
     }
 
     @Test
-    public void setFirstBuildTest(){
-        GodCard godCard = new Minotaur();
-        godCard.setFirstBuilt(new Cell(1,2));
-        Cell cell = new Cell(1,2);
-        assertEquals(godCard.getFirstBuilt(),cell);
-    }
-
-    @Test
-    public void hasMovedTest(){
-        GodCard godCard = new Minotaur();
-        godCard.hasMoved(true);
-        assertTrue(godCard.isMoved());
-    }
-
-    @Test
-    public void setBuildTest(){
-        GodCard godCard = new Minotaur();
-        godCard.setBuild(true);
-        assertTrue(godCard.hasBuilt());
-    }
-
-    @Test
-    public void resetTest(){
-        GodCard godCard = new Minotaur();
-        godCard.hasMoved(true);
-        godCard.reset();
-        assertFalse(godCard.isMoved());
-    }
-
-    @Test
     public void getPhaseTest(){
         GodCard godCard = new Minotaur();
         Phase phase = godCard.getPhase();

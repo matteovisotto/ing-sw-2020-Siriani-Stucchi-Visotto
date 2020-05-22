@@ -26,44 +26,14 @@ public class HephaestusTest {
         List<Object> buildAgainList = new ArrayList<>();
         buildAgainList.add(model);
         GodCard godCard = new Hephaestus();
-        godCard.setFirstBuilt(cellBuilt);
+        ((Hephaestus)godCard).setFirstBuilt(cellBuilt);
         model.getActualPlayer().setGodCard(godCard);
         GodCard godCard2 = new Prometheus();
         model.getPlayer(1).setGodCard(godCard2);
-        model.getActualPlayer().getGodCard().setFirstBuilt(cellBuilt);
-        Cell cellFirstBuild = model.getActualPlayer().getGodCard().getFirstBuilt();
+        ((Hephaestus)model.getActualPlayer().getGodCard()).setFirstBuilt(cellBuilt);
+        Cell cellFirstBuild = ((Hephaestus)model.getActualPlayer().getGodCard()).getFirstBuilt();
         model.getActualPlayer().getGodCard().usePower(buildAgainList);
         assertEquals(cellFirstBuild.getLevel().getBlockId(), Blocks.LEVEL1.getBlockId());
-    }
-
-    @Test
-    public void setFirstBuildTest(){
-        GodCard godCard = new Hephaestus();
-        godCard.setFirstBuilt(new Cell(1,2));
-        Cell cell = new Cell(1,2);
-        assertEquals(godCard.getFirstBuilt(),cell);
-    }
-
-    @Test
-    public void hasMovedTest(){
-        GodCard godCard = new Hephaestus();
-        godCard.hasMoved(true);
-        assertTrue(godCard.isMoved());
-    }
-
-    @Test
-    public void setBuildTest(){
-        GodCard godCard = new Hephaestus();
-        godCard.setBuild(true);
-        assertTrue(godCard.hasBuilt());
-    }
-
-    @Test
-    public void resetTest(){
-        GodCard godCard = new Hephaestus();
-        godCard.hasMoved(true);
-        godCard.reset();
-        assertFalse(godCard.isMoved());
     }
 
     @Test

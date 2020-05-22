@@ -8,36 +8,9 @@ import java.util.List;
  This class is intended to represent the Apollo's GodCard
  */
 public class Apollo extends GodCard {
-    private Cell cell;
-    private boolean built = false;
-    private boolean moved = false;
+
     public Apollo(){
         super(Gods.APOLLO, Phase.MOVE);
-    }
-
-    public Cell getFirstBuilt(){
-        return cell;
-    }
-
-    public void setFirstBuilt(Cell firstBuilt){
-        this.cell = firstBuilt;
-    }
-
-    public boolean isMoved() {
-        return moved;
-    }
-
-    public void hasMoved(boolean moved) {
-        this.moved = moved;
-    }
-
-
-    public boolean hasBuilt() {
-        return built;
-    }
-
-    public void setBuild(boolean built){
-        this.built = built;
     }
 
     /**
@@ -53,10 +26,5 @@ public class Apollo extends GodCard {
         cell = enemyWorker.getCell();
         enemyWorker.setCell(apolloWorker.getCell());
         apolloWorker.setCell(cell);
-    }
-
-    @Override
-    public void reset() {
-        this.moved = false;
     }
 }

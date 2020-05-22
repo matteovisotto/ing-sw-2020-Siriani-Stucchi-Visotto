@@ -8,39 +8,13 @@ import java.util.List;
  This class is intended to represent the Pan's GodCard
  */
 public class Pan extends GodCard {
-    private boolean moved = false;
-    private boolean built = false;
-    private Cell cell;
+
     public Pan(){
         super(Gods.PAN, Phase.MOVE);
     }
 
     public Phase getPhase() {
         return phase;
-    }
-
-    public Cell getFirstBuilt(){
-        return cell;
-    }
-
-    public void setFirstBuilt(Cell firstBuilt){
-        this.cell = firstBuilt;
-    }
-
-    public boolean isMoved() {
-        return moved;
-    }
-
-    public void hasMoved(boolean moved) {
-        this.moved = moved;
-    }
-
-    public boolean hasBuilt() {
-        return built;
-    }
-
-    public void setBuild(boolean built){
-        this.built = built;
     }
 
     /**
@@ -51,11 +25,6 @@ public class Pan extends GodCard {
     @Override
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);
-        //Player player = (Player)objectList.get(1);
         model.victory(model.getActualPlayer());
-    }
-    @Override
-    public void reset() {
-        this.moved = false;
     }
 }

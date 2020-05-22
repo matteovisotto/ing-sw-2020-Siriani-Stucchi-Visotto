@@ -2,9 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
-import it.polimi.ingsw.model.simplegod.Apollo;
-import it.polimi.ingsw.model.simplegod.Arthemis;
-import it.polimi.ingsw.model.simplegod.Athena;
+import it.polimi.ingsw.model.simplegod.*;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.view.RemoteView;
 import org.junit.Rule;
@@ -502,7 +500,7 @@ public class GodCardControllerTest {
         assertEquals(model.getBoard().getCell(0,2),players[0].getWorker(0).getCell());
         PlayerBuild playerBuild = new PlayerBuild(players[0], players[0].getUsedWorker(), 0, 3, remoteView);
         controller.build(playerBuild);
-        assertEquals(playerMove.getPlayer().getGodCard().getFirstBuilt(),model.getBoard().getCell(0,0));
+        assertEquals(((Arthemis)playerMove.getPlayer().getGodCard()).getFirstMove(),model.getBoard().getCell(0,0));
     }
 
     @Test
@@ -635,7 +633,7 @@ public class GodCardControllerTest {
         useGodPower.handler(controller);
         PlayerBuild playerBuild2 = new PlayerBuild(players[0], players[0].getUsedWorker(), 0, 0, remoteView);
         controller.build(playerBuild2);
-        assertEquals(playerBuild.getPlayer().getGodCard().getFirstBuilt(),model.getBoard().getCell(0,2));
+        assertEquals(((Demeter)playerBuild.getPlayer().getGodCard()).getFirstBuild(),model.getBoard().getCell(0,2));
         assertEquals(model.getBoard().getCell(0,0).getLevel().getBlockId(),1);
     }
 
@@ -704,7 +702,7 @@ public class GodCardControllerTest {
         UseGodPower useGodPower = new UseGodPower(players[0],remoteView,ch);
         useGodPower.handler(controller);
 
-        assertEquals(playerBuild.getPlayer().getGodCard().getFirstBuilt(),model.getBoard().getCell(0,2));
+        assertEquals(((Hephaestus)playerBuild.getPlayer().getGodCard()).getFirstBuilt(),model.getBoard().getCell(0,2));
         assertEquals(model.getBoard().getCell(0,2).getLevel().getBlockId(),2);
     }
 

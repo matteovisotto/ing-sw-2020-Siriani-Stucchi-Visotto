@@ -11,9 +11,7 @@ import java.util.List;
  This class is intended to represent the Arthemis's GodCard
  */
 public class Arthemis extends GodCard {
-    private Cell firstBuilt;
-    private boolean moved = false;
-    private boolean built = false;
+    private Cell firstMove;
     private boolean usedPower;
     private Worker previousWorker;
 
@@ -21,35 +19,12 @@ public class Arthemis extends GodCard {
         super(Gods.ARTHEMIS, Phase.MOVE);
     }
 
-    /**
-     * This method is used to see if the player has already moved.
-     * @return a boolean: true -> the player has moved; false -> the player has yet to move.
-     */
-    public boolean isMoved() {
-        return moved;
+    public Cell getFirstMove(){
+        return firstMove;
     }
 
-    /**
-     * This method is used to set if the player has moved.
-     */
-    public void hasMoved(boolean moved) {
-        this.moved = moved;
-    }
-
-    public Cell getFirstBuilt(){
-        return firstBuilt;
-    }
-
-    public void setFirstBuilt(Cell firstBuilt){
-        this.firstBuilt = firstBuilt;
-    }
-
-    public boolean hasBuilt() {
-        return built;
-    }
-
-    public void setBuild(boolean built){
-        this.built = built;
+    public void setFirstMove(Cell firstBuilt){
+        this.firstMove = firstBuilt;
     }
 
     public Phase getPhase() {
@@ -69,10 +44,6 @@ public class Arthemis extends GodCard {
         model.setNextPlayerMessage(PlayerMessage.MOVE);
         model.setNextMessageType(MessageType.MOVE);
         model.notifyChanges();
-    }
-    @Override
-    public void reset() {
-        this.moved = false;
     }
 
     public boolean hasUsedPower() {

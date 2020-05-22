@@ -32,36 +32,6 @@ public class PrometheusTest{
     }
 
     @Test
-    public void setFirstBuildTest(){
-        GodCard godCard = new Prometheus();
-        godCard.setFirstBuilt(new Cell(1,2));
-        Cell cell = new Cell(1,2);
-        assertEquals(godCard.getFirstBuilt(),cell);
-    }
-
-    @Test
-    public void hasMovedTest(){
-        GodCard godCard = new Prometheus();
-        godCard.hasMoved(true);
-        assertTrue(godCard.isMoved());
-    }
-
-    @Test
-    public void setBuildTest(){
-        GodCard godCard = new Prometheus();
-        godCard.setBuild(true);
-        assertTrue(godCard.hasBuilt());
-    }
-
-    @Test
-    public void resetTest(){
-        GodCard godCard = new Prometheus();
-        godCard.setBuild(true);
-        godCard.reset();
-        assertFalse(godCard.hasBuilt());
-    }
-
-    @Test
     public void getPhaseTest(){
         GodCard godCard = new Prometheus();
         Phase phase = godCard.getPhase();

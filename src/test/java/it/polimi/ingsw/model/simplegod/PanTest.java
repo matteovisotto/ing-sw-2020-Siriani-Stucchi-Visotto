@@ -32,36 +32,6 @@ public class PanTest {
     }
 
     @Test
-    public void setFirstBuildTest(){
-        GodCard godCard = new Pan();
-        godCard.setFirstBuilt(new Cell(1,2));
-        Cell cell = new Cell(1,2);
-        assertEquals(godCard.getFirstBuilt(),cell);
-    }
-
-    @Test
-    public void hasMovedTest(){
-        GodCard godCard = new Pan();
-        godCard.hasMoved(true);
-        assertTrue(godCard.isMoved());
-    }
-
-    @Test
-    public void setBuildTest(){
-        GodCard godCard = new Pan();
-        godCard.setBuild(true);
-        assertTrue(godCard.hasBuilt());
-    }
-
-    @Test
-    public void resetTest(){
-        GodCard godCard = new Pan();
-        godCard.hasMoved(true);
-        godCard.reset();
-        assertFalse(godCard.isMoved());
-    }
-
-    @Test
     public void getPhaseTest(){
         GodCard godCard = new Pan();
         Phase phase = godCard.getPhase();

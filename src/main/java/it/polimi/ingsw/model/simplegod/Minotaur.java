@@ -8,38 +8,13 @@ import java.util.List;
  This class is intended to represent the Minotaur's GodCard
  */
 public class Minotaur extends GodCard {
-    private boolean moved = false;
-    private boolean built = false;
-    private Cell cell;
+
     public Minotaur() {
         super(Gods.MINOTAUR, Phase.MOVE);
     }
 
     public Phase getPhase() {
         return phase;
-    }
-
-    public Cell getFirstBuilt(){
-        return cell;
-    }
-
-    public void setFirstBuilt(Cell firstBuilt){
-        this.cell = firstBuilt;
-    }
-    public boolean isMoved() {
-        return moved;
-    }
-
-    public void hasMoved(boolean moved) {
-        this.moved = moved;
-    }
-
-    public boolean hasBuilt() {
-        return built;
-    }
-
-    public void setBuild(boolean built){
-        this.built = built;
     }
 
     /**
@@ -61,9 +36,5 @@ public class Minotaur extends GodCard {
         c2.freeCell();
 
 
-    }
-    @Override
-    public void reset() {
-        this.moved = false;
     }
 }

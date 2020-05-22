@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class Prometheus extends GodCard {
     private boolean built = false; //se ha usato il potere
-    private boolean moved = false;
-    private Cell cell;
     private boolean usedPower;
     private int workerID = 0;
     public Prometheus() {
@@ -25,22 +23,6 @@ public class Prometheus extends GodCard {
 
     public void setBuild(boolean built){
         this.built = built;
-    }
-
-    public Cell getFirstBuilt(){
-        return cell;
-    }
-
-    public void setFirstBuilt(Cell firstBuilt){
-        this.cell = firstBuilt;
-    }
-
-    public boolean isMoved() {
-        return moved;
-    }
-
-    public void hasMoved(boolean moved) {
-        this.moved = moved;
     }
 
     public Phase getPhase() {
@@ -68,14 +50,6 @@ public class Prometheus extends GodCard {
 
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
-    }
-
-    /**
-     * This method set to false the built variable; is used to reset the turn. It represent that a worker build before moving (so Prometheus power has been activated) and the player's connot moved up anymore in this turn.
-     */
-    @Override
-    public void reset() {
-        built = false;
     }
 
     public int getWorkerID() {

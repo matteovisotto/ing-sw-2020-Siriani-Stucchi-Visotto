@@ -25,23 +25,9 @@ public abstract class GodCard implements Serializable {
     @SuppressWarnings("EmptyMethod")
     public abstract void usePower(List<Object> objectList);
 
-    public abstract void reset();
-
-    public abstract boolean isMoved();
-
-    public abstract boolean hasBuilt();
-
-    public abstract void setBuild(boolean built);
-
-    public abstract void hasMoved(boolean moved);
-
     public Phase getPhase(){
         return phase;
     }
-
-    public abstract Cell getFirstBuilt();
-
-    public abstract void setFirstBuilt(Cell firstBuilt);
 
     @Override
     public boolean equals(Object obj) {
