@@ -88,6 +88,12 @@ public class Player implements Serializable {
         workers.remove(0);
     }
 
+    public void remove(){
+        godCard = null;
+        workers.remove(1);
+        workers.remove(0);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

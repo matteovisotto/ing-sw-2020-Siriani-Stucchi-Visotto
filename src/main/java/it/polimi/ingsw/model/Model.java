@@ -217,6 +217,15 @@ public class Model extends Observable<ViewMessage> {
         if(leftPlayers == 2){
             endGame();
         }
+        else{
+            player.remove();
+            setNextPhase(Phase.MOVE);
+            setNextPlayerMessage(PlayerMessage.MOVE);
+            setNextMessageType(MessageType.MOVE);
+            updateTurn();
+            notifyChanges();
+        }
+
     }
 
     public void loose(Player player){
