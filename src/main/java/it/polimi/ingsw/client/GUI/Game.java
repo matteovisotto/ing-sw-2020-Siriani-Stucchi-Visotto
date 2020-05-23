@@ -25,6 +25,7 @@ import java.util.HashMap;
 public class Game extends JFrame implements Observer<Object> {
 
     private GUIClient guiClient;
+    private boolean initedBoard = false;
     private Phase phase;
     private JPanel mainPanel, overlayPanel;
     private JLabel messageLabel;
@@ -194,7 +195,7 @@ public class Game extends JFrame implements Observer<Object> {
                                 System.out.println(response);
                                 guiClient.send(response);
                                 multipleSelections.clear();
-
+                                removeOverlayPanel();
                             }
                         }
                 }
@@ -206,7 +207,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void phaseManager(ViewMessage viewMessage){
         try{
-            switch (viewMessage.getMessageType()) {
+            switch (this.messageType) {
                 case WAIT_FOR_START:
                     initGame();
                     setMessageOnPopup(viewMessage.getMessage());
@@ -231,11 +232,7 @@ public class Game extends JFrame implements Observer<Object> {
 
                     break;
                 case PICK_CARD:
-                    try{
-                        removeOverlayPanel();
-                    }catch (NullPointerException e){
-                        //Ignored
-                    }
+
                     //mostra le carte selezionate e permette di sceglierne una
                     break;
                 case SET_WORKER_1:
@@ -290,7 +287,10 @@ public class Game extends JFrame implements Observer<Object> {
         } else if (msg instanceof ViewMessage) {
             ViewMessage viewMessage = (ViewMessage) msg;
             this.messageType=viewMessage.getMessageType();
-
+            if(viewMessage.getMessageType() == MessageType.BEGINNING && !this.initedBoard){
+                initGame();
+                initedBoard = true;
+            }
             if(viewMessage instanceof GameMessage) {
                 GameMessage gameMessage = (GameMessage) viewMessage;
                 handleTurnMessage(gameMessage, gameMessage.getPlayer());
