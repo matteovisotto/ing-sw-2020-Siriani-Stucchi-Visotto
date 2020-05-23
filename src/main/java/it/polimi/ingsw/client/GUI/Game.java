@@ -5,10 +5,7 @@ import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.Gods;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.messageModel.GameBoardMessage;
-import it.polimi.ingsw.model.messageModel.GameMessage;
-import it.polimi.ingsw.model.messageModel.MessageType;
-import it.polimi.ingsw.model.messageModel.ViewMessage;
+import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.View;
 
@@ -34,6 +31,7 @@ public class Game extends JFrame implements Observer<Object> {
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
     private Player player;
+    private ClientConfigurator clientConfigurator;
     private String response;
     private final ArrayList<String> multipleSelections = new ArrayList<>();
 
@@ -76,7 +74,9 @@ public class Game extends JFrame implements Observer<Object> {
     public void setPlayer(Player player) {
         this.player = player;
     }
-
+    public void setClientConfigurator(ClientConfigurator clientConfigurator) {
+        this.clientConfigurator = clientConfigurator;
+    }
     private void setLayout() {
         JLabel backgroud = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();

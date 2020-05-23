@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.ClientConfigurator;
 import it.polimi.ingsw.model.messageModel.GameMessage;
 import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
@@ -10,6 +11,8 @@ import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.CommandParser;
+
+import java.util.ArrayList;
 
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
@@ -45,7 +48,9 @@ public class RemoteView extends View {
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponent is: " + opponent);
         this.lobby = lobby;
-
+        ArrayList<String> opponents = new ArrayList<>();
+        opponents.add(opponent);
+        clientConnection.asyncSend(new ClientConfigurator(2, opponents, player));
     }
 
     //Constructor for 3 players
@@ -55,6 +60,10 @@ public class RemoteView extends View {
         c.addObserver(new MessageReceiver());
         c.asyncSend("Your opponents are: " + opponent1 + " and " + opponent2);
         this.lobby = lobby;
+        ArrayList<String> opponents = new ArrayList<>();
+        opponents.add(opponent1);
+        opponents.add(opponent2);
+        clientConnection.asyncSend(new ClientConfigurator(3, opponents, player));
     }
 
     @Override

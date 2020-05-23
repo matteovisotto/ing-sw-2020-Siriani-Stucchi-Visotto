@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.GUI.Game;
 import it.polimi.ingsw.client.GUI.Initialization;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.ClientConfigurator;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 
@@ -57,8 +58,10 @@ public class GUIClient extends Observable<Object> {
                 try {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
-                        if(inputObject instanceof Player) {//se viene passata una stringa
-                            game.setPlayer((Player) inputObject);
+                        if(inputObject instanceof ClientConfigurator) {//se viene passata una stringa
+                            ClientConfigurator clientConfigurator = (ClientConfigurator) inputObject;
+                            game.setPlayer(clientConfigurator.getMyself());
+                            game.setClientConfigurator(clientConfigurator);
                         } else {
                             notifyObservers(inputObject);
                         }

@@ -3,10 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.messageModel.GameBoardMessage;
-import it.polimi.ingsw.model.messageModel.GameMessage;
-import it.polimi.ingsw.model.messageModel.MessageType;
-import it.polimi.ingsw.model.messageModel.ViewMessage;
+import it.polimi.ingsw.model.messageModel.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -67,8 +64,8 @@ public class Client {
                         Object inputObject = socketIn.readObject();
                         if(inputObject instanceof String){//se viene passata una stringa
                             System.out.println((String)inputObject);
-                        } else if(inputObject instanceof Player) {
-                            player = (Player) inputObject;
+                        } else if(inputObject instanceof ClientConfigurator) {
+                            player = ((ClientConfigurator) inputObject).getMyself();
                         } else if (inputObject instanceof Board) { // se viene passata una board
                             ((Board) inputObject).print();
                         } else if (inputObject instanceof ViewMessage) {
