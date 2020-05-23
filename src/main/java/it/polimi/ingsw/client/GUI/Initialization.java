@@ -44,14 +44,14 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
         return guiClient;
     }
     private void setLayout() throws IOException {
-        mainPanel = new JPanel();
+        mainPanel = new JPanel(true);
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBorder(new EmptyBorder(10,10,10,10)); //Add padding
         mainPanel.setLayout(new BorderLayout(10, 10));
         serverStatusLabel.setText("Connection to server established");
         serverStatusLabel.setForeground(new Color(1,140,8));
         mainPanel.add(serverStatusLabel, BorderLayout.SOUTH);
-        contentPanel = new JPanel();
+        contentPanel = new JPanel(true);
         contentPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         contentPanel.add(sendButton, BorderLayout.SOUTH);
@@ -86,8 +86,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
             }
         }
         this.setSize(400, 170);
-        contentPanel.revalidate();
-        contentPanel.repaint();
+
     }
 
     private void setPanelContent(MessageType messageType){
@@ -201,5 +200,8 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
             default:
                 dispose();
         }
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 }

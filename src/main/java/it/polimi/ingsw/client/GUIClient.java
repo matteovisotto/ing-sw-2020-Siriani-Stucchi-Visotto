@@ -93,7 +93,6 @@ public class GUIClient extends Observable<ViewMessage> {
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
-
         initialization.setVisible(true);
         try{
             Thread t0 = asyncReadFromSocket(socketIn);

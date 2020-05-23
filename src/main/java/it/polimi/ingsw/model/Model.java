@@ -104,9 +104,7 @@ public class Model extends Observable<ViewMessage> {
 
     public synchronized void updateTurn(){
         id = (id + 1) % (turn.length);
-        /*if (athenaId != -1 && athenaId != -2 && turn[athenaId] == turn[id]) {
-            setMovedUp(false);//questo serve per dire che il potere di Athena é terminato perché é reiniziato il suo turno.
-        }*/
+
         if(turn[id].hasWon() && turn.length == 3){
             updateTurn();
         }
