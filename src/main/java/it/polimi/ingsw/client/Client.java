@@ -41,9 +41,6 @@ public class Client {
             if(arg instanceof GameBoardMessage){
                 ((GameBoardMessage) arg).getBoard().print();
             }
-            if(!this.player.hasWon()){
-                System.out.println("Your turn is over");
-            }
             System.out.println("It's now " + player.getPlayerName() + "'s turn");
         }
     }
