@@ -14,6 +14,7 @@ import it.polimi.ingsw.view.View;
 import javax.imageio.ImageIO;
 import javax.naming.spi.DirectoryManager;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -24,7 +25,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private GUIClient guiClient;
     private Phase phase;
-    private JPanel mainPanel;
+    private JPanel mainPanel, overlayPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -88,7 +89,7 @@ public class Game extends JFrame implements Observer<Object> {
             e.printStackTrace();
         }
         mainPanel = new JPanel(true);
-        mainPanel.setLayout(new BorderLayout(10, 10));
+        mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.setSize(d);
         mainPanel.setOpaque(false);
 
@@ -131,33 +132,34 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void drawCards(){
-        JButton gods[]=new JButton[9];
+        //JButton gods[]=new JButton[9];
+        setMessageOnPopup("Please select the gods");
         BufferedImage image;
-        //JPanel panel
+        JPanel panel = new JPanel(true);
+        panel.setSize(overlayPanel.getWidth(), overlayPanel.getHeight());
+        panel.setOpaque(false);
+        panel.setLayout(new GridLayout(3,3,0,0));
         for (int i=0; i<9; i++) {
-            JButton god=gods[i];
+            JButton god = new JButton();
             god.setOpaque(false);
             god.setContentAreaFilled(false);
             god.setBorderPainted(false);
-            god.setSize(330,512);
+            god.setSize(panel.getWidth()/3,panel.getHeight()/3);
             try{
-                image=ImageIO.read(new File("images/gods/"+ Gods.getGod(i).toString().substring(0, 1).toUpperCase() + Gods.getGod(i).toString().substring(1).toLowerCase()+".png"));
-                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_SMOOTH);
+                String fileName = Gods.getGod(i).toString();
+                fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
+                System.out.println(fileName);
+                image=ImageIO.read(new File("images/gods/"+ fileName +".png"));
+                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
                 god.setIcon(new ImageIcon(normal));
+                panel.add(god);
             }catch (IOException e){
                 e.printStackTrace();
             }
 
         }
 
-
-        mainPanel.add(startPlayBtn, BorderLayout.CENTER);
-        startPlayBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guiClient.openInitializator();
-            }
-        });
+        overlayPanel.add(panel, BorderLayout.CENTER);
     }
 
     private void phaseManager(ViewMessage viewMessage){
@@ -169,7 +171,21 @@ public class Game extends JFrame implements Observer<Object> {
                     break;
                 case DRAW_CARD:
                     //mostra a video le carte da selezionare
+                    overlayPanel = new JPanel(true);
+                    int dim = mainPanel.getWidth()/2;
+                    overlayPanel.setSize(dim, dim);
+                    overlayPanel.setLayout(new BorderLayout(1,1));
+                    overlayPanel.setOpaque(false);
+                    BufferedImage image ;
+                    try{
+                        image=ImageIO.read(new File("images/metalPanel_plate.png"));
+                        Image normal = image.getScaledInstance(overlayPanel.getWidth(), overlayPanel.getHeight(), Image.SCALE_SMOOTH);
+                        overlayPanel.add(new JLabel(new ImageIcon(normal)));
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
                     drawCards();
+                    mainPanel.add(overlayPanel, BorderLayout.CENTER);
                     break;
                 case PICK_CARD:
                     //mostra le carte selezionate e permette di sceglierne una
@@ -200,7 +216,8 @@ public class Game extends JFrame implements Observer<Object> {
         }catch(Exception e){
             e.printStackTrace();
         }
-
+        revalidate();
+        repaint();
     }
 
     private synchronized void handleTurnMessage(ViewMessage arg, Player player) {

@@ -1,16 +1,13 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messageModel.PlayerMove;
-import it.polimi.ingsw.server.ClientConnection;
-import it.polimi.ingsw.view.RemoteView;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
 
-public class ArthemisTest {
+public class ArtemisTest {
     @Test
     public void testUsePower() {
         Cell cell = new Cell(1,2);
@@ -27,16 +24,16 @@ public class ArthemisTest {
         Model model = new Model(players,true);
         List<Object> movingList = new ArrayList<>();
         movingList.add(model);
-        GodCard godCard = new Arthemis();
+        GodCard godCard = new Artemis();
         model.getActualPlayer().setGodCard(godCard);
         model.getActualPlayer().getGodCard().usePower(movingList);
-        assertTrue(((Arthemis)model.getActualPlayer().getGodCard()).hasUsedPower());
+        assertTrue(((Artemis)model.getActualPlayer().getGodCard()).hasUsedPower());
         assertEquals(Phase.MOVE,model.getPhase());
     }
 
     @Test
     public void getPhaseTest(){
-        GodCard godCard = new Arthemis();
+        GodCard godCard = new Artemis();
         Phase phase = godCard.getPhase();
         assertEquals(phase,Phase.MOVE);
     }

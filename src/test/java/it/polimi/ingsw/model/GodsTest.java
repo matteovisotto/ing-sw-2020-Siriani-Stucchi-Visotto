@@ -15,7 +15,7 @@ public class GodsTest {
     @Test
     public void getSimpleGodId() {
         assertEquals(0, Gods.APOLLO.getSimpleGodId());
-        assertEquals(1, Gods.ARTHEMIS.getSimpleGodId());
+        assertEquals(1, Gods.ARTEMIS.getSimpleGodId());
         assertEquals(2, Gods.ATHENA.getSimpleGodId());
         assertEquals(3, Gods.ATLAS.getSimpleGodId());
         assertEquals(4, Gods.DEMETER.getSimpleGodId());
@@ -28,7 +28,7 @@ public class GodsTest {
     @Test
     public void getGod() {
         assertEquals(Gods.getGod(0), new Apollo());
-        assertEquals(Gods.getGod(1), new Arthemis());
+        assertEquals(Gods.getGod(1), new Artemis());
         assertEquals(Gods.getGod(2), new Athena());
         assertEquals(Gods.getGod(3), new Atlas());
         assertEquals(Gods.getGod(4), new Demeter());

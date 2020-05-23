@@ -17,7 +17,7 @@ public class PlayerMessage {
     /* Playing messages */
     public static final String DRAW_CARD = "Choose which Gods you want to use:\n" +
             "0 - APOLLO\n" +
-            "1 - ARTHEMIS\n" +
+            "1 - ARTEMIS\n" +
             "2 - ATHENA\n" +
             "3 - ATLAS\n" +
             "4 - DEMETER\n" +

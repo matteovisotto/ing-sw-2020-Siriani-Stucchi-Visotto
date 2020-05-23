@@ -8,15 +8,15 @@ import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
 /**
- This class is intended to represent the Arthemis's GodCard
+ This class is intended to represent the Artemis's GodCard
  */
-public class Arthemis extends GodCard {
+public class Artemis extends GodCard {
     private Cell firstMove;
     private boolean usedPower;
     private Worker previousWorker;
 
-    public Arthemis() {
-        super(Gods.ARTHEMIS, Phase.MOVE);
+    public Artemis() {
+        super(Gods.ARTEMIS, Phase.MOVE);
     }
 
     public Cell getFirstMove(){

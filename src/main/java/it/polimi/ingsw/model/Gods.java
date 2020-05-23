@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.simplegod.*;
  */
 public enum Gods {
     APOLLO(0),
-    ARTHEMIS(1),
+    ARTEMIS(1),
     ATHENA(2),
     ATLAS(3),
     DEMETER(4),
@@ -24,7 +24,7 @@ public enum Gods {
 
     /**
      * This method assign a value to it's specific simpleGod.
-     * @param id define the id of the simpleGod. The value accepted are: 1 -> new Apollo(), 2 -> new Arthemis(), 3 -> new Athena(), 4 -> new Atlas(), 5 -> new Demeter(), 6 -> new Hephaestus(), 7 -> new Minotaur(), 8 -> new Pan(), 9 -> new Prometheus().
+     * @param id define the id of the simpleGod. The value accepted are: 1 -> new Apollo(), 2 -> new Artemis(), 3 -> new Athena(), 4 -> new Atlas(), 5 -> new Demeter(), 6 -> new Hephaestus(), 7 -> new Minotaur(), 8 -> new Pan(), 9 -> new Prometheus().
      * @return the simpleGod assigned to a determined id.
      * @throws IllegalArgumentException if the id is less then 1 or higher then 9.
      */
@@ -33,7 +33,7 @@ public enum Gods {
             case 0:
                 return new Apollo();
             case 1:
-                return new Arthemis();
+                return new Artemis();
             case 2:
                 return new Athena();
             case 3:
@@ -56,6 +56,5 @@ public enum Gods {
     public int getSimpleGodId() {
         return simplegod;
     }
-
 
 }

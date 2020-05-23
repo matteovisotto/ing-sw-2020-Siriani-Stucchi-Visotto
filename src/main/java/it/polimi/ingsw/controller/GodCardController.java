@@ -191,22 +191,22 @@ public class GodCardController extends Controller{
                         }
                         model.move(move);
                     }
-                    else if(model.getGCPlayer(Gods.ARTHEMIS) == move.getPlayer()){
-                        if(((Arthemis)move.getPlayer().getGodCard()).hasUsedPower()){
-                            if(((Arthemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
+                    else if(model.getGCPlayer(Gods.ARTEMIS) == move.getPlayer()){
+                        if(((Artemis)move.getPlayer().getGodCard()).hasUsedPower()){
+                            if(((Artemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
                                 move.getView().reportError("you have to move the same worker");
                             }
-                            else if(((Arthemis)move.getPlayer().getGodCard()).getFirstMove() == model.getBoard().getCell(move.getRow(), move.getColumn())){
+                            else if(((Artemis)move.getPlayer().getGodCard()).getFirstMove() == model.getBoard().getCell(move.getRow(), move.getColumn())){
                                 move.getView().reportError("you can't move into the previous cell");
                             }
                             else{
-                                ((Arthemis)move.getPlayer().getGodCard()).setUsedPower(false);
+                                ((Artemis)move.getPlayer().getGodCard()).setUsedPower(false);
                                 model.move(move);
                             }
                         }
                         else{
-                            ((Arthemis)move.getPlayer().getGodCard()).setFirstMove(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
-                            ((Arthemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
+                            ((Artemis)move.getPlayer().getGodCard()).setFirstMove(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
+                            ((Artemis)move.getPlayer().getGodCard()).setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);

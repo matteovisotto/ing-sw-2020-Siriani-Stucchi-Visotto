@@ -45,7 +45,7 @@ public class GodCardControllerTest {
         assertEquals(controller.getModel().getPhase(),phase);
         GodCard godCard = new Apollo();
         assertEquals(controller.getModel().getGods().get(0),godCard);
-        GodCard godCard2 = new Arthemis();
+        GodCard godCard2 = new Artemis();
         assertEquals(controller.getModel().getGods().get(1),godCard2);
     }
 
@@ -79,7 +79,7 @@ public class GodCardControllerTest {
         assertEquals(controller.getModel().getPhase(),phase);
         GodCard godCard = new Apollo();
         assertEquals(controller.getModel().getGods().get(0),godCard);
-        GodCard godCard2 = new Arthemis();
+        GodCard godCard2 = new Artemis();
         assertEquals(controller.getModel().getGods().get(1),godCard2);
         GodCard godCard3 = new Athena();
         assertEquals(controller.getModel().getGods().get(2),godCard3);
@@ -130,7 +130,7 @@ public class GodCardControllerTest {
 
         controller.pickACard(pickedCard);
         GodCard godCard = new Apollo();
-        GodCard godCard1 = new Arthemis();
+        GodCard godCard1 = new Artemis();
         assertEquals(model.getPlayer(1).getGodCard(),godCard);
 
         PickedCard pickedCard1 = new PickedCard(players[0],remoteView,1);
@@ -201,7 +201,7 @@ public class GodCardControllerTest {
         controller.pickACard(pickedCard);
         controller.pickACard(pickedCard1);
         GodCard godCard = new Apollo();
-        GodCard godCard1 = new Arthemis();
+        GodCard godCard1 = new Artemis();
         GodCard godCard2 = new Athena();
         assertEquals(model.getPlayer(1).getGodCard(),godCard2);
         assertEquals(model.getPlayer(2).getGodCard(),godCard1);
@@ -436,7 +436,7 @@ public class GodCardControllerTest {
     }
 
     @Test
-    public void useArthemisPowerTest() {
+    public void useArtemisPowerTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
@@ -500,7 +500,7 @@ public class GodCardControllerTest {
         assertEquals(model.getBoard().getCell(0,2),players[0].getWorker(0).getCell());
         PlayerBuild playerBuild = new PlayerBuild(players[0], players[0].getUsedWorker(), 0, 3, remoteView);
         controller.build(playerBuild);
-        assertEquals(((Arthemis)playerMove.getPlayer().getGodCard()).getFirstMove(),model.getBoard().getCell(0,0));
+        assertEquals(((Artemis)playerMove.getPlayer().getGodCard()).getFirstMove(),model.getBoard().getCell(0,0));
     }
 
     @Test
