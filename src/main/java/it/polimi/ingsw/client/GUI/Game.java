@@ -32,6 +32,7 @@ public class Game extends JFrame implements Observer<Object> {
     private ClientConfigurator clientConfigurator;
     private String response;
     private final ArrayList<String> multipleSelections = new ArrayList<>();
+    private int choice = 1;
 
     public Game(final GUIClient guiClient){
         this.guiClient = guiClient;
@@ -139,7 +140,15 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
+    private void resetPanelContent(){
+        Component[] components = overlayPanel.getComponents();
+        for (Component component : components) {
+            overlayPanel.remove(component);
+        }
+    }
+
     protected void removeOverlayPanel() {
+        //removeOverlayPanel();
         mainPanel.remove(overlayPanel);
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -173,7 +182,7 @@ public class Game extends JFrame implements Observer<Object> {
             god.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                        multipleSelections.add(gods.get(e.getSource()).toString());
+                    multipleSelections.add(gods.get(e.getSource()).toString());
                         System.out.print(gods.get(e.getSource()).toString());
                         panel.remove((JButton) e.getSource());
                         panel.revalidate();
@@ -185,6 +194,7 @@ public class Game extends JFrame implements Observer<Object> {
                                     stringBuilder.append(multipleSelections.get(i));
                                     if (i < multipleSelections.size()-1) {
                                         stringBuilder.append(',');
+                                        choice++;
                                     }
 
                                 }
@@ -208,8 +218,8 @@ public class Game extends JFrame implements Observer<Object> {
                 //mostra a video le carte da selezionare
                 overlayPanel = new JPanel(true);
                 int dim = mainPanel.getWidth()/2;
-                overlayPanel.setSize(dim, dim);
                 overlayPanel.setLayout(new BorderLayout(1,1));
+                overlayPanel.setSize(dim, dim);
                 overlayPanel.setOpaque(false);
                 BufferedImage image ;
                 try{
@@ -221,6 +231,9 @@ public class Game extends JFrame implements Observer<Object> {
                 }
                 drawCards();
                 mainPanel.add(overlayPanel, BorderLayout.CENTER);
+                if (choice >= clientConfigurator.getNumberOfPlayer()){
+                    removeOverlayPanel();
+                }
 
                 break;
             case PICK_CARD:
@@ -254,9 +267,13 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void phaseManager(ViewMessage viewMessage){
-            switch (viewMessage.getMessageType()) {
+        try{
+            removeOverlayPanel();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        switch (viewMessage.getMessageType()) {
                 case PICK_CARD:
-                    removeOverlayPanel();
                     break;
                 case BEGINNING:
                     break;
@@ -313,7 +330,7 @@ public class Game extends JFrame implements Observer<Object> {
         } else if (msg instanceof ViewMessage) {
             ViewMessage viewMessage = (ViewMessage) msg;
 
-            this.messageType=viewMessage.getMessageType();
+            this.messageType = viewMessage.getMessageType();
             if(viewMessage.getMessageType() == MessageType.BEGINNING && !this.initedBoard){
                 initGame();
                 initedBoard = true;
