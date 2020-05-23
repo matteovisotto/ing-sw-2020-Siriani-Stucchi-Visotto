@@ -77,6 +77,7 @@ public class Game extends JFrame implements Observer<Object> {
     public void setClientConfigurator(ClientConfigurator clientConfigurator) {
         this.clientConfigurator = clientConfigurator;
     }
+
     private void setLayout() {
         JLabel backgroud = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -128,6 +129,10 @@ public class Game extends JFrame implements Observer<Object> {
         repaint();
     }
 
+    private void addOpponents() {
+
+    }
+
     private void setMessageOnPopup(String message) {
         try{
             messageLabel.setText(message);
@@ -176,7 +181,7 @@ public class Game extends JFrame implements Observer<Object> {
                         panel.revalidate();
                         panel.repaint();
                         synchronized (multipleSelections) {
-                            if (multipleSelections.size() == 2) {
+                            if (multipleSelections.size() == clientConfigurator.getNumberOfPlayer()) {
                                 StringBuilder stringBuilder = new StringBuilder();
                                 for (int i = 0; i < multipleSelections.size(); i++) {
                                     stringBuilder.append(multipleSelections.get(i));
@@ -202,6 +207,10 @@ public class Game extends JFrame implements Observer<Object> {
     private void phaseManager(ViewMessage viewMessage){
         try{
             switch (viewMessage.getMessageType()) {
+                case WAIT_FOR_START:
+                    initGame();
+                    setMessageOnPopup(viewMessage.getMessage());
+                    break;
                 case DRAW_CARD:
                     //mostra a video le carte da selezionare
                         overlayPanel = new JPanel(true);
@@ -219,9 +228,14 @@ public class Game extends JFrame implements Observer<Object> {
                         }
                         drawCards();
                         mainPanel.add(overlayPanel, BorderLayout.CENTER);
+
                     break;
                 case PICK_CARD:
-                    removeOverlayPanel();
+                    try{
+                        removeOverlayPanel();
+                    }catch (NullPointerException e){
+                        //Ignored
+                    }
                     //mostra le carte selezionate e permette di sceglierne una
                     break;
                 case SET_WORKER_1:
@@ -256,7 +270,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private synchronized void handleTurnMessage(ViewMessage arg, Player player) {
         if (this.player.equals(player)) {
-            this.phaseManager(arg);
+
             if(arg instanceof GameBoardMessage){
                 //Update the bord
             }
@@ -276,18 +290,14 @@ public class Game extends JFrame implements Observer<Object> {
         } else if (msg instanceof ViewMessage) {
             ViewMessage viewMessage = (ViewMessage) msg;
             this.messageType=viewMessage.getMessageType();
-            if(viewMessage.getMessageType() == MessageType.WAIT_FOR_START || viewMessage.getPhase() == Phase.BEGINNING){
-                    initGame();
-                    setMessageOnPopup(viewMessage.getMessage());
-                    return;
-            }
+
             if(viewMessage instanceof GameMessage) {
                 GameMessage gameMessage = (GameMessage) viewMessage;
                 handleTurnMessage(gameMessage, gameMessage.getPlayer());
             } else {
                setMessageOnPopup(viewMessage.getMessage());
             }
-
+            this.phaseManager(viewMessage);
         }
 
 
