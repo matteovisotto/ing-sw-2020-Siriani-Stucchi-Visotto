@@ -58,7 +58,7 @@ public class GUIClient extends Observable<Object> {
                 try {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
-                        if(inputObject instanceof ClientConfigurator) {//se viene passata una stringa
+                        if(inputObject instanceof ClientConfigurator) {//Configurator for client data
                             ClientConfigurator clientConfigurator = (ClientConfigurator) inputObject;
                             game.setPlayer(clientConfigurator.getMyself());
                             game.setClientConfigurator(clientConfigurator);
