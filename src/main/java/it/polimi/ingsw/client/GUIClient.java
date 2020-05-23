@@ -28,6 +28,16 @@ public class GUIClient extends Observable<ViewMessage> {
         initialization= new Initialization(this);
         game = new Game(this);
         addObserver(initialization);
+        addObserver(game);
+    }
+
+    public void openInitializator() {
+        initialization.setVisible(true);
+        game.setEnabled(false);
+    }
+
+    public void closeInitialisator() {
+        game.setEnabled(true);
     }
 
     public synchronized boolean isActive(){
@@ -96,7 +106,6 @@ public class GUIClient extends Observable<ViewMessage> {
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
-        initialization.setVisible(true);
         game.setVisible(true);
         try{
             Thread t0 = asyncReadFromSocket(socketIn);

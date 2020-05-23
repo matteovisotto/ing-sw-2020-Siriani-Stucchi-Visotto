@@ -20,7 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Initialization extends JFrame implements Observer<ViewMessage> {
+public class Initialization extends JDialog implements Observer<ViewMessage> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
     private final GUIClient guiClient;
     private JLabel serverStatusLabel = new JLabel(); //Label for server status
@@ -198,6 +198,7 @@ public class Initialization extends JFrame implements Observer<ViewMessage> {
                 break;
             case WAIT_FOR_START:
             default:
+                guiClient.closeInitialisator();
                 dispose();
         }
 
