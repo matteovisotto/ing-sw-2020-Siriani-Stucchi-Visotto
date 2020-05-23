@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUIClient;
+import it.polimi.ingsw.model.Gods;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.GameBoardMessage;
@@ -28,6 +29,7 @@ public class Game extends JFrame implements Observer<Object> {
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
     private Player player;
+    private String response;
 
     public Game(final GUIClient guiClient){
         this.guiClient = guiClient;
@@ -128,12 +130,69 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private void phaseManager(ViewMessage viewMessage) {
+    private void drawCards(){
+        JButton gods[]=new JButton[9];
+        BufferedImage image;
+        //JPanel panel
+        for (int i=0; i<9; i++) {
+            JButton god=gods[i];
+            god.setOpaque(false);
+            god.setContentAreaFilled(false);
+            god.setBorderPainted(false);
+            god.setSize(330,512);
+            try{
+                image=ImageIO.read(new File("images/gods/"+ Gods.getGod(i).toString().substring(0, 1).toUpperCase() + Gods.getGod(i).toString().substring(1).toLowerCase()+".png"));
+                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_SMOOTH);
+                god.setIcon(new ImageIcon(normal));
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
+
+
+        mainPanel.add(startPlayBtn, BorderLayout.CENTER);
+        startPlayBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.openInitializator();
+            }
+        });
+    }
+
+    private void phaseManager(ViewMessage viewMessage){
         try{
             switch (viewMessage.getMessageType()) {
                 case WAIT_FOR_START:
                     initGame();
                     setMessageOnPopup(viewMessage.getMessage());
+                    break;
+                case DRAW_CARD:
+                    //mostra a video le carte da selezionare
+                    drawCards();
+                    break;
+                case PICK_CARD:
+                    //mostra le carte selezionate e permette di sceglierne una
+                    break;
+                case SET_WORKER_1:
+                    break;
+                case SET_WORKER_2:
+                    break;
+                case BEGINNING:
+                    break;
+                case MOVE:
+                    break;
+                case BUILD:
+                    break;
+                case USE_POWER:
+                    break;
+                case PROMETHEUS:
+                    break;
+                case VICTORY:
+                    break;
+                case LOSE:
+                    break;
+                case END_GAME:
                     break;
                 default:
                     break;
