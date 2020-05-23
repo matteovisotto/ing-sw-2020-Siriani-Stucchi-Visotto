@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.GUI.Game;
 import it.polimi.ingsw.client.GUI.Initialization;
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class GUIClient extends Observable<ViewMessage> {
+public class GUIClient extends Observable<Object> {
     private final String ip;
     private final int port;
     private boolean active = true;
@@ -31,13 +32,14 @@ public class GUIClient extends Observable<ViewMessage> {
         addObserver(game);
     }
 
-    public void openInitializator() {
+    public synchronized void openInitializator() {
         initialization.setVisible(true);
         game.setEnabled(false);
     }
 
-    public void closeInitialisator() {
+    public synchronized void closeInitializator() {
         game.setEnabled(true);
+        //removeObserver(initialization);
     }
 
     public synchronized boolean isActive(){
@@ -55,16 +57,10 @@ public class GUIClient extends Observable<ViewMessage> {
                 try {
                     while (isActive()) {
                         Object inputObject = socketIn.readObject();
-                        if(inputObject instanceof String) {//se viene passata una stringa
-                            System.out.println((String) inputObject);
-                        } else if (inputObject instanceof ViewMessage){
-                            notifyObservers((ViewMessage) inputObject);
-                        } else if (inputObject instanceof Board) { // se viene passata una board
-                            ((Board) inputObject).print();
-                        } else if (inputObject instanceof HashMap) { //se viene passata una HashMap
-                            //Print movable cell
+                        if(inputObject instanceof Player) {//se viene passata una stringa
+                            game.setPlayer((Player) inputObject);
                         } else {
-                            throw new IllegalArgumentException();
+                            notifyObservers(inputObject);
                         }
                     }
                 } catch (Exception e){

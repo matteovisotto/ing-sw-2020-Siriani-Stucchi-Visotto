@@ -2,9 +2,13 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.Phase;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.GameBoardMessage;
+import it.polimi.ingsw.model.messageModel.GameMessage;
 import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.view.View;
 
 import javax.imageio.ImageIO;
 import javax.naming.spi.DirectoryManager;
@@ -15,12 +19,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Game extends JFrame implements Observer<ViewMessage> {
+public class Game extends JFrame implements Observer<Object> {
 
     private GUIClient guiClient;
     private Phase phase;
     private JPanel mainPanel;
+    private JLabel messageLabel;
+    private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
+    private Player player;
 
     public Game(final GUIClient guiClient){
         this.guiClient = guiClient;
@@ -29,7 +36,7 @@ public class Game extends JFrame implements Observer<ViewMessage> {
         setResizable(false);
         setLayout();
 
-        JButton startPlayBtn = new JButton();
+        startPlayBtn = new JButton();
         startPlayBtn.setOpaque(false);
         startPlayBtn.setContentAreaFilled(false);
         startPlayBtn.setBorderPainted(false);
@@ -58,6 +65,10 @@ public class Game extends JFrame implements Observer<ViewMessage> {
         });
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     private void setLayout() {
         JLabel backgroud = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -84,12 +95,45 @@ public class Game extends JFrame implements Observer<ViewMessage> {
 
     }
 
-    private void phaseManager() {
+    private void initGame() {
+        this.setEnabled(true);
+        this.mainPanel.remove(startPlayBtn);
+        messageLabel = new JLabel();
+        messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+        messageLabel.setSize(mainPanel.getWidth()/2, 100);
+        mainPanel.add(messageLabel, BorderLayout.NORTH);
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
+            Image dimg = img.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
+                    Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            messageLabel.setIcon(imageIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        messageLabel.setForeground(Color.WHITE);
+        revalidate();
+        repaint();
+    }
+
+    private void setMessageOnPopup(String message) {
         try{
-            switch (messageType) {
+            messageLabel.setText(message);
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void phaseManager(ViewMessage viewMessage) {
+        try{
+            switch (viewMessage.getMessageType()) {
                 case WAIT_FOR_START:
-                    this.setEnabled(true);
-                    this.mainPanel.remove(0);
+                    initGame();
+                    setMessageOnPopup(viewMessage.getMessage());
                     break;
                 default:
                     break;
@@ -100,11 +144,36 @@ public class Game extends JFrame implements Observer<ViewMessage> {
 
     }
 
+    private synchronized void handleTurnMessage(ViewMessage arg, Player player) {
+        if (this.player.equals(player)) {
+            if(arg instanceof GameBoardMessage){
+                //Update the bord
+            }
+            setMessageOnPopup(arg.getMessage());
+        } else if ((arg.getPhase() == Phase.BEGINNING) && !this.player.equals(player)) {
+            if(arg instanceof GameBoardMessage){
+               //Update board with disabled control
+            }
+            setMessageOnPopup("It's now " + player.getPlayerName() + "'s turn");
+        }
+    }
+
     @Override
-    public void update(ViewMessage msg) {
-        this.phase = msg.getPhase();
-        this.messageType=messageType;
-        this.phaseManager();
+    public void update(Object msg) {
+        if(msg instanceof String){
+
+        } else if (msg instanceof ViewMessage) {
+            ViewMessage viewMessage = (ViewMessage) msg;
+            this.messageType=viewMessage.getMessageType();
+            if(viewMessage instanceof GameMessage) {
+                GameMessage gameMessage = (GameMessage) viewMessage;
+                handleTurnMessage(gameMessage, gameMessage.getPlayer());
+            } else {
+               setMessageOnPopup(viewMessage.getMessage());
+            }
+            this.phaseManager(viewMessage);
+        }
+
 
     }
 }

@@ -5,22 +5,16 @@ import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-public class Initialization extends JDialog implements Observer<ViewMessage> {
+public class Initialization extends JDialog implements Observer<Object> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
     private final GUIClient guiClient;
     private JLabel serverStatusLabel = new JLabel(); //Label for server status
@@ -74,8 +68,12 @@ public class Initialization extends JDialog implements Observer<ViewMessage> {
     }
 
     @Override
-    public void update(ViewMessage msg) {
-        setPanelContent(msg.getMessageType());
+    public void update(Object msg) {
+        if(msg instanceof ViewMessage) {
+            setPanelContent(((ViewMessage) msg).getMessageType());
+        } else if (msg instanceof String) {
+
+        }
     }
 
     private void resetPanelContent(){
@@ -196,10 +194,10 @@ public class Initialization extends JDialog implements Observer<ViewMessage> {
                 contentPanel.add(simpleMode, BorderLayout.CENTER);
 
                 break;
-            case WAIT_FOR_START:
             default:
-                guiClient.closeInitialisator();
+                guiClient.closeInitializator();
                 dispose();
+                return;
         }
 
         contentPanel.revalidate();

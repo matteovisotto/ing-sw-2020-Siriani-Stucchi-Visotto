@@ -72,7 +72,7 @@ public class Lobby {
             }
 
         } else {
-            c.asyncSend(PlayerMessage.WAIT_PLAYERS);
+            c.asyncSend(new ViewMessage(MessageType.WAIT_FOR_START, PlayerMessage.WAIT_PLAYERS, Phase.WAIT_PLAYERS));
         }
     }
 
@@ -126,18 +126,9 @@ public class Lobby {
         remoteView2.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        //sendAllPlayer(model.getBoardClone());
+
         model.initialize();
-        /*if(model.isPlayerTurn(playerArray[0])){
-            c1.asyncSend(PlayerMessage.YOUR_TURN);
-            c1.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
-            c2.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-        }
-        else{
-            c2.asyncSend(PlayerMessage.YOUR_TURN);
-            c2.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
-            c1.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-        }*/
+
     }
 
     private void threePlayer(List<String> players) {
@@ -159,11 +150,6 @@ public class Lobby {
         playerArray[0] = player1;
         playerArray[1] = player2;
         playerArray[2] = player3;
-
-        if(!simplePlay){
-            //player have to draw a card
-            //TODO
-        }
 
         remoteView1 = new RemoteView(player1, players.get(1), players.get(2), c1, this);
         remoteView2 = new RemoteView(player2, players.get(0), players.get(2), c2, this);
@@ -187,27 +173,9 @@ public class Lobby {
         remoteView3.addObserver(controller);
 
         sendAllPlayer(PlayerMessage.START_PLAY);
-        //sendAllPlayer(model.getBoardClone());
+
         model.initialize();
-        /*if(model.isPlayerTurn(playerArray[0])){
-            c1.asyncSend(PlayerMessage.YOUR_TURN);
-            c1.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
-            c2.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-            c3.asyncSend(playerArray[0].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-        }
-        else if(model.isPlayerTurn(playerArray[1])){
-            c2.asyncSend(PlayerMessage.YOUR_TURN);
-            c2.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
-            c1.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-            c3.asyncSend(playerArray[1].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-        }
-        else{
-            c3.asyncSend(PlayerMessage.YOUR_TURN);
-            c3.asyncSend(PlayerMessage.PLACE_FIRST_WORKER);
-            c1.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-            c2.asyncSend(playerArray[2].getPlayerName() + PlayerMessage.NOT_YOUR_TURN);
-        }
-*/
+
     }
 
 }
