@@ -159,7 +159,6 @@ public class Game extends JFrame implements Observer<Object> {
             try{
                 String fileName = Gods.getGod(i).toString();
                 fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
-                System.out.println(fileName);
                 image=ImageIO.read(new File("images/gods/"+ fileName +".png"));
                 Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
                 god.setIcon(new ImageIcon(normal));
