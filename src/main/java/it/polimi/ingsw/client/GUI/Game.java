@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.Phase;
+import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 
@@ -19,6 +20,7 @@ public class Game extends JFrame implements Observer<ViewMessage> {
     private GUIClient guiClient;
     private Phase phase;
     private JPanel mainPanel;
+    private MessageType messageType=MessageType.PLAYER_NAME;
 
     public Game(final GUIClient guiClient){
         this.guiClient = guiClient;
@@ -83,19 +85,26 @@ public class Game extends JFrame implements Observer<ViewMessage> {
     }
 
     private void phaseManager() {
-        switch (this.phase) {
-            case WAIT_PLAYERS:
-                this.setEnabled(true);
-                this.mainPanel.remove(0);
-                break;
-            default:
-                break;
+        try{
+            switch (messageType) {
+                case WAIT_FOR_START:
+                    this.setEnabled(true);
+                    this.mainPanel.remove(0);
+                    break;
+                default:
+                    break;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void update(ViewMessage msg) {
         this.phase = msg.getPhase();
-        //this.phaseManager();
+        this.messageType=messageType;
+        this.phaseManager();
+
     }
 }
