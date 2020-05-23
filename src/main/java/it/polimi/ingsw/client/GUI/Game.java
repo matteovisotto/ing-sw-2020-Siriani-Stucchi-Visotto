@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.GUI;
 
+
 import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.Gods;
 import it.polimi.ingsw.model.Phase;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.view.View;
 
 import javax.imageio.ImageIO;
 import javax.naming.spi.DirectoryManager;
+import javax.print.DocFlavor;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -20,6 +22,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game extends JFrame implements Observer<Object> {
 
@@ -31,6 +35,7 @@ public class Game extends JFrame implements Observer<Object> {
     private MessageType messageType=MessageType.PLAYER_NAME;
     private Player player;
     private String response;
+    private final ArrayList<String> multipleSelections = new ArrayList<>();
 
     public Game(final GUIClient guiClient){
         this.guiClient = guiClient;
@@ -131,16 +136,22 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
+    protected void removeOverlayPanel() {
+        mainPanel.remove(overlayPanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
     private void drawCards(){
-        //JButton gods[]=new JButton[9];
+        final HashMap<JButton, Integer> gods = new HashMap<>();
         setMessageOnPopup("Please select the gods");
         BufferedImage image;
-        JPanel panel = new JPanel(true);
+        final JPanel panel = new JPanel(true);
         panel.setSize(overlayPanel.getWidth(), overlayPanel.getHeight());
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,0,0));
         for (int i=0; i<9; i++) {
-            JButton god = new JButton();
+            final JButton god = new JButton();
             god.setOpaque(false);
             god.setContentAreaFilled(false);
             god.setBorderPainted(false);
@@ -156,7 +167,34 @@ public class Game extends JFrame implements Observer<Object> {
             }catch (IOException e){
                 e.printStackTrace();
             }
+            gods.put(god, i);
+            god.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                        multipleSelections.add(gods.get(e.getSource()).toString());
+                        System.out.print(gods.get(e.getSource()).toString());
+                        panel.remove((JButton) e.getSource());
+                        panel.revalidate();
+                        panel.repaint();
+                        synchronized (multipleSelections) {
+                            if (multipleSelections.size() == 2) {
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (int i = 0; i < multipleSelections.size(); i++) {
+                                    stringBuilder.append(multipleSelections.get(i));
+                                    if (i < multipleSelections.size()-1) {
+                                        stringBuilder.append(',');
+                                    }
 
+                                }
+                                response = stringBuilder.toString();
+                                System.out.println(response);
+                                guiClient.send(response);
+                                multipleSelections.clear();
+
+                            }
+                        }
+                }
+            });
         }
 
         overlayPanel.add(panel, BorderLayout.CENTER);
@@ -165,29 +203,26 @@ public class Game extends JFrame implements Observer<Object> {
     private void phaseManager(ViewMessage viewMessage){
         try{
             switch (viewMessage.getMessageType()) {
-                case WAIT_FOR_START:
-                    initGame();
-                    setMessageOnPopup(viewMessage.getMessage());
-                    break;
                 case DRAW_CARD:
                     //mostra a video le carte da selezionare
-                    overlayPanel = new JPanel(true);
-                    int dim = mainPanel.getWidth()/2;
-                    overlayPanel.setSize(dim, dim);
-                    overlayPanel.setLayout(new BorderLayout(1,1));
-                    overlayPanel.setOpaque(false);
-                    BufferedImage image ;
-                    try{
-                        image=ImageIO.read(new File("images/metalPanel_plate.png"));
-                        Image normal = image.getScaledInstance(overlayPanel.getWidth(), overlayPanel.getHeight(), Image.SCALE_SMOOTH);
-                        overlayPanel.add(new JLabel(new ImageIcon(normal)));
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                    drawCards();
-                    mainPanel.add(overlayPanel, BorderLayout.CENTER);
+                        overlayPanel = new JPanel(true);
+                        int dim = mainPanel.getWidth()/2;
+                        overlayPanel.setSize(dim, dim);
+                        overlayPanel.setLayout(new BorderLayout(1,1));
+                        overlayPanel.setOpaque(false);
+                        BufferedImage image ;
+                        try{
+                            image=ImageIO.read(new File("images/metalPanel_plate.png"));
+                            Image normal = image.getScaledInstance(overlayPanel.getWidth(), overlayPanel.getHeight(), Image.SCALE_SMOOTH);
+                            overlayPanel.add(new JLabel(new ImageIcon(normal)));
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                        drawCards();
+                        mainPanel.add(overlayPanel, BorderLayout.CENTER);
                     break;
                 case PICK_CARD:
+                    removeOverlayPanel();
                     //mostra le carte selezionate e permette di sceglierne una
                     break;
                 case SET_WORKER_1:
@@ -222,6 +257,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private synchronized void handleTurnMessage(ViewMessage arg, Player player) {
         if (this.player.equals(player)) {
+            this.phaseManager(arg);
             if(arg instanceof GameBoardMessage){
                 //Update the bord
             }
@@ -241,13 +277,18 @@ public class Game extends JFrame implements Observer<Object> {
         } else if (msg instanceof ViewMessage) {
             ViewMessage viewMessage = (ViewMessage) msg;
             this.messageType=viewMessage.getMessageType();
+            if(viewMessage.getMessageType() == MessageType.WAIT_FOR_START || viewMessage.getPhase() == Phase.BEGINNING){
+                    initGame();
+                    setMessageOnPopup(viewMessage.getMessage());
+                    return;
+            }
             if(viewMessage instanceof GameMessage) {
                 GameMessage gameMessage = (GameMessage) viewMessage;
                 handleTurnMessage(gameMessage, gameMessage.getPlayer());
             } else {
                setMessageOnPopup(viewMessage.getMessage());
             }
-            this.phaseManager(viewMessage);
+
         }
 
 
