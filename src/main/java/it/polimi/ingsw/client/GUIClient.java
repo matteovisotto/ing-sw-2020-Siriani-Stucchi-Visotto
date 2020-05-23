@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.GUI.Game;
 import it.polimi.ingsw.client.GUI.Initialization;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
@@ -18,12 +19,14 @@ public class GUIClient extends Observable<ViewMessage> {
     private final int port;
     private boolean active = true;
     private Initialization initialization;
+    private Game game;
     private PrintWriter socketOut;
 
     public GUIClient(String ip, int port){
         this.ip = ip;
         this.port = port;
         initialization= new Initialization(this);
+        game = new Game(this);
         addObserver(initialization);
     }
 
@@ -94,6 +97,7 @@ public class GUIClient extends Observable<ViewMessage> {
         socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
         initialization.setVisible(true);
+        game.setVisible(true);
         try{
             Thread t0 = asyncReadFromSocket(socketIn);
             Thread t1 = asyncWriteToSocket(stdin, socketOut);
