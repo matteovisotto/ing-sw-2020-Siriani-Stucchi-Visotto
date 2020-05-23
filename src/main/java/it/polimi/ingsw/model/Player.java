@@ -89,9 +89,12 @@ public class Player implements Serializable {
     }
 
     public void remove(){
-        godCard = null;
-        workers.remove(1);
-        workers.remove(0);
+        for (Worker w : workers){
+            w.getCell().freeCell();
+            //w.setCell(null);
+        }
+
+
     }
 
     @Override

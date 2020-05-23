@@ -218,6 +218,7 @@ public class Model extends Observable<ViewMessage> {
             endGame();
         }
         else{
+            leftPlayers--;
             player.remove();
             setNextPhase(Phase.MOVE);
             setNextPlayerMessage(PlayerMessage.MOVE);

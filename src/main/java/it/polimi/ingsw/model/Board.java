@@ -73,37 +73,41 @@ public class Board implements Serializable, Cloneable {
     }
 
     public synchronized void print(){
-        System.out.println(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4");
-        System.out.println("\t---------------------------------------------------");
-        for(int i = 0; i < 5; i++){
-            System.out.print(i + "\t| ");
-            for(int j = 0; j < 5; j++){//prima riga
-                System.out.print(board[j][i] + " | ");
-            }
-            System.out.println();
-            //qui devo stampare player e worker (seconda riga)
-            System.out.print("\t");
-            for(int j = 0; j < 5; j++) {
-                System.out.print("| ");
-                if (!board[j][i].isFree()){
-                    for (int p = 0; p < players.length; p++) {
-                        Player player = players[p];
-                        if(player.getWorker(0).getCell().equals(board[j][i])){
-                            System.out.print("P:" + p + " W:0 ");
-                            break;
+        try {
+            System.out.println(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4");
+            System.out.println("\t---------------------------------------------------");
+            for (int i = 0; i < 5; i++) {
+                System.out.print(i + "\t| ");
+                for (int j = 0; j < 5; j++) {//prima riga
+                    System.out.print(board[j][i] + " | ");
+                }
+                System.out.println();
+                //qui devo stampare player e worker (seconda riga)
+                System.out.print("\t");
+                for (int j = 0; j < 5; j++) {
+                    System.out.print("| ");
+                    if (!board[j][i].isFree()) {
+                        for (int p = 0; p < players.length; p++) {
+                            Player player = players[p];
+
+                            if (player.getWorker(0).getCell().equals(board[j][i])) {
+                                System.out.print("P:" + p + " W:0 ");
+                                break;
+                            } else if (player.getWorker(1).getCell().equals(board[j][i])) {
+                                System.out.print("P:" + p + " W:1 ");
+                                break;
+                            }
+
                         }
-                        if(player.getWorker(1).getCell().equals(board[j][i])){
-                            System.out.print("P:" + p + " W:1 ");
-                            break;
-                        }
+                    } else {
+                        System.out.print("P:n W:n ");
                     }
                 }
-                else{
-                    System.out.print("P:n W:n ");
-                }
+                System.out.print("|");
+                System.out.println("\n\t---------------------------------------------------");
             }
-            System.out.print("|");
-            System.out.println("\n\t---------------------------------------------------");
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
