@@ -24,6 +24,8 @@ public class Game extends JFrame implements Observer<Object> {
 
     private final GUIClient guiClient;
     private boolean initedBoard = false;
+    private boolean isSimplePlay = true;
+    private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
     private JLabel messageLabel;
@@ -194,15 +196,44 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addOpponents() {
-        JPanel opponetsPanel = new JPanel(true);
-        opponetsPanel.setLayout(new GridLayout(2,1,10,10));
-        opponetsPanel.setSize(100,100);
-        for(String name: clientConfigurator.getOpponentsNames()){
+        JPanel opponentsPanel = new JPanel(true);
+        opponentsPanel.setOpaque(false);
+        opponentsPanel.setLayout(new GridLayout(2, 1, 10, 10));
+        opponentsPanel.setSize(rightPanel.getWidth(), 210 * opponentGods.size());
+        for (String opponentName : opponentGods.keySet()) {
+            System.out.println(opponentName);
+            String godName = opponentGods.get(opponentName);
+            JPanel playerPanel = new JPanel(true);
+            playerPanel.setSize(opponentsPanel.getWidth(), opponentsPanel.getHeight() / opponentGods.size());
+            playerPanel.setOpaque(false);
+            playerPanel.setLayout(new BorderLayout(10, 10));
             JLabel nameLabel = new JLabel();
-            nameLabel.setText(name);
-            opponetsPanel.add(nameLabel);
+            JLabel godLabel = new JLabel();
+            nameLabel.setSize(playerPanel.getWidth() - 20, 60);
+            godLabel.setSize(playerPanel.getWidth() - 20, 150);
+            BufferedImage god, frame;
+            try {
+                frame = ImageIO.read(new File("images/opponentNameFrame.png"));
+                god = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
+                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_SMOOTH);
+                Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_SMOOTH);
+                nameLabel.setIcon(new ImageIcon(frameImage));
+                godLabel.setIcon(new ImageIcon(godImage));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+            nameLabel.setText(opponentName);
+            nameLabel.setForeground(Color.WHITE);
+            playerPanel.add(nameLabel, BorderLayout.SOUTH);
+            playerPanel.add(godLabel, BorderLayout.CENTER);
+            opponentsPanel.add(playerPanel);
         }
-        leftPanel.add(opponetsPanel, BorderLayout.NORTH);
+        rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
+        revalidate();
+        repaint();
     }
 
     private void setMessageOnPopup(String message) {
@@ -351,18 +382,20 @@ public class Game extends JFrame implements Observer<Object> {
 
     }
 
-    private void turnPhaseManager(ViewMessage viewMessage) {
-            switch (viewMessage.getMessageType()) {
+    private void turnPhaseManager(GameMessage gameMessage) {
+            switch (gameMessage.getMessageType()) {
                 case DRAW_CARD:
                     //mostra a video le carte da selezionare
                     //addOpponents();
+                    isSimplePlay = false;
                     addOverlayPanel();
                     drawCards();
                     break;
                 case PICK_CARD:
                     //addOpponents();
+                    isSimplePlay = false;
                     addOverlayPanel();
-                    pickCard(viewMessage);
+                    pickCard(gameMessage);
                     break;
                 case SET_WORKER_1:
 
@@ -393,14 +426,31 @@ public class Game extends JFrame implements Observer<Object> {
 
     }
 
-    private void phaseManager(ViewMessage viewMessage){
-            switch (viewMessage.getMessageType()) {
+    private void phaseManager(GameMessage gameMessage){
+            switch (gameMessage.getMessageType()) {
                 case PICK_CARD:
-
                     break;
                 case BEGINNING:
+
+                    break;
+                case SET_WORKER_1:
+                    try {
+                        if (!isSimplePlay && opponentGods.size() != clientConfigurator.getNumberOfPlayer() - 1) {
+                            Player opponent = gameMessage.getPlayer();
+                            if (!opponentGods.containsKey(opponent.getPlayerName())) {
+                                opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
+                            }
+                        } else {
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case MOVE:
+                    if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
+                        addOpponents();
+                    }
                     break;
                 case BUILD:
                     break;
@@ -429,7 +479,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private void handleTurnMessage(ViewMessage arg, Player player) {
+    private void handleTurnMessage(GameMessage arg, Player player) {
         if (this.player.equals(player)) {
 
             if(arg instanceof GameBoardMessage){
