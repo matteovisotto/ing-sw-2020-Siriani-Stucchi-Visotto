@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.utils.Parser;
 
 
 import javax.imageio.ImageIO;
@@ -222,8 +223,6 @@ public class Game extends JFrame implements Observer<Object> {
         panel.setSize(overlayPanel.getWidth()-100, overlayPanel.getHeight());
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,0,0));
-        panel.setAlignmentX(SwingConstants.CENTER);
-        panel.setAlignmentY(SwingConstants.CENTER);
         for (int i=0; i<9; i++) {
             final JButton god = new JButton();
             god.setOpaque(false);
@@ -264,7 +263,7 @@ public class Game extends JFrame implements Observer<Object> {
                                 System.out.println(response);
                                 guiClient.send(response);
                                 multipleSelections.clear();
-
+                                removeOverlayPanel();
                             }
                         }
                 }
@@ -274,54 +273,109 @@ public class Game extends JFrame implements Observer<Object> {
         overlayPanel.add(panel);
     }
 
-    private void turnPhaseManager(ViewMessage viewMessage) {
-        switch (viewMessage.getMessageType()) {
-            case DRAW_CARD:
-                //mostra a video le carte da selezionare
-                addOverlayPanel();
-                drawCards();
-                if (choice >= clientConfigurator.getNumberOfPlayer()){
-                    removeOverlayPanel();
-                }
+    private void pickCard(ViewMessage viewMessage) {
+       try {
+           final ArrayList<String> godsName = new ArrayList<>();
+           //Parser
+           String[] splitted = viewMessage.getMessage().split("\n");
+           String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
+           String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
+           godsName.add(firstGod);
+           godsName.add(secondGod);
+           if (clientConfigurator.getNumberOfPlayer() == 3) {
+               String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
+               godsName.add(thirdGod);
+           }
 
-                break;
-            case PICK_CARD:
-                //mostra le carte selezionate e permette di sceglierne una
-                break;
-            case SET_WORKER_1:
-                break;
-            case SET_WORKER_2:
-                break;
-            case BEGINNING:
-                break;
-            case MOVE:
-                break;
-            case BUILD:
-                break;
-            case USE_POWER:
-                break;
-            case PROMETHEUS:
-                break;
-            case VICTORY:
-                break;
-            case LOSE:
-                break;
-            case END_GAME:
-                break;
-            default:
-                break;
-        }
-        revalidate();
-        repaint();
+           final HashMap<JButton, Integer> gods = new HashMap<>();
+           setMessageOnPopup("Please select a god card");
+           BufferedImage image;
+           final JPanel panel = new JPanel(true);
+           panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
+           panel.setOpaque(false);
+           panel.setLayout(new GridLayout(1, clientConfigurator.getNumberOfPlayer(), 0, 0));
+           for (int i = 0; i < clientConfigurator.getNumberOfPlayer(); i++) {
+               final JButton god = new JButton();
+               god.setOpaque(false);
+               god.setContentAreaFilled(false);
+               god.setBorderPainted(false);
+               god.setSize(panel.getWidth() / clientConfigurator.getNumberOfPlayer(), panel.getHeight() / 3);
+               try {
+                   String fileName = godsName.get(i);
+                   image = ImageIO.read(new File("images/gods/" + fileName + ".png"));
+                   Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
+                   god.setIcon(new ImageIcon(normal));
+                   panel.add(god);
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+               gods.put(god, i);
+               god.addActionListener(new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       response = gods.get((JButton) e.getSource()).toString();
+                       guiClient.send(response);
+                       removeOverlayPanel();
+                   }
+               });
+               panel.add(god);
+           }
+           overlayPanel.add(panel);
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+    }
+
+    private void turnPhaseManager(ViewMessage viewMessage) {
+            switch (viewMessage.getMessageType()) {
+                case DRAW_CARD:
+                    //mostra a video le carte da selezionare
+                    addOverlayPanel();
+                    drawCards();
+                    if (choice >= clientConfigurator.getNumberOfPlayer()) {
+                        removeOverlayPanel();
+                    }
+
+                    break;
+                case PICK_CARD:
+                    addOverlayPanel();
+                    pickCard(viewMessage);
+                    break;
+                case SET_WORKER_1:
+                    break;
+                case SET_WORKER_2:
+                    break;
+                case BEGINNING:
+                    break;
+                case MOVE:
+                    break;
+                case BUILD:
+                    break;
+                case USE_POWER:
+                    break;
+                case PROMETHEUS:
+                    break;
+                case VICTORY:
+                    break;
+                case LOSE:
+                    break;
+                case END_GAME:
+                    break;
+                default:
+                    break;
+            }
+            revalidate();
+            repaint();
+
     }
 
     private void phaseManager(ViewMessage viewMessage){
         try{
             removeOverlayPanel();
         }catch (Exception e){
-            e.printStackTrace();
+
         }
-        switch (viewMessage.getMessageType()) {
+            switch (viewMessage.getMessageType()) {
                 case PICK_CARD:
                     break;
                 case BEGINNING:
@@ -344,8 +398,9 @@ public class Game extends JFrame implements Observer<Object> {
                     break;
             }
 
-        revalidate();
-        repaint();
+            revalidate();
+            repaint();
+
     }
 
     private void configuratorHandler(ViewMessage viewMessage){
@@ -356,13 +411,14 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private synchronized void handleTurnMessage(ViewMessage arg, Player player) {
+    private void handleTurnMessage(ViewMessage arg, Player player) {
         if (this.player.equals(player)) {
-            turnPhaseManager(arg);
+
             if(arg instanceof GameBoardMessage){
                 //Update the bord
             }
             setMessageOnPopup(arg.getMessage());
+            turnPhaseManager(arg);
         } else {
             phaseManager(arg);
             if(arg instanceof GameBoardMessage){

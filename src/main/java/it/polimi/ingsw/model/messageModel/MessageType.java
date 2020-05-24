@@ -9,6 +9,8 @@ public enum MessageType{
     SIMPLE_OR_NOT,
     WAIT_FOR_START,
 
+    VOID_MESSAGE,
+
     DRAW_CARD,
     PICK_CARD,
     SET_WORKER_1,

@@ -277,6 +277,6 @@ public class Model extends Observable<ViewMessage> {
     }
 
     public void notifyMessage(String message){
-        notifyObservers(new GameMessage(turn[id],message, this.messageType, this.phase));
+        notifyObservers(new GameMessage(turn[id],message, MessageType.VOID_MESSAGE, this.phase));
     }
 }
