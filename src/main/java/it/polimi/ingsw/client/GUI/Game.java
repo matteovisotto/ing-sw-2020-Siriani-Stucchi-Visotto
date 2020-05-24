@@ -12,6 +12,7 @@ import it.polimi.ingsw.utils.Parser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -27,7 +28,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean isSimplePlay = true;
     private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
-    public JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -182,13 +183,15 @@ public class Game extends JFrame implements Observer<Object> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            revalidate();
-            repaint();
             //revalidation();
             messageLabel.setForeground(Color.WHITE);
+            revalidate();
+            repaint();
     }
 
     private void revalidation(){
+        mainPanel.revalidate();
+        mainPanel.repaint();
         centerPanel.revalidate();
         centerPanel.repaint();
         leftPanel.revalidate();
@@ -293,17 +296,18 @@ public class Game extends JFrame implements Observer<Object> {
     public void createBoard() {
         final JPanel boardLayout = new JPanel(true);
         BufferedImage image;
-        boardLayout.setSize(centerPanel.getWidth(), centerPanel.getHeight());
-        boardLayout.setOpaque(false);
         boardLayout.setLayout(new GridLayout(5,5,0,0));
+        boardLayout.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight() - 50);
+        boardLayout.setOpaque(false);
         for (int i = 0; i < 25; i++) {
             final JButton cell = new JButton();
+            cell.setBorder(BorderFactory.createEmptyBorder());
             cell.setOpaque(false);
             cell.setContentAreaFilled(false);
             cell.setBorderPainted(false);
-            cell.setSize(boardLayout.getWidth() / 6 - 30, boardLayout.getHeight() / 6 - 30);
+            cell.setSize(boardLayout.getWidth() / 6 + 25, boardLayout.getHeight() / 6 + 15);
             try{
-                image=ImageIO.read(new File("images/metalPanel_plate.png"));
+                image = ImageIO.read(new File("images/blue_square.png"));
                 Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
                 cell.setIcon(new ImageIcon(normal));
                 boardLayout.add(cell,BorderLayout.CENTER);
@@ -316,10 +320,11 @@ public class Game extends JFrame implements Observer<Object> {
                 public void actionPerformed(ActionEvent e) {
                     chosenCell = e.getSource().toString();
                     guiClient.send(chosenCell);
+                    removeOverlayPanel();
                 }
             });
         }
-        centerPanel.add(boardLayout);
+        overlayPanel.add(boardLayout);
     }
 
     private void drawCards(){
@@ -443,6 +448,7 @@ public class Game extends JFrame implements Observer<Object> {
                     pickCard(gameMessage);
                     break;
                 case SET_WORKER_1:
+                    addOverlayPanel();
                     createBoard();
                     break;
                 case SET_WORKER_2:
@@ -546,6 +552,11 @@ public class Game extends JFrame implements Observer<Object> {
 
     @Override
     public void update(Object msg) {
+        /*try{
+            revalidation();
+        }catch (Exception e){
+
+        }*/
         if(msg instanceof String){
             //JOptionPane.showMessageDialog(null, (String) msg);
         } else if (msg instanceof ViewMessage) {
