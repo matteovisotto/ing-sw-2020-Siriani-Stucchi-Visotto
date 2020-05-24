@@ -24,7 +24,7 @@ public class Game extends JFrame implements Observer<Object> {
     private GUIClient guiClient;
     private boolean initedBoard = false;
     private Phase phase;
-    private JPanel mainPanel, overlayPanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -61,7 +61,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
 
 
-        mainPanel.add(startPlayBtn, BorderLayout.CENTER);
+        centerPanel.add(startPlayBtn, BorderLayout.CENTER);
         startPlayBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,19 +99,51 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.setOpaque(false);
 
         add(mainPanel);
+
+        leftPanel = new JPanel(true);
+        leftPanel.setLayout(new BorderLayout(10,10));
+        leftPanel.setSize(mainPanel.getWidth()/4, mainPanel.getHeight());
+        leftPanel.setOpaque(false);
+        BufferedImage leftImage = null;
+        try{
+            leftImage = ImageIO.read(new File("images/cm_backingstone.png"));
+            Image leftWithDim = leftImage.getScaledInstance(mainPanel.getWidth()/4, mainPanel.getHeight(), Image.SCALE_SMOOTH);
+            leftPanel.add(new JLabel(new ImageIcon(leftWithDim)));
+        } catch(IOException e) {
+
+        }
+        mainPanel.add(leftPanel, BorderLayout.WEST);
+
+        centerPanel = new JPanel(true);
+        centerPanel.setLayout(new BorderLayout(10,10));
+        centerPanel.setSize(mainPanel.getWidth()/2, mainPanel.getHeight());
+        centerPanel.setOpaque(false);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+        rightPanel = new JPanel(true);
+        rightPanel.setLayout(new BorderLayout(10,10));
+        rightPanel.setSize(mainPanel.getWidth()/4, mainPanel.getHeight());
+        rightPanel.setOpaque(false);
+
+
+            Image leftWithDim = leftImage.getScaledInstance(mainPanel.getWidth()/4, mainPanel.getHeight(), Image.SCALE_SMOOTH);
+            rightPanel.add(new JLabel(new ImageIcon(leftWithDim)));
+
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+
         pack();
 
     }
 
     private void initGame() {
         this.setEnabled(true);
-        this.mainPanel.remove(startPlayBtn);
+        this.centerPanel.remove(startPlayBtn);
         messageLabel = new JLabel();
         messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-        messageLabel.setSize(mainPanel.getWidth()/2, 100);
-        mainPanel.add(messageLabel, BorderLayout.NORTH);
+        messageLabel.setSize(centerPanel.getWidth(), 100);
+        centerPanel.add(messageLabel, BorderLayout.NORTH);
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
@@ -129,6 +161,9 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addOpponents() {
+        JPanel opponetsPanel = new JPanel(true);
+        opponetsPanel.setLayout(new GridLayout(2,1,10,10));
+        opponetsPanel.setSize(100,100);
 
     }
 
@@ -230,7 +265,7 @@ public class Game extends JFrame implements Observer<Object> {
                     e.printStackTrace();
                 }
                 drawCards();
-                mainPanel.add(overlayPanel, BorderLayout.CENTER);
+                centerPanel.add(overlayPanel, BorderLayout.CENTER);
                 if (choice >= clientConfigurator.getNumberOfPlayer()){
                     removeOverlayPanel();
                 }
