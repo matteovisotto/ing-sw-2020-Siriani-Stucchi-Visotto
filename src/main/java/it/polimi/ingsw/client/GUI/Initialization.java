@@ -26,6 +26,7 @@ public class Initialization extends JDialog implements Observer<Object> {
     public Initialization(GUIClient guiClient) {
         setTitle("Initialization");
         setPreferredSize(new Dimension(400, 170));
+        setResizable(false);
         this.guiClient = guiClient;
         try{
             setLayout();

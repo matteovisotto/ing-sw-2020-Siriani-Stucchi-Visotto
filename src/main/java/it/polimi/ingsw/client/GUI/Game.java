@@ -140,7 +140,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private void resetPanelContent(){
+    private void resetOverlayPanelContent(){
         Component[] components = overlayPanel.getComponents();
         for (Component component : components) {
             overlayPanel.remove(component);
@@ -148,7 +148,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     protected void removeOverlayPanel() {
-        //removeOverlayPanel();
+        resetOverlayPanelContent();
         mainPanel.remove(overlayPanel);
         mainPanel.revalidate();
         mainPanel.repaint();
