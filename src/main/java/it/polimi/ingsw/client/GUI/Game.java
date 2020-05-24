@@ -12,7 +12,6 @@ import it.polimi.ingsw.utils.Parser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +22,7 @@ import java.util.HashMap;
 
 public class Game extends JFrame implements Observer<Object> {
 
-    private GUIClient guiClient;
+    private final GUIClient guiClient;
     private boolean initedBoard = false;
     private Phase phase;
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
@@ -123,19 +122,20 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void initGame() {
             this.setEnabled(true);
-            clearMainPanel();
-            JLabel backgroud = new JLabel();
+            clearGui();
+            JLabel background = new JLabel();
             Toolkit tk = Toolkit.getDefaultToolkit();
             Dimension d = tk.getScreenSize();
             this.setSize(d);
-            setContentPane(backgroud);
+            setContentPane(background);
+            add(mainPanel);
             BufferedImage img = null;
             try {
                 img = ImageIO.read(new File("images/SantoriniBoard.png"));
                 Image dimg = img.getScaledInstance(d.width, d.height,
                         Image.SCALE_SMOOTH);
                 ImageIcon imageIcon = new ImageIcon(dimg);
-                backgroud.setIcon(imageIcon);
+                background.setIcon(imageIcon);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -166,14 +166,9 @@ public class Game extends JFrame implements Observer<Object> {
             messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
             messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
             messageLabel.setSize(centerPanel.getWidth(), 100);
-            JLabel bottom = new JLabel("");
-            bottom.setHorizontalTextPosition(SwingConstants.CENTER);
-            bottom.setHorizontalAlignment(SwingConstants.CENTER);
-            bottom.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-            bottom.setSize(centerPanel.getWidth(), 100);
+
 
             centerPanel.add(messageLabel, BorderLayout.NORTH);
-            centerPanel.add(bottom, BorderLayout.SOUTH);
             BufferedImage messageBoard = null;
             try {
                 messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
@@ -186,16 +181,16 @@ public class Game extends JFrame implements Observer<Object> {
             }
 
             messageLabel.setForeground(Color.WHITE);
-            mainPanel.revalidate();
-            mainPanel.repaint();
+            revalidate();
+            repaint();
     }
 
-    private void clearMainPanel(){
+    private void clearGui(){
         for(Component component: mainPanel.getComponents()){
             mainPanel.remove(component);
         }
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        getContentPane().removeAll();
+        remove(mainPanel);
     }
 
     private void addOpponents() {
