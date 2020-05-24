@@ -198,19 +198,19 @@ public class Game extends JFrame implements Observer<Object> {
     private void addOpponents() {
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
-        opponentsPanel.setLayout(new GridLayout(2, 1, 10, 10));
-        opponentsPanel.setSize(rightPanel.getWidth(), 210 * opponentGods.size());
+        opponentsPanel.setLayout(new GridLayout(2, 1, 0, 0));
+        opponentsPanel.setSize(rightPanel.getWidth(), 230 * opponentGods.size());
         for (String opponentName : opponentGods.keySet()) {
             System.out.println(opponentName);
             String godName = opponentGods.get(opponentName);
             JPanel playerPanel = new JPanel(true);
             playerPanel.setSize(opponentsPanel.getWidth(), opponentsPanel.getHeight() / opponentGods.size());
             playerPanel.setOpaque(false);
-            playerPanel.setLayout(new BorderLayout(10, 10));
+            playerPanel.setLayout(new BorderLayout(0, 0));
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
-            nameLabel.setSize(playerPanel.getWidth() - 20, 60);
-            godLabel.setSize(playerPanel.getWidth() - 20, 150);
+            nameLabel.setSize(playerPanel.getWidth(), 70);
+            godLabel.setSize(playerPanel.getWidth(), 160);
             BufferedImage god, frame;
             try {
                 frame = ImageIO.read(new File("images/opponentNameFrame.png"));
@@ -224,7 +224,7 @@ public class Game extends JFrame implements Observer<Object> {
             }
             nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
             nameLabel.setText(opponentName);
             nameLabel.setForeground(Color.WHITE);
             playerPanel.add(nameLabel, BorderLayout.SOUTH);
