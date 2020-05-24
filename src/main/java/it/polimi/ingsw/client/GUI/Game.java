@@ -157,7 +157,7 @@ public class Game extends JFrame implements Observer<Object> {
 
             rightPanel = new JPanel(true);
             rightPanel.setLayout(new BorderLayout(10, 10));
-            rightPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
+            rightPanel.setSize(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height);
             rightPanel.setOpaque(false);
 
 
@@ -195,7 +195,7 @@ public class Game extends JFrame implements Observer<Object> {
         remove(mainPanel);
     }
 
-    private void addOpponents() {
+    private void addOpponents() { try {
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
         opponentsPanel.setLayout(new GridLayout(2, 1, 0, 0));
@@ -234,6 +234,10 @@ public class Game extends JFrame implements Observer<Object> {
         rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
         revalidate();
         repaint();
+    }catch (Exception e){
+        System.out.println("From function");
+        e.printStackTrace();
+    }
     }
 
     private void setMessageOnPopup(String message) {
@@ -386,13 +390,11 @@ public class Game extends JFrame implements Observer<Object> {
             switch (gameMessage.getMessageType()) {
                 case DRAW_CARD:
                     //mostra a video le carte da selezionare
-                    //addOpponents();
                     isSimplePlay = false;
                     addOverlayPanel();
                     drawCards();
                     break;
                 case PICK_CARD:
-                    //addOpponents();
                     isSimplePlay = false;
                     addOverlayPanel();
                     pickCard(gameMessage);
@@ -440,17 +442,21 @@ public class Game extends JFrame implements Observer<Object> {
                             if (!opponentGods.containsKey(opponent.getPlayerName())) {
                                 opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
                             }
-                        } else {
-
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
-                case MOVE:
-                    if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
-                        addOpponents();
+                case SET_WORKER_2:
+                    try {
+                        if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
+                            addOpponents();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
+                    break;
+                case MOVE:
                     break;
                 case BUILD:
                     break;
