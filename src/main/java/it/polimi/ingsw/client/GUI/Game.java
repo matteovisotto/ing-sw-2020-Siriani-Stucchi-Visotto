@@ -11,6 +11,7 @@ import it.polimi.ingsw.observer.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -143,7 +144,14 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
         messageLabel.setSize(centerPanel.getWidth(), 100);
+        JLabel bottom = new JLabel("");
+        bottom.setHorizontalTextPosition(SwingConstants.CENTER);
+        bottom.setHorizontalAlignment(SwingConstants.CENTER);
+        bottom.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+        bottom.setSize(centerPanel.getWidth(), 100);
+
         centerPanel.add(messageLabel, BorderLayout.NORTH);
+        centerPanel.add(bottom, BorderLayout.SOUTH);
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
@@ -184,9 +192,26 @@ public class Game extends JFrame implements Observer<Object> {
 
     protected void removeOverlayPanel() {
         resetOverlayPanelContent();
-        mainPanel.remove(overlayPanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        centerPanel.remove(overlayPanel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+    }
+
+    private void addOverlayPanel() {
+        overlayPanel = new JPanel(true);
+        int dim = (mainPanel.getWidth()/2)-5;
+        overlayPanel.setSize(dim, dim);
+        overlayPanel.setBackground(Color.LIGHT_GRAY);
+        overlayPanel.setOpaque(false);
+        /*BufferedImage image ;
+        try{
+            image=ImageIO.read(new File("images/metalPanel_plate.png"));
+            Image normal = image.getScaledInstance(overlayPanel.getWidth(), overlayPanel.getHeight(), Image.SCALE_SMOOTH);
+            overlayPanel.add(new JLabel(new ImageIcon(normal)));
+        }catch (IOException e){
+            e.printStackTrace();
+        }*/
+        centerPanel.add(overlayPanel, BorderLayout.CENTER);
     }
 
     private void drawCards(){
@@ -194,9 +219,11 @@ public class Game extends JFrame implements Observer<Object> {
         setMessageOnPopup("Please select "+ clientConfigurator.getNumberOfPlayer()+ " god cards");
         BufferedImage image;
         final JPanel panel = new JPanel(true);
-        panel.setSize(overlayPanel.getWidth(), overlayPanel.getHeight());
+        panel.setSize(overlayPanel.getWidth()-100, overlayPanel.getHeight());
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,0,0));
+        panel.setAlignmentX(SwingConstants.CENTER);
+        panel.setAlignmentY(SwingConstants.CENTER);
         for (int i=0; i<9; i++) {
             final JButton god = new JButton();
             god.setOpaque(false);
@@ -244,28 +271,15 @@ public class Game extends JFrame implements Observer<Object> {
             });
         }
 
-        overlayPanel.add(panel, BorderLayout.CENTER);
+        overlayPanel.add(panel);
     }
 
     private void turnPhaseManager(ViewMessage viewMessage) {
         switch (viewMessage.getMessageType()) {
             case DRAW_CARD:
                 //mostra a video le carte da selezionare
-                overlayPanel = new JPanel(true);
-                int dim = mainPanel.getWidth()/2;
-                overlayPanel.setLayout(new BorderLayout(1,1));
-                overlayPanel.setSize(dim, dim);
-                overlayPanel.setOpaque(false);
-                BufferedImage image ;
-                try{
-                    image=ImageIO.read(new File("images/metalPanel_plate.png"));
-                    Image normal = image.getScaledInstance(overlayPanel.getWidth(), overlayPanel.getHeight(), Image.SCALE_SMOOTH);
-                    overlayPanel.add(new JLabel(new ImageIcon(normal)));
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
+                addOverlayPanel();
                 drawCards();
-                centerPanel.add(overlayPanel, BorderLayout.CENTER);
                 if (choice >= clientConfigurator.getNumberOfPlayer()){
                     removeOverlayPanel();
                 }
