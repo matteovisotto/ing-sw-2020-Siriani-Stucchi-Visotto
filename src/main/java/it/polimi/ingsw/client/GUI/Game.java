@@ -103,9 +103,10 @@ public class Game extends JFrame implements Observer<Object> {
         add(mainPanel);
 
         leftPanel = new JPanel(true);
-        leftPanel.setLayout(new BorderLayout(10,10));
+        leftPanel.setLayout(new BorderLayout(10,50));
         leftPanel.setSize(mainPanel.getWidth()/4, mainPanel.getHeight());
         leftPanel.setOpaque(false);
+
         BufferedImage leftImage = null;
         try{
             leftImage = ImageIO.read(new File("images/cm_backingstone.png"));
@@ -173,7 +174,12 @@ public class Game extends JFrame implements Observer<Object> {
         JPanel opponetsPanel = new JPanel(true);
         opponetsPanel.setLayout(new GridLayout(2,1,10,10));
         opponetsPanel.setSize(100,100);
-
+        for(String name: clientConfigurator.getOpponentsNames()){
+            JLabel nameLabel = new JLabel();
+            nameLabel.setText(name);
+            opponetsPanel.add(nameLabel);
+        }
+        leftPanel.add(opponetsPanel, BorderLayout.NORTH);
     }
 
     private void setMessageOnPopup(String message) {
@@ -328,14 +334,17 @@ public class Game extends JFrame implements Observer<Object> {
             switch (viewMessage.getMessageType()) {
                 case DRAW_CARD:
                     //mostra a video le carte da selezionare
+                    //addOpponents();
                     addOverlayPanel();
                     drawCards();
                     break;
                 case PICK_CARD:
+                    //addOpponents();
                     addOverlayPanel();
                     pickCard(viewMessage);
                     break;
                 case SET_WORKER_1:
+
                     break;
                 case SET_WORKER_2:
                     break;
@@ -364,13 +373,9 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void phaseManager(ViewMessage viewMessage){
-        try{
-            removeOverlayPanel();
-        }catch (Exception e){
-
-        }
             switch (viewMessage.getMessageType()) {
                 case PICK_CARD:
+
                     break;
                 case BEGINNING:
                     break;
@@ -391,10 +396,8 @@ public class Game extends JFrame implements Observer<Object> {
                 default:
                     break;
             }
-
             revalidate();
             repaint();
-
     }
 
     private void configuratorHandler(ViewMessage viewMessage){
