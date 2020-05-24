@@ -274,7 +274,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void pickCard(ViewMessage viewMessage) {
-       try {
+
            final ArrayList<String> godsName = new ArrayList<>();
            //Parser
            String[] splitted = viewMessage.getMessage().split("\n");
@@ -321,9 +321,7 @@ public class Game extends JFrame implements Observer<Object> {
                panel.add(god);
            }
            overlayPanel.add(panel);
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+
     }
 
     private void turnPhaseManager(ViewMessage viewMessage) {
@@ -332,10 +330,6 @@ public class Game extends JFrame implements Observer<Object> {
                     //mostra a video le carte da selezionare
                     addOverlayPanel();
                     drawCards();
-                    if (choice >= clientConfigurator.getNumberOfPlayer()) {
-                        removeOverlayPanel();
-                    }
-
                     break;
                 case PICK_CARD:
                     addOverlayPanel();
