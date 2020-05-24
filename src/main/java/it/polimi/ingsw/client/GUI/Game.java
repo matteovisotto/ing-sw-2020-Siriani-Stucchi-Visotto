@@ -250,7 +250,6 @@ public class Game extends JFrame implements Observer<Object> {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     multipleSelections.add(gods.get(e.getSource()).toString());
-                        System.out.print(gods.get(e.getSource()).toString());
                         panel.remove((JButton) e.getSource());
                         panel.revalidate();
                         panel.repaint();
@@ -266,7 +265,6 @@ public class Game extends JFrame implements Observer<Object> {
 
                                 }
                                 response = stringBuilder.toString();
-                                System.out.println(response);
                                 guiClient.send(response);
                                 multipleSelections.clear();
                                 removeOverlayPanel();
@@ -280,54 +278,56 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void pickCard(ViewMessage viewMessage) {
+            try {
+                final ArrayList<String> godsName = new ArrayList<>();
+                //Parser
+                String[] splitted = viewMessage.getMessage().split("\n");
+                String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
+                String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
+                godsName.add(firstGod);
+                godsName.add(secondGod);
+                if (clientConfigurator.getNumberOfPlayer() == 3 && splitted.length > 3) {
+                    String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
+                    godsName.add(thirdGod);
+                }
 
-           final ArrayList<String> godsName = new ArrayList<>();
-           //Parser
-           String[] splitted = viewMessage.getMessage().split("\n");
-           String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
-           String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
-           godsName.add(firstGod);
-           godsName.add(secondGod);
-           if (clientConfigurator.getNumberOfPlayer() == 3) {
-               String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
-               godsName.add(thirdGod);
-           }
-
-           final HashMap<JButton, Integer> gods = new HashMap<>();
-           setMessageOnPopup("Please select a god card");
-           BufferedImage image;
-           final JPanel panel = new JPanel(true);
-           panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
-           panel.setOpaque(false);
-           panel.setLayout(new GridLayout(1, clientConfigurator.getNumberOfPlayer(), 0, 0));
-           for (int i = 0; i < clientConfigurator.getNumberOfPlayer(); i++) {
-               final JButton god = new JButton();
-               god.setOpaque(false);
-               god.setContentAreaFilled(false);
-               god.setBorderPainted(false);
-               god.setSize(panel.getWidth() / clientConfigurator.getNumberOfPlayer(), panel.getHeight() / 3);
-               try {
-                   String fileName = godsName.get(i);
-                   image = ImageIO.read(new File("images/gods/" + fileName + ".png"));
-                   Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
-                   god.setIcon(new ImageIcon(normal));
-                   panel.add(god);
-               } catch (IOException e) {
-                   e.printStackTrace();
-               }
-               gods.put(god, i);
-               god.addActionListener(new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                       response = gods.get((JButton) e.getSource()).toString();
-                       guiClient.send(response);
-                       removeOverlayPanel();
-                   }
-               });
-               panel.add(god);
-           }
-           overlayPanel.add(panel);
-
+                final HashMap<JButton, Integer> gods = new HashMap<>();
+                setMessageOnPopup("Please select a god card");
+                BufferedImage image;
+                final JPanel panel = new JPanel(true);
+                panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
+                panel.setOpaque(false);
+                panel.setLayout(new GridLayout(1, clientConfigurator.getNumberOfPlayer(), 0, 0));
+                for (int i = 0; i < godsName.size(); i++) {
+                    final JButton god = new JButton();
+                    god.setOpaque(false);
+                    god.setContentAreaFilled(false);
+                    god.setBorderPainted(false);
+                    god.setSize(panel.getWidth() / clientConfigurator.getNumberOfPlayer(), panel.getHeight() / 3);
+                    try {
+                        String fileName = godsName.get(i);
+                        image = ImageIO.read(new File("images/gods/" + fileName + ".png"));
+                        Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
+                        god.setIcon(new ImageIcon(normal));
+                        panel.add(god);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    gods.put(god, i);
+                    god.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            response = gods.get((JButton) e.getSource()).toString();
+                            guiClient.send(response);
+                            removeOverlayPanel();
+                        }
+                    });
+                    panel.add(god);
+                }
+                overlayPanel.add(panel);
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
     }
 
     private void turnPhaseManager(ViewMessage viewMessage) {
