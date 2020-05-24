@@ -43,33 +43,6 @@ public class Game extends JFrame implements Observer<Object> {
         setResizable(false);
         setLayout();
 
-        startPlayBtn = new JButton();
-        startPlayBtn.setOpaque(false);
-        startPlayBtn.setContentAreaFilled(false);
-        startPlayBtn.setBorderPainted(false);
-        startPlayBtn.setSize(526/2,644/2);
-        BufferedImage normalImage, pressedImage;
-        try {
-            normalImage = ImageIO.read(new File("images/button-play-normal.png"));
-            pressedImage = ImageIO.read(new File("images/button-play-down.png"));
-            Image normal = normalImage.getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
-                    Image.SCALE_SMOOTH);
-            Image pressed = pressedImage.getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
-                    Image.SCALE_SMOOTH);
-            startPlayBtn.setIcon(new ImageIcon(normal));
-            startPlayBtn.setPressedIcon(new ImageIcon(pressed));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        centerPanel.add(startPlayBtn, BorderLayout.CENTER);
-        startPlayBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guiClient.openInitializator();
-            }
-        });
     }
 
     public void setPlayer(Player player) {
@@ -87,7 +60,7 @@ public class Game extends JFrame implements Observer<Object> {
         setContentPane(backgroud);
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("images/SantoriniBoard.png"));
+            img = ImageIO.read(new File("images/home/SantoriniHomeBackground.png"));
             Image dimg = img.getScaledInstance(d.width, d.height,
                     Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(dimg);
@@ -102,72 +75,127 @@ public class Game extends JFrame implements Observer<Object> {
 
         add(mainPanel);
 
-        leftPanel = new JPanel(true);
-        leftPanel.setLayout(new BorderLayout(10,50));
-        leftPanel.setSize(mainPanel.getWidth()/4, mainPanel.getHeight());
-        leftPanel.setOpaque(false);
-
-        BufferedImage leftImage = null;
-        try{
-            leftImage = ImageIO.read(new File("images/cm_backingstone.png"));
-            Image leftWithDim = leftImage.getScaledInstance(mainPanel.getWidth()/4, mainPanel.getHeight(), Image.SCALE_SMOOTH);
-            leftPanel.add(new JLabel(new ImageIcon(leftWithDim)));
-        } catch(IOException e) {
-
+        startPlayBtn = new JButton();
+        startPlayBtn.setOpaque(false);
+        startPlayBtn.setContentAreaFilled(false);
+        startPlayBtn.setBorderPainted(false);
+        startPlayBtn.setSize(526*3/4,644*3/4);
+        BufferedImage normalImage, pressedImage;
+        try {
+            normalImage = ImageIO.read(new File("images/button-play-normal.png"));
+            pressedImage = ImageIO.read(new File("images/button-play-down.png"));
+            Image normal = normalImage.getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
+                    Image.SCALE_SMOOTH);
+            Image pressed = pressedImage.getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
+                    Image.SCALE_SMOOTH);
+            startPlayBtn.setIcon(new ImageIcon(normal));
+            startPlayBtn.setPressedIcon(new ImageIcon(pressed));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        mainPanel.add(leftPanel, BorderLayout.WEST);
-
-        centerPanel = new JPanel(true);
-        centerPanel.setLayout(new BorderLayout(10,10));
-        centerPanel.setSize(mainPanel.getWidth()/2, mainPanel.getHeight());
-        centerPanel.setOpaque(false);
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-
-        rightPanel = new JPanel(true);
-        rightPanel.setLayout(new BorderLayout(10,10));
-        rightPanel.setSize(mainPanel.getWidth()/4, mainPanel.getHeight());
-        rightPanel.setOpaque(false);
 
 
-            Image leftWithDim = leftImage.getScaledInstance(mainPanel.getWidth()/4, mainPanel.getHeight(), Image.SCALE_SMOOTH);
-            rightPanel.add(new JLabel(new ImageIcon(leftWithDim)));
+        mainPanel.add(startPlayBtn, BorderLayout.SOUTH);
 
-        mainPanel.add(rightPanel, BorderLayout.EAST);
+        //Add logo
+        BufferedImage logo = null;
+        try {
+            logo = ImageIO.read(new File("images/home/SantoriniHomeLogo.png"));
+            Image dimg = logo.getScaledInstance(d.width*3/4, d.height/3,
+                    Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            mainPanel.add(new JLabel(imageIcon), BorderLayout.NORTH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        startPlayBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.openInitializator();
+            }
+        });
+
 
         pack();
 
     }
 
     private void initGame() {
-        this.setEnabled(true);
-        this.centerPanel.remove(startPlayBtn);
-        messageLabel = new JLabel();
-        messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-        messageLabel.setSize(centerPanel.getWidth(), 100);
-        JLabel bottom = new JLabel("");
-        bottom.setHorizontalTextPosition(SwingConstants.CENTER);
-        bottom.setHorizontalAlignment(SwingConstants.CENTER);
-        bottom.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-        bottom.setSize(centerPanel.getWidth(), 100);
+            this.setEnabled(true);
+            clearMainPanel();
+            JLabel backgroud = new JLabel();
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            Dimension d = tk.getScreenSize();
+            this.setSize(d);
+            setContentPane(backgroud);
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(new File("images/SantoriniBoard.png"));
+                Image dimg = img.getScaledInstance(d.width, d.height,
+                        Image.SCALE_SMOOTH);
+                ImageIcon imageIcon = new ImageIcon(dimg);
+                backgroud.setIcon(imageIcon);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        centerPanel.add(messageLabel, BorderLayout.NORTH);
-        centerPanel.add(bottom, BorderLayout.SOUTH);
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
-            Image dimg = img.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
-                    Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            messageLabel.setIcon(imageIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
+            leftPanel = new JPanel(true);
+            leftPanel.setLayout(new BorderLayout(10, 50));
+            leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
+            leftPanel.setOpaque(false);
+
+            mainPanel.add(leftPanel, BorderLayout.WEST);
+
+            centerPanel = new JPanel(true);
+            centerPanel.setLayout(new BorderLayout(10, 10));
+            centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
+            centerPanel.setOpaque(false);
+            mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+            rightPanel = new JPanel(true);
+            rightPanel.setLayout(new BorderLayout(10, 10));
+            rightPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
+            rightPanel.setOpaque(false);
+
+
+            mainPanel.add(rightPanel, BorderLayout.EAST);
+
+            messageLabel = new JLabel();
+            messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+            messageLabel.setSize(centerPanel.getWidth(), 100);
+            JLabel bottom = new JLabel("");
+            bottom.setHorizontalTextPosition(SwingConstants.CENTER);
+            bottom.setHorizontalAlignment(SwingConstants.CENTER);
+            bottom.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+            bottom.setSize(centerPanel.getWidth(), 100);
+
+            centerPanel.add(messageLabel, BorderLayout.NORTH);
+            centerPanel.add(bottom, BorderLayout.SOUTH);
+            BufferedImage messageBoard = null;
+            try {
+                messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
+                Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
+                        Image.SCALE_SMOOTH);
+                ImageIcon imageIcon = new ImageIcon(dimg);
+                messageLabel.setIcon(imageIcon);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            messageLabel.setForeground(Color.WHITE);
+            mainPanel.revalidate();
+            mainPanel.repaint();
+    }
+
+    private void clearMainPanel(){
+        for(Component component: mainPanel.getComponents()){
+            mainPanel.remove(component);
         }
-
-        messageLabel.setForeground(Color.WHITE);
-        revalidate();
-        repaint();
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
     private void addOpponents() {
@@ -278,7 +306,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void pickCard(ViewMessage viewMessage) {
-            try {
+
                 final ArrayList<String> godsName = new ArrayList<>();
                 //Parser
                 String[] splitted = viewMessage.getMessage().split("\n");
@@ -325,9 +353,7 @@ public class Game extends JFrame implements Observer<Object> {
                     panel.add(god);
                 }
                 overlayPanel.add(panel);
-            }catch(Exception e) {
-                e.printStackTrace();
-            }
+
     }
 
     private void turnPhaseManager(ViewMessage viewMessage) {
