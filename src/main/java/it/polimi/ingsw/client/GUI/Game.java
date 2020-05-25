@@ -296,7 +296,7 @@ public class Game extends JFrame implements Observer<Object> {
     public void createBoard() {
         final JPanel boardLayout = new JPanel(true);
         BufferedImage image;
-        boardLayout.setLayout(new GridLayout(5,5,0,0));
+        boardLayout.setLayout(new GridLayout(5,5,0,10));
         boardLayout.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight() - 50);
         boardLayout.setOpaque(false);
         for (int i = 0; i < 25; i++) {
@@ -318,9 +318,9 @@ public class Game extends JFrame implements Observer<Object> {
             cell.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    chosenCell = e.getSource().toString();
-                    guiClient.send(chosenCell);
-                    removeOverlayPanel();
+                    //chosenCell = e.getSource().toString();
+                    //guiClient.send(chosenCell);
+                    //removeOverlayPanel();
                 }
             });
         }
