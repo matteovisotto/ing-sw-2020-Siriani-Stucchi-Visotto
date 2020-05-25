@@ -212,7 +212,7 @@ public class Game extends JFrame implements Observer<Object> {
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
         opponentsPanel.setLayout(new GridLayout(2, 1, 0, 0));
-        opponentsPanel.setSize(rightPanel.getWidth()-20, 230 * opponentGods.size());
+        opponentsPanel.setSize(rightPanel.getWidth()-40, 230 * opponentGods.size());
         for (String opponentName : opponentGods.keySet()) {
             System.out.println(opponentName);
             String godName = opponentGods.get(opponentName);
@@ -245,8 +245,7 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.add(playerPanel);
         }
         rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
-        rightPanel.revalidate();
-        rightPanel.repaint();
+        revalidation();
 
     }catch (Exception e){
         System.out.println("From function");
