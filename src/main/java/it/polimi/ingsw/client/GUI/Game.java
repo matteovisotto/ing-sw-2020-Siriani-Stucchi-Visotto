@@ -183,10 +183,9 @@ public class Game extends JFrame implements Observer<Object> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //revalidation();
+
             messageLabel.setForeground(Color.WHITE);
-            revalidate();
-            repaint();
+            revalidation();
     }
 
     private void revalidation(){
@@ -246,8 +245,9 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.add(playerPanel);
         }
         rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
-        revalidate();
-        repaint();
+        rightPanel.revalidate();
+        rightPanel.repaint();
+
     }catch (Exception e){
         System.out.println("From function");
         e.printStackTrace();
@@ -291,6 +291,8 @@ public class Game extends JFrame implements Observer<Object> {
             e.printStackTrace();
         }*/
         centerPanel.add(overlayPanel, BorderLayout.CENTER);
+        centerPanel.revalidate();
+        centerPanel.repaint();
     }
 
     public void createBoard() {
@@ -314,7 +316,6 @@ public class Game extends JFrame implements Observer<Object> {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            //boardLayout.add(cell);
             cell.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -325,6 +326,8 @@ public class Game extends JFrame implements Observer<Object> {
             });
         }
         overlayPanel.add(boardLayout);
+        overlayPanel.revalidate();
+        overlayPanel.repaint();
     }
 
     private void drawCards(){
@@ -381,6 +384,8 @@ public class Game extends JFrame implements Observer<Object> {
         }
 
         overlayPanel.add(panel);
+        overlayPanel.revalidate();
+        overlayPanel.repaint();
     }
 
     private void pickCard(ViewMessage viewMessage) {
@@ -431,6 +436,8 @@ public class Game extends JFrame implements Observer<Object> {
                     panel.add(god);
                 }
                 overlayPanel.add(panel);
+                overlayPanel.revalidate();
+                overlayPanel.repaint();
 
     }
 
@@ -472,8 +479,7 @@ public class Game extends JFrame implements Observer<Object> {
                 default:
                     break;
             }
-            revalidate();
-            repaint();
+
 
     }
 
@@ -521,8 +527,8 @@ public class Game extends JFrame implements Observer<Object> {
                 default:
                     break;
             }
-            revalidate();
-            repaint();
+
+
     }
 
     private void configuratorHandler(ViewMessage viewMessage){
@@ -552,11 +558,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     @Override
     public void update(Object msg) {
-        /*try{
-            revalidation();
-        }catch (Exception e){
 
-        }*/
         if(msg instanceof String){
             //JOptionPane.showMessageDialog(null, (String) msg);
         } else if (msg instanceof ViewMessage) {
