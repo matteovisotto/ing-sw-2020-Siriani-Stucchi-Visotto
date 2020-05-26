@@ -28,7 +28,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean isSimplePlay = true;
     private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
-    public JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, overlayRightPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -216,27 +216,28 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addOpponents() { try {
+        addOverlayRightPanel();
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
-        opponentsPanel.setLayout(new GridLayout(2, 1, 0, 0));
+        opponentsPanel.setLayout(new GridLayout(opponentGods.size(), 1, 0, 0));
         opponentsPanel.setSize(rightPanel.getWidth(), 230 * opponentGods.size());
         for (String opponentName : opponentGods.keySet()) {
             System.out.println(opponentName);
             String godName = opponentGods.get(opponentName);
             JPanel playerPanel = new JPanel(true);
-            playerPanel.setSize(opponentsPanel.getWidth(), opponentsPanel.getHeight() / opponentGods.size());
+            playerPanel.setSize(opponentsPanel.getWidth()/2, opponentsPanel.getHeight() / opponentGods.size());
             playerPanel.setOpaque(false);
             playerPanel.setLayout(new BorderLayout(0, 0));
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
             nameLabel.setSize(playerPanel.getWidth(), 70);
-            godLabel.setSize(playerPanel.getWidth(), 160);
+            godLabel.setSize((playerPanel.getWidth() + 100) / opponentGods.size() + 1, 400 / opponentGods.size() + 1);
             BufferedImage god, frame;
             try {
                 frame = ImageIO.read(new File("images/opponentNameFrame.png"));
                 god = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
-                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_SMOOTH);
-                Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_SMOOTH);
+                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
                 nameLabel.setIcon(new ImageIcon(frameImage));
                 godLabel.setIcon(new ImageIcon(godImage));
             } catch (IOException e) {
@@ -249,9 +250,9 @@ public class Game extends JFrame implements Observer<Object> {
             nameLabel.setForeground(Color.WHITE);
             playerPanel.add(nameLabel, BorderLayout.SOUTH);
             playerPanel.add(godLabel, BorderLayout.CENTER);
-            opponentsPanel.add(playerPanel);
+            opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
         }
-        mainPanel.add(opponentsPanel, BorderLayout.EAST);
+        overlayRightPanel.add(opponentsPanel, BorderLayout.CENTER);
         //revalidation();
 
     }catch (Exception e){
@@ -280,6 +281,17 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.remove(overlayPanel);
         centerPanel.revalidate();
         centerPanel.repaint();
+    }
+
+    private void addOverlayRightPanel(){
+        overlayRightPanel = new JPanel(true);
+        overlayRightPanel.setPreferredSize(new Dimension(rightPanel.getWidth(),rightPanel.getHeight()));
+        overlayRightPanel.setSize(rightPanel.getWidth(),rightPanel.getHeight());
+        overlayRightPanel.setBackground(Color.LIGHT_GRAY);
+        overlayRightPanel.setOpaque(false);
+        rightPanel.add(overlayRightPanel, BorderLayout.CENTER);
+        rightPanel.revalidate();
+        rightPanel.repaint();
     }
 
     private void addOverlayPanel() {
