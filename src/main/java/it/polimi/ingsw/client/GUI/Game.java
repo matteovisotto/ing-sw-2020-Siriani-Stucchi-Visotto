@@ -315,7 +315,7 @@ public class Game extends JFrame implements Observer<Object> {
             cell.setOpaque(false);
             cell.setContentAreaFilled(false);
             cell.setBorderPainted(false);
-            cell.setSize(boardLayout.getWidth() / 6, boardLayout.getHeight() / 6);
+            cell.setSize(boardLayout.getWidth() / 6 + 20, boardLayout.getHeight() / 6 + 15);
             try{
                 image = ImageIO.read(new File("images/blue_square.png"));
                 Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -343,7 +343,7 @@ public class Game extends JFrame implements Observer<Object> {
         setMessageOnPopup("Please select "+ clientConfigurator.getNumberOfPlayer()+ " god cards");
         BufferedImage image;
         final JPanel panel = new JPanel(true);
-        panel.setSize(overlayPanel.getWidth()-100, overlayPanel.getHeight());
+        panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,0,0));
         for (int i=0; i<9; i++) {
@@ -351,11 +351,11 @@ public class Game extends JFrame implements Observer<Object> {
             god.setOpaque(false);
             god.setContentAreaFilled(false);
             god.setBorderPainted(false);
-            god.setSize(panel.getWidth()/3,panel.getHeight()/3);
+            god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 30);
             try{
                 String fileName = Gods.getGod(i).toString();
                 fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
-                image=ImageIO.read(new File("images/gods/"+ fileName +".png"));
+                image=ImageIO.read(new File("images/God_with_frame/"+ fileName +".png"));
                 Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
                 god.setIcon(new ImageIcon(normal));
                 panel.add(god);
