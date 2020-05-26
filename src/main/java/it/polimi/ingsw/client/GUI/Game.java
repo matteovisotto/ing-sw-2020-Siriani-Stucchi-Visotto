@@ -144,25 +144,29 @@ public class Game extends JFrame implements Observer<Object> {
             e.printStackTrace();
         }
         //mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPanel = new JPanel(true);
-        leftPanel.setLayout(new BorderLayout(10, 50));
-        leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
-        leftPanel.setOpaque(false);
-        leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        mainPanel.add(leftPanel, BorderLayout.WEST);
 
         centerPanel = new JPanel(true);
         centerPanel.setLayout(new BorderLayout(10, 10));
+        centerPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 2, mainPanel.getHeight()));
         centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
         centerPanel.setOpaque(false);
-        centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+        leftPanel = new JPanel(true);
+        leftPanel.setLayout(new BorderLayout(10, 50));
+        leftPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 4, mainPanel.getHeight()));
+        leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
+        leftPanel.setOpaque(false);
+        //leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainPanel.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new JPanel(true);
         rightPanel.setLayout(new BorderLayout(10, 10));
+        rightPanel.setPreferredSize(new Dimension(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height));
         rightPanel.setSize(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height);
         rightPanel.setOpaque(false);
-        rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        //rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 
         mainPanel.add(rightPanel, BorderLayout.EAST);
@@ -171,6 +175,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+        messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), 100));
         messageLabel.setSize(centerPanel.getWidth(), 100);
 
 
@@ -187,7 +192,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
 
         messageLabel.setForeground(Color.WHITE);
-        revalidation();
+        //revalidation();
     }
 
     private void revalidation(){
@@ -214,7 +219,7 @@ public class Game extends JFrame implements Observer<Object> {
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
         opponentsPanel.setLayout(new GridLayout(2, 1, 0, 0));
-        opponentsPanel.setSize(rightPanel.getWidth()-40, 230 * opponentGods.size());
+        opponentsPanel.setSize(rightPanel.getWidth(), 230 * opponentGods.size());
         for (String opponentName : opponentGods.keySet()) {
             System.out.println(opponentName);
             String godName = opponentGods.get(opponentName);
@@ -247,7 +252,7 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.add(playerPanel);
         }
         mainPanel.add(opponentsPanel, BorderLayout.EAST);
-        revalidation();
+        //revalidation();
 
     }catch (Exception e){
         System.out.println("From function");
@@ -280,6 +285,7 @@ public class Game extends JFrame implements Observer<Object> {
     private void addOverlayPanel() {
         overlayPanel = new JPanel(true);
         int dim = (mainPanel.getWidth()/2)-5;
+        overlayPanel.setPreferredSize(new Dimension(dim, dim));
         overlayPanel.setSize(dim, dim);
         overlayPanel.setBackground(Color.LIGHT_GRAY);
         overlayPanel.setOpaque(false);
@@ -299,16 +305,17 @@ public class Game extends JFrame implements Observer<Object> {
     public void createBoard() {
         final JPanel boardLayout = new JPanel(true);
         BufferedImage image;
-        boardLayout.setLayout(new GridLayout(5,5,0,10));
+        boardLayout.setLayout(new GridLayout(5,5,0,0));
         boardLayout.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight() - 50);
         boardLayout.setOpaque(false);
+        boardLayout.setBorder(BorderFactory.createEmptyBorder());
         for (int i = 0; i < 25; i++) {
             final JButton cell = new JButton();
             cell.setBorder(BorderFactory.createEmptyBorder());
             cell.setOpaque(false);
             cell.setContentAreaFilled(false);
             cell.setBorderPainted(false);
-            cell.setSize(boardLayout.getWidth() / 6 + 25, boardLayout.getHeight() / 6 + 15);
+            cell.setSize(boardLayout.getWidth() / 6, boardLayout.getHeight() / 6);
             try{
                 image = ImageIO.read(new File("images/blue_square.png"));
                 Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -326,7 +333,7 @@ public class Game extends JFrame implements Observer<Object> {
                 }
             });
         }
-        overlayPanel.add(boardLayout);
+        overlayPanel.add(boardLayout,BorderLayout.CENTER);
         overlayPanel.revalidate();
         overlayPanel.repaint();
     }
