@@ -367,26 +367,26 @@ public class Game extends JFrame implements Observer<Object> {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     multipleSelections.add(gods.get(e.getSource()).toString());
-                        panel.remove((JButton) e.getSource());
-                        panel.revalidate();
-                        panel.repaint();
-                        synchronized (multipleSelections) {
-                            if (multipleSelections.size() == clientConfigurator.getNumberOfPlayer()) {
-                                StringBuilder stringBuilder = new StringBuilder();
-                                for (int i = 0; i < multipleSelections.size(); i++) {
-                                    stringBuilder.append(multipleSelections.get(i));
-                                    if (i < multipleSelections.size()-1) {
-                                        stringBuilder.append(',');
-                                        choice++;
-                                    }
-
+                    panel.remove((JButton) e.getSource());
+                    panel.revalidate();
+                    panel.repaint();
+                    synchronized (multipleSelections) {
+                        if (multipleSelections.size() == clientConfigurator.getNumberOfPlayer()) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 0; i < multipleSelections.size(); i++) {
+                                stringBuilder.append(multipleSelections.get(i));
+                                if (i < multipleSelections.size()-1) {
+                                    stringBuilder.append(',');
+                                    choice++;
                                 }
-                                response = stringBuilder.toString();
-                                guiClient.send(response);
-                                multipleSelections.clear();
-                                removeOverlayPanel();
+
                             }
+                            response = stringBuilder.toString();
+                            guiClient.send(response);
+                            multipleSelections.clear();
+                            removeOverlayPanel();
                         }
+                    }
                 }
             });
         }
@@ -397,144 +397,143 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void pickCard(ViewMessage viewMessage) {
-
-                final ArrayList<String> godsName = new ArrayList<>();
-                //Parser
-                String[] splitted = viewMessage.getMessage().split("\n");
-                String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
-                String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
-                godsName.add(firstGod);
-                godsName.add(secondGod);
-                if (clientConfigurator.getNumberOfPlayer() == 3 && splitted.length > 3) {
-                    String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
-                    godsName.add(thirdGod);
+        final ArrayList<String> godsName = new ArrayList<>();
+        //Parser
+        String[] splitted = viewMessage.getMessage().split("\n");
+        String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
+        String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
+        godsName.add(firstGod);
+        godsName.add(secondGod);
+        if (clientConfigurator.getNumberOfPlayer() == 3 && splitted.length > 3) {
+            String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
+            godsName.add(thirdGod);
+        }
+        final HashMap<JButton, Integer> gods = new HashMap<>();
+        setMessageOnPopup("Please select a god card");
+        BufferedImage image;
+        final JPanel panel = new JPanel(true);
+        panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
+        panel.setOpaque(false);
+        panel.setLayout(new GridLayout(2,2,0,0));
+        for (int i = 0; i < godsName.size(); i++) {
+            final JButton god = new JButton();
+            god.setOpaque(false);
+            god.setContentAreaFilled(false);
+            god.setBorderPainted(false);
+            god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
+            try {
+                String fileName = godsName.get(i);
+                image = ImageIO.read(new File("images/God_with_frame/" + fileName + ".png"));
+                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
+                god.setIcon(new ImageIcon(normal));
+                panel.add(god);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gods.put(god, i);
+            god.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    response = gods.get((JButton) e.getSource()).toString();
+                    guiClient.send(response);
+                    removeOverlayPanel();
                 }
+            });
+            panel.add(god);
 
-                final HashMap<JButton, Integer> gods = new HashMap<>();
-                setMessageOnPopup("Please select a god card");
-                BufferedImage image;
-                final JPanel panel = new JPanel(true);
-                panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
-                panel.setOpaque(false);
-                panel.setLayout(new GridLayout(1, clientConfigurator.getNumberOfPlayer(), 0, 0));
-                for (int i = 0; i < godsName.size(); i++) {
-                    final JButton god = new JButton();
-                    god.setOpaque(false);
-                    god.setContentAreaFilled(false);
-                    god.setBorderPainted(false);
-                    god.setSize(panel.getWidth() / clientConfigurator.getNumberOfPlayer(), panel.getHeight() / 3);
-                    try {
-                        String fileName = godsName.get(i);
-                        image = ImageIO.read(new File("images/gods/" + fileName + ".png"));
-                        Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
-                        god.setIcon(new ImageIcon(normal));
-                        panel.add(god);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    gods.put(god, i);
-                    god.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            response = gods.get((JButton) e.getSource()).toString();
-                            guiClient.send(response);
-                            removeOverlayPanel();
-                        }
-                    });
-                    panel.add(god);
-                }
-                overlayPanel.add(panel);
-                overlayPanel.revalidate();
-                overlayPanel.repaint();
+        }
+        overlayPanel.add(panel);
+        overlayPanel.revalidate();
+        overlayPanel.repaint();
 
     }
 
     private void turnPhaseManager(GameMessage gameMessage) {
-            switch (gameMessage.getMessageType()) {
-                case DRAW_CARD:
-                    //mostra a video le carte da selezionare
-                    isSimplePlay = false;
-                    addOverlayPanel();
-                    drawCards();
-                    break;
-                case PICK_CARD:
-                    isSimplePlay = false;
-                    addOverlayPanel();
-                    pickCard(gameMessage);
-                    break;
-                case SET_WORKER_1:
-                    addOverlayPanel();
-                    createBoard();
-                    break;
-                case SET_WORKER_2:
-                    break;
-                case BEGINNING:
-                    break;
-                case MOVE:
-                    break;
-                case BUILD:
-                    break;
-                case USE_POWER:
-                    break;
-                case PROMETHEUS:
-                    break;
-                case VICTORY:
-                    break;
-                case LOSE:
-                    break;
-                case END_GAME:
-                    break;
-                default:
-                    break;
-            }
+        switch (gameMessage.getMessageType()) {
+            case DRAW_CARD:
+                //mostra a video le carte da selezionare
+                isSimplePlay = false;
+                addOverlayPanel();
+                drawCards();
+                break;
+            case PICK_CARD:
+                isSimplePlay = false;
+                addOverlayPanel();
+                pickCard(gameMessage);
+                break;
+            case SET_WORKER_1:
+                addOverlayPanel();
+                createBoard();
+                break;
+            case SET_WORKER_2:
+                break;
+            case BEGINNING:
+                break;
+            case MOVE:
+                break;
+            case BUILD:
+                break;
+            case USE_POWER:
+                break;
+            case PROMETHEUS:
+                break;
+            case VICTORY:
+                break;
+            case LOSE:
+                break;
+            case END_GAME:
+                break;
+            default:
+                break;
+        }
 
 
     }
 
     private void phaseManager(GameMessage gameMessage){
-            switch (gameMessage.getMessageType()) {
-                case PICK_CARD:
-                    break;
-                case BEGINNING:
-                    break;
-                case SET_WORKER_1:
-                    try {
-                        if (!isSimplePlay && opponentGods.size() != clientConfigurator.getNumberOfPlayer() - 1) {
-                            Player opponent = gameMessage.getPlayer();
-                            if (!opponentGods.containsKey(opponent.getPlayerName())) {
-                                opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
-                            }
+        switch (gameMessage.getMessageType()) {
+            case PICK_CARD:
+                break;
+            case BEGINNING:
+                break;
+            case SET_WORKER_1:
+                try {
+                    if (!isSimplePlay && opponentGods.size() != clientConfigurator.getNumberOfPlayer() - 1) {
+                        Player opponent = gameMessage.getPlayer();
+                        if (!opponentGods.containsKey(opponent.getPlayerName())) {
+                            opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-                    break;
-                case SET_WORKER_2:
-                    try {
-                        if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
-                            addOpponents();
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case SET_WORKER_2:
+                try {
+                    if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
+                        addOpponents();
                     }
-                    break;
-                case MOVE:
-                    break;
-                case BUILD:
-                    break;
-                case USE_POWER:
-                    break;
-                case PROMETHEUS:
-                    break;
-                case VICTORY:
-                    break;
-                case LOSE:
-                    break;
-                case END_GAME:
-                    break;
-                default:
-                    break;
-            }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                break;
+            case MOVE:
+                break;
+            case BUILD:
+                break;
+            case USE_POWER:
+                break;
+            case PROMETHEUS:
+                break;
+            case VICTORY:
+                break;
+            case LOSE:
+                break;
+            case END_GAME:
+                break;
+            default:
+                break;
+        }
 
 
     }
@@ -558,7 +557,7 @@ public class Game extends JFrame implements Observer<Object> {
         } else {
             phaseManager(arg);
             if(arg instanceof GameBoardMessage){
-               //Update board with disabled control
+                //Update board with disabled control
             }
             setMessageOnPopup("It's now " + player.getPlayerName() + "'s turn");
         }
@@ -581,7 +580,7 @@ public class Game extends JFrame implements Observer<Object> {
                 GameMessage gameMessage = (GameMessage) viewMessage;
                 handleTurnMessage(gameMessage, gameMessage.getPlayer());
             } else {
-               setMessageOnPopup(viewMessage.getMessage());
+                setMessageOnPopup(viewMessage.getMessage());
             }
             configuratorHandler(viewMessage);
         }
