@@ -28,7 +28,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean isSimplePlay = true;
     private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
+    public JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -124,68 +124,70 @@ public class Game extends JFrame implements Observer<Object> {
 
     }
 
-    private void initGame() {
-            this.setEnabled(true);
-            clearGui();
-            JLabel background = new JLabel();
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            Dimension d = tk.getScreenSize();
-            this.setSize(d);
-            setContentPane(background);
-            add(mainPanel);
-            BufferedImage img = null;
-            try {
-                img = ImageIO.read(new File("images/SantoriniBoard.png"));
-                Image dimg = img.getScaledInstance(d.width, d.height,
-                        Image.SCALE_SMOOTH);
-                ImageIcon imageIcon = new ImageIcon(dimg);
-                background.setIcon(imageIcon);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private synchronized void initGame() {
+        this.setEnabled(true);
+        clearGui();
+        JLabel background = new JLabel();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension d = tk.getScreenSize();
+        this.setSize(d);
+        setContentPane(background);
+        add(mainPanel);
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("images/SantoriniBoard.png"));
+            Image dimg = img.getScaledInstance(d.width, d.height,
+                    Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            background.setIcon(imageIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPanel = new JPanel(true);
+        leftPanel.setLayout(new BorderLayout(10, 50));
+        leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
+        leftPanel.setOpaque(false);
+        leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainPanel.add(leftPanel, BorderLayout.WEST);
 
-            leftPanel = new JPanel(true);
-            leftPanel.setLayout(new BorderLayout(10, 50));
-            leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
-            leftPanel.setOpaque(false);
+        centerPanel = new JPanel(true);
+        centerPanel.setLayout(new BorderLayout(10, 10));
+        centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
+        centerPanel.setOpaque(false);
+        centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
 
-            mainPanel.add(leftPanel, BorderLayout.WEST);
-
-            centerPanel = new JPanel(true);
-            centerPanel.setLayout(new BorderLayout(10, 10));
-            centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
-            centerPanel.setOpaque(false);
-            mainPanel.add(centerPanel, BorderLayout.CENTER);
-
-            rightPanel = new JPanel(true);
-            rightPanel.setLayout(new BorderLayout(10, 10));
-            rightPanel.setSize(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height);
-            rightPanel.setOpaque(false);
-
-
-            mainPanel.add(rightPanel, BorderLayout.EAST);
-
-            messageLabel = new JLabel();
-            messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-            messageLabel.setSize(centerPanel.getWidth(), 100);
+        rightPanel = new JPanel(true);
+        rightPanel.setLayout(new BorderLayout(10, 10));
+        rightPanel.setSize(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height);
+        rightPanel.setOpaque(false);
+        rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 
-            centerPanel.add(messageLabel, BorderLayout.NORTH);
-            BufferedImage messageBoard = null;
-            try {
-                messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
-                Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
-                        Image.SCALE_SMOOTH);
-                ImageIcon imageIcon = new ImageIcon(dimg);
-                messageLabel.setIcon(imageIcon);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        mainPanel.add(rightPanel, BorderLayout.EAST);
 
-            messageLabel.setForeground(Color.WHITE);
-            revalidation();
+        messageLabel = new JLabel();
+        messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+        messageLabel.setSize(centerPanel.getWidth(), 100);
+
+
+        centerPanel.add(messageLabel, BorderLayout.NORTH);
+        BufferedImage messageBoard = null;
+        try {
+            messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
+            Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
+                    Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            messageLabel.setIcon(imageIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        revalidation();
+        messageLabel.setForeground(Color.WHITE);
+
     }
 
     private void revalidation(){
