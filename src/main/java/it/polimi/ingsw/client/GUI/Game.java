@@ -143,7 +143,7 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        //mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         leftPanel = new JPanel(true);
         leftPanel.setLayout(new BorderLayout(10, 50));
         leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
@@ -185,9 +185,9 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        revalidation();
-        messageLabel.setForeground(Color.WHITE);
 
+        messageLabel.setForeground(Color.WHITE);
+        revalidation();
     }
 
     private void revalidation(){
@@ -246,7 +246,7 @@ public class Game extends JFrame implements Observer<Object> {
             playerPanel.add(godLabel, BorderLayout.CENTER);
             opponentsPanel.add(playerPanel);
         }
-        rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
+        mainPanel.add(opponentsPanel, BorderLayout.EAST);
         revalidation();
 
     }catch (Exception e){
