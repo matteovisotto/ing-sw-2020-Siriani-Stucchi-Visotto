@@ -59,8 +59,11 @@ public class Game extends JFrame implements Observer<Object> {
         JLabel backgroud = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
-        this.setSize(d);
+        //this.setSize(d);
         setContentPane(backgroud);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //togliere il commento qua sotto per metterlo completo full screen.
+        //this.setUndecorated(true);
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File("images/home/SantoriniHomeBackground.png"));
