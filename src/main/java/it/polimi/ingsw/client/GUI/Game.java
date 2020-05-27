@@ -28,7 +28,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean isSimplePlay = true;
     private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, overlayRightPanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, overlayRightPanel, initialBoardPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -154,6 +154,7 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 2, mainPanel.getHeight()));
         centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
         centerPanel.setOpaque(false);
+        addInitialBoard();
         //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
@@ -357,6 +358,7 @@ public class Game extends JFrame implements Observer<Object> {
                         response = stringBuilder.toString();
                         guiClient.send(response);
                         removeOverlayPanel();
+                        addWorker();
                     }
                 });
             }
@@ -364,6 +366,67 @@ public class Game extends JFrame implements Observer<Object> {
         overlayPanel.add(boardLayout,BorderLayout.CENTER);
         overlayPanel.revalidate();
         overlayPanel.repaint();
+    }
+
+    public void addInitialBoard(){
+        BufferedImage image;
+        initialBoardPanel = new JPanel();
+        initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
+        initialBoardPanel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight() - 50);
+        initialBoardPanel.setOpaque(false);
+        initialBoardPanel.setBorder(BorderFactory.createEmptyBorder());
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                final JLabel cell = new JLabel();
+                cell.setBorder(BorderFactory.createEmptyBorder());
+                cell.setOpaque(false);
+                cell.setSize(initialBoardPanel.getWidth() / 6 + 20, initialBoardPanel.getHeight() / 6 + 15);
+                /*try{
+                    image = ImageIO.read(new File("images/blue_square.png"));
+                    Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    cell.setIcon(new ImageIcon(normal));
+                    initialBoardPanel.add(cell,BorderLayout.CENTER);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }*/
+            }
+        }
+        centerPanel.add(initialBoardPanel,BorderLayout.CENTER);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+    }
+
+    /*public void addWorker (){
+        Component[] cells = centerPanel.getComponents();
+        BufferedImage image;
+        for(int i = 0; i < cells.length; i++)
+        {
+            if (cells[i] instanceof JButton && i/5 == Integer.parseInt(chosenCellX) && i % 5 == Integer.parseInt(chosenCellY))
+            {
+                JLabel cell = (JLabel) cells[i];
+                try{
+                    image = ImageIO.read(new File("images/Workers/My_worker.png"));
+                    Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    cell.setIcon(new ImageIcon(normal));
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }*/
+
+    //o si salvano le celle del gridlayout in una lista / altro -> o altrimenti non si trovano nel gridLayout (initialBoardPanel)
+    public void addWorker() {
+        BufferedImage image;
+        JButton cell = (JButton) initialBoardPanel.getComponent(Integer.parseInt(chosenCellX) * 5 + Integer.parseInt(chosenCellY));
+        try{
+            image = ImageIO.read(new File("images/Workers/My_worker.png"));
+            Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+            cell.setIcon(new ImageIcon(normal));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     private void drawCards(){
