@@ -36,7 +36,8 @@ public class Game extends JFrame implements Observer<Object> {
     private ClientConfigurator clientConfigurator;
     private String response;
     private final ArrayList<String> multipleSelections = new ArrayList<>();
-    private String chosenCell;
+    private String chosenCellX;
+    private String chosenCellY;
     private int choice = 1;
 
     public Game(final GUIClient guiClient){
@@ -324,29 +325,41 @@ public class Game extends JFrame implements Observer<Object> {
         boardLayout.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight() - 50);
         boardLayout.setOpaque(false);
         boardLayout.setBorder(BorderFactory.createEmptyBorder());
-        for (int i = 0; i < 25; i++) {
-            final JButton cell = new JButton();
-            cell.setBorder(BorderFactory.createEmptyBorder());
-            cell.setOpaque(false);
-            cell.setContentAreaFilled(false);
-            cell.setBorderPainted(false);
-            cell.setSize(boardLayout.getWidth() / 6 + 20, boardLayout.getHeight() / 6 + 15);
-            try{
-                image = ImageIO.read(new File("images/blue_square.png"));
-                Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
-                cell.setIcon(new ImageIcon(normal));
-                boardLayout.add(cell,BorderLayout.CENTER);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            cell.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //chosenCell = e.getSource().toString();
-                    //guiClient.send(chosenCell);
-                    //removeOverlayPanel();
+        final HashMap<JButton, Integer> cellsX = new HashMap<>();
+        final HashMap<JButton, Integer> cellsY = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                final JButton cell = new JButton();
+                cell.setBorder(BorderFactory.createEmptyBorder());
+                cell.setOpaque(false);
+                cell.setContentAreaFilled(false);
+                cell.setBorderPainted(false);
+                cell.setSize(boardLayout.getWidth() / 6 + 20, boardLayout.getHeight() / 6 + 15);
+                try{
+                    image = ImageIO.read(new File("images/blue_square.png"));
+                    Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    cell.setIcon(new ImageIcon(normal));
+                    boardLayout.add(cell,BorderLayout.CENTER);
+                }catch (IOException e){
+                    e.printStackTrace();
                 }
-            });
+                cellsX.put(cell,i);
+                cellsY.put(cell,j);
+                cell.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+                        chosenCellY = cellsY.get((JButton) e.getSource()).toString();
+                        stringBuilder.append(chosenCellX);
+                        stringBuilder.append(",");
+                        stringBuilder.append(chosenCellY);
+                        response = stringBuilder.toString();
+                        guiClient.send(response);
+                        removeOverlayPanel();
+                    }
+                });
+            }
         }
         overlayPanel.add(boardLayout,BorderLayout.CENTER);
         overlayPanel.revalidate();
@@ -355,7 +368,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void drawCards(){
         final HashMap<JButton, Integer> gods = new HashMap<>();
-        setMessageOnPopup("Please select "+ clientConfigurator.getNumberOfPlayer()+ " god cards");
+        setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
         BufferedImage image;
         final JPanel panel = new JPanel(true);
         panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
@@ -481,6 +494,8 @@ public class Game extends JFrame implements Observer<Object> {
                 createBoard();
                 break;
             case SET_WORKER_2:
+                addOverlayPanel();
+                createBoard();
                 break;
             case BEGINNING:
                 break;
