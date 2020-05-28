@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.GUI;
 
 
 import it.polimi.ingsw.client.GUIClient;
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Gods;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
@@ -12,7 +13,6 @@ import it.polimi.ingsw.utils.Parser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -319,7 +319,7 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.repaint();
     }
 
-    public void createBoard() {
+    public void placeWorker(Board board) {
         final JPanel boardLayout = new JPanel(true);
         BufferedImage image;
         boardLayout.setLayout(new GridLayout(5,5,0,0));
@@ -331,6 +331,9 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
+                if(!board.getCell(i,j).isFree()){
+                    cell.setVisible(false);
+                }
                 cell.setBorder(BorderFactory.createEmptyBorder());
                 cell.setOpaque(false);
                 cell.setContentAreaFilled(false);
@@ -358,6 +361,7 @@ public class Game extends JFrame implements Observer<Object> {
                         response = stringBuilder.toString();
                         guiClient.send(response);
                         removeOverlayPanel();
+                        //cell.setVisible(false);
                         addWorker();
                     }
                 });
@@ -553,12 +557,9 @@ public class Game extends JFrame implements Observer<Object> {
                 pickCard(gameMessage);
                 break;
             case SET_WORKER_1:
-                addOverlayPanel();
-                createBoard();
-                break;
             case SET_WORKER_2:
                 addOverlayPanel();
-                createBoard();
+                placeWorker(((GameBoardMessage)gameMessage).getBoard());
                 break;
             case BEGINNING:
                 break;
