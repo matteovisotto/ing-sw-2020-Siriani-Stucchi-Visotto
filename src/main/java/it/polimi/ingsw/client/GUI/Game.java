@@ -28,7 +28,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean isSimplePlay = true;
     private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, overlayRightPanel, initialBoardPanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, overlayRightPanel, initialBoardPanel, southPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -39,6 +39,7 @@ public class Game extends JFrame implements Observer<Object> {
     private String chosenCellX;
     private String chosenCellY;
     private int choice = 1;
+    private JButton[][] board = new JButton[5][5];
 
     public Game(final GUIClient guiClient){
         this.guiClient = guiClient;
@@ -154,22 +155,29 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 2, mainPanel.getHeight()));
         centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
         centerPanel.setOpaque(false);
-        addInitialBoard();
         //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
+        southPanel = new JPanel(true);
+        southPanel.setLayout(new BorderLayout(10, 10));
+        southPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), 150));
+        southPanel.setSize(mainPanel.getWidth(), 150);
+        southPanel.setOpaque(false);
+        //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
         leftPanel = new JPanel(true);
         leftPanel.setLayout(new BorderLayout(10, 50));
-        leftPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 4, mainPanel.getHeight()));
-        leftPanel.setSize(mainPanel.getWidth() / 4, mainPanel.getHeight());
+        leftPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 4 + 85, mainPanel.getHeight()));
+        leftPanel.setSize(mainPanel.getWidth() / 4+85, mainPanel.getHeight());
         leftPanel.setOpaque(false);
         //leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new JPanel(true);
         rightPanel.setLayout(new BorderLayout(10, 10));
-        rightPanel.setPreferredSize(new Dimension(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height));
-        rightPanel.setSize(mainPanel.getBounds().width/ 4, mainPanel.getBounds().height);
+        rightPanel.setPreferredSize(new Dimension(mainPanel.getBounds().width/ 4+85, mainPanel.getBounds().height));
+        rightPanel.setSize(mainPanel.getBounds().width/ 4+85, mainPanel.getBounds().height);
         rightPanel.setOpaque(false);
         //rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -180,7 +188,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-        messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), 100));
+        messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), 120));
         messageLabel.setSize(centerPanel.getWidth(), 100);
 
 
@@ -195,7 +203,7 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        addInitialBoard();
         messageLabel.setForeground(Color.WHITE);
         //revalidation();
     }
@@ -373,23 +381,32 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     public void addInitialBoard(){
+
         BufferedImage image;
         initialBoardPanel = new JPanel();
         initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
-        initialBoardPanel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight() - 50);
+        initialBoardPanel.setPreferredSize(new Dimension(855, 905));
+        initialBoardPanel.setSize(855, 905);
         initialBoardPanel.setOpaque(false);
         initialBoardPanel.setBorder(BorderFactory.createEmptyBorder());
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
-                final JLabel cell = new JLabel();
-                cell.setBorder(BorderFactory.createEmptyBorder());
-                cell.setOpaque(false);
-                cell.setSize(initialBoardPanel.getWidth() / 6 + 20, initialBoardPanel.getHeight() / 6 + 15);
+                board[i][j]=new JButton();
+                board[i][j].setOpaque(false);
+                board[i][j].setContentAreaFilled(false);
+                board[i][j].setBorderPainted(false);
+                board[i][j].setPreferredSize(new Dimension(162, 165));
+                board[i][j].setSize(162, 165);
+
+                /*board[i][j].setPreferredSize(new Dimension(initialBoardPanel.getWidth() / 6 + 20, initialBoardPanel.getHeight() / 6 + 15));
+                board[i][j].setSize(initialBoardPanel.getWidth() / 6 + 20, initialBoardPanel.getHeight() / 6 + 15);
+                */
+                board[i][j].setBorder(BorderFactory.createEmptyBorder());
                 /*try{
                     image = ImageIO.read(new File("images/blue_square.png"));
-                    Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    cell.setIcon(new ImageIcon(normal));
-                    initialBoardPanel.add(cell,BorderLayout.CENTER);
+                    Image normal = image.getScaledInstance(board[i][j].getWidth(), board[i][j].getHeight(), Image.SCALE_AREA_AVERAGING);
+                    board[i][j].setIcon(new ImageIcon(normal));
+                    initialBoardPanel.add(board[i][j],BorderLayout.CENTER);
                 }catch (IOException e){
                     e.printStackTrace();
                 }*/
@@ -644,7 +661,7 @@ public class Game extends JFrame implements Observer<Object> {
         if (this.player.equals(player)) {
 
             if(arg instanceof GameBoardMessage){
-                //Update the bord
+                //Update the board
             }
             setMessageOnPopup(arg.getMessage());
             turnPhaseManager(arg);
