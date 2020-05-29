@@ -85,11 +85,15 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         int numPlayer = 0;
         boolean isConfig = false;
         try{
+            String read;
+            String lobbyName;
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
+            do{
             send(new ViewMessage(MessageType.PLAYER_NAME, PlayerMessage.WELCOME,null));
-            String read = in.nextLine();
-            name = read;
+                read = in.nextLine();
+                name = read;
+            } while(read.isEmpty());
             int choice = 0;
             do {
                 do {
@@ -111,8 +115,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         }else
                             in.next();
                     } while (numPlayer < 2 || numPlayer > 3);
+                    do{
                     send(new ViewMessage(MessageType.LOBBY_NAME, PlayerMessage.ASK_LOBBY_NAME,null));
-                    String lobbyName = in.nextLine();
+                    lobbyName = in.nextLine();
+                    } while(lobbyName.isEmpty());
                     do{
                         send(new ViewMessage(MessageType.SIMPLE_OR_NOT, PlayerMessage.PLAY_MODE,null));
                         read = in.nextLine();
