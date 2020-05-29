@@ -152,8 +152,8 @@ public class Game extends JFrame implements Observer<Object> {
 
         centerPanel = new JPanel(true);
         centerPanel.setLayout(new BorderLayout(10, 10));
-        centerPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 2, mainPanel.getHeight()));
-        centerPanel.setSize(mainPanel.getWidth() / 2, mainPanel.getHeight());
+        centerPanel.setPreferredSize(new Dimension(mainPanel.getWidth() * 1920/ 3964 , mainPanel.getHeight()));
+        centerPanel.setSize(mainPanel.getWidth() * 1920/ 3964, mainPanel.getHeight());
         centerPanel.setOpaque(false);
         //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -161,23 +161,23 @@ public class Game extends JFrame implements Observer<Object> {
         southPanel = new JPanel(true);
         southPanel.setLayout(new BorderLayout(10, 10));
         southPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), 150));
-        southPanel.setSize(mainPanel.getWidth(), 150);
+        southPanel.setSize(mainPanel.getWidth(), mainPanel.getHeight() * 1080 / 7776);
         southPanel.setOpaque(false);
         //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         leftPanel = new JPanel(true);
         leftPanel.setLayout(new BorderLayout(10, 50));
-        leftPanel.setPreferredSize(new Dimension(mainPanel.getWidth() / 4 + 85, mainPanel.getHeight()));
-        leftPanel.setSize(mainPanel.getWidth() / 4+85, mainPanel.getHeight());
+        leftPanel.setPreferredSize(new Dimension(mainPanel.getWidth() * 1920/6524, mainPanel.getHeight()));
+        leftPanel.setSize(mainPanel.getWidth() * 1920/6524, mainPanel.getHeight());
         leftPanel.setOpaque(false);
         //leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new JPanel(true);
         rightPanel.setLayout(new BorderLayout(10, 10));
-        rightPanel.setPreferredSize(new Dimension(mainPanel.getBounds().width/ 4+85, mainPanel.getBounds().height));
-        rightPanel.setSize(mainPanel.getBounds().width/ 4+85, mainPanel.getBounds().height);
+        rightPanel.setPreferredSize(new Dimension(mainPanel.getBounds().width* 1920/6524, mainPanel.getBounds().height));
+        rightPanel.setSize(mainPanel.getBounds().width* 1920/6524, mainPanel.getBounds().height);
         rightPanel.setOpaque(false);
         //rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -188,7 +188,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
-        messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), 120));
+        messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), mainPanel.getHeight() * 1080/9720));
         messageLabel.setSize(centerPanel.getWidth(), 100);
 
 
@@ -243,7 +243,7 @@ public class Game extends JFrame implements Observer<Object> {
             playerPanel.setLayout(new BorderLayout(0, 0));
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
-            nameLabel.setSize(playerPanel.getWidth(), 70);
+            nameLabel.setSize((playerPanel.getWidth() + 100)/opponentGods.size() +1, 70);
             godLabel.setSize((playerPanel.getWidth() + 100) / opponentGods.size() + 1, 400 / opponentGods.size() + 1);
             BufferedImage god, frame;
             try {
@@ -253,11 +253,12 @@ public class Game extends JFrame implements Observer<Object> {
                 Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
                 nameLabel.setIcon(new ImageIcon(frameImage));
                 godLabel.setIcon(new ImageIcon(godImage));
+                godLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
             nameLabel.setText(opponentName);
             nameLabel.setForeground(Color.WHITE);
@@ -265,7 +266,8 @@ public class Game extends JFrame implements Observer<Object> {
             playerPanel.add(godLabel, BorderLayout.CENTER);
             opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
         }
-        overlayRightPanel.add(opponentsPanel, BorderLayout.CENTER);
+        opponentsPanel.setAlignmentX(SwingConstants.CENTER);
+        rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
         //revalidation();
 
     }catch (Exception e){
@@ -302,14 +304,14 @@ public class Game extends JFrame implements Observer<Object> {
         overlayRightPanel.setSize(rightPanel.getWidth(),rightPanel.getHeight());
         overlayRightPanel.setBackground(Color.LIGHT_GRAY);
         overlayRightPanel.setOpaque(false);
-        rightPanel.add(overlayRightPanel, BorderLayout.CENTER);
+        rightPanel.add(overlayRightPanel, BorderLayout.SOUTH);
         rightPanel.revalidate();
         rightPanel.repaint();
     }
 
     private void addOverlayPanel() {
         overlayPanel = new JPanel(true);
-        int dim = (mainPanel.getWidth()/2)-5;
+        int dim = centerPanel.getWidth();
         overlayPanel.setPreferredSize(new Dimension(dim, dim));
         overlayPanel.setSize(dim, dim);
         overlayPanel.setBackground(Color.LIGHT_GRAY);
@@ -331,7 +333,7 @@ public class Game extends JFrame implements Observer<Object> {
         final JPanel boardLayout = new JPanel(true);
         BufferedImage image;
         boardLayout.setLayout(new GridLayout(5,5,0,0));
-        boardLayout.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight() - 50);
+        boardLayout.setSize(overlayPanel.getWidth(), overlayPanel.getHeight());
         boardLayout.setOpaque(false);
         boardLayout.setBorder(BorderFactory.createEmptyBorder());
         final HashMap<JButton, Integer> cellsX = new HashMap<>();
@@ -346,7 +348,7 @@ public class Game extends JFrame implements Observer<Object> {
                 cell.setOpaque(false);
                 cell.setContentAreaFilled(false);
                 cell.setBorderPainted(false);
-                cell.setSize(boardLayout.getWidth() / 6 + 20, boardLayout.getHeight() / 6 + 15);
+                cell.setSize(boardLayout.getWidth() / 5, boardLayout.getHeight() / 5);
                 try{
                     image = ImageIO.read(new File("images/blue_square.png"));
                     Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
