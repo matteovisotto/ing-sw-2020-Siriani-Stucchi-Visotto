@@ -4,12 +4,15 @@ import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
+import it.polimi.ingsw.utils.Parser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -72,7 +75,7 @@ public class Initialization extends JDialog implements Observer<Object> {
     @Override
     public void update(Object msg) {
         if(msg instanceof ViewMessage) {
-            setPanelContent(((ViewMessage) msg).getMessageType());
+            setPanelContent(((ViewMessage) msg).getMessageType(), ((ViewMessage) msg).getMessage());
         } else if (msg instanceof String) {
 
         }
@@ -89,7 +92,7 @@ public class Initialization extends JDialog implements Observer<Object> {
 
     }
 
-    private void setPanelContent(MessageType messageType){
+    private void setPanelContent(MessageType messageType, String message){
         resetPanelContent();
         switch (messageType){
             case PLAYER_NAME:
@@ -145,6 +148,16 @@ public class Initialization extends JDialog implements Observer<Object> {
                     }
                 });
                 lobbyPanel.add(backButton, BorderLayout.NORTH);
+                String[] columnNames = { "Id", "Name", "Free place", "Play mode"};
+                String [][] data = Parser.parseLobbies(message);
+                final JTable table = new JTable(data, columnNames);
+                table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+                    public void valueChanged(ListSelectionEvent event) {
+                        returnedMessage = table.getValueAt(table.getSelectedRow(), 0).toString();
+                    }
+                });
+                table.setBounds(30, 40, 200, 300);
+                lobbyPanel.add(table, BorderLayout.CENTER);
                 this.setSize(400, 400);
                 contentPanel.add(lobbyPanel, BorderLayout.CENTER);
                 break;
