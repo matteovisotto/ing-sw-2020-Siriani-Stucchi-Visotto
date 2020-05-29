@@ -138,6 +138,9 @@ public class Initialization extends JDialog implements Observer<Object> {
             case LOBBY_SELECTOR:
                 messageLabel.setText("Please select the lobby you want to join");
                 JPanel lobbyPanel = new JPanel(new BorderLayout(10,10));
+                final JLabel instructions = new JLabel();
+                instructions.setText("Legend: Id \t| Name \t| Free places \t| Play mode \t");
+                instructions.setSize(70,45);
                 lobbyPanel.setOpaque(false);
                 JButton backButton = new JButton("Back");
                 backButton.setSize(70, 45);
@@ -148,6 +151,7 @@ public class Initialization extends JDialog implements Observer<Object> {
                     }
                 });
                 lobbyPanel.add(backButton, BorderLayout.NORTH);
+                lobbyPanel.add(instructions, BorderLayout.PAGE_END);
                 String[] columnNames = { "Id", "Name", "Free place", "Play mode"};
                 String [][] data = Parser.parseLobbies(message);
                 final JTable table = new JTable(data, columnNames){

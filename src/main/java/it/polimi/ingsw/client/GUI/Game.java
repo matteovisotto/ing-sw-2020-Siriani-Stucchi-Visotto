@@ -26,6 +26,7 @@ public class Game extends JFrame implements Observer<Object> {
     private final GUIClient guiClient;
     private boolean initedBoard = false;
     private boolean isSimplePlay = true;
+    private ArrayList<String> opponentsNames = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private Phase phase;
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, overlayRightPanel, initialBoardPanel, southPanel;
@@ -66,7 +67,7 @@ public class Game extends JFrame implements Observer<Object> {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //togliere il commento qua sotto per metterlo completo full screen.
         //this.setUndecorated(true);
-        BufferedImage img = null;
+        BufferedImage img;
         try {
             img = ImageIO.read(new File("images/home/SantoriniHomeBackground.png"));
             Image dimg = img.getScaledInstance(d.width, d.height,
@@ -106,7 +107,7 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.add(startPlayBtn, BorderLayout.SOUTH);
 
         //Add logo
-        BufferedImage logo = null;
+        BufferedImage logo;
         try {
             logo = ImageIO.read(new File("images/home/SantoriniHomeLogo.png"));
             Image dimg = logo.getScaledInstance(d.width*3/4, d.height/3,
@@ -138,7 +139,7 @@ public class Game extends JFrame implements Observer<Object> {
         this.setSize(d);
         setContentPane(background);
         add(mainPanel);
-        BufferedImage img = null;
+        BufferedImage img;
         try {
             img = ImageIO.read(new File("images/SantoriniBoard.png"));
             Image dimg = img.getScaledInstance(d.width, d.height,
@@ -193,7 +194,7 @@ public class Game extends JFrame implements Observer<Object> {
 
 
         centerPanel.add(messageLabel, BorderLayout.NORTH);
-        BufferedImage messageBoard = null;
+        BufferedImage messageBoard;
         try {
             messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
             Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
@@ -229,7 +230,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addOpponents() { try {
-        addOverlayRightPanel();
+        //addOverlayRightPanel();
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
         opponentsPanel.setLayout(new GridLayout(opponentGods.size(), 1, 0, 0));
@@ -276,11 +277,58 @@ public class Game extends JFrame implements Observer<Object> {
     }
     }
 
+    private void addOpponentsSimpleMode() { try {
+        //addOverlayRightPanel();
+        JPanel opponentsPanel = new JPanel(true);
+        opponentsPanel.setOpaque(false);
+        opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
+        opponentsPanel.setSize(rightPanel.getWidth(), 230 * opponentsNames.size());
+        for (String opponentName : opponentsNames) {
+            //System.out.println(opponentName);
+            JPanel playerPanel = new JPanel(true);
+            playerPanel.setSize(opponentsPanel.getWidth()/2, opponentsPanel.getHeight() / opponentsNames.size());
+            playerPanel.setOpaque(false);
+            playerPanel.setLayout(new BorderLayout(0, 0));
+            JLabel nameLabel = new JLabel();
+            JLabel enemyLabel = new JLabel();
+            nameLabel.setSize((playerPanel.getWidth() + 100)/opponentsNames.size() +1, 70);
+            enemyLabel.setSize((playerPanel.getWidth() + 100) / opponentsNames.size() + 1, 400 / opponentsNames.size() + 1);
+            BufferedImage enemy, frame;
+            try {
+                frame = ImageIO.read(new File("images/opponentNameFrame.png"));
+                enemy = ImageIO.read(new File("images/Workers/Enemy_worker.png"));
+                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                Image enemyImage = enemy.getScaledInstance(enemyLabel.getWidth(), enemyLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                nameLabel.setIcon(new ImageIcon(frameImage));
+                enemyLabel.setIcon(new ImageIcon(enemyImage));
+                enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+            nameLabel.setText(opponentName);
+            nameLabel.setForeground(Color.WHITE);
+            playerPanel.add(nameLabel, BorderLayout.SOUTH);
+            playerPanel.add(enemyLabel, BorderLayout.CENTER);
+            opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
+        }
+        opponentsPanel.setAlignmentX(SwingConstants.CENTER);
+        rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
+        //revalidation();
+
+    }catch (Exception e){
+        System.out.println("From function");
+        e.printStackTrace();
+    }
+    }
+
     private void setMessageOnPopup(String message) {
         try{
             messageLabel.setText(message);
         } catch (Exception e) {
-
+            //e.printStackTrace();
         }
     }
 
@@ -372,7 +420,7 @@ public class Game extends JFrame implements Observer<Object> {
                         guiClient.send(response);
                         removeOverlayPanel();
                         //cell.setVisible(false);
-                        addWorker();
+                        //addWorker();
                     }
                 });
             }
@@ -617,6 +665,9 @@ public class Game extends JFrame implements Observer<Object> {
                             opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
                         }
                     }
+                    else{
+                        opponentsNames.add(gameMessage.getPlayer().getPlayerName());
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -625,6 +676,9 @@ public class Game extends JFrame implements Observer<Object> {
                 try {
                     if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
                         addOpponents();
+                    }
+                    else{
+                        addOpponentsSimpleMode();
                     }
                 }catch (Exception e){
                     e.printStackTrace();
