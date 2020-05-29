@@ -248,10 +248,56 @@ public class Game extends JFrame implements Observer<Object> {
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
         opponentsPanel.setLayout(new GridLayout(opponentGods.size(), 1, 0, 0));
-        opponentsPanel.setSize(rightPanel.getWidth(), 230 * opponentGods.size());
+        opponentsPanel.setSize(rightPanel.getWidth()/2, 230 * opponentGods.size());
         for (String opponentName : opponentGods.keySet()) {
             System.out.println(opponentName);
             String godName = opponentGods.get(opponentName);
+            JPanel playerPanel = new JPanel(true);
+            playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() / opponentGods.size());
+            playerPanel.setOpaque(false);
+            playerPanel.setLayout(new BorderLayout(0, 0));
+            JLabel nameLabel = new JLabel();
+            JLabel godLabel = new JLabel();
+            value = 0.304347826;
+            nameLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value)); //70
+            value = 1.7391304347826;
+            godLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1); //400
+            BufferedImage god, frame;
+            try {
+                frame = ImageIO.read(new File("images/opponentNameFrame.png"));
+                god = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
+                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                nameLabel.setIcon(new ImageIcon(frameImage));
+                godLabel.setIcon(new ImageIcon(godImage));
+                godLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+            nameLabel.setText(opponentName);
+            nameLabel.setForeground(Color.WHITE);
+            playerPanel.add(nameLabel, BorderLayout.SOUTH);
+            playerPanel.add(godLabel, BorderLayout.CENTER);
+            opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
+        }
+        opponentsPanel.setAlignmentX(SwingConstants.CENTER);
+        rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
+
+    }catch (Exception e){
+        System.out.println("From function");
+        e.printStackTrace();
+    }
+    }
+
+    /*private void oldAddOpponents() { try {
+        JPanel opponentsPanel = new JPanel(true);
+        opponentsPanel.setOpaque(false);
+        opponentsPanel.setLayout(new GridLayout(opponentGods.size(), 1, 0, 0));
+        opponentsPanel.setSize(rightPanel.getWidth(), 230 * opponentGods.size());
+        for (String opponentName : opponentGods.keySet()) {
             JPanel playerPanel = new JPanel(true);
             playerPanel.setSize(opponentsPanel.getWidth()/2, opponentsPanel.getHeight() / opponentGods.size());
             playerPanel.setOpaque(false);
@@ -259,13 +305,13 @@ public class Game extends JFrame implements Observer<Object> {
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
             value = 0.304347826;
-            nameLabel.setSize((playerPanel.getWidth() + 100) / opponentGods.size() +1, (int)(playerPanel.getHeight() * value)); //70
+            nameLabel.setSize((playerPanel.getWidth() + 100) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value)); //70
             value = 1.7391304347826;
-            godLabel.setSize((playerPanel.getWidth() + 100) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1); //400
+            godLabel.setSize((playerPanel.getWidth() + 100) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1); //500
             BufferedImage god, frame;
             try {
-                frame = ImageIO.read(new File("images/opponentNameFrame.png"));
-                god = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
+                godImage = ImageIO.read(new File("images/opponentNameFrame.png"));
+                enemy = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
                 Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
                 Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
                 nameLabel.setIcon(new ImageIcon(frameImage));
@@ -290,9 +336,55 @@ public class Game extends JFrame implements Observer<Object> {
         System.out.println("From function");
         e.printStackTrace();
     }
-    }
+    }*/
 
     private void addOpponentsSimpleMode() { try {
+        JPanel opponentsPanel = new JPanel(true);
+        opponentsPanel.setOpaque(false);
+        opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
+        opponentsPanel.setSize(rightPanel.getWidth()/2, 230 * opponentsNames.size());
+        for (String opponentName : opponentsNames) {
+            JPanel playerPanel = new JPanel(true);
+            playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() / opponentsNames.size());
+            playerPanel.setOpaque(false);
+            playerPanel.setLayout(new BorderLayout(0, 0));
+            JLabel nameLabel = new JLabel();
+            JLabel enemyLabel = new JLabel();
+            value = 0.304347826;
+            nameLabel.setSize((playerPanel.getWidth() * 9/10) / opponentsNames.size() + 1, (int)(playerPanel.getHeight() * value)); //70
+            value = 1.7391304347826;
+            enemyLabel.setSize((playerPanel.getWidth() * 9/10) / opponentsNames.size() + 1, (int)(playerPanel.getHeight() * value) / opponentsNames.size() + 1); //500
+            BufferedImage enemy, frame;
+            try {
+                frame = ImageIO.read(new File("images/opponentNameFrame.png"));
+                enemy = ImageIO.read(new File("images/enemy_player.png"));
+                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                Image enemyImage = enemy.getScaledInstance(enemyLabel.getWidth(), enemyLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                nameLabel.setIcon(new ImageIcon(frameImage));
+                enemyLabel.setIcon(new ImageIcon(enemyImage));
+                enemyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+            nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+            nameLabel.setText(opponentName);
+            nameLabel.setForeground(Color.WHITE);
+            playerPanel.add(nameLabel, BorderLayout.SOUTH);
+            playerPanel.add(enemyLabel, BorderLayout.CENTER);
+            opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
+        }
+        opponentsPanel.setAlignmentX(SwingConstants.CENTER);
+        rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
+
+    }catch (Exception e){
+        System.out.println("From function");
+        e.printStackTrace();
+    }
+    }
+
+    /*private void oldAddOpponentsSimpleMode() { try {
         JPanel opponentsPanel = new JPanel(true);
         opponentsPanel.setOpaque(false);
         opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
@@ -336,7 +428,7 @@ public class Game extends JFrame implements Observer<Object> {
         System.out.println("From function");
         e.printStackTrace();
     }
-    }
+    }*/
 
     private void setMessageOnPopup(String message) {
         try{
@@ -491,18 +583,41 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }*/
 
-    //o si salvano le celle del gridlayout in una lista / altro -> o altrimenti non si trovano nel gridLayout (initialBoardPanel)
     public void addWorker() {
         BufferedImage image;
         JButton cell = (JButton) initialBoardPanel.getComponent(Integer.parseInt(chosenCellX) * 5 + Integer.parseInt(chosenCellY));
         cell.setEnabled(true);
         cell.setVisible(true);
+        ((JButton) initialBoardPanel.getComponent(Integer.parseInt(chosenCellX) * 5 + Integer.parseInt(chosenCellY))).setText("occupied");
+        initialBoardPanel.getComponent(Integer.parseInt(chosenCellX) * 5 + Integer.parseInt(chosenCellY)).setVisible(true);
+        initialBoardPanel.getComponent(Integer.parseInt(chosenCellX) * 5 + Integer.parseInt(chosenCellY)).setEnabled(true);
         try{
             image = ImageIO.read(new File("images/Workers/My_worker.png"));
             Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
             cell.setIcon(new ImageIcon(normal));
         }catch (IOException e){
             e.printStackTrace();
+        }
+        initialBoardPanel.revalidate();
+        initialBoardPanel.repaint();
+    }
+
+    //Qua non funziona
+    public void checkCell(){
+        BufferedImage image;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j ++){
+                JButton cell = (JButton) initialBoardPanel.getComponent((i * 5) + (j));
+                if (cell.getText().equals("occupied")){
+                    try{
+                        image = ImageIO.read(new File("images/Workers/Enemy_worker.png"));
+                        Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+                        cell.setIcon(new ImageIcon(normal));
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         initialBoardPanel.repaint();
         initialBoardPanel.revalidate();
@@ -631,6 +746,7 @@ public class Game extends JFrame implements Observer<Object> {
                 pickCard(gameMessage);
                 break;
             case SET_WORKER_1:
+                checkCell();
             case SET_WORKER_2:
                 addOverlayPanel();
                 placeWorker(((GameBoardMessage)gameMessage).getBoard());
@@ -672,7 +788,7 @@ public class Game extends JFrame implements Observer<Object> {
                             opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
                         }
                     }
-                    else{
+                    else if(isSimplePlay && opponentsNames.size() != clientConfigurator.getNumberOfPlayer() - 1){
                         opponentsNames.add(gameMessage.getPlayer().getPlayerName());
                     }
                 } catch (Exception e) {
@@ -684,7 +800,7 @@ public class Game extends JFrame implements Observer<Object> {
                     if (!isSimplePlay && opponentGods.size() == clientConfigurator.getNumberOfPlayer() - 1) {
                         addOpponents();
                     }
-                    else{
+                    else if(isSimplePlay && opponentsNames.size() == clientConfigurator.getNumberOfPlayer() - 1){
                         addOpponentsSimpleMode();
                     }
                 }catch (Exception e){
