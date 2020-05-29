@@ -150,7 +150,13 @@ public class Initialization extends JDialog implements Observer<Object> {
                 lobbyPanel.add(backButton, BorderLayout.NORTH);
                 String[] columnNames = { "Id", "Name", "Free place", "Play mode"};
                 String [][] data = Parser.parseLobbies(message);
-                final JTable table = new JTable(data, columnNames);
+                final JTable table = new JTable(data, columnNames){
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+
                 table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
                     public void valueChanged(ListSelectionEvent event) {
                         returnedMessage = table.getValueAt(table.getSelectedRow(), 0).toString();
