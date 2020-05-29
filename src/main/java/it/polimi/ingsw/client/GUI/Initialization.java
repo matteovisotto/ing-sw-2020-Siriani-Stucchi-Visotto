@@ -31,6 +31,7 @@ public class Initialization extends JDialog implements Observer<Object> {
         setPreferredSize(new Dimension(400, 170));
         setResizable(false);
         this.guiClient = guiClient;
+        customCursor();
         try{
             setLayout();
         }catch (IOException e){
@@ -90,6 +91,15 @@ public class Initialization extends JDialog implements Observer<Object> {
         }
         this.setSize(400, 170);
 
+    }
+
+    public void customCursor() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        toolkit.getBestCursorSize(32, 32);
+        Image image = toolkit.getImage("images/godpower_hand_select2.png");
+        Point hotspot = new Point(0,0);
+        Cursor cursor = toolkit.createCustomCursor(image, hotspot, "hand");
+        setCursor(cursor);
     }
 
     private void setPanelContent(MessageType messageType, String message){

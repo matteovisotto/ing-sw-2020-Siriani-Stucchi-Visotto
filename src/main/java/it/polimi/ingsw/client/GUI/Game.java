@@ -44,19 +44,29 @@ public class Game extends JFrame implements Observer<Object> {
     private double value = 0;
 
     public Game(final GUIClient guiClient){
+        customCursor();
         this.guiClient = guiClient;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Santorini");
         setResizable(false);
         setLayout();
-
     }
 
     public void setPlayer(Player player) {
         this.player = player;
     }
+
     public void setClientConfigurator(ClientConfigurator clientConfigurator) {
         this.clientConfigurator = clientConfigurator;
+    }
+
+    public void customCursor() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        toolkit.getBestCursorSize(32, 32);
+        Image image = toolkit.getImage("images/godpower_hand_select2.png");
+        Point hotspot = new Point(0,0);
+        Cursor cursor = toolkit.createCustomCursor(image, hotspot, "hand");
+        setCursor(cursor);
     }
 
     private void setLayout() {
