@@ -161,8 +161,8 @@ public class Game extends JFrame implements Observer<Object> {
 
         centerPanel = new JPanel(true);
         centerPanel.setLayout(new BorderLayout(10, 10));
-        centerPanel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), mainPanel.getHeight())); //930
-        centerPanel.setSize((int)(mainPanel.getWidth() * value), mainPanel.getHeight());
+        centerPanel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389))); //930
+        centerPanel.setSize((int)(mainPanel.getWidth() * value), (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         centerPanel.setOpaque(false);
         //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -348,10 +348,9 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void addOverlayPanel() {
         overlayPanel = new JPanel(true);
-        int dim = centerPanel.getWidth();
-        overlayPanel.setPreferredSize(new Dimension(dim, dim));
-        overlayPanel.setSize(dim, dim);
-        overlayPanel.setBackground(Color.LIGHT_GRAY);
+        overlayPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
+        overlayPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
+        //overlayPanel.setBackground(Color.LIGHT_GRAY);
         overlayPanel.setOpaque(false);
         centerPanel.add(overlayPanel, BorderLayout.CENTER);
         centerPanel.revalidate();
@@ -359,12 +358,10 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     public void placeWorker(Board board) {
-        final JPanel boardLayout = new JPanel(true);
         BufferedImage image;
-        boardLayout.setLayout(new GridLayout(5,5,0,0));
-        boardLayout.setSize(overlayPanel.getWidth(), overlayPanel.getHeight());
-        boardLayout.setOpaque(false);
-        boardLayout.setBorder(BorderFactory.createEmptyBorder());
+        overlayPanel.setLayout(new GridLayout(5,5,0,0));
+        overlayPanel.setOpaque(false);
+        overlayPanel.setBorder(BorderFactory.createEmptyBorder());
         final HashMap<JButton, Integer> cellsX = new HashMap<>();
         final HashMap<JButton, Integer> cellsY = new HashMap<>();
         for (int i = 0; i < 5; i++) {
@@ -377,12 +374,12 @@ public class Game extends JFrame implements Observer<Object> {
                 cell.setOpaque(false);
                 cell.setContentAreaFilled(false);
                 cell.setBorderPainted(false);
-                cell.setSize(boardLayout.getWidth() / 5, boardLayout.getHeight() / 5);
+                cell.setSize(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5);
                 try{
                     image = ImageIO.read(new File("images/blue_square.png"));
                     Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
                     cell.setIcon(new ImageIcon(normal));
-                    boardLayout.add(cell,BorderLayout.CENTER);
+                    overlayPanel.add(cell,BorderLayout.CENTER);
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -407,9 +404,9 @@ public class Game extends JFrame implements Observer<Object> {
                 });
             }
         }
-        overlayPanel.add(boardLayout,BorderLayout.CENTER);
-        overlayPanel.revalidate();
-        overlayPanel.repaint();
+        centerPanel.add(overlayPanel,BorderLayout.CENTER);
+        centerPanel.revalidate();
+        centerPanel.repaint();
     }
 
     public void addInitialBoard(){
@@ -458,15 +455,15 @@ public class Game extends JFrame implements Observer<Object> {
         setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
         BufferedImage image;
         final JPanel panel = new JPanel(true);
-        panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
+        panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         panel.setOpaque(false);
-        panel.setLayout(new GridLayout(3,3,0,0));
+        panel.setLayout(new GridLayout(3,3,10,10));
         for (int i=0; i<9; i++) {
             final JButton god = new JButton();
             god.setOpaque(false);
             god.setContentAreaFilled(false);
             god.setBorderPainted(false);
-            god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 30);
+            god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
             try{
                 String fileName = Gods.getGod(i).toString();
                 fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
@@ -498,16 +495,22 @@ public class Game extends JFrame implements Observer<Object> {
                             response = stringBuilder.toString();
                             guiClient.send(response);
                             multipleSelections.clear();
-                            removeOverlayPanel();
+                            Component[] components = panel.getComponents();
+                            for (Component component : components) {
+                                panel.remove(component);
+                            }
+                            centerPanel.remove(panel);
+                            centerPanel.revalidate();
+                            centerPanel.repaint();
                         }
                     }
                 }
             });
         }
 
-        overlayPanel.add(panel);
-        overlayPanel.revalidate();
-        overlayPanel.repaint();
+        centerPanel.add(panel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
     }
 
     private void pickCard(ViewMessage viewMessage) {
@@ -526,7 +529,7 @@ public class Game extends JFrame implements Observer<Object> {
         setMessageOnPopup("Please select a god card");
         BufferedImage image;
         final JPanel panel = new JPanel(true);
-        panel.setSize(overlayPanel.getWidth() - 100, overlayPanel.getHeight());
+        panel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight());
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(2,2,0,0));
         for (int i = 0; i < godsName.size(); i++) {
@@ -550,15 +553,15 @@ public class Game extends JFrame implements Observer<Object> {
                 public void actionPerformed(ActionEvent e) {
                     response = gods.get((JButton) e.getSource()).toString();
                     guiClient.send(response);
-                    removeOverlayPanel();
+                    //removeOverlayPanel();
                 }
             });
             panel.add(god);
 
         }
-        overlayPanel.add(panel);
-        overlayPanel.revalidate();
-        overlayPanel.repaint();
+        centerPanel.add(panel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
     }
 
     private void setCell(JButton cell, Blocks blocks, boolean isFree, boolean mine){
@@ -638,12 +641,12 @@ public class Game extends JFrame implements Observer<Object> {
             case DRAW_CARD:
                 //mostra a video le carte da selezionare
                 isSimplePlay = false;
-                addOverlayPanel();
+                //addOverlayPanel();
                 drawCards();
                 break;
             case PICK_CARD:
                 isSimplePlay = false;
-                addOverlayPanel();
+                //addOverlayPanel();
                 pickCard(gameMessage);
                 break;
             case SET_WORKER_1:
