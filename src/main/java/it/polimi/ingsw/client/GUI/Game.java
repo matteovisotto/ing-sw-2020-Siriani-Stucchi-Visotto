@@ -351,8 +351,13 @@ public class Game extends JFrame implements Observer<Object> {
     private void resetOverlayPanel(){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
-                ((JButton)overlayPanel.getComponent(i*5+j)).removeActionListener(((JButton)overlayPanel.getComponent(i*5+j)).getActionListeners()[0]);
-                ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(false);
+                try{
+                    ((JButton)overlayPanel.getComponent(i*5+j)).removeActionListener(((JButton)overlayPanel.getComponent(i*5+j)).getActionListeners()[0]);
+                    ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(false);
+                }catch(ArrayIndexOutOfBoundsException e){
+                    //e.printStackTrace();
+                }
+
             }
         }
     }
@@ -417,18 +422,16 @@ public class Game extends JFrame implements Observer<Object> {
                 });
             }
         }
-        centerPanel.add(overlayPanel,BorderLayout.CENTER);
+        //centerPanel.add(overlayPanel,BorderLayout.CENTER);
         centerPanel.revalidate();
         centerPanel.repaint();
     }
 
     public void addInitialBoard(){
-
-        BufferedImage image;
         initialBoardPanel = new JPanel();
         initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
-        initialBoardPanel.setPreferredSize(new Dimension(855, 905));
-        initialBoardPanel.setSize(855, 905);
+        initialBoardPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
+        initialBoardPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
         initialBoardPanel.setOpaque(false);
         initialBoardPanel.setBorder(BorderFactory.createEmptyBorder());
         for (int i = 0; i < 5; i++) {
@@ -437,30 +440,15 @@ public class Game extends JFrame implements Observer<Object> {
                 board[i][j].setOpaque(false);
                 board[i][j].setContentAreaFilled(false);
                 board[i][j].setBorderPainted(false);
-                board[i][j].setPreferredSize(new Dimension(162, 165));
-                board[i][j].setSize(162, 165);
+                board[i][j].setPreferredSize(new Dimension(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5));
+                board[i][j].setSize(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5);
                 board[i][j].setBorder(BorderFactory.createEmptyBorder());
                 board[i][j].setEnabled(false);
                 board[i][j].setVisible(false);
-                board[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
-                /*try{
-                    image = ImageIO.read(new File("images/blue_square.png"));
-                    Image normal = image.getScaledInstance(board[i][j].getWidth(), board[i][j].getHeight(), Image.SCALE_AREA_AVERAGING);
-                    board[i][j].setIcon(new ImageIcon(normal));
-                }catch (IOException e){
-                    e.printStackTrace();
-                }*/
                 initialBoardPanel.add(board[i][j]);
             }
         }
         centerPanel.add(initialBoardPanel,BorderLayout.CENTER);
-        centerPanel.revalidate();
-        centerPanel.repaint();
     }
 
     private void drawCards(){
@@ -608,6 +596,27 @@ public class Game extends JFrame implements Observer<Object> {
                 Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
                 cell.setIcon(new ImageIcon(normal));
                 cell.setDisabledIcon(new ImageIcon(normal));
+                if(mine){
+                    cell.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            boolean stop=false;
+                            ((JButton)e.getSource()).setSelected(false);
+                            for(int i=0; i<5; i++){
+                                for(int j=0; j<5; j++){
+                                    if((JButton)e.getSource() == board[i][j]){
+                                        performMove(i,j);
+                                        stop=true;
+                                        break;
+                                    }
+                                }
+                                if(stop){
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                }
             }
 
         }catch(IOException e){
@@ -684,19 +693,50 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void performMove(int x, int y) {
-        if(this.selectedWorker == -1){
-            if(player.getWorker(0).getCell().getX()==x && player.getWorker(0).getCell().getY()==y){
-                this.selectedWorker=0;
-            }
-            else if(player.getWorker(1).getCell().getX()==x && player.getWorker(1).getCell().getY()==y){
-                this.selectedWorker=1;
-            } else {
-                setMessageOnPopup("This is not your worker");
-            }
+        if(player.getWorker(0).getCell().getX()==x && player.getWorker(0).getCell().getY()==y){
+            this.selectedWorker=0;
+        } else if(player.getWorker(1).getCell().getX()==x && player.getWorker(1).getCell().getY()==y){
+            this.selectedWorker=1;
         } else {
+            setMessageOnPopup("This is not your worker");
+            return;
+        }
+        resetOverlayPanel();
+        for (int i = x-1; i <= x+1; i++) {
+            for (int j = y-1; j <= y+1; j++){
+                try{
+                    if(!(i==x && j==y) && i>=0 && j>=0 && i<=4 && j<=4 && !(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) && !(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j)){
+                        ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(true);
+                        ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                ((JButton)e.getSource()).setSelected(false);
+                                StringBuilder stringBuilder = new StringBuilder();
+                                chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+                                chosenCellY = cellsY.get((JButton) e.getSource()).toString();
+                                stringBuilder.append(selectedWorker);
+                                stringBuilder.append(",");
+                                stringBuilder.append(chosenCellX);
+                                stringBuilder.append(",");
+                                stringBuilder.append(chosenCellY);
+                                response = stringBuilder.toString();
+                                guiClient.send(response);
+                                resetOverlayPanel();
+                            }
+                        });
+                    }
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        /*else {
             guiClient.send(this.selectedWorker+","+x+","+y);
             this.selectedWorker=-1;
-        }
+        }*/
     }
 
     private void phaseManager(GameMessage gameMessage){
