@@ -37,6 +37,7 @@ public class Game extends JFrame implements Observer<Object> {
     private String chosenCellY;
     private JButton[][] board = new JButton[5][5];
     private double value = 0;
+    protected int selectedWorker=-1;
 
     public Game(final GUIClient guiClient){
         customCursor();
@@ -431,6 +432,12 @@ public class Game extends JFrame implements Observer<Object> {
                 board[i][j].setBorder(BorderFactory.createEmptyBorder());
                 board[i][j].setEnabled(false);
                 board[i][j].setVisible(false);
+                board[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                });
                 /*try{
                     image = ImageIO.read(new File("images/blue_square.png"));
                     Image normal = image.getScaledInstance(board[i][j].getWidth(), board[i][j].getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -666,6 +673,22 @@ public class Game extends JFrame implements Observer<Object> {
         }
 
 
+    }
+
+    private void performMove(int x, int y) {
+        if(this.selectedWorker == -1){
+            if(player.getWorker(0).getCell().getX()==x && player.getWorker(0).getCell().getY()==y){
+                this.selectedWorker=0;
+            }
+            else if(player.getWorker(1).getCell().getX()==x && player.getWorker(1).getCell().getY()==y){
+                this.selectedWorker=1;
+            } else {
+                setMessageOnPopup("This is not your worker");
+            }
+        } else {
+            guiClient.send(this.selectedWorker+","+x+","+y);
+            this.selectedWorker=-1;
+        }
     }
 
     private void phaseManager(GameMessage gameMessage){
