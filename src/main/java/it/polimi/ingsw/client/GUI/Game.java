@@ -495,13 +495,7 @@ public class Game extends JFrame implements Observer<Object> {
                             response = stringBuilder.toString();
                             guiClient.send(response);
                             multipleSelections.clear();
-                            Component[] components = panel.getComponents();
-                            for (Component component : components) {
-                                panel.remove(component);
-                            }
                             centerPanel.remove(panel);
-                            centerPanel.revalidate();
-                            centerPanel.repaint();
                         }
                     }
                 }
@@ -553,7 +547,7 @@ public class Game extends JFrame implements Observer<Object> {
                 public void actionPerformed(ActionEvent e) {
                     response = gods.get((JButton) e.getSource()).toString();
                     guiClient.send(response);
-                    //removeOverlayPanel();
+                    centerPanel.remove(panel);
                 }
             });
             panel.add(god);
@@ -639,20 +633,18 @@ public class Game extends JFrame implements Observer<Object> {
     private void turnPhaseManager(GameMessage gameMessage) {
         switch (gameMessage.getMessageType()) {
             case DRAW_CARD:
-                //mostra a video le carte da selezionare
                 isSimplePlay = false;
-                //addOverlayPanel();
                 drawCards();
                 break;
             case PICK_CARD:
                 isSimplePlay = false;
-                //addOverlayPanel();
                 pickCard(gameMessage);
                 break;
             case SET_WORKER_1:
-                //checkCell();
-            case SET_WORKER_2:
                 addOverlayPanel();
+                placeWorker(((GameBoardMessage)gameMessage).getBoard());
+                break;
+            case SET_WORKER_2:
                 placeWorker(((GameBoardMessage)gameMessage).getBoard());
                 break;
             case BEGINNING:
