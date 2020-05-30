@@ -38,6 +38,8 @@ public class Game extends JFrame implements Observer<Object> {
     private JButton[][] board = new JButton[5][5];
     private double value = 0;
     protected int selectedWorker=-1;
+    private final HashMap<JButton, Integer> cellsX = new HashMap<>();
+    private final HashMap<JButton, Integer> cellsY = new HashMap<>();
 
     public Game(final GUIClient guiClient){
         customCursor();
@@ -346,30 +348,27 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.repaint();
     }
 
-    private void addOverlayPanel() {
-        overlayPanel = new JPanel(true);
-        overlayPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
-        overlayPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
-        //overlayPanel.setBackground(Color.LIGHT_GRAY);
-        overlayPanel.setOpaque(false);
-        centerPanel.add(overlayPanel, BorderLayout.CENTER);
-        centerPanel.revalidate();
-        centerPanel.repaint();
+    private void resetOverlayPanel(){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                ((JButton)overlayPanel.getComponent(i*5+j)).removeActionListener(((JButton)overlayPanel.getComponent(i*5+j)).getActionListeners()[0]);
+                ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(false);
+            }
+        }
     }
 
-    public void placeWorker(Board board) {
+    private void addOverlayPanel() {
         BufferedImage image;
-        overlayPanel.setLayout(new GridLayout(5,5,0,0));
+        overlayPanel = new JPanel(true);
+        overlayPanel.setLayout(new GridLayout(5,5,0,10));
+        overlayPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
+        overlayPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
         overlayPanel.setOpaque(false);
         overlayPanel.setBorder(BorderFactory.createEmptyBorder());
-        final HashMap<JButton, Integer> cellsX = new HashMap<>();
-        final HashMap<JButton, Integer> cellsY = new HashMap<>();
+        centerPanel.add(overlayPanel, BorderLayout.CENTER);
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
-                if(!board.getCell(i,j).isFree()){
-                    cell.setVisible(false);
-                }
                 cell.setBorder(BorderFactory.createEmptyBorder());
                 cell.setOpaque(false);
                 cell.setContentAreaFilled(false);
@@ -383,9 +382,22 @@ public class Game extends JFrame implements Observer<Object> {
                 }catch (IOException e){
                     e.printStackTrace();
                 }
+                cell.setVisible(false);
                 cellsX.put(cell,i);
                 cellsY.put(cell,j);
-                cell.addActionListener(new ActionListener() {
+            }
+        }
+        centerPanel.revalidate();
+        centerPanel.repaint();
+    }
+
+    public void placeWorker(Board board) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                if(board.getCell(i,j).isFree()){
+                    ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(true);
+                }
+                ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         StringBuilder stringBuilder = new StringBuilder();
@@ -396,10 +408,11 @@ public class Game extends JFrame implements Observer<Object> {
                         stringBuilder.append(chosenCellY);
                         response = stringBuilder.toString();
                         guiClient.send(response);
-                        removeOverlayPanel();
+                        //removeOverlayPanel();
                         if(messageType==MessageType.SET_WORKER_2){
                             player.setWorkers(new Worker(new Cell(Integer.parseInt(chosenCellX), Integer.parseInt(chosenCellY))));
                         }
+                        resetOverlayPanel();
                     }
                 });
             }
