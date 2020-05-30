@@ -37,7 +37,7 @@ public class Game extends JFrame implements Observer<Object> {
     private String chosenCellY;
     private JButton[][] board = new JButton[5][5];
     private double value = 0;
-    protected int selectedWorker=-1;
+    protected int selectedWorker;
     private final HashMap<JButton, Integer> cellsX = new HashMap<>();
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
 
@@ -361,6 +361,18 @@ public class Game extends JFrame implements Observer<Object> {
             }
         }
     }
+    private void resetBoardPanel(){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                try{
+                    ((JButton)board[i][j].getComponent(i*5+j)).removeActionListener(((JButton)board[i][j].getComponent(i*5+j)).getActionListeners()[0]);
+                }catch(ArrayIndexOutOfBoundsException e){
+                    //e.printStackTrace();
+                }
+
+            }
+        }
+    }
 
     private void addOverlayPanel() {
         BufferedImage image;
@@ -651,7 +663,6 @@ public class Game extends JFrame implements Observer<Object> {
 
     }
 
-
     private void turnPhaseManager(GameMessage gameMessage) {
         switch (gameMessage.getMessageType()) {
             case DRAW_CARD:
@@ -721,7 +732,6 @@ public class Game extends JFrame implements Observer<Object> {
                                 stringBuilder.append(chosenCellY);
                                 response = stringBuilder.toString();
                                 guiClient.send(response);
-                                resetOverlayPanel();
                             }
                         });
                     }
@@ -739,7 +749,46 @@ public class Game extends JFrame implements Observer<Object> {
         }*/
     }
 
+    private void performBuild(){
+        resetOverlayPanel();
+        resetBoardPanel();
+        int x=player.getWorker(selectedWorker).getCell().getX();
+        int y=player.getWorker(selectedWorker).getCell().getY();
+        for (int i = x-1; i <= x+1; i++) {
+            for (int j = y-1; j <= y+1; j++){
+                try{
+                    if(!(i==x && j==y) && i>=0 && j>=0 && i<=4 && j<=4 && !(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) && !(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j)){
+                        ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(true);
+                        ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                StringBuilder stringBuilder = new StringBuilder();
+                                chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+                                chosenCellY = cellsY.get((JButton) e.getSource()).toString();
+                                stringBuilder.append(chosenCellX);
+                                stringBuilder.append(",");
+                                stringBuilder.append(chosenCellY);
+                                response = stringBuilder.toString();
+                                resetOverlayPanel();
+                                guiClient.send(response);
+                                resetOverlayPanel();
+                                resetBoardPanel();
+                            }
+                        });
+                    }
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
     private void phaseManager(GameMessage gameMessage){
+        if(gameMessage.getPlayer()!=this.player){
+            return;
+        }
         switch (gameMessage.getMessageType()) {
             case PICK_CARD:
                 break;
@@ -774,7 +823,8 @@ public class Game extends JFrame implements Observer<Object> {
                 break;
             case MOVE:
                 break;
-            case BUILD:
+            case BUILD://non viene chiamata...probabile errore nell'invio dei messaggi
+                performBuild();
                 break;
             case USE_POWER:
                 break;
