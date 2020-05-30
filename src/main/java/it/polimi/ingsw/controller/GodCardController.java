@@ -129,7 +129,9 @@ public class GodCardController extends Controller{
         }
         else{
             model.updateTurn();
-            model.notifyMessage(PlayerMessage.PICK_CARD + "\n0 - " + model.getGods().get(0).getName() + "\n1 - " + model.getGods().get(1).getName());
+            model.setNextMessageType(MessageType.PICK_CARD);
+            model.setNextPlayerMessage(PlayerMessage.PICK_CARD + "\n0 - " + model.getGods().get(0).getName() + "\n1 - " + model.getGods().get(1).getName());
+            model.notifyChanges();
         }
     }
 
