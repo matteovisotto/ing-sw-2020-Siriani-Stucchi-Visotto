@@ -240,7 +240,7 @@ public class Game extends JFrame implements Observer<Object> {
                 System.out.println(opponentName);
                 String godName = opponentGods.get(opponentName);
                 JPanel playerPanel = new JPanel(true);
-                playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() / opponentGods.size());
+                playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() * 11/10 / opponentGods.size());
                 playerPanel.setOpaque(false);
                 playerPanel.setLayout(new BorderLayout(0, 0));
                 JLabel nameLabel = new JLabel();
@@ -287,7 +287,7 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.setSize(rightPanel.getWidth()/2, 230 * opponentsNames.size());
             for (String opponentName : opponentsNames) {
                 JPanel playerPanel = new JPanel(true);
-                playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() / opponentsNames.size());
+                playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() * 11/10 / opponentsNames.size());
                 playerPanel.setOpaque(false);
                 playerPanel.setLayout(new BorderLayout(0, 0));
                 JLabel nameLabel = new JLabel();
