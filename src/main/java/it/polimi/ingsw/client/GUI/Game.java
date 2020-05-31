@@ -231,6 +231,7 @@ public class Game extends JFrame implements Observer<Object> {
         remove(mainPanel);
     }
 
+    //Bisogna riempire myGod con ((nome),(god associato al nome)) e dovrebbe funzionare
     private void addMyCard() {
         try {
             JPanel myPanel = new JPanel(true);
@@ -475,7 +476,6 @@ public class Game extends JFrame implements Observer<Object> {
                         stringBuilder.append(chosenCellY);
                         response = stringBuilder.toString();
                         guiClient.send(response);
-                        //removeOverlayPanel();
                         if(messageType==MessageType.SET_WORKER_2){
                             player.setWorkers(new Worker(new Cell(Integer.parseInt(chosenCellX), Integer.parseInt(chosenCellY))));
                         }
@@ -484,7 +484,6 @@ public class Game extends JFrame implements Observer<Object> {
                 });
             }
         }
-        //centerPanel.add(overlayPanel,BorderLayout.CENTER);
         centerPanel.revalidate();
         centerPanel.repaint();
     }
@@ -585,13 +584,6 @@ public class Game extends JFrame implements Observer<Object> {
 
             }
         }
-
-        /*else {
-            guiClient.send(this.selectedWorker+","+x+","+y);
-            this.selectedWorker=-1;
-        }*/
-        /*revalidate();
-        repaint();*/
     }
 
     private void performBuild(){
@@ -710,7 +702,6 @@ public class Game extends JFrame implements Observer<Object> {
                                 if (i < multipleSelections.size()-1) {
                                     stringBuilder.append(',');
                                 }
-
                             }
                             response = stringBuilder.toString();
                             guiClient.send(response);
@@ -772,7 +763,6 @@ public class Game extends JFrame implements Observer<Object> {
                     centerPanel.remove(panel);
                     centerPanel.revalidate();
                     centerPanel.repaint();
-                    //clientConfigurator.setGodCard(new GodCard());
                 }
             });
             panel.add(god);
@@ -908,11 +898,6 @@ public class Game extends JFrame implements Observer<Object> {
                 break;
             case SET_WORKER_1:
                 try {
-                    Player me = clientConfigurator.getMyself();
-                    myGod.put(me.getPlayerName(), me.getGodCard().getName());
-                    if (myGod.size() == 1){
-                        addMyCard();
-                    }
                     if (!isSimplePlay && opponentGods.size() != clientConfigurator.getNumberOfPlayer() - 1) {
                         Player opponent = gameMessage.getPlayer();
                         if (!opponentGods.containsKey(opponent.getPlayerName())) {
