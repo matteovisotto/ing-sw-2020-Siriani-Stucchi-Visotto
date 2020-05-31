@@ -25,6 +25,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean isSimplePlay = true;
     private ArrayList<String> opponentsNames = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
+    private HashMap<String, String> myGod = new HashMap<>();
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
@@ -228,6 +229,55 @@ public class Game extends JFrame implements Observer<Object> {
         }
         getContentPane().removeAll();
         remove(mainPanel);
+    }
+
+    private void addMyCard() {
+        try {
+            JPanel myPanel = new JPanel(true);
+            myPanel.setOpaque(false);
+            myPanel.setLayout(new BorderLayout());
+            myPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight());
+            for (String myName : myGod.keySet()) {
+                System.out.println(myName);
+                String godName = myGod.get(myName);
+                JPanel playerPanel = new JPanel(true);
+                playerPanel.setSize(myPanel.getWidth(), myPanel.getHeight() / 2);
+                playerPanel.setOpaque(false);
+                playerPanel.setLayout(new BorderLayout(0, 0));
+                JLabel nameLabel = new JLabel();
+                JLabel godLabel = new JLabel();
+                value = 0.304347826;
+                nameLabel.setSize((playerPanel.getWidth()), (int)(playerPanel.getHeight() * value)); //70
+                value = 1.7391304347826;
+                godLabel.setSize((playerPanel.getWidth()), (int)(playerPanel.getHeight() * value) / 2); //400
+                BufferedImage god, frame;
+                try {
+                    frame = ImageIO.read(new File("images/myNameFrame.png"));
+                    god = ImageIO.read(new File("images/God_with_frame/" + Parser.toCapitalize(godName) + ".png"));
+                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    nameLabel.setIcon(new ImageIcon(frameImage));
+                    godLabel.setIcon(new ImageIcon(godImage));
+                    godLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+                nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+                nameLabel.setText(myName);
+                nameLabel.setForeground(Color.WHITE);
+                playerPanel.add(nameLabel, BorderLayout.NORTH);
+                playerPanel.add(godLabel, BorderLayout.CENTER);
+                myPanel.add(playerPanel, BorderLayout.NORTH);
+            }
+            myPanel.setAlignmentX(SwingConstants.CENTER);
+            leftPanel.add(myPanel, BorderLayout.NORTH);
+
+        }catch (Exception e){
+            System.out.println("From function");
+            e.printStackTrace();
+        }
     }
 
     private void addOpponents() {
@@ -666,6 +716,8 @@ public class Game extends JFrame implements Observer<Object> {
                             guiClient.send(response);
                             multipleSelections.clear();
                             centerPanel.remove(panel);
+                            centerPanel.revalidate();
+                            centerPanel.repaint();
                         }
                     }
                 }
@@ -718,6 +770,9 @@ public class Game extends JFrame implements Observer<Object> {
                     response = gods.get((JButton) e.getSource()).toString();
                     guiClient.send(response);
                     centerPanel.remove(panel);
+                    centerPanel.revalidate();
+                    centerPanel.repaint();
+                    //clientConfigurator.setGodCard(new GodCard());
                 }
             });
             panel.add(god);
@@ -853,6 +908,11 @@ public class Game extends JFrame implements Observer<Object> {
                 break;
             case SET_WORKER_1:
                 try {
+                    Player me = clientConfigurator.getMyself();
+                    myGod.put(me.getPlayerName(), me.getGodCard().getName());
+                    if (myGod.size() == 1){
+                        addMyCard();
+                    }
                     if (!isSimplePlay && opponentGods.size() != clientConfigurator.getNumberOfPlayer() - 1) {
                         Player opponent = gameMessage.getPlayer();
                         if (!opponentGods.containsKey(opponent.getPlayerName())) {

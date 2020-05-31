@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.messageModel;
 
+import it.polimi.ingsw.model.GodCard;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ public class ClientConfigurator implements Serializable {
     private final int numberOfPlayer;
     private final ArrayList<String> opponentsNames;
     private final Player me;
+    private String godCard = "";
 
     public ClientConfigurator(int numberOfPlayer, ArrayList<String> opponentsNames, Player me) {
         this.numberOfPlayer = numberOfPlayer;
@@ -27,4 +29,13 @@ public class ClientConfigurator implements Serializable {
     public Player getMyself() {
         return me;
     }
+
+    public String getGodCard() {
+        return godCard;
+    }
+
+    public void setGodCard(String godCard) {
+        this.godCard = godCard;
+    }
+
 }
