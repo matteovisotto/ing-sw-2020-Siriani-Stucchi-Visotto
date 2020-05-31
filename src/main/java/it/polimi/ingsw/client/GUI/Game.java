@@ -506,8 +506,6 @@ public class Game extends JFrame implements Observer<Object> {
                                 stringBuilder.append(chosenCellY);
                                 response = stringBuilder.toString();
                                 guiClient.send(response);
-                                resetBoardPanel();
-                                resetOverlayPanel();
                             }
                         });
                     }
@@ -547,10 +545,7 @@ public class Game extends JFrame implements Observer<Object> {
                                 stringBuilder.append(",");
                                 stringBuilder.append(chosenCellY);
                                 response = stringBuilder.toString();
-                                resetOverlayPanel();
                                 guiClient.send(response);
-                                /*resetOverlayPanel();
-                                resetBoardPanel();*/
                             }
                         });
                     }
@@ -786,6 +781,7 @@ public class Game extends JFrame implements Observer<Object> {
             case BEGINNING:
                 break;
             case MOVE:
+
                 prepareMove(gameMessage);
                 break;
             case BUILD:
@@ -842,8 +838,8 @@ public class Game extends JFrame implements Observer<Object> {
                 }
                 break;
             case MOVE:
-                break;
-            case BUILD://non viene chiamata...probabile errore nell'invio dei messaggi
+            case BUILD:
+                resetOverlayPanel();
                 break;
             case USE_POWER:
                 break;
