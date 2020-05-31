@@ -731,11 +731,11 @@ public class Game extends JFrame implements Observer<Object> {
     private void setCell(JButton cell, Blocks blocks, boolean isFree, boolean mine){
         BufferedImage image=null;
         String path="images/Blocks/";
+        boolean isVisible=true;
         try{
-            cell.setVisible(true);
             switch(blocks){
                 case EMPTY:
-                    cell.setVisible(false);
+                    isVisible=!isFree;
                     break;
                 case LEVEL1:
                     path+="level1";
@@ -751,7 +751,6 @@ public class Game extends JFrame implements Observer<Object> {
                     break;
             }
             if(!isFree){
-                cell.setVisible(true);
                 if(mine){
                     path+="_me";
                 }
@@ -760,12 +759,13 @@ public class Game extends JFrame implements Observer<Object> {
                 }
             }
             path+=".png";
-            if(cell.isVisible()){
+            if(isVisible){
                 image = ImageIO.read(new File(path));
                 Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
                 cell.setIcon(new ImageIcon(normal));
                 cell.setDisabledIcon(new ImageIcon(normal));
             }
+            cell.setVisible(isVisible);
 
         }catch(IOException e){
             e.printStackTrace();

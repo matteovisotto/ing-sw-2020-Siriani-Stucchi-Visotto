@@ -38,7 +38,6 @@ public class Model extends Observable<ViewMessage> {
     public void initialize(){
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
         notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
-
     }
 
     public boolean isMovedUp() {
