@@ -377,7 +377,7 @@ public class Game extends JFrame implements Observer<Object> {
     private void addOverlayPanel() {
         BufferedImage image;
         overlayPanel = new JPanel(true);
-        overlayPanel.setLayout(new GridLayout(5,5,0,10));
+        overlayPanel.setLayout(new GridLayout(5,5,0,0));
         overlayPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
         overlayPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
         overlayPanel.setOpaque(false);
@@ -508,6 +508,25 @@ public class Game extends JFrame implements Observer<Object> {
                                 guiClient.send(response);
                             }
                         });
+                        final int ii=i;
+                        final int jj=j;
+                        ((JButton)initialBoardPanel.getComponent(i*5+j)).setEnabled(true);
+                        ((JButton)initialBoardPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                ((JButton)e.getSource()).setSelected(false);
+                                StringBuilder stringBuilder = new StringBuilder();
+                                chosenCellX = String.valueOf(ii);
+                                chosenCellY = String.valueOf(jj);
+                                stringBuilder.append(selectedWorker);
+                                stringBuilder.append(",");
+                                stringBuilder.append(chosenCellX);
+                                stringBuilder.append(",");
+                                stringBuilder.append(chosenCellY);
+                                response = stringBuilder.toString();
+                                guiClient.send(response);
+                            }
+                        });
                     }
 
                 }catch(Exception e){
@@ -526,8 +545,6 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void performBuild(){
-        resetBoardPanel();
-        resetOverlayPanel();
         int x=player.getWorker(selectedWorker).getCell().getX();
         int y=player.getWorker(selectedWorker).getCell().getY();
         for (int i = x-1; i <= x+1; i++) {
@@ -535,12 +552,33 @@ public class Game extends JFrame implements Observer<Object> {
                 try{
                     if(!(i==x && j==y) && i>=0 && j>=0 && i<=4 && j<=4 && !(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) && !(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j)){
                         ((JButton)overlayPanel.getComponent(i*5+j)).setVisible(true);
+                        ((JButton)overlayPanel.getComponent(i*5+j)).setEnabled(true);
                         ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 StringBuilder stringBuilder = new StringBuilder();
                                 chosenCellX = cellsX.get((JButton) e.getSource()).toString();
                                 chosenCellY = cellsY.get((JButton) e.getSource()).toString();
+                                stringBuilder.append(chosenCellX);
+                                stringBuilder.append(",");
+                                stringBuilder.append(chosenCellY);
+                                response = stringBuilder.toString();
+                                guiClient.send(response);
+                            }
+                        });
+                        ((JButton)initialBoardPanel.getComponent(i*5+j)).setEnabled(true);
+                        ((JButton)initialBoardPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for(int i1=0; i1<5; i1++){
+                                    for(int j1=0; j1<5; j1++){
+                                        if((JButton)e.getSource() == board[i1][j1]){
+                                            chosenCellX = String.valueOf(i1);
+                                            chosenCellY = String.valueOf(j1);
+                                        }
+                                    }
+                                }
                                 stringBuilder.append(chosenCellX);
                                 stringBuilder.append(",");
                                 stringBuilder.append(chosenCellY);
@@ -781,10 +819,13 @@ public class Game extends JFrame implements Observer<Object> {
             case BEGINNING:
                 break;
             case MOVE:
-
+                resetOverlayPanel();
+                resetBoardPanel();
                 prepareMove(gameMessage);
                 break;
             case BUILD:
+                resetOverlayPanel();
+                resetBoardPanel();
                 performBuild();
                 break;
             case USE_POWER:
