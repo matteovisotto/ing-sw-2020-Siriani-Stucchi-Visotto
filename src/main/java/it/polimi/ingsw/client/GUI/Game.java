@@ -951,8 +951,8 @@ public class Game extends JFrame implements Observer<Object> {
         godPanel.add(internalPanel, BorderLayout.SOUTH);
 
         leftPanel.add(godPanel, BorderLayout.SOUTH);
-        revalidate();
-        repaint();
+        leftPanel.revalidate();
+        leftPanel.repaint();
     }
 
     private void prometheusPower(){
@@ -1050,8 +1050,8 @@ public class Game extends JFrame implements Observer<Object> {
         godPanel.add(internalPanel, BorderLayout.SOUTH);
 
         leftPanel.add(godPanel, BorderLayout.SOUTH);
-        revalidate();
-        repaint();
+        leftPanel.revalidate();
+        leftPanel.repaint();
     }
 
     private void turnPhaseManager(GameMessage gameMessage) {
