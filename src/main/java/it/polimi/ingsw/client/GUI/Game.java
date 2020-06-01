@@ -955,6 +955,105 @@ public class Game extends JFrame implements Observer<Object> {
         repaint();
     }
 
+    private void prometheusPower(){
+        BufferedImage image;
+        final Image normal;
+        setMessageOnPopup("Make a choice");
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                try{
+                    ((JButton)initialBoardPanel.getComponent(i*5+j)).removeActionListener(((JButton)initialBoardPanel.getComponent(i*5+j)).getActionListeners()[0]);
+                }catch(ArrayIndexOutOfBoundsException e){
+                    //e.printStackTrace();
+                }
+                if(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j){
+                    ((JButton)initialBoardPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            selectedWorker=0;
+                        }
+                    });
+                }else if(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j){
+                    ((JButton)initialBoardPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            selectedWorker=1;
+                        }
+                    });
+                }
+
+            }
+        }
+        godPanel=new JPanel(true){
+            @Override
+            protected void paintComponent(Graphics g) {
+
+                super.paintComponent(g);
+                try{
+                    BufferedImage image=ImageIO.read(new File("images/GodPower/main.png")); //da cambiare in prometheus.png dove viene cambiata la scritta con "select which worker u want to use and click ok"
+                    Image normal = image.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
+                    g.drawImage(normal, 0, 0, null);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        godPanel.setLayout(new BorderLayout(10,10));
+        godPanel.setOpaque(false);
+        godPanel.setPreferredSize(new Dimension(leftPanel.getWidth(), leftPanel.getHeight()/2));
+        godPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight()/2);
+
+        godPanel.setAlignmentX(SwingConstants.CENTER);
+        godPanel.setAlignmentY(SwingConstants.CENTER);
+
+        JPanel internalPanel=new JPanel(true);
+        internalPanel.setLayout(new GridLayout(1,1,10,0));
+        internalPanel.setSize(godPanel.getWidth(), godPanel.getHeight()/3);
+        internalPanel.setOpaque(false);
+        //internalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        JButton yes = new JButton();
+        /*yes.setBorder(BorderFactory.createLineBorder(Color.black));
+        no.setBorder(BorderFactory.createLineBorder(Color.black));*/
+        yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
+        yes.setOpaque(false);
+        yes.setContentAreaFilled(false);
+        yes.setBorderPainted(false);
+        yes.setHorizontalAlignment(SwingConstants.CENTER);
+        /*yes.setVerticalAlignment(SwingConstants.SOUTH);
+        no.setVerticalAlignment(SwingConstants.SOUTH);*/
+        Image n, n2;
+        Image np, n2p;
+        try{
+            image=ImageIO.read(new File("images/GodPower/btn_green.png")); //DA CAMBIARE CON UN'IMMAGINE CON SCRITTO SOLO OK
+            n = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+            yes.setIcon(new ImageIcon(n));
+            image=ImageIO.read(new File("images/GodPower/btn_green_pressed.png"));//STESSA ROBA DI SOPRA
+            np = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+            yes.setPressedIcon(new ImageIcon(np));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        yes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.send(Integer.toString(selectedWorker));
+                resetGodPanel();
+            }
+        });
+
+
+        //internalPanel.setPreferredSize(new Dimension(godPanel.getWidth(), godPanel.getHeight()/3));
+        internalPanel.add(yes);
+        internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
+        godPanel.add(internalPanel, BorderLayout.SOUTH);
+
+        leftPanel.add(godPanel, BorderLayout.SOUTH);
+        revalidate();
+        repaint();
+    }
+
     private void turnPhaseManager(GameMessage gameMessage) {
         switch (gameMessage.getMessageType()) {
             case DRAW_CARD:
@@ -989,6 +1088,7 @@ public class Game extends JFrame implements Observer<Object> {
                 usePower();
                 break;
             case PROMETHEUS:
+                prometheusPower();
                 break;
             case VICTORY:
                 break;
