@@ -28,7 +28,7 @@ public class Atlas extends GodCard {
     public void usePower(List<Object> objectList) {
         usedPower = true;
         Model model = (Model)objectList.get(0);
-        model.setNextPhase(getPhase());
+        model.setNextPhase(Phase.next(getPhase()));
         model.setNextPlayerMessage(PlayerMessage.BUILD);
         model.setNextMessageType(MessageType.BUILD);
         model.notifyChanges();
