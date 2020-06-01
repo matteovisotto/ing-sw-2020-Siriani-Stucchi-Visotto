@@ -182,7 +182,7 @@ public class GodCardController extends Controller{
                         model.notifyChanges();
                     }
                     else if(model.getGCPlayer(Gods.PAN) == move.getPlayer()){// se è il turno del player con pan
-                        if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==2){
+                        if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>=2){
                             model.victory(move.getPlayer());
                             return;
                         }
