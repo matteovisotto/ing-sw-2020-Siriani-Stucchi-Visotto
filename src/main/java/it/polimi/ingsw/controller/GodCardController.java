@@ -147,6 +147,10 @@ public class GodCardController extends Controller{
             move.getView().reportError("This worker can't move anywhere");
             return;
         }
+        if(model.getGCPlayer(Gods.ATHENA) == move.getPlayer()){
+            model.setMovedUp(false);
+        }
+
         HashMap<Cell, Boolean> availableCells = checkCellsAround(move.getPlayer().getWorker(move.getWorkerId()));
 
         try{

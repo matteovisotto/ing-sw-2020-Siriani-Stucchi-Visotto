@@ -103,7 +103,11 @@ public class Model extends Observable<ViewMessage> {
 
     public synchronized void updateTurn(){
         id = (id + 1) % (turn.length);
-
+        /*if(!isSimplePlay()){
+            if(turn[id].getGodCard().getCardGod()==Gods.ATHENA){
+                setMovedUp(false);
+            }
+        }*/
         if(turn[id].hasWon() && turn.length == 3){
             updateTurn();
         }
@@ -228,6 +232,9 @@ public class Model extends Observable<ViewMessage> {
 
     public void loose(Player player){
         player.setHasLost(true);
+        if(player.getGodCard().getCardGod()==Gods.ATHENA){
+            setMovedUp(false);
+        }
         ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", this.phase);
         if(leftPlayers == 3){
             leftPlayers--;
