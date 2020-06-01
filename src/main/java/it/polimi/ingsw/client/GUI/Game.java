@@ -26,7 +26,7 @@ public class Game extends JFrame implements Observer<Object> {
     private ArrayList<String> opponentsNames = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel;
     private JLabel messageLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
@@ -237,18 +237,20 @@ public class Game extends JFrame implements Observer<Object> {
             JPanel myPanel = new JPanel(true);
             myPanel.setOpaque(false);
             myPanel.setLayout(new BorderLayout());
-            myPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight());
+            myPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight()/3);
+            //myPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             System.out.println(gameMessage.getPlayer().getPlayerName());
             String godName = myGod.get(gameMessage.getPlayer().getPlayerName());
             JPanel playerPanel = new JPanel(true);
-            playerPanel.setSize(myPanel.getWidth()/2, myPanel.getHeight() / 2);
+            playerPanel.setSize(myPanel.getWidth()/2, myPanel.getHeight());
             playerPanel.setOpaque(false);
             playerPanel.setLayout(new BorderLayout(0, 0));
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
-            value = 0.129629;
+            value = 0.2;
             nameLabel.setSize((playerPanel.getWidth()), (int)(playerPanel.getHeight() * value)); //70
-            value = 1.7391304347826;
+            //value = 1.7391304347826;
+            value = 2;
             godLabel.setSize((playerPanel.getWidth()), (int)(playerPanel.getHeight() * value) / 2); //400
             BufferedImage god, frame;
             try {
@@ -412,6 +414,7 @@ public class Game extends JFrame implements Observer<Object> {
             }
         }
     }
+
     private void resetBoardPanel(){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
@@ -423,6 +426,15 @@ public class Game extends JFrame implements Observer<Object> {
 
             }
         }
+    }
+
+    private void resetGodPanel(){
+        for (Component component: godPanel.getComponents()){
+            godPanel.remove(component);
+        }
+        leftPanel.remove(godPanel);
+        leftPanel.revalidate();
+        leftPanel.repaint();
     }
 
     private void addOverlayPanel() {
@@ -458,6 +470,7 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.revalidate();
         centerPanel.repaint();
     }
+
 
     public void placeWorker(Board board) {
         for (int i = 0; i < 5; i++) {
@@ -844,6 +857,104 @@ public class Game extends JFrame implements Observer<Object> {
 
     }
 
+    private void usePower(){
+        BufferedImage image;
+        final Image normal;
+        setMessageOnPopup("Make a choice");
+        resetOverlayPanel();
+
+
+        godPanel=new JPanel(true){
+            @Override
+            protected void paintComponent(Graphics g) {
+
+                super.paintComponent(g);
+                try{
+                    BufferedImage image=ImageIO.read(new File("images/GodPower/main.png"));
+                    Image normal = image.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
+                    g.drawImage(normal, 0, 0, null);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        godPanel.setLayout(new BorderLayout(10,10));
+        godPanel.setOpaque(false);
+        godPanel.setPreferredSize(new Dimension(leftPanel.getWidth(), leftPanel.getHeight()/2));
+        godPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight()/2);
+
+        godPanel.setAlignmentX(SwingConstants.CENTER);
+        godPanel.setAlignmentY(SwingConstants.CENTER);
+
+        JPanel internalPanel=new JPanel(true);
+        internalPanel.setLayout(new GridLayout(1,2,10,0));
+        internalPanel.setSize(godPanel.getWidth(), godPanel.getHeight()/3);
+        internalPanel.setOpaque(false);
+        //internalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        JButton yes = new JButton();
+        JButton no = new JButton();
+        /*yes.setBorder(BorderFactory.createLineBorder(Color.black));
+        no.setBorder(BorderFactory.createLineBorder(Color.black));*/
+        yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
+        no.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
+        yes.setOpaque(false);
+        no.setOpaque(false);
+        yes.setContentAreaFilled(false);
+        no.setContentAreaFilled(false);
+        yes.setBorderPainted(false);
+        no.setBorderPainted(false);
+
+        yes.setHorizontalAlignment(SwingConstants.LEFT);
+        no.setHorizontalAlignment(SwingConstants.RIGHT);
+        /*yes.setVerticalAlignment(SwingConstants.SOUTH);
+        no.setVerticalAlignment(SwingConstants.SOUTH);*/
+        Image n, n2;
+        Image np, n2p;
+        try{
+            image=ImageIO.read(new File("images/GodPower/btn_green.png"));
+            n = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+            yes.setIcon(new ImageIcon(n));
+            image=ImageIO.read(new File("images/GodPower/btn_green_pressed.png"));
+            np = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+            yes.setPressedIcon(new ImageIcon(np));
+            image=ImageIO.read(new File("images/GodPower/btn_coral.png"));
+            n2 = image.getScaledInstance(no.getWidth(), no.getHeight(), Image.SCALE_AREA_AVERAGING);
+            no.setIcon(new ImageIcon(n2));
+            image=ImageIO.read(new File("images/GodPower/btn_coral_pressed.png"));
+            n2p = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+            no.setPressedIcon(new ImageIcon(n2p));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        yes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.send("y");
+                resetGodPanel();
+            }
+        });
+        no.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.send("n");
+                resetGodPanel();
+            }
+        });
+
+
+        //internalPanel.setPreferredSize(new Dimension(godPanel.getWidth(), godPanel.getHeight()/3));
+        internalPanel.add(no);
+        internalPanel.add(yes);
+        internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
+        godPanel.add(internalPanel, BorderLayout.SOUTH);
+
+        leftPanel.add(godPanel, BorderLayout.SOUTH);
+        revalidate();
+        repaint();
+    }
+
     private void turnPhaseManager(GameMessage gameMessage) {
         switch (gameMessage.getMessageType()) {
             case DRAW_CARD:
@@ -875,6 +986,7 @@ public class Game extends JFrame implements Observer<Object> {
                 performBuild();
                 break;
             case USE_POWER:
+                usePower();
                 break;
             case PROMETHEUS:
                 break;
