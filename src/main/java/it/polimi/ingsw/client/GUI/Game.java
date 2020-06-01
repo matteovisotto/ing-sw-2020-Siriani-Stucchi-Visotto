@@ -43,7 +43,7 @@ public class Game extends JFrame implements Observer<Object> {
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
 
     public Game(final GUIClient guiClient){
-        customCursor();
+        //customCursor();
         this.guiClient = guiClient;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Santorini");
