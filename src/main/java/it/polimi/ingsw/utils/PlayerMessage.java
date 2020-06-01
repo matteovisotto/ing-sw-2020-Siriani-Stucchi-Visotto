@@ -16,15 +16,35 @@ public class PlayerMessage {
 
     /* Playing messages */
     public static final String DRAW_CARD = "Choose which Gods you want to use:\n" +
-            "0 - APOLLO\n" +
-            "1 - ARTEMIS\n" +
-            "2 - ATHENA\n" +
-            "3 - ATLAS\n" +
-            "4 - DEMETER\n" +
-            "5 - HEPHAESTUS\n" +
-            "6 - MINOTAUR\n" +
-            "7 - PAN\n" +
-            "8 - PROMETHEUS";
+            "0 - APOLLO \n\tYour Worker may move into an opponent Worker’s\n" +
+            "\tspace by forcing their Worker to\n" +
+            "\tthe space yours just vacated.\n" +
+
+            "1 - ARTEMIS \n\tYour Worker may move one additional time, but not\n" +
+            "\tback to its initial space.\n" +
+
+            "2 - ATHENA \n\tIf one of your Workers moved up on your last\n" +
+            "\tturn, opponent Workers cannot\n" +
+            "\tmove up this turn.\n" +
+
+            "3 - ATLAS \n\tYour Worker may build a dome at any level.\n" +
+
+            "4 - DEMETER \n\tYour Worker may build one additional time, but not\n" +
+            "\ton the same space.\n" +
+
+            "5 - HEPHAESTUS \n\tYour Worker may build one additional block (not\n" +
+            "\tdome) on top of your first block."+
+
+            "6 - MINOTAUR \n\tYour Worker may move into an opponent Worker’s\n" +
+            "\tspace, if their Worker can be\n" +
+            "\tforced one space straight backwards to an\n" +
+            "\tunoccupied space at any level.\n"+
+
+            "7 - PAN \n\tYou also win if your Worker moves down two or\n" +
+            "\tmore levels.\n" +
+
+            "8 - PROMETHEUS \n\tIf your Worker does not move up, it may build both\n" +
+            "\tbefore and after moving.";
 
 
     public static final String PICK_CARD = "Pick a card:";
