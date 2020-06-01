@@ -35,7 +35,7 @@ public class GUIClient extends Observable<Object> {
 
     public synchronized void openInitializator() {
         initialization.setVisible(true);
-        game.setEnabled(false);
+        //game.setEnabled(false);
     }
 
     public synchronized void closeInitializator() {
