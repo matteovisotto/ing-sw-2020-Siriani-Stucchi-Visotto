@@ -27,9 +27,9 @@ public class Game extends JFrame implements Observer<Object> {
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel;
-    private JLabel messageLabel, endGameLabel;
+    private JLabel messageLabel, background;
     private JButton startPlayBtn;
-    private MessageType messageType=MessageType.PLAYER_NAME;
+    private MessageType messageType = MessageType.PLAYER_NAME;
     private Player player;
     private ClientConfigurator clientConfigurator;
     private String response;
@@ -69,7 +69,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setLayout() {
-        JLabel background = new JLabel();
+        background = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
         //this.setSize(d);
@@ -474,6 +474,140 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.repaint();
     }
 
+    public void addInitialBoard(){
+        initialBoardPanel = new JPanel();
+        initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
+        initialBoardPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
+        initialBoardPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
+        initialBoardPanel.setOpaque(false);
+        initialBoardPanel.setBorder(BorderFactory.createEmptyBorder());
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++){
+                board[i][j] = new JButton();
+                board[i][j].setOpaque(false);
+                board[i][j].setContentAreaFilled(false);
+                board[i][j].setBorderPainted(false);
+                board[i][j].setPreferredSize(new Dimension(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5));
+                board[i][j].setSize(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5);
+                board[i][j].setBorder(BorderFactory.createEmptyBorder());
+                board[i][j].setEnabled(false);
+                board[i][j].setVisible(false);
+                initialBoardPanel.add(board[i][j]);
+            }
+        }
+        centerPanel.add(initialBoardPanel,BorderLayout.CENTER);
+    }
+
+    private void drawCards(){
+        final HashMap<JButton, Integer> gods = new HashMap<>();
+        setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
+        BufferedImage image;
+        final JPanel panel = new JPanel(true);
+        panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        panel.setOpaque(false);
+        panel.setLayout(new GridLayout(3,3,10,10));
+        for (int i=0; i<9; i++) {
+            final JButton god = new JButton();
+            god.setOpaque(false);
+            god.setContentAreaFilled(false);
+            god.setBorderPainted(false);
+            god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
+            try{
+                String fileName = Gods.getGod(i).toString();
+                fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
+                image=ImageIO.read(new File("images/God_with_frame/"+ fileName +".png"));
+                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
+                god.setIcon(new ImageIcon(normal));
+                panel.add(god);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            gods.put(god, i);
+            god.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    multipleSelections.add(gods.get(e.getSource()).toString());
+                    panel.remove((JButton) e.getSource());
+                    panel.revalidate();
+                    panel.repaint();
+                    synchronized (multipleSelections) {
+                        if (multipleSelections.size() == clientConfigurator.getNumberOfPlayer()) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 0; i < multipleSelections.size(); i++) {
+                                stringBuilder.append(multipleSelections.get(i));
+                                if (i < multipleSelections.size()-1) {
+                                    stringBuilder.append(',');
+                                }
+                            }
+                            response = stringBuilder.toString();
+                            guiClient.send(response);
+                            multipleSelections.clear();
+                            centerPanel.remove(panel);
+                            centerPanel.revalidate();
+                            centerPanel.repaint();
+                        }
+                    }
+                }
+            });
+        }
+
+        centerPanel.add(panel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+    }
+
+    private void pickCard(ViewMessage viewMessage) {
+        final ArrayList<String> godsName = new ArrayList<>();
+        //Parser
+        String[] splitted = viewMessage.getMessage().split("\n");
+        String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
+        String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
+        godsName.add(firstGod);
+        godsName.add(secondGod);
+        if (clientConfigurator.getNumberOfPlayer() == 3 && splitted.length > 3) {
+            String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
+            godsName.add(thirdGod);
+        }
+        final HashMap<JButton, Integer> gods = new HashMap<>();
+        setMessageOnPopup("Please select a god card");
+        BufferedImage image;
+        final JPanel panel = new JPanel(true);
+        panel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight());
+        panel.setOpaque(false);
+        panel.setLayout(new GridLayout(2,2,0,0));
+        for (int i = 0; i < godsName.size(); i++) {
+            final JButton god = new JButton();
+            god.setOpaque(false);
+            god.setContentAreaFilled(false);
+            god.setBorderPainted(false);
+            god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
+            try {
+                String fileName = godsName.get(i);
+                image = ImageIO.read(new File("images/God_with_frame/" + fileName + ".png"));
+                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
+                god.setIcon(new ImageIcon(normal));
+                panel.add(god);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gods.put(god, i);
+            god.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    response = gods.get((JButton) e.getSource()).toString();
+                    guiClient.send(response);
+                    centerPanel.remove(panel);
+                    centerPanel.revalidate();
+                    centerPanel.repaint();
+                }
+            });
+            panel.add(god);
+
+        }
+        centerPanel.add(panel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+    }
 
     public void placeWorker(Board board) {
         for (int i = 0; i < 5; i++) {
@@ -654,139 +788,49 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    public void addInitialBoard(){
-        initialBoardPanel = new JPanel();
-        initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
-        initialBoardPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
-        initialBoardPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
-        initialBoardPanel.setOpaque(false);
-        initialBoardPanel.setBorder(BorderFactory.createEmptyBorder());
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++){
-                board[i][j] = new JButton();
-                board[i][j].setOpaque(false);
-                board[i][j].setContentAreaFilled(false);
-                board[i][j].setBorderPainted(false);
-                board[i][j].setPreferredSize(new Dimension(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5));
-                board[i][j].setSize(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5);
-                board[i][j].setBorder(BorderFactory.createEmptyBorder());
-                board[i][j].setEnabled(false);
-                board[i][j].setVisible(false);
-                initialBoardPanel.add(board[i][j]);
+    private void setCell(JButton cell, Blocks blocks, boolean isFree, boolean mine){
+        BufferedImage image=null;
+        String path="images/Blocks/";
+        boolean isVisible=true;
+        try{
+            switch(blocks){
+                case EMPTY:
+                    isVisible=!isFree;
+                    break;
+                case LEVEL1:
+                    path+="level1";
+                    break;
+                case LEVEL2:
+                    path+="level2";
+                    break;
+                case LEVEL3:
+                    path+="level3";
+                    break;
+                case DOME:
+                    path+="dome";
+                    break;
             }
-        }
-        centerPanel.add(initialBoardPanel,BorderLayout.CENTER);
-    }
-
-    private void drawCards(){
-        final HashMap<JButton, Integer> gods = new HashMap<>();
-        setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
-        BufferedImage image;
-        final JPanel panel = new JPanel(true);
-        panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
-        panel.setOpaque(false);
-        panel.setLayout(new GridLayout(3,3,10,10));
-        for (int i=0; i<9; i++) {
-            final JButton god = new JButton();
-            god.setOpaque(false);
-            god.setContentAreaFilled(false);
-            god.setBorderPainted(false);
-            god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
-            try{
-                String fileName = Gods.getGod(i).toString();
-                fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
-                image=ImageIO.read(new File("images/God_with_frame/"+ fileName +".png"));
-                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
-                god.setIcon(new ImageIcon(normal));
-                panel.add(god);
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            gods.put(god, i);
-            god.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    multipleSelections.add(gods.get(e.getSource()).toString());
-                    panel.remove((JButton) e.getSource());
-                    panel.revalidate();
-                    panel.repaint();
-                    synchronized (multipleSelections) {
-                        if (multipleSelections.size() == clientConfigurator.getNumberOfPlayer()) {
-                            StringBuilder stringBuilder = new StringBuilder();
-                            for (int i = 0; i < multipleSelections.size(); i++) {
-                                stringBuilder.append(multipleSelections.get(i));
-                                if (i < multipleSelections.size()-1) {
-                                    stringBuilder.append(',');
-                                }
-                            }
-                            response = stringBuilder.toString();
-                            guiClient.send(response);
-                            multipleSelections.clear();
-                            centerPanel.remove(panel);
-                            centerPanel.revalidate();
-                            centerPanel.repaint();
-                        }
-                    }
+            if(!isFree){
+                if(mine){
+                    path+="_me";
                 }
-            });
-        }
-
-        centerPanel.add(panel);
-        centerPanel.revalidate();
-        centerPanel.repaint();
-    }
-
-    private void pickCard(ViewMessage viewMessage) {
-        final ArrayList<String> godsName = new ArrayList<>();
-        //Parser
-        String[] splitted = viewMessage.getMessage().split("\n");
-        String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
-        String secondGod = Parser.toCapitalize(splitted[2].substring(4).trim());
-        godsName.add(firstGod);
-        godsName.add(secondGod);
-        if (clientConfigurator.getNumberOfPlayer() == 3 && splitted.length > 3) {
-            String thirdGod = Parser.toCapitalize(splitted[3].substring(4).trim());
-            godsName.add(thirdGod);
-        }
-        final HashMap<JButton, Integer> gods = new HashMap<>();
-        setMessageOnPopup("Please select a god card");
-        BufferedImage image;
-        final JPanel panel = new JPanel(true);
-        panel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight());
-        panel.setOpaque(false);
-        panel.setLayout(new GridLayout(2,2,0,0));
-        for (int i = 0; i < godsName.size(); i++) {
-            final JButton god = new JButton();
-            god.setOpaque(false);
-            god.setContentAreaFilled(false);
-            god.setBorderPainted(false);
-            god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
-            try {
-                String fileName = godsName.get(i);
-                image = ImageIO.read(new File("images/God_with_frame/" + fileName + ".png"));
-                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
-                god.setIcon(new ImageIcon(normal));
-                panel.add(god);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            gods.put(god, i);
-            god.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    response = gods.get((JButton) e.getSource()).toString();
-                    guiClient.send(response);
-                    centerPanel.remove(panel);
-                    centerPanel.revalidate();
-                    centerPanel.repaint();
+                else{
+                    path+="_enemy";
                 }
-            });
-            panel.add(god);
+            }
+            path+=".png";
+            if(isVisible){
+                image = ImageIO.read(new File(path));
+                Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+                cell.setIcon(new ImageIcon(normal));
+                cell.setDisabledIcon(new ImageIcon(normal));
+            }
+            cell.setVisible(isVisible);
 
+        }catch(IOException e){
+            e.printStackTrace();
         }
-        centerPanel.add(panel);
-        centerPanel.revalidate();
-        centerPanel.repaint();
+
     }
 
     private void removeBoard(){
@@ -842,72 +886,20 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanel.setSize(mainPanel.getWidth(), mainPanel.getHeight());
         //endGamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
         endGamePanel.setOpaque(false);
-        /*JLabel background = new JLabel();
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension d = tk.getScreenSize();
-        //this.setSize(d);
-        setContentPane(background);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //togliere il commento qua sotto per metterlo completo full screen.
-        //this.setUndecorated(true);
-        BufferedImage img;
+        //da qua sotto in avanti dovrebbe cambiare immagine ma non la cambia
+        background.setIcon(null);
         try {
-            img = ImageIO.read(new File("images/home/End_game.png"));
-            Image dimg = img.getScaledInstance(d.width, d.height,
-                    Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            background.setIcon(imageIcon);
+            BufferedImage img = ImageIO.read(new File("images/End_game.png"));
+            background.setIcon(new ImageIcon(img));
+            background.revalidate();
+            background.repaint();
+            background.update(background.getGraphics());
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         mainPanel.add(endGamePanel, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();
-    }
-
-    private void setCell(JButton cell, Blocks blocks, boolean isFree, boolean mine){
-        BufferedImage image=null;
-        String path="images/Blocks/";
-        boolean isVisible=true;
-        try{
-            switch(blocks){
-                case EMPTY:
-                    isVisible=!isFree;
-                    break;
-                case LEVEL1:
-                    path+="level1";
-                    break;
-                case LEVEL2:
-                    path+="level2";
-                    break;
-                case LEVEL3:
-                    path+="level3";
-                    break;
-                case DOME:
-                    path+="dome";
-                    break;
-            }
-            if(!isFree){
-                if(mine){
-                    path+="_me";
-                }
-                else{
-                    path+="_enemy";
-                }
-            }
-            path+=".png";
-            if(isVisible){
-                image = ImageIO.read(new File(path));
-                Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
-                cell.setIcon(new ImageIcon(normal));
-                cell.setDisabledIcon(new ImageIcon(normal));
-            }
-            cell.setVisible(isVisible);
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
     }
 
     private void updateBoard(Board board, boolean enable){
@@ -1157,7 +1149,6 @@ public class Game extends JFrame implements Observer<Object> {
                 resetOverlayPanel();
                 resetBoardPanel();
                 prepareMove(gameMessage);
-                endGame();
                 break;
             case BUILD:
                 resetOverlayPanel();
@@ -1175,6 +1166,7 @@ public class Game extends JFrame implements Observer<Object> {
             case LOSE:
                 break;
             case END_GAME:
+                endGame();
                 break;
             default:
                 break;
