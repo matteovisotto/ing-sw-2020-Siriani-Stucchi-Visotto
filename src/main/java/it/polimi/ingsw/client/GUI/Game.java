@@ -26,8 +26,8 @@ public class Game extends JFrame implements Observer<Object> {
     private ArrayList<String> opponentsNames = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel;
-    private JLabel messageLabel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel;
+    private JLabel messageLabel, endGameLabel;
     private JButton startPlayBtn;
     private MessageType messageType=MessageType.PLAYER_NAME;
     private Player player;
@@ -69,11 +69,11 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setLayout() {
-        JLabel backgroud = new JLabel();
+        JLabel background = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
         //this.setSize(d);
-        setContentPane(backgroud);
+        setContentPane(background);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //togliere il commento qua sotto per metterlo completo full screen.
         //this.setUndecorated(true);
@@ -83,7 +83,7 @@ public class Game extends JFrame implements Observer<Object> {
             Image dimg = img.getScaledInstance(d.width, d.height,
                     Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(dimg);
-            backgroud.setIcon(imageIcon);
+            background.setIcon(imageIcon);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -396,6 +396,9 @@ public class Game extends JFrame implements Observer<Object> {
 
     protected void removeOverlayPanel() {
         resetOverlayPanelContent();
+        for (Component component: overlayPanel.getComponents()){
+            overlayPanel.remove(component);
+        }
         centerPanel.remove(overlayPanel);
         centerPanel.revalidate();
         centerPanel.repaint();
@@ -786,6 +789,82 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.repaint();
     }
 
+    private void removeBoard(){
+        for (Component component: leftPanel.getComponents()){
+            leftPanel.remove(component);
+        }
+        mainPanel.remove(leftPanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        for (Component component: rightPanel.getComponents()){
+            rightPanel.remove(component);
+        }
+        mainPanel.remove(rightPanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        for (Component component: southPanel.getComponents()){
+            southPanel.remove(component);
+        }
+        mainPanel.remove(southPanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        for (Component component: initialBoardPanel.getComponents()){
+            initialBoardPanel.remove(component);
+        }
+        centerPanel.remove(initialBoardPanel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        for (Component component: messageLabel.getComponents()){
+            messageLabel.remove(component);
+        }
+        centerPanel.remove(messageLabel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+        removeOverlayPanel();
+        for (Component component: centerPanel.getComponents()){
+            centerPanel.remove(component);
+        }
+        mainPanel.remove(centerPanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        for (Component component: mainPanel.getComponents()){
+            mainPanel.remove(component);
+        }
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private void endGame(){
+        removeBoard();
+        endGamePanel = new JPanel();
+        endGamePanel.setLayout(new BorderLayout(0,0));
+        endGamePanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
+        endGamePanel.setSize(mainPanel.getWidth(), mainPanel.getHeight());
+        //endGamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        endGamePanel.setOpaque(false);
+        /*JLabel background = new JLabel();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension d = tk.getScreenSize();
+        //this.setSize(d);
+        setContentPane(background);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //togliere il commento qua sotto per metterlo completo full screen.
+        //this.setUndecorated(true);
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File("images/home/End_game.png"));
+            Image dimg = img.getScaledInstance(d.width, d.height,
+                    Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            background.setIcon(imageIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        mainPanel.add(endGamePanel, BorderLayout.CENTER);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
     private void setCell(JButton cell, Blocks blocks, boolean isFree, boolean mine){
         BufferedImage image=null;
         String path="images/Blocks/";
@@ -1078,6 +1157,7 @@ public class Game extends JFrame implements Observer<Object> {
                 resetOverlayPanel();
                 resetBoardPanel();
                 prepareMove(gameMessage);
+                endGame();
                 break;
             case BUILD:
                 resetOverlayPanel();
