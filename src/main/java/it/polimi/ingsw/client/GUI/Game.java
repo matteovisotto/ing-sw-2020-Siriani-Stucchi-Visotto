@@ -28,7 +28,7 @@ public class Game extends JFrame implements Observer<Object> {
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel;
-    private JLabel messageLabel, background;
+    private JLabel messageLabel, background, endGameImage;
     private JButton startPlayBtn;
     private MessageType messageType = MessageType.PLAYER_NAME;
     private Player player;
@@ -898,20 +898,23 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanel.setSize(mainPanel.getWidth(), mainPanel.getHeight());
         //endGamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
         endGamePanel.setOpaque(false);
+        add(endGamePanel);
         //da qua sotto in avanti dovrebbe cambiare immagine ma non la cambia
-        background.setIcon(null);
+        endGameImage = new JLabel();
+        endGameImage.setPreferredSize(new Dimension(endGamePanel.getWidth(), endGamePanel.getHeight()));
+        endGameImage.setSize(endGamePanel.getWidth(), endGamePanel.getHeight());
+        BufferedImage img;
         try {
-            BufferedImage img = ImageIO.read(new File("images/End_game.png"));
-            background.setIcon(new ImageIcon(img));
-            background.revalidate();
-            background.repaint();
-            background.update(background.getGraphics());
+            img = ImageIO.read(new File("images/End_game.png"));
+            Image dimg = img.getScaledInstance(endGameImage.getWidth(),endGameImage.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            endGameImage.setIcon(imageIcon);
+            endGamePanel.add(endGameImage, BorderLayout.CENTER);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mainPanel.add(endGamePanel, BorderLayout.CENTER);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
     }
 
     private void updateBoard(Board board, boolean enable){
@@ -1161,6 +1164,7 @@ public class Game extends JFrame implements Observer<Object> {
                 resetOverlayPanel();
                 resetBoardPanel();
                 prepareMove(gameMessage);
+                endGame();
                 break;
             case BUILD:
                 resetOverlayPanel();
