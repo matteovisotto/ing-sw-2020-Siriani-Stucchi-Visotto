@@ -27,7 +27,7 @@ public class Game extends JFrame implements Observer<Object> {
     private ArrayList<String> opponentsNames = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel, endGamePanelPlayers, exitGame, playAgain;
     private JLabel messageLabel, background, endGameImage;
     private JButton startPlayBtn;
     private MessageType messageType = MessageType.PLAYER_NAME;
@@ -898,7 +898,7 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanel.setSize(mainPanel.getWidth(), mainPanel.getHeight());
         //endGamePanel.setBorder(BorderFactory.createLineBorder(Color.black));
         endGamePanel.setOpaque(false);
-        add(endGamePanel);
+        mainPanel.add(endGamePanel);
         //da qua sotto in avanti dovrebbe cambiare immagine ma non la cambia
         endGameImage = new JLabel();
         endGameImage.setPreferredSize(new Dimension(endGamePanel.getWidth(), endGamePanel.getHeight()));
@@ -909,10 +909,97 @@ public class Game extends JFrame implements Observer<Object> {
             Image dimg = img.getScaledInstance(endGameImage.getWidth(),endGameImage.getHeight(), Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(dimg);
             endGameImage.setIcon(imageIcon);
-            endGamePanel.add(endGameImage, BorderLayout.CENTER);
+            mainPanel.add(endGameImage, BorderLayout.CENTER);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        setJPanelsOnEndGame();
+    }
+
+    private void setJPanelsOnEndGame(){
+        endGamePanelPlayers = new JPanel();
+        endGamePanelPlayers.setLayout(new BorderLayout(10,10));
+        value = 0.552083;
+        endGamePanelPlayers.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389))); //1060
+        endGamePanelPlayers.setSize((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
+        endGamePanelPlayers.setBorder(BorderFactory.createLineBorder(Color.black));
+        endGamePanelPlayers.setOpaque(false);
+        endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
+
+        value = 0.2129629;
+        southPanel = new JPanel(true);
+        southPanel.setLayout(new BorderLayout(10, 10));
+        southPanel.setPreferredSize(new Dimension(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value))); //210
+        southPanel.setSize(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value));
+        southPanel.setOpaque(false);
+        endGamePanel.add(southPanel, BorderLayout.SOUTH);
+
+        value = 0.260416;
+        playAgain = new JPanel(true);
+        playAgain.setLayout(new BorderLayout(10, 50));
+        playAgain.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight())); //500
+        playAgain.setSize((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
+        playAgain.setOpaque(false);
+        endGamePanel.add(playAgain, BorderLayout.WEST);
+
+        exitGame = new JPanel(true);
+        exitGame.setLayout(new BorderLayout(10, 10));
+        exitGame.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), endGamePanel.getBounds().height)); //500
+        exitGame.setSize((int)(endGamePanel.getWidth() * value), endGamePanel.getBounds().height);
+        exitGame.setOpaque(false);
+        endGamePanel.add(exitGame, BorderLayout.EAST);
+
+        value = 0.199074;
+        messageLabel = new JLabel();
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(25f);
+            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+        messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        messageLabel.setFont(customFont);
+        messageLabel.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value))); //215
+        messageLabel.setSize(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
+        setMessageOnPopup("Would you like to play again?");
+        endGamePanel.add(messageLabel, BorderLayout.NORTH);
+
+        BufferedImage messageBoard;
+        try {
+            messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
+            Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            messageLabel.setIcon(imageIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        messageLabel.setForeground(Color.WHITE);
+        addPlayersEndGame();
+    }
+
+    private void addPlayersEndGame(){
+        JLabel winner = new JLabel();
+        winner.setLayout(new GridLayout(1,1,0,0));
+        winner.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
+        winner.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
+        winner.setOpaque(false);
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File("images/Podium_win/Apollo_podium_win.png"));
+            Image dimg = img.getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            winner.setIcon(imageIcon);
+            endGamePanelPlayers.add(winner, BorderLayout.CENTER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        endGamePanel.add(endGamePanelPlayers,BorderLayout.CENTER);
         endGamePanel.revalidate();
         endGamePanel.repaint();
     }
