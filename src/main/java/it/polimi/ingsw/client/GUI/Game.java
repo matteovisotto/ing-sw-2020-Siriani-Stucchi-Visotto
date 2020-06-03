@@ -949,6 +949,29 @@ public class Game extends JFrame implements Observer<Object> {
         exitGame.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), endGamePanel.getBounds().height)); //500
         exitGame.setSize((int)(endGamePanel.getWidth() * value), endGamePanel.getBounds().height);
         exitGame.setOpaque(false);
+        JButton exitButton = new JButton();
+        exitButton.setSize(exitGame.getWidth()/2, exitGame.getHeight()/4);
+        exitButton.setOpaque(false);
+        exitButton.setContentAreaFilled(false);
+        exitButton.setBorderPainted(false);
+
+        exitButton.setHorizontalAlignment(SwingConstants.CENTER);
+        BufferedImage image;
+        try{
+            image = ImageIO.read(new File("images/Exit.png"));
+            Image exit = image.getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+            exitButton.setIcon(new ImageIcon(exit));
+            exitGame.add(exitButton,BorderLayout.CENTER);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.send("n");
+            }
+        });
         endGamePanel.add(exitGame, BorderLayout.EAST);
 
         value = 0.199074;
