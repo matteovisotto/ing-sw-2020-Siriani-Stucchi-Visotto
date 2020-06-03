@@ -15,6 +15,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,6 +42,8 @@ public class Game extends JFrame implements Observer<Object> {
     protected int selectedWorker;
     private final HashMap<JButton, Integer> cellsX = new HashMap<>();
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
+    private GraphicsEnvironment ge;
+    private Font customFont;
 
     public Game(final GUIClient guiClient){
         //customCursor();
@@ -200,9 +203,18 @@ public class Game extends JFrame implements Observer<Object> {
 
         value = 0.1111111111;
         messageLabel = new JLabel();
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(20f);
+            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
         messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        messageLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 18));
+        messageLabel.setFont(customFont);
         messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //120
         messageLabel.setSize(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value)); //120
 
