@@ -920,11 +920,11 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void setJPanelsOnEndGame(){
         endGamePanelPlayers = new JPanel();
-        endGamePanelPlayers.setLayout(new BorderLayout(10,10));
+        endGamePanelPlayers.setLayout(new BorderLayout(10,60));
         value = 0.552083;
         endGamePanelPlayers.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389))); //1060
         endGamePanelPlayers.setSize((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
-        endGamePanelPlayers.setBorder(BorderFactory.createLineBorder(Color.black));
+        //endGamePanelPlayers.setBorder(BorderFactory.createLineBorder(Color.black));
         endGamePanelPlayers.setOpaque(false);
         endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
 
@@ -984,24 +984,46 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addPlayersEndGame(){
+        JLabel centerEnd = new JLabel();
+        centerEnd.setLayout(new BorderLayout());
+        centerEnd.setPreferredSize(new Dimension(2,50));
+        centerEnd.setSize(2,50);
+        centerEnd.setOpaque(false);
+        endGamePanelPlayers.add(centerEnd,BorderLayout.CENTER);
+
         JLabel winner = new JLabel();
         winner.setLayout(new GridLayout(1,1,0,0));
-        winner.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
-        winner.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
+        winner.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2));
+        winner.setSize(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2);
         winner.setOpaque(false);
-        BufferedImage img;
+        winner.setHorizontalAlignment(SwingConstants.CENTER);
+        BufferedImage imgWinner;
         try {
-            img = ImageIO.read(new File("images/Podium_win/Apollo_podium_win.png"));
-            Image dimg = img.getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
+            imgWinner = ImageIO.read(new File("images/Podium_win/Apollo_podium_win.png"));
+            Image dimg = imgWinner.getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
             ImageIcon imageIcon = new ImageIcon(dimg);
             winner.setIcon(imageIcon);
-            endGamePanelPlayers.add(winner, BorderLayout.CENTER);
+            endGamePanelPlayers.add(winner, BorderLayout.NORTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        endGamePanel.add(endGamePanelPlayers,BorderLayout.CENTER);
-        endGamePanel.revalidate();
-        endGamePanel.repaint();
+        JLabel loser = new JLabel();
+        loser.setLayout(new GridLayout(1,2,0,0));
+        loser.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
+        loser.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
+        loser.setOpaque(false);
+        BufferedImage imgLosers;
+        try {
+            imgLosers = ImageIO.read(new File("images/Podium/Apollo_podium.png"));
+            Image dimg = imgLosers.getScaledInstance(loser.getWidth()/2,loser.getHeight(), Image.SCALE_AREA_AVERAGING);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            loser.setIcon(imageIcon);
+            endGamePanelPlayers.add(loser, BorderLayout.SOUTH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        endGamePanelPlayers.revalidate();
+        endGamePanelPlayers.repaint();
     }
 
     private void updateBoard(Board board, boolean enable){
