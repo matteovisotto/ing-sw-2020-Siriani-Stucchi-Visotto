@@ -26,7 +26,7 @@ public abstract class View extends Observable<Message> implements Observer<ViewM
     }
 
     public void reportError(String message){
-        showMessage(message);
+        showMessage("ERROR: " + message);
     }
 
 
