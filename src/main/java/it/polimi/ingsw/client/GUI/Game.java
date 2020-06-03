@@ -217,9 +217,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setFont(customFont);
         messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //120
         messageLabel.setSize(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value)); //120
-
-
-        centerPanel.add(messageLabel, BorderLayout.NORTH);
+        messageLabel.setForeground(Color.WHITE);
         BufferedImage messageBoard;
         try {
             messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
@@ -230,9 +228,9 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        centerPanel.add(messageLabel, BorderLayout.NORTH);
+
         addInitialBoard();
-        messageLabel.setForeground(Color.WHITE);
-        //revalidation();
     }
 
     private void clearGui(){
@@ -918,6 +916,45 @@ public class Game extends JFrame implements Observer<Object> {
         setJPanelsOnEndGame();
     }
 
+    private void removeEndGameLayout(){
+        for (Component component: southPanel.getComponents()){
+            southPanel.remove(component);
+        }
+        endGamePanel.remove(southPanel);
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+        for (Component component: endGamePanelPlayers.getComponents()){
+            endGamePanelPlayers.remove(component);
+        }
+        endGamePanel.remove(endGamePanelPlayers);
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+        for (Component component: playAgain.getComponents()){
+            playAgain.remove(component);
+        }
+        endGamePanel.remove(playAgain);
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+        for (Component component: exitGame.getComponents()){
+            exitGame.remove(component);
+        }
+        endGamePanel.remove(exitGame);
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+        for (Component component: messageLabel.getComponents()){
+            messageLabel.remove(component);
+        }
+        endGamePanel.remove(messageLabel);
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+        for (Component component: endGamePanel.getComponents()){
+            endGamePanel.remove(component);
+        }
+        remove(endGamePanel);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
     private void setJPanelsOnEndGame(){
         endGamePanelPlayers = new JPanel();
         endGamePanelPlayers.setLayout(new BorderLayout(10,60));
@@ -962,6 +999,9 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiClient.send("y");
+                removeEndGameLayout();
+                initGame();
+                setMessageOnPopup("Waiting for other players");
             }
         });
 
@@ -1105,7 +1145,7 @@ public class Game extends JFrame implements Observer<Object> {
         resetOverlayPanel();
 
 
-        godPanel=new JPanel(true){
+        godPanel = new JPanel(true){
             @Override
             protected void paintComponent(Graphics g) {
 
@@ -1319,7 +1359,7 @@ public class Game extends JFrame implements Observer<Object> {
                 resetOverlayPanel();
                 resetBoardPanel();
                 prepareMove(gameMessage);
-                endGame();
+                //endGame();
                 break;
             case BUILD:
                 resetOverlayPanel();
