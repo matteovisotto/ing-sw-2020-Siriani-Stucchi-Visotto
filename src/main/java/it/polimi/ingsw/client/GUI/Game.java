@@ -942,6 +942,29 @@ public class Game extends JFrame implements Observer<Object> {
         playAgain.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight())); //500
         playAgain.setSize((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
         playAgain.setOpaque(false);
+        JButton playAgainButton = new JButton();
+        playAgainButton.setSize(playAgain.getWidth()/2, playAgain.getHeight()/4);
+        playAgainButton.setOpaque(false);
+        playAgainButton.setContentAreaFilled(false);
+        playAgainButton.setBorderPainted(false);
+
+        playAgainButton.setHorizontalAlignment(SwingConstants.CENTER);
+        BufferedImage imagePlay;
+        try{
+            imagePlay = ImageIO.read(new File("images/PlayAgain.png"));
+            Image exit = imagePlay.getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+            playAgainButton.setIcon(new ImageIcon(exit));
+            playAgain.add(playAgainButton,BorderLayout.CENTER);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        playAgainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiClient.send("y");
+            }
+        });
+
         endGamePanel.add(playAgain, BorderLayout.WEST);
 
         exitGame = new JPanel(true);
