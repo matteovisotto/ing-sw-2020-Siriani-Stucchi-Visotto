@@ -23,7 +23,7 @@ public class AtlasTest {
         model.getActualPlayer().setGodCard(godCard);
         model.getActualPlayer().getGodCard().usePower(cellList);
         assertTrue(((Atlas)model.getActualPlayer().getGodCard()).hasUsedPower());
-        assertEquals(model.getPhase(),Phase.MOVE);
+        assertEquals(model.getPhase(),Phase.BUILD);
     }
 
     @Test

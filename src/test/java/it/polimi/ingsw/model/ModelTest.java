@@ -55,7 +55,7 @@ public class ModelTest {
         assertEquals(model.getActualPlayer(),players[0]);
     }
 
-    @Test
+   /* @Test
     public void updateTurnLoseTest(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -79,7 +79,7 @@ public class ModelTest {
         model.updateTurn();
         model.updateTurn();
         assertTrue(model.getActualPlayer().getHasLost());
-    }
+    }*/
 
     @Test
     public void getPlayerTest(){
@@ -273,7 +273,7 @@ public class ModelTest {
         assertTrue(model.getActualPlayer().hasWon());
     }
 
-    @Test
+    /*@Test
     public void looseTest(){
         Player[] players = new Player[3];
         players[0] = new Player("Mario");
@@ -283,6 +283,6 @@ public class ModelTest {
         model.loose(players[0]);
         assertTrue(model.getActualPlayer().getHasLost());
         assertEquals(2, model.getLeftPlayers());
-    }
+    }*/
 }
 
