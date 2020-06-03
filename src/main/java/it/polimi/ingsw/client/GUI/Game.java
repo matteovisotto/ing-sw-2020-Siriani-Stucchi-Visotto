@@ -205,7 +205,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel = new JLabel();
         try {
             //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(20f);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(25f);
             ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(customFont);
@@ -1073,7 +1073,7 @@ public class Game extends JFrame implements Observer<Object> {
 
                 super.paintComponent(g);
                 try{
-                    BufferedImage image=ImageIO.read(new File("images/GodPower/main.png")); //da cambiare in prometheus.png dove viene cambiata la scritta con "select which worker u want to use and click ok"
+                    BufferedImage image=ImageIO.read(new File("images/GodPower/select_worker.png")); //da cambiare in prometheus.png dove viene cambiata la scritta con "select which worker u want to use and click ok"
                     Image normal = image.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
                     g.drawImage(normal, 0, 0, null);
                 }catch(Exception e){
@@ -1108,10 +1108,10 @@ public class Game extends JFrame implements Observer<Object> {
         Image n, n2;
         Image np, n2p;
         try{
-            image=ImageIO.read(new File("images/GodPower/btn_green.png")); //DA CAMBIARE CON UN'IMMAGINE CON SCRITTO SOLO OK
+            image=ImageIO.read(new File("images/GodPower/btn_ok.png")); //DA CAMBIARE CON UN'IMMAGINE CON SCRITTO SOLO OK
             n = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
             yes.setIcon(new ImageIcon(n));
-            image=ImageIO.read(new File("images/GodPower/btn_green_pressed.png"));//STESSA ROBA DI SOPRA
+            image=ImageIO.read(new File("images/GodPower/btn_ok_pressed.png"));//STESSA ROBA DI SOPRA
             np = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
             yes.setPressedIcon(new ImageIcon(np));
         }catch(Exception e){
