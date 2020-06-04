@@ -223,7 +223,7 @@ public class Model extends Observable<ViewMessage> {
         podium.put(player, playersWhoWon);
         if(leftPlayers == 2){
             for (Player value : turn) {
-                if (!value.getHasLost() && value != player) {
+                if (!value.getHasLost() && !value.hasWon() && value != player) {
                     loose(value);
                 }
             }
@@ -272,7 +272,7 @@ public class Model extends Observable<ViewMessage> {
         }
         else{
             for (Player value : turn) {
-                if (!value.getHasLost() && value != player) {
+                if (!value.hasWon() && !value.getHasLost() && value != player) {
                     victory(value);
                 }
             }
@@ -282,7 +282,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void endGame(){
         phase = Phase.END_GAME;
-        ViewMessage end = new GameMessage(turn[id], "The game has ended.\nDo you want to play again?(y/n)\n", MessageType.END_GAME, this.phase);
+        ViewMessage end = new EndGameMessage(turn[id], "The game has ended.\nDo you want to play again?(y/n)\n", MessageType.END_GAME, this.phase,podium);
         notifyObservers(end);
     }
 
@@ -307,6 +307,8 @@ public class Model extends Observable<ViewMessage> {
         for (Player player : turn) {
             player.reset();
         }
+        this.playersWhoWon=0;
+        this.podium.clear();
         initialize();
     }
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn

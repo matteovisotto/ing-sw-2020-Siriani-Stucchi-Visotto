@@ -278,7 +278,7 @@ public class Game extends JFrame implements Observer<Object> {
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
             nameLabel.setVerticalTextPosition(SwingConstants.CENTER);
             nameLabel.setVerticalAlignment(SwingConstants.CENTER);
-            nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+            nameLabel.setFont(customFont);
             nameLabel.setText(gameMessage.getPlayer().getPlayerName());
             nameLabel.setForeground(Color.WHITE);
             playerPanel.add(nameLabel, BorderLayout.NORTH);
@@ -326,7 +326,7 @@ public class Game extends JFrame implements Observer<Object> {
                 }
                 nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
                 nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+                nameLabel.setFont(customFont);
                 nameLabel.setText(opponentName);
                 nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
@@ -373,7 +373,7 @@ public class Game extends JFrame implements Observer<Object> {
                 }
                 nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
                 nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                nameLabel.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
+                nameLabel.setFont(customFont);
                 nameLabel.setText(opponentName);
                 nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
@@ -893,7 +893,7 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.repaint();
     }
 
-    private void endGame(){
+    private void endGame(HashMap<Player, Integer> podium){
         removeBoard();
         endGamePanel = new JPanel();
         endGamePanel.setLayout(new BorderLayout(0,0));
@@ -918,7 +918,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
         mainPanel.revalidate();
         mainPanel.repaint();
-        setJPanelsOnEndGame();
+        setJPanelsOnEndGame(podium);
     }
 
     private void removeEndGameLayout(){
@@ -960,7 +960,7 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.repaint();
     }
 
-    private void setJPanelsOnEndGame(){
+    private void setJPanelsOnEndGame(HashMap<Player, Integer> podium){
         endGamePanelPlayers = new JPanel();
         endGamePanelPlayers.setLayout(new BorderLayout(10,60));
         value = 0.552083;
@@ -1072,16 +1072,33 @@ public class Game extends JFrame implements Observer<Object> {
             e.printStackTrace();
         }
         messageLabel.setForeground(Color.WHITE);
-        addPlayersEndGame();
+        addPlayersEndGame(podium);
     }
 
-    private void addPlayersEndGame(){
+    private void addPlayersEndGame(HashMap<Player, Integer> podium){
         JLabel centerEnd = new JLabel();
+        String[] s=new String[3];
         centerEnd.setLayout(new BorderLayout());
         centerEnd.setPreferredSize(new Dimension(2,50));
         centerEnd.setSize(2,50);
         centerEnd.setOpaque(false);
         endGamePanelPlayers.add(centerEnd,BorderLayout.CENTER);
+        if(!isSimplePlay){
+            for (Player player: podium.keySet()) {
+                s[podium.get(player)-1]=player.getGodCard().getName();
+            }
+        }
+        else{
+            for (Player player: podium.keySet()) {
+                if(player==this.player){
+                    s[podium.get(player)-1]="our";
+                }
+                else{
+                    s[podium.get(player)-1]="their";
+                }
+
+            }
+        }
 
         JLabel winner = new JLabel();
         winner.setLayout(new GridLayout(1,1,0,0));
@@ -1091,7 +1108,7 @@ public class Game extends JFrame implements Observer<Object> {
         winner.setHorizontalAlignment(SwingConstants.CENTER);
         BufferedImage imgWinner;
         try {
-            imgWinner = ImageIO.read(new File("images/Podium_win/Apollo_podium_win.png"));
+            imgWinner = ImageIO.read(new File("images/Podium_win/"+Parser.toCapitalize(s[0])+"_podium_win.png"));
             Image dimg = imgWinner.getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
             ImageIcon imageIcon = new ImageIcon(dimg);
             winner.setIcon(imageIcon);
@@ -1099,21 +1116,40 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JLabel loser = new JLabel();
+        JPanel loser = new JPanel();
         loser.setLayout(new GridLayout(1,2,0,0));
         loser.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
         loser.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
         loser.setOpaque(false);
         BufferedImage imgLosers;
+        JLabel loser1, loser2;
+        loser1=new JLabel();
+        loser1.setPreferredSize(new Dimension(loser.getWidth()/2,loser.getHeight()));
+        loser1.setSize(loser.getWidth()/2,loser.getHeight());
         try {
-            imgLosers = ImageIO.read(new File("images/Podium/Apollo_podium.png"));
-            Image dimg = imgLosers.getScaledInstance(loser.getWidth()/2,loser.getHeight(), Image.SCALE_AREA_AVERAGING);
+            imgLosers = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[1])+"_podium.png"));
+            Image dimg = imgLosers.getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
             ImageIcon imageIcon = new ImageIcon(dimg);
-            loser.setIcon(imageIcon);
-            endGamePanelPlayers.add(loser, BorderLayout.SOUTH);
+            loser1.setIcon(imageIcon);
+            loser.add(loser1);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if(s[2]!=null){
+            loser2=new JLabel();
+            loser2.setPreferredSize(new Dimension(loser.getWidth()/2,loser.getHeight()));
+            loser2.setSize(loser.getWidth()/2,loser.getHeight());
+            try {
+                imgLosers = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[2])+"_podium.png"));
+                Image dimg = imgLosers.getScaledInstance(loser2.getWidth(),loser2.getHeight(), Image.SCALE_AREA_AVERAGING);
+                ImageIcon imageIcon = new ImageIcon(dimg);
+                loser2.setIcon(imageIcon);
+                loser.add(loser2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        endGamePanelPlayers.add(loser, BorderLayout.SOUTH);
         endGamePanelPlayers.revalidate();
         endGamePanelPlayers.repaint();
     }
@@ -1384,7 +1420,7 @@ public class Game extends JFrame implements Observer<Object> {
                 break;
             case END_GAME:
                 resetGodPanel();
-                endGame();
+                endGame(((EndGameMessage)gameMessage).getPodium());
                 break;
             default:
                 break;
@@ -1440,7 +1476,7 @@ public class Game extends JFrame implements Observer<Object> {
                 resetGodPanel();
                 break;
             case END_GAME:
-                endGame();
+                endGame(((EndGameMessage)gameMessage).getPodium());
                 break;
             default:
                 break;
