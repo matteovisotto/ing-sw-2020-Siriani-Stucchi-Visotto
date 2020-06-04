@@ -1033,6 +1033,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiClient.send("n");
+                dispose();
             }
         });
         endGamePanel.add(exitGame, BorderLayout.EAST);
@@ -1373,10 +1374,8 @@ public class Game extends JFrame implements Observer<Object> {
                 prometheusPower();
                 break;
             case VICTORY:
-                endGame();
                 break;
             case LOSE:
-                endGame();
                 break;
             case END_GAME:
                 endGame();
@@ -1430,10 +1429,8 @@ public class Game extends JFrame implements Observer<Object> {
             case PROMETHEUS:
                 break;
             case VICTORY:
-                endGame();
                 break;
             case LOSE:
-                endGame();
                 break;
             case END_GAME:
                 endGame();
@@ -1462,11 +1459,12 @@ public class Game extends JFrame implements Observer<Object> {
             setMessageOnPopup(arg.getMessage());
             turnPhaseManager(arg);
         } else {
+            setMessageOnPopup("It's now " + player.getPlayerName() + "'s turn");
             phaseManager(arg);
             if(arg instanceof GameBoardMessage){
                 updateBoard(((GameBoardMessage)arg).getBoard(), false);
             }
-            setMessageOnPopup("It's now " + player.getPlayerName() + "'s turn");
+
         }
     }
 
