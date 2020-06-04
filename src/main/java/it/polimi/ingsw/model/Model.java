@@ -251,7 +251,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void endGame(){
         phase = Phase.END_GAME;
-        ViewMessage end = new ViewMessage(MessageType.END_GAME, "The game has ended.\nDo you want to play again?(y/n)\n", this.phase);
+        ViewMessage end = new GameMessage(turn[id], "The game has ended.\nDo you want to play again?(y/n)\n", MessageType.END_GAME, this.phase);
         notifyObservers(end);
     }
 
