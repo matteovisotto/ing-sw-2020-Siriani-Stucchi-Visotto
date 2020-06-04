@@ -251,9 +251,6 @@ public class GodCardController extends Controller{
                     }
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() == 3 && oldLevel!=3){
                         model.victory(move.getPlayer());
-                        if(model.getNumOfPlayers() == 2){
-                            model.endGame();
-                        }
                     }
                     checkVictory();
                     //checkCantBuild(move);
