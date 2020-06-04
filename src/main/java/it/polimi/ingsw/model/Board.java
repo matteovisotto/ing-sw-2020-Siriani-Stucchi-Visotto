@@ -41,11 +41,10 @@ public class Board implements Serializable, Cloneable {
         Cell nextCell = getCell(x,y);
         Cell actualCell = actualWorker.getCell();
         boolean isPlayerSwitchable = false;
-        for (int p = 0; p < players.length; p++) {
-            Player player = players[p];
+        for (Player player : players) {
             //controllo che il player non sia quello del turno
-            if(!player.getGodCard().getCardGod().equals(Gods.APOLLO)){
-                if(!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)){
+            if (!player.getGodCard().getCardGod().equals(Gods.APOLLO)) {
+                if ((player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)) {
                     isPlayerSwitchable = true;
                 }
             }
@@ -57,13 +56,12 @@ public class Board implements Serializable, Cloneable {
         Cell actualCell = actualWorker.getCell();
         Cell behindCell;
         boolean isEnemyPushable = false;
-        for (int p = 0; p < players.length; p++) {
-            Player player = players[p];
+        for (Player player : players) {
             //controllo che il player non sia quello del turno
-            if(!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)){
-                if(!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)){
+            if (!player.getGodCard().getCardGod().equals(Gods.MINOTAUR)) {
+                if (!nextCell.isFree() && (player.getWorker(0).getCell() == nextCell || player.getWorker(1).getCell() == nextCell)) {
                     behindCell = this.getCell((nextCell.getX() - actualCell.getX()) + nextCell.getX(), (nextCell.getY() - actualCell.getY()) + nextCell.getY());
-                    if(behindCell.getLevel().getBlockId() != 4 && behindCell.isFree()){
+                    if (behindCell.getLevel().getBlockId() != 4 && behindCell.isFree()) {
                         isEnemyPushable = true;
                     }
                 }

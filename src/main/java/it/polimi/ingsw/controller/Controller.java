@@ -66,14 +66,19 @@ public abstract class Controller implements Observer<Message> {
     protected synchronized void checkVictory(){
         Player[] players = model.getPlayers();
         //in questo for controllo
-        for(int i = 0; i < model.getNumOfPlayers(); i++){
-            players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0)));
-            players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1)));
-            //se tutti e due non si possono muovere
-            if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
-                model.loose(players[i]);
+        try{
+            for(int i = 0; i < model.getNumOfPlayers(); i++){
+                players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0), players[i]));
+                players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1), players[i]));
+                //se tutti e due non si possono muovere
+                if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
+                    model.loose(players[i]);
+                }
             }
+        }catch(IndexOutOfBoundsException e){
+            //ignore
         }
+
     }
 
     public synchronized void endGame(NewGameMessage newGameMessage){
@@ -108,7 +113,7 @@ public abstract class Controller implements Observer<Message> {
 
     }
 
-    protected synchronized boolean canMove(Worker worker){
+    protected synchronized boolean canMove(Worker worker, Player player){
         Cell actualCell = worker.getCell();
         for (int x = actualCell.getX() - 1; x <= actualCell.getX() + 1; x++) {
             for (int y = actualCell.getY() - 1; y <= actualCell.getY() + 1; y++) {

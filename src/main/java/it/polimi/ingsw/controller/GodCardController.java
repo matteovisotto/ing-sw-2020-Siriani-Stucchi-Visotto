@@ -43,6 +43,7 @@ public class GodCardController extends Controller{
                         }
 
                     }
+
                 }
                 else{
                     model.updatePhase();
@@ -50,6 +51,7 @@ public class GodCardController extends Controller{
                     model.setNextPlayerMessage(PlayerMessage.PLACE_SECOND_WORKER);
                 }
                 model.setPlayerWorker(playerWorker);
+                checkVictory();
             }
             else{
                 playerWorker.getView().reportError("The cell is busy.");
@@ -141,7 +143,7 @@ public class GodCardController extends Controller{
         if(!turnCheck(move)){
             return;
         }
-
+        //checkVictory();
         //qua fa la mossa
         if(!move.getPlayer().getWorker(move.getWorkerId()).getStatus()){
             move.getView().reportError("This worker can't move anywhere");
@@ -280,6 +282,20 @@ public class GodCardController extends Controller{
         }
         model.loose(move.getPlayer());
     }*/
+
+
+    @Override
+    protected synchronized boolean canMove(Worker worker, Player player){
+        HashMap<Cell, Boolean> availableCells=checkCellsAround(worker);
+        boolean canMove=false;
+        for (Boolean can:availableCells.values()) {
+            if(can){
+                canMove=true;
+                break;
+            }
+        }
+        return canMove;
+    }
 
     @Override
     public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {

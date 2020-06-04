@@ -442,12 +442,17 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void resetGodPanel(){
-        for (Component component: godPanel.getComponents()){
-            godPanel.remove(component);
+        try{
+            for (Component component: godPanel.getComponents()){
+                godPanel.remove(component);
+            }
+            leftPanel.remove(godPanel);
+            leftPanel.revalidate();
+            leftPanel.repaint();
+        }catch(NullPointerException e){
+            //ignore
         }
-        leftPanel.remove(godPanel);
-        leftPanel.revalidate();
-        leftPanel.repaint();
+
     }
 
     private void addOverlayPanel() {
@@ -1374,8 +1379,6 @@ public class Game extends JFrame implements Observer<Object> {
                 prometheusPower();
                 break;
             case VICTORY:
-                resetGodPanel();
-                break;
             case LOSE:
                 resetGodPanel();
                 break;
@@ -1430,10 +1433,9 @@ public class Game extends JFrame implements Observer<Object> {
             case USE_POWER:
                 break;
             case PROMETHEUS:
+                resetOverlayPanel();
                 break;
             case VICTORY:
-                resetGodPanel();
-                break;
             case LOSE:
                 resetGodPanel();
                 break;

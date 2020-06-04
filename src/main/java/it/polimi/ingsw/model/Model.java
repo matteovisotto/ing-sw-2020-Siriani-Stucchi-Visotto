@@ -2,18 +2,20 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.model.simplegod.Athena;
+import it.polimi.ingsw.model.simplegod.Prometheus;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Model extends Observable<ViewMessage> {
     private Board board;
     private final Player[] turn;
     private int id = 0;
-    private int leftPlayers;
+    private int leftPlayers, playersWhoWon=0;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
@@ -22,6 +24,7 @@ public class Model extends Observable<ViewMessage> {
     private boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
     private String playerMessage = PlayerMessage.DRAW_CARD;
+    private HashMap<Player, Integer> podium=new HashMap<>();
 
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
@@ -213,9 +216,17 @@ public class Model extends Observable<ViewMessage> {
 
     public void victory(Player player) {
         player.setVictory(true);
+        playersWhoWon++;
+        podium.put(player, 1 + podium.size());
         ViewMessage win = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has won!!!!", MessageType.VICTORY, this.phase);
         notifyObservers(win);
+        podium.put(player, playersWhoWon);
         if(leftPlayers == 2){
+            for (Player value : turn) {
+                if (!value.getHasLost() && value != player) {
+                    loose(value);
+                }
+            }
             endGame();
         }
         else{
@@ -225,6 +236,11 @@ public class Model extends Observable<ViewMessage> {
             setNextPlayerMessage(PlayerMessage.MOVE);
             setNextMessageType(MessageType.MOVE);
             updateTurn();
+            if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+                setNextPhase(Phase.WAIT_GOD_ANSWER);
+                setNextPlayerMessage(PlayerMessage.USE_POWER);
+                setNextMessageType(MessageType.USE_POWER);
+            }
             notifyChanges();
         }
 
@@ -236,8 +252,21 @@ public class Model extends Observable<ViewMessage> {
             setMovedUp(false);
         }
         ViewMessage loose = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", MessageType.LOSE, this.phase);
+        notifyObservers(loose);
+        podium.put(player, leftPlayers);
         if(leftPlayers == 3){
             leftPlayers--;
+            player.remove();
+            setNextPhase(Phase.MOVE);
+            setNextPlayerMessage(PlayerMessage.MOVE);
+            setNextMessageType(MessageType.MOVE);
+            updateTurn();
+            if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+                setNextPhase(Phase.WAIT_GOD_ANSWER);
+                setNextPlayerMessage(PlayerMessage.USE_POWER);
+                setNextMessageType(MessageType.USE_POWER);
+            }
+            notifyChanges();
         }
         else{
             for (Player value : turn) {
@@ -246,7 +275,7 @@ public class Model extends Observable<ViewMessage> {
                 }
             }
         }
-        notifyObservers(loose);
+
     }
 
     public void endGame(){
@@ -261,6 +290,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void startOver(){
         resetBoard();
+        podium.clear();
         leftPlayers = turn.length;
         if(simplePlay){
             this.phase = Phase.SETWORKER1;
