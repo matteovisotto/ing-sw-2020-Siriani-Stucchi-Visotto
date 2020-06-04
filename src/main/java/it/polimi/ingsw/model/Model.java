@@ -217,7 +217,7 @@ public class Model extends Observable<ViewMessage> {
     public void victory(Player player) {
         player.setVictory(true);
         playersWhoWon++;
-        podium.put(player, 1 + podium.size());
+        //podium.put(player, 1 + podium.size());
         ViewMessage win = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has won!!!!", MessageType.VICTORY, this.phase);
         notifyObservers(win);
         podium.put(player, playersWhoWon);
@@ -248,8 +248,10 @@ public class Model extends Observable<ViewMessage> {
 
     public void loose(Player player){
         player.setHasLost(true);
-        if(player.getGodCard().getCardGod()==Gods.ATHENA){
-            setMovedUp(false);
+        if(!isSimplePlay()){
+            if(player.getGodCard().getCardGod()==Gods.ATHENA){
+                setMovedUp(false);
+            }
         }
         ViewMessage loose = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", MessageType.LOSE, this.phase);
         notifyObservers(loose);

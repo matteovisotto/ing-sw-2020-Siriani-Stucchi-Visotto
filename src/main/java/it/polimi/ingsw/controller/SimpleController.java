@@ -60,8 +60,7 @@ public class SimpleController extends Controller {
         if(!turnCheck(move)){
             return;
         }
-        //qua fa la mossa
-
+        System.out.println("qui porcaccia");
         canMove = move.getPlayer().getWorker(move.getWorkerId()).getStatus();
         if(!canMove){
             move.getView().reportError("This worker can't move anywhere");
@@ -78,9 +77,6 @@ public class SimpleController extends Controller {
                     model.move(move);
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
                         model.victory(move.getPlayer());
-                        if(model.getNumOfPlayers() == 2){
-                            model.endGame();
-                        }
                     }
                     checkVictory();
                 } catch (ArrayIndexOutOfBoundsException e) {
