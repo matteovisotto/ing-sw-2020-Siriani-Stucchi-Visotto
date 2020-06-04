@@ -213,7 +213,7 @@ public class Model extends Observable<ViewMessage> {
 
     public void victory(Player player) {
         player.setVictory(true);
-        ViewMessage win = new ViewMessage(MessageType.VICTORY,"Player: " + player.getPlayerName() + " has won!!!!",  this.phase);
+        ViewMessage win = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has won!!!!", MessageType.VICTORY, this.phase);
         notifyObservers(win);
         if(leftPlayers == 2){
             endGame();
@@ -235,7 +235,7 @@ public class Model extends Observable<ViewMessage> {
         if(player.getGodCard().getCardGod()==Gods.ATHENA){
             setMovedUp(false);
         }
-        ViewMessage loose = new ViewMessage(MessageType.LOSE,"Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", this.phase);
+        ViewMessage loose = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", MessageType.LOSE, this.phase);
         if(leftPlayers == 3){
             leftPlayers--;
         }

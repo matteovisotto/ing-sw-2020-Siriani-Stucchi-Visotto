@@ -1373,8 +1373,10 @@ public class Game extends JFrame implements Observer<Object> {
                 prometheusPower();
                 break;
             case VICTORY:
+                endGame();
                 break;
             case LOSE:
+                endGame();
                 break;
             case END_GAME:
                 endGame();
@@ -1428,10 +1430,13 @@ public class Game extends JFrame implements Observer<Object> {
             case PROMETHEUS:
                 break;
             case VICTORY:
+                endGame();
                 break;
             case LOSE:
+                endGame();
                 break;
             case END_GAME:
+                endGame();
                 break;
             default:
                 break;
