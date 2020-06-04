@@ -29,6 +29,9 @@ public class Client {
     }
 
     private synchronized void handleTurnMessage(ViewMessage arg, Player player) {
+        if(arg.getMessageType() == MessageType.VICTORY || arg.getMessageType() == MessageType.END_GAME || arg.getMessageType() == MessageType.LOSE){
+            System.out.println(arg.getMessage());
+        }
         if (this.player.equals(player)) {
             if(arg instanceof GameBoardMessage){
                 ((GameBoardMessage) arg).getBoard().print();
