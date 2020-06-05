@@ -231,8 +231,8 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.add(messageLabel, BorderLayout.NORTH);
 
         addInitialBoard();
-        //revalidate();
-        //repaint();
+        revalidate();
+        repaint();
     }
 
     private void clearGui(){
@@ -958,8 +958,8 @@ public class Game extends JFrame implements Observer<Object> {
             endGamePanel.remove(component);
         }
         remove(endGamePanel);
-        revalidate();
-        repaint();
+        mainPanel.revalidate();
+        mainPanel.repaint();
         resetNewGame();
         revalidate();
         repaint();
