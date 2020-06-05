@@ -44,6 +44,7 @@ public class Game extends JFrame implements Observer<Object> {
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
     private GraphicsEnvironment ge;
     private Font customFont;
+    private boolean isEnded = false;
 
     public Game(final GUIClient guiClient){
         //customCursor();
@@ -896,6 +897,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void endGame(HashMap<Player, Integer> podium){
+        isEnded = true;
         removeBoard();
         endGamePanel = new JPanel();
         endGamePanel.setLayout(new BorderLayout(0,0));
@@ -966,6 +968,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void resetNewGame(){
+        isEnded = false;
         initedBoard = false;
         opponentsNames.clear();
         opponentGods.clear();
@@ -1446,8 +1449,10 @@ public class Game extends JFrame implements Observer<Object> {
                 resetGodPanel();
                 break;
             case END_GAME:
-                resetGodPanel();
-                endGame(((EndGameMessage)gameMessage).getPodium());
+                if (!isEnded) {
+                    resetGodPanel();
+                    endGame(((EndGameMessage) gameMessage).getPodium());
+                }
                 break;
             default:
                 break;
@@ -1503,7 +1508,9 @@ public class Game extends JFrame implements Observer<Object> {
                 resetGodPanel();
                 break;
             case END_GAME:
-                endGame(((EndGameMessage)gameMessage).getPodium());
+                if (!isEnded) {
+                    endGame(((EndGameMessage) gameMessage).getPodium());
+                }
                 break;
             default:
                 break;
