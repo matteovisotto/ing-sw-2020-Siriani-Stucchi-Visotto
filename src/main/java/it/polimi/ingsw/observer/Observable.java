@@ -18,6 +18,16 @@ public class Observable<T> {
         }
     }
 
+    public void removeExcept(Observer<T> observer){
+        synchronized (observer){
+            for(Observer<T> observer1 : observers){
+                if(observer1!=observer){
+                    observers.remove(observer1);
+                }
+            }
+        }
+    }
+
     public void notifyObservers(T msg){
         synchronized (observers){
             for(Observer<T> observer : observers){

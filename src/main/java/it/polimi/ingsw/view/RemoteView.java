@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.CommandParser;
 
+import java.rmi.Remote;
 import java.util.ArrayList;
 
 public class RemoteView extends View {
@@ -38,6 +39,7 @@ public class RemoteView extends View {
             } catch(IndexOutOfBoundsException | IllegalArgumentException e){
                 reportError(e.getMessage());
             }
+
         }
     }
 
@@ -45,7 +47,9 @@ public class RemoteView extends View {
     public RemoteView(Player player, String opponent, ClientConnection c, Lobby lobby) {
         super(player);
         this.clientConnection = c;
-        c.addObserver(new MessageReceiver());
+        MessageReceiver messageReceiver = new MessageReceiver();
+        c.addObserver(messageReceiver);
+        c.removeExcept(messageReceiver);
         c.asyncSend("Your opponent is: " + opponent);
         this.lobby = lobby;
         ArrayList<String> opponents = new ArrayList<>();
@@ -57,7 +61,9 @@ public class RemoteView extends View {
     public RemoteView(Player player, String opponent1, String opponent2, ClientConnection c, Lobby lobby) {
         super(player);
         this.clientConnection = c;
-        c.addObserver(new MessageReceiver());
+        MessageReceiver messageReceiver = new MessageReceiver();
+        c.addObserver(messageReceiver);
+        c.removeExcept(messageReceiver);
         c.asyncSend("Your opponents are: " + opponent1 + " and " + opponent2);
         this.lobby = lobby;
         ArrayList<String> opponents = new ArrayList<>();

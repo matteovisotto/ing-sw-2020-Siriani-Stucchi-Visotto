@@ -82,6 +82,7 @@ public class CommandParser {
                     throw new IllegalArgumentException("Please insert only y or n");
                 }
                 return new NewGameMessage(player, view, endGame, view.getConnection(), view.getLobby());
+
             default: throw new IllegalArgumentException("Can't do it now");
         }
     }
