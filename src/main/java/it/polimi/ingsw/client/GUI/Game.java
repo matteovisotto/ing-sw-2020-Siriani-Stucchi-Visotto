@@ -245,36 +245,51 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void addMyCard(GameMessage gameMessage) {
         try {
-            myGod.put(gameMessage.getPlayer().getPlayerName(),gameMessage.getPlayer().getGodCard().getName());
             JPanel myPanel = new JPanel(true);
             myPanel.setOpaque(false);
             myPanel.setLayout(new BorderLayout());
-            myPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight()/3);
-            //myPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            System.out.println(gameMessage.getPlayer().getPlayerName());
-            String godName = myGod.get(gameMessage.getPlayer().getPlayerName());
+            myPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight() / 3);
             JPanel playerPanel = new JPanel(true);
-            playerPanel.setSize(myPanel.getWidth()/2, myPanel.getHeight());
+            playerPanel.setSize(myPanel.getWidth() / 2, myPanel.getHeight());
             playerPanel.setOpaque(false);
             playerPanel.setLayout(new BorderLayout(0, 0));
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
             value = 0.2;
-            nameLabel.setSize((playerPanel.getWidth()), (int)(playerPanel.getHeight() * value)); //70
+            nameLabel.setSize((playerPanel.getWidth()), (int) (playerPanel.getHeight() * value)); //70
             //value = 1.7391304347826;
             value = 2;
-            godLabel.setSize((playerPanel.getWidth()), (int)(playerPanel.getHeight() * value) / 2); //400
+            godLabel.setSize((playerPanel.getWidth()), (int) (playerPanel.getHeight() * value) / 2); //400
             BufferedImage god, frame;
-            try {
-                frame = ImageIO.read(new File("images/myNameFrame.png"));
-                god = ImageIO.read(new File("images/God_with_frame/" + Parser.toCapitalize(godName) + ".png"));
-                Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                nameLabel.setIcon(new ImageIcon(frameImage));
-                godLabel.setIcon(new ImageIcon(godImage));
-                godLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (isSimplePlay){
+                try {
+                    frame = ImageIO.read(new File("images/myNameFrame.png"));
+                    god = ImageIO.read(new File("images/enemy_player.png"));
+                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    nameLabel.setIcon(new ImageIcon(frameImage));
+                    godLabel.setIcon(new ImageIcon(godImage));
+                    godLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                myGod.put(gameMessage.getPlayer().getPlayerName(), gameMessage.getPlayer().getGodCard().getName());
+                //myPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+                System.out.println(gameMessage.getPlayer().getPlayerName());
+                String godName = myGod.get(gameMessage.getPlayer().getPlayerName());
+                try {
+                    frame = ImageIO.read(new File("images/myNameFrame.png"));
+                    god = ImageIO.read(new File("images/God_with_frame/" + Parser.toCapitalize(godName) + ".png"));
+                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
+                    nameLabel.setIcon(new ImageIcon(frameImage));
+                    godLabel.setIcon(new ImageIcon(godImage));
+                    godLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -288,7 +303,6 @@ public class Game extends JFrame implements Observer<Object> {
             myPanel.add(playerPanel, BorderLayout.NORTH);
             myPanel.setAlignmentX(SwingConstants.CENTER);
             leftPanel.add(myPanel, BorderLayout.NORTH);
-
         }catch (Exception e){
             System.out.println("From function");
             e.printStackTrace();
