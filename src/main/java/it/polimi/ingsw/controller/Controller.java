@@ -94,7 +94,7 @@ public abstract class Controller implements Observer<Message> {
                     this.playersName.add(names.getKey().getPlayerName());
                     this.clientConnections.add(names.getValue());
                 }
-                EndGameServerMessage endGameServerMessage = new EndGameServerMessage(newGameMessage.getLobby(),clientConnections,playersName,answers, model.getGods() == null);
+                EndGameServerMessage endGameServerMessage = new EndGameServerMessage(newGameMessage.getLobby(),clientConnections,playersName,answers, model.isSimplePlay());
                 newGameMessage.getClientConnection().send(endGameServerMessage);
             }
 
