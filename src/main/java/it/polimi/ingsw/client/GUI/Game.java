@@ -1121,7 +1121,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
         else{
             for (Player player: podium.keySet()) {
-                if(player==this.player){
+                if(player.equals(this.player)){
                     s[podium.get(player)-1]="our";
                 }
                 else{
