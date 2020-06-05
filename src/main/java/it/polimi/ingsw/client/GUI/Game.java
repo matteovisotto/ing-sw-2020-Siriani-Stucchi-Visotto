@@ -991,11 +991,14 @@ public class Game extends JFrame implements Observer<Object> {
         playAgainButton.setBorderPainted(false);
 
         playAgainButton.setHorizontalAlignment(SwingConstants.CENTER);
-        BufferedImage imagePlay;
+        BufferedImage imagePlay, imagePlayPressed;
         try{
-            imagePlay = ImageIO.read(new File("images/PlayAgain.png"));
-            Image exit = imagePlay.getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
-            playAgainButton.setIcon(new ImageIcon(exit));
+            imagePlay = ImageIO.read(new File("images/button-play-again-normal.png"));
+            imagePlayPressed = ImageIO.read(new File("images/button-play-again-down.png"));
+            Image playAgainImage = imagePlay.getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+            Image playAgainImagePressed = imagePlayPressed.getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+            playAgainButton.setIcon(new ImageIcon(playAgainImage));
+            playAgainButton.setPressedIcon(new ImageIcon(playAgainImagePressed));
             playAgain.add(playAgainButton,BorderLayout.CENTER);
         }catch(Exception e){
             e.printStackTrace();
@@ -1024,11 +1027,14 @@ public class Game extends JFrame implements Observer<Object> {
         exitButton.setBorderPainted(false);
 
         exitButton.setHorizontalAlignment(SwingConstants.CENTER);
-        BufferedImage image;
+        BufferedImage image, image2;
         try{
-            image = ImageIO.read(new File("images/Exit.png"));
+            image = ImageIO.read(new File("images/btn-exit-normal.png"));
             Image exit = image.getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+            image2 = ImageIO.read(new File("images/btn-exit-down.png"));
+            Image exit_pressed = image2.getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
             exitButton.setIcon(new ImageIcon(exit));
+            exitButton.setPressedIcon(new ImageIcon(exit_pressed));
             exitGame.add(exitButton,BorderLayout.CENTER);
         }catch(Exception e){
             e.printStackTrace();
