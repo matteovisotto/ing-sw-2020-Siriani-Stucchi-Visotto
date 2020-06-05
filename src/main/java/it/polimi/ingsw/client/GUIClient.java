@@ -2,17 +2,13 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.GUI.Game;
 import it.polimi.ingsw.client.GUI.Initialization;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.ClientConfigurator;
-import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 

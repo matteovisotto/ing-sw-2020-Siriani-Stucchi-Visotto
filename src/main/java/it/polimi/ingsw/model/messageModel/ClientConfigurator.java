@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.messageModel;
 
-import it.polimi.ingsw.model.GodCard;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;

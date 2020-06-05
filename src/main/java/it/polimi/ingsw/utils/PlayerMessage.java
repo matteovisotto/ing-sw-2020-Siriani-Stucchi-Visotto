@@ -33,7 +33,7 @@ public class PlayerMessage {
             "\ton the same space.\n" +
 
             "5 - HEPHAESTUS \n\tYour Worker may build one additional block (not\n" +
-            "\tdome) on top of your first block."+
+            "\tdome) on top of your first block.\n"+
 
             "6 - MINOTAUR \n\tYour Worker may move into an opponent Worker’s\n" +
             "\tspace, if their Worker can be\n" +

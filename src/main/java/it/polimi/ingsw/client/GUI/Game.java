@@ -15,7 +15,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -544,7 +543,7 @@ public class Game extends JFrame implements Observer<Object> {
             god.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    multipleSelections.add(gods.get(e.getSource()).toString());
+                    multipleSelections.add(gods.get((JButton) e.getSource()).toString());
                     panel.remove((JButton) e.getSource());
                     panel.revalidate();
                     panel.repaint();
@@ -612,7 +611,7 @@ public class Game extends JFrame implements Observer<Object> {
             god.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    response = gods.get(e.getSource()).toString();
+                    response = gods.get((JButton) e.getSource()).toString();
                     guiClient.send(response);
                     centerPanel.remove(panel);
                     centerPanel.revalidate();
@@ -637,8 +636,8 @@ public class Game extends JFrame implements Observer<Object> {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         StringBuilder stringBuilder = new StringBuilder();
-                        chosenCellX = cellsX.get(e.getSource()).toString();
-                        chosenCellY = cellsY.get(e.getSource()).toString();
+                        chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+                        chosenCellY = cellsY.get((JButton) e.getSource()).toString();
                         stringBuilder.append(chosenCellX);
                         stringBuilder.append(",");
                         stringBuilder.append(chosenCellY);
@@ -714,8 +713,8 @@ public class Game extends JFrame implements Observer<Object> {
                             public void actionPerformed(ActionEvent e) {
                                 ((JButton)e.getSource()).setSelected(false);
                                 StringBuilder stringBuilder = new StringBuilder();
-                                chosenCellX = cellsX.get(e.getSource()).toString();
-                                chosenCellY = cellsY.get(e.getSource()).toString();
+                                chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+                                chosenCellY = cellsY.get((JButton) e.getSource()).toString();
                                 stringBuilder.append(selectedWorker);
                                 stringBuilder.append(",");
                                 stringBuilder.append(chosenCellX);
@@ -767,8 +766,8 @@ public class Game extends JFrame implements Observer<Object> {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 StringBuilder stringBuilder = new StringBuilder();
-                                chosenCellX = cellsX.get(e.getSource()).toString();
-                                chosenCellY = cellsY.get(e.getSource()).toString();
+                                chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+                                chosenCellY = cellsY.get((JButton) e.getSource()).toString();
                                 stringBuilder.append(chosenCellX);
                                 stringBuilder.append(",");
                                 stringBuilder.append(chosenCellY);

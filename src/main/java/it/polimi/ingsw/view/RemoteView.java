@@ -3,16 +3,12 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.ClientConfigurator;
-import it.polimi.ingsw.model.messageModel.GameMessage;
-import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Lobby;
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.CommandParser;
 
-import java.rmi.Remote;
 import java.util.ArrayList;
 
 public class RemoteView extends View {

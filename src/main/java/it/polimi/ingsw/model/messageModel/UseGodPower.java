@@ -2,12 +2,10 @@ package it.polimi.ingsw.model.messageModel;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.simplegod.Atlas;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class UseGodPower extends Message {
