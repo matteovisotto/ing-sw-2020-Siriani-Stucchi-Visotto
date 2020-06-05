@@ -257,7 +257,7 @@ public class Model extends Observable<ViewMessage> {
         }
         ViewMessage loose = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", MessageType.LOSE, this.phase);
         notifyObservers(loose);
-        podium.put(player, leftPlayers);
+        podium.put(player, getNumOfPlayers()-playersWhoWon);
         if(leftPlayers == 3){
             leftPlayers--;
             player.remove();
