@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.model.simplegod.Prometheus;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class Model extends Observable<ViewMessage> {
     public void initialize(){
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
         notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
+
     }
 
     public boolean isMovedUp() {
@@ -290,7 +292,7 @@ public class Model extends Observable<ViewMessage> {
 
     }
 
-    public void startOver(){
+    public void startOver(Map<Player, ClientConnection> activeConnections){
         resetBoard();
         podium.clear();
         leftPlayers = turn.length;
@@ -309,7 +311,17 @@ public class Model extends Observable<ViewMessage> {
         }
         this.playersWhoWon=0;
         this.podium.clear();
+        this.id = 0;
         initialize();
+        /*for (Player player: activeConnections.keySet()) {
+            ArrayList<String> opponentsNames = new ArrayList<>();
+            for (Player player2: activeConnections.keySet()) {
+                if (!player2.equals(player)){
+                    opponentsNames.add(player2.getPlayerName());
+                }
+            }
+            activeConnections.get(player).send(new ClientConfigurator(turn.length,opponentsNames,player));
+        }*/
     }
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
     public void notifyChanges(){

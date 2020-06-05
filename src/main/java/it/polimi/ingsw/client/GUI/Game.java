@@ -231,6 +231,8 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.add(messageLabel, BorderLayout.NORTH);
 
         addInitialBoard();
+        //revalidate();
+        //repaint();
     }
 
     private void clearGui(){
@@ -956,8 +958,28 @@ public class Game extends JFrame implements Observer<Object> {
             endGamePanel.remove(component);
         }
         remove(endGamePanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        revalidate();
+        repaint();
+        resetNewGame();
+        revalidate();
+        repaint();
+    }
+
+    private void resetNewGame(){
+        initedBoard = false;
+        opponentsNames.clear();
+        opponentGods.clear();
+        myGod.clear();
+        selectedWorker = -1;
+        response = "";
+        multipleSelections.clear();
+        chosenCellY = "";
+        chosenCellX = "";
+        cellsX.clear();
+        cellsY.clear();
+        messageType = MessageType.PLAYER_NAME;
+        //clientConfigurator = null;
+        //player = null;
     }
 
     private void setJPanelsOnEndGame(HashMap<Player, Integer> podium){
@@ -1008,8 +1030,8 @@ public class Game extends JFrame implements Observer<Object> {
             public void actionPerformed(ActionEvent e) {
                 guiClient.send("y");
                 removeEndGameLayout();
-                initGame();
-                setMessageOnPopup("Waiting for other players");
+                //initGame();
+                //setMessageOnPopup("Waiting for other players");
             }
         });
 
@@ -1407,7 +1429,6 @@ public class Game extends JFrame implements Observer<Object> {
                 resetOverlayPanel();
                 resetBoardPanel();
                 prepareMove(gameMessage);
-                //endGame();
                 break;
             case BUILD:
                 resetOverlayPanel();

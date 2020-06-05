@@ -53,7 +53,7 @@ public abstract class Controller implements Observer<Message> {
         }
     }
 
-    protected boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild){
+    protected synchronized boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild){
         return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
                 Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
                 (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&
@@ -88,7 +88,7 @@ public abstract class Controller implements Observer<Message> {
             activeClients.put(newGameMessage.getPlayer(), newGameMessage.getClientConnection());
             if(counter == model.getNumOfPlayers()){
                 //TODO model reset
-                model.startOver();
+                model.startOver(activeClients);
             } else if(answers == model.getNumOfPlayers()){
                 for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
                     this.playersName.add(names.getKey().getPlayerName());
