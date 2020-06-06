@@ -24,7 +24,6 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean initedBoard = false;
     private boolean isSimplePlay = true;
     private ArrayList<String> opponentsNames = new ArrayList<>();
-    private ArrayList<Player> opponentsPlayers = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel, endGamePanelPlayers, exitGame, playAgain;
@@ -298,7 +297,8 @@ public class Game extends JFrame implements Observer<Object> {
             nameLabel.setVerticalTextPosition(SwingConstants.CENTER);
             nameLabel.setVerticalAlignment(SwingConstants.CENTER);
             nameLabel.setFont(customFont);
-            nameLabel.setText(gameMessage.getPlayer().getPlayerName().substring(0,9) + "...");
+            int maxLength = Math.min(gameMessage.getPlayer().getPlayerName().length(), 9);
+            nameLabel.setText(gameMessage.getPlayer().getPlayerName().substring(0,maxLength));
             nameLabel.setForeground(Color.WHITE);
             playerPanel.add(nameLabel, BorderLayout.NORTH);
             playerPanel.add(godLabel, BorderLayout.CENTER);
@@ -352,7 +352,8 @@ public class Game extends JFrame implements Observer<Object> {
                 nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
                 nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 nameLabel.setFont(customFont);
-                nameLabel.setText(opponentName.substring(0,9) + "...");
+                int maxLength = Math.min(opponentName.length(), 9);
+                nameLabel.setText(opponentName.substring(0,maxLength));
                 nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
                 playerPanel.add(godLabel, BorderLayout.CENTER);
@@ -369,6 +370,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void addOpponentsSimpleMode() {
         try {
+            String filename = "";
             JPanel opponentsPanel = new JPanel(true);
             opponentsPanel.setOpaque(false);
             opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
@@ -385,8 +387,14 @@ public class Game extends JFrame implements Observer<Object> {
                 value = 1.7391304347826;
                 enemyLabel.setSize((playerPanel.getWidth() * 9/10) / opponentsNames.size() + 1, (int)(playerPanel.getHeight() * value) / opponentsNames.size() + 1); //500
                 BufferedImage enemy, frame;
+                if (clientConfigurator.getOpponentsNames().get(opponentName).equals("red")){
+                    filename = "images/opponentNameFrame.png";
+                }
+                else {
+                    filename = "images/opponentGreenNameFrame.png";
+                }
                 try {
-                    frame = ImageIO.read(new File("images/opponentNameFrame.png"));
+                    frame = ImageIO.read(new File(filename));
                     enemy = ImageIO.read(new File("images/enemy_player.png"));
                     Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
                     Image enemyImage = enemy.getScaledInstance(enemyLabel.getWidth(), enemyLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -399,7 +407,8 @@ public class Game extends JFrame implements Observer<Object> {
                 nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
                 nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 nameLabel.setFont(customFont);
-                nameLabel.setText(opponentName.substring(0,9) + "...");
+                int maxLength = Math.min(opponentName.length(), 9);
+                nameLabel.setText(opponentName.substring(0,maxLength));
                 nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
                 playerPanel.add(enemyLabel, BorderLayout.CENTER);
@@ -1129,6 +1138,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addPlayersEndGame(HashMap<Player, Integer> podium){
+        String filename = "";
         JLabel centerEnd = new JLabel();
         String[] s=new String[3];
         centerEnd.setLayout(new BorderLayout());
@@ -1146,15 +1156,16 @@ public class Game extends JFrame implements Observer<Object> {
                 if(player.equals(this.player)){
                     s[podium.get(player)-1]="our";
                 }
-                else {
-                    if(clientConfigurator.getOpponentsNames().get(actualPlayer.getPlayerName()).equals("red")){
+                for (String names: opponentsNames){
+                    if (clientConfigurator.getOpponentsNames().get(names).equals("red")){
                         s[podium.get(player)-1]="Enemy_red";
                     }
-                    else{
+                    else {
                         s[podium.get(player)-1]="Enemy_green";
                     }
                 }
             }
+
         }
 
         JLabel winner = new JLabel();
@@ -1220,7 +1231,7 @@ public class Game extends JFrame implements Observer<Object> {
                     Cell cell = board.getCell(i,j);
                     if (!cell.isFree()){
                         try{
-                            for (int p = 0; p < players.length; p++){
+                            for (int p = 0; p < clientConfigurator.getNumberOfPlayer(); p++){
                                 Player play = players[p];
                                 if(play.equals(player)){
                                     if (player.getWorker(0).getCell().equals(cell)){
@@ -1522,6 +1533,7 @@ public class Game extends JFrame implements Observer<Object> {
                         Player opponent = gameMessage.getPlayer();
                         if (!opponentGods.containsKey(opponent.getPlayerName())) {
                             opponentGods.put(opponent.getPlayerName(), opponent.getGodCard().getName());
+                            //opponentsNames.add(gameMessage.getPlayer().getPlayerName());
                         }
                     }
                     else if(isSimplePlay && opponentsNames.size() != clientConfigurator.getNumberOfPlayer() - 1){
@@ -1586,7 +1598,8 @@ public class Game extends JFrame implements Observer<Object> {
             setMessageOnPopup(arg.getMessage());
             turnPhaseManager(arg);
         } else {
-            setMessageOnPopup("It's now " + player.getPlayerName().substring(0,9) + "..." + "'s turn");
+            int maxLength = Math.min(player.getPlayerName().length(), 9);
+            setMessageOnPopup("It's now " + player.getPlayerName().substring(0,maxLength) + "'s turn");
             phaseManager(arg);
             if(arg instanceof GameBoardMessage){
                 updateBoard(((GameBoardMessage)arg).getBoard(), false);
