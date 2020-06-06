@@ -15,25 +15,30 @@ public class Artemis extends GodCard {
     private boolean usedPower;
     private Worker previousWorker;
 
+    /**
+     * {@inheritDoc}
+     */
     public Artemis() {
         super(Gods.ARTEMIS, Phase.MOVE);
     }
 
+    /**
+     * @return the cell corresponding to the first move make by the player.
+     */
     public Cell getFirstMove(){
         return firstMove;
     }
 
+    /**
+     * @param firstBuilt is the cell corresponding to the first move make by the player.
+     */
     public void setFirstMove(Cell firstBuilt){
         this.firstMove = firstBuilt;
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
-
     /**
      * This method moves the player; it could be used only if the player decide to activate his power.
-     * @param objectList contain the model of the actual game (objectList.get(0)) and the class to make the player move objectList.get(1).
+     * @param objectList contain the model of the actual game (objectList.get(0)).
      * @see PlayerMove {@link PlayerMove}
      */
     @Override
@@ -46,18 +51,30 @@ public class Artemis extends GodCard {
         model.notifyChanges();
     }
 
+    /**
+     * @return true if the power has already been used.
+     */
     public boolean hasUsedPower() {
         return usedPower;
     }
 
+    /**
+     * @param usedPower is a flag that if it's set to true means that the power has already been used.
+     */
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
     }
 
+    /**
+     * @return the worker that was used in the previous move (before using the power).
+     */
     public Worker getPreviousWorker() {
         return previousWorker;
     }
 
+    /**
+     * @param previousWorker is worker that represent the previous move make by the player (before using the power).
+     */
     public void setPreviousWorker(Worker previousWorker) {
         this.previousWorker = previousWorker;
     }

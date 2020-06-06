@@ -12,6 +12,10 @@ import java.util.List;
 public class Demeter extends GodCard {
     private Cell firstBuilt;
     private boolean usedPower;
+
+    /**
+     * {@inheritDoc}
+     */
     public Demeter() {
         super(Gods.DEMETER, Phase. BUILD);
     }
@@ -32,13 +36,9 @@ public class Demeter extends GodCard {
         this.firstBuilt = firstBuilt;
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
-
     /**
      * This method makes a player's worker build another time, but not on the same position; it could be used only if the player decide to activate his power.
-     * @param objectList contain the model of the actual game (objectList.get(0)) and the cell in which it will be built another time.
+     * @param objectList contain the model of the actual game (objectList.get(0)).
      * @see Model {@link Model} In the model is contained the increaseLevel Method.
      */
     @Override
@@ -51,10 +51,16 @@ public class Demeter extends GodCard {
         model.notifyChanges();
     }
 
+    /**
+     * @return true if the power has already been used.
+     */
     public boolean hasUsedPower() {
         return usedPower;
     }
 
+    /**
+     * @param usedPower is a flag that if it's set to true means that the power has already been used.
+     */
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
     }

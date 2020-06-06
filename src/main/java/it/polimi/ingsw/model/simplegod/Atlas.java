@@ -12,17 +12,16 @@ import java.util.List;
 public class Atlas extends GodCard {
     private boolean usedPower = false;
 
+    /**
+     * {@inheritDoc}
+     */
     public Atlas() {
         super(Gods.ATLAS, Phase.MOVE);
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
-
     /**
      * This method makes a player's worker build a DOME at any level; it could be used only if the player decide to activate his power.
-     * @param objectList contain the cell in which it will be built the DOME (objectList.get(0)).
+     * @param objectList contain the model of the actual game (objectList.get(0)).
      */
     @Override
     public void usePower(List<Object> objectList) {
@@ -34,10 +33,16 @@ public class Atlas extends GodCard {
         model.notifyChanges();
     }
 
+    /**
+     * @return true if the power has already been used.
+     */
     public boolean hasUsedPower() {
         return usedPower;
     }
 
+    /**
+     * @param usedPower is a flag that if it's set to true means that the power has already been used.
+     */
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
     }

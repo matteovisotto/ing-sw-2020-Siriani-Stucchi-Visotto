@@ -9,12 +9,11 @@ import java.util.List;
  */
 public class Athena extends GodCard {
 
+    /**
+     * {@inheritDoc}
+     */
     public Athena() {
         super(Gods.ATHENA, Phase.MOVE);
-    }
-
-    public Phase getPhase() {
-        return phase;
     }
 
     /**
