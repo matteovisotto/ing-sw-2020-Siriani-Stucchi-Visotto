@@ -1156,13 +1156,11 @@ public class Game extends JFrame implements Observer<Object> {
                 if(player.equals(this.player)){
                     s[podium.get(player)-1]="our";
                 }
-                for (String names: opponentsNames){
-                    if (clientConfigurator.getOpponentsNames().get(names).equals("red")){
-                        s[podium.get(player)-1]="Enemy_red";
-                    }
-                    else {
-                        s[podium.get(player)-1]="Enemy_green";
-                    }
+                else if (clientConfigurator.getOpponentsNames().get(player.getPlayerName()).equals("red")){
+                    s[podium.get(player)-1]="Enemy_red";
+                }
+                else {
+                    s[podium.get(player)-1]="Enemy_green";
                 }
             }
 
