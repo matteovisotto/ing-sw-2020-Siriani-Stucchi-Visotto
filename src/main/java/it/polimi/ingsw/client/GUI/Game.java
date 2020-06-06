@@ -1121,7 +1121,6 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setFont(customFont);
         messageLabel.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value))); //215
         messageLabel.setSize(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
-        setMessageOnPopup("Would you like to play again?");
         endGamePanel.add(messageLabel, BorderLayout.NORTH);
 
         BufferedImage messageBoard;
@@ -1215,6 +1214,7 @@ public class Game extends JFrame implements Observer<Object> {
                 e.printStackTrace();
             }
         }
+        setMessageOnPopup("Would you like to play again?");
         endGamePanelPlayers.add(loser, BorderLayout.SOUTH);
         endGamePanelPlayers.revalidate();
         endGamePanelPlayers.repaint();
@@ -1507,10 +1507,8 @@ public class Game extends JFrame implements Observer<Object> {
                 resetGodPanel();
                 break;
             case END_GAME:
-                if (!isEnded) {
-                    resetGodPanel();
-                    endGame(((EndGameMessage) gameMessage).getPodium());
-                }
+                resetGodPanel();
+                endGame(((EndGameMessage) gameMessage).getPodium());
                 break;
             default:
                 break;
@@ -1567,9 +1565,7 @@ public class Game extends JFrame implements Observer<Object> {
                 resetGodPanel();
                 break;
             case END_GAME:
-                if (!isEnded) {
-                    endGame(((EndGameMessage) gameMessage).getPodium());
-                }
+                endGame(((EndGameMessage) gameMessage).getPodium());
                 break;
             default:
                 break;
