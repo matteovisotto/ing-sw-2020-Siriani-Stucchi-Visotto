@@ -9,17 +9,6 @@ import java.util.Scanner;
 public class ClientApp
 {
     public static void main(String[] args){
-        char graphicInterface = 'a';
-        Scanner in = new Scanner(System.in);
-        /*do{
-            try{
-                System.out.println("Would you like to use the graphic interface?(y/n)");
-                graphicInterface = in.nextLine().toLowerCase().charAt(0);
-            }catch (StringIndexOutOfBoundsException e){
-
-            }
-        }while(graphicInterface != 'y' && graphicInterface != 'n');
-*/
         try{
             if(args.length!=0){
                 if(args[0].equals("-cli")){
