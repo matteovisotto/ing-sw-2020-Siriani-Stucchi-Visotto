@@ -16,7 +16,7 @@ public class Model extends Observable<ViewMessage> {
     private Board board;
     private final Player[] turn;
     private int id = 0;
-    private int leftPlayers, playersWhoWon=0;
+    private int leftPlayers, playersWhoWon=0, playersWhoLost=0;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
@@ -257,7 +257,8 @@ public class Model extends Observable<ViewMessage> {
         }
         ViewMessage loose = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has lost. Retry, you'll have more luck", MessageType.LOSE, this.phase);
         notifyObservers(loose);
-        podium.put(player, leftPlayers);
+        podium.put(player, getNumOfPlayers()-playersWhoLost);
+        playersWhoLost++;
         if(leftPlayers == 3){
             leftPlayers--;
             player.remove();
@@ -278,6 +279,7 @@ public class Model extends Observable<ViewMessage> {
                     victory(value);
                 }
             }
+            endGame();
         }
 
     }
