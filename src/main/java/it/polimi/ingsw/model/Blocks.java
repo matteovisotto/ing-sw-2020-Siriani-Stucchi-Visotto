@@ -13,10 +13,17 @@ public enum Blocks {
 
     private final int block;
 
+    /**
+     * Constructor of the class
+     * @param block is the level of a cell.
+     */
     Blocks(int block) {
         this.block = block;
     }
 
+    /**
+     * @return an int the represents the actual level of a cell.
+     */
     public int getBlockId() {
         return block;
     }

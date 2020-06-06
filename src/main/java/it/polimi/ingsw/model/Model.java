@@ -31,6 +31,11 @@ public class Model extends Observable<ViewMessage> {
     private String playerMessage = PlayerMessage.DRAW_CARD;
     private HashMap<Player, Integer> podium=new HashMap<>();
 
+    /**
+     * Constructor of the class
+     * @param players represent the players of the actual game.
+     * @param simplePlay is a boolean that if it's set to true means that the game is played without godCard (SimpleMode mode).
+     */
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
         this.simplePlay = simplePlay;
@@ -43,40 +48,69 @@ public class Model extends Observable<ViewMessage> {
         }
     }
 
+    /**
+     * This method configure the model and the phases of the actual game. Also this method send to all players the notify of the beginning of the game.
+     */
     public void initialize(){
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
         notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
 
     }
 
+    /**
+     * @return true if Athena has moved up during this turn.
+     */
     public boolean isMovedUp() {
         return movedUp;
     }
 
+    /**
+     * @param movedUp is set automatically to true by Athena when she use his power (go up one level). This value remain true until begin next athena turn.
+     */
     public void setMovedUp(boolean movedUp) {
         this.movedUp = movedUp;
     }
 
+    /**
+     * This function reset the board, creating a new different Board. It's used when we want to start another game.
+     */
     public void resetBoard(){
         this.board = new Board(turn);
     }
 
+    /**
+     * @return true if the mode of the actual game is set to SimpleMode.
+     */
     public boolean isSimplePlay() {
         return simplePlay;
     }
 
+    /**
+     * @param p is a player of the game.
+     * @return true if this turn is the turn of the player p.
+     */
     public boolean isPlayerTurn(Player p){
         return this.turn[id] == p;
     }
 
+    /**
+     * This method set the next phase of the game.
+     * @param phase represent a phase of the game.
+     */
     public void setNextPhase(Phase phase) {
         this.phase = phase;
     }
 
+    /**
+     * @return the id of the actual player (the id is used in the array turn[]).
+     */
     public int getActualPlayerId() {
         return id;
     }
 
+    /**
+     * @return an array of players containing all the players of the actual game.
+     */
     public Player[] getPlayers(){
         return turn;
     }
@@ -85,6 +119,9 @@ public class Model extends Observable<ViewMessage> {
         return leftPlayers;
     }
 
+    /**
+     * @return the number of the players in the actual game.
+     */
     public int getNumOfPlayers(){
         return this.turn.length;
     }
@@ -97,10 +134,17 @@ public class Model extends Observable<ViewMessage> {
         this.playerMessage = playerMessage;
     }
 
+    /**
+     * @return the board of the actual game.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * This method return a clone of the board.
+     * @return a clone of the board.
+     */
     public Board getBoardClone() {
         try{
             return board.clone();
@@ -134,10 +178,18 @@ public class Model extends Observable<ViewMessage> {
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
     }
 
+    /**
+     *
+     * @return the actual phase of the game.
+     */
     public Phase getPhase() {
         return phase;
     }
 
+    /**
+     * This method update the phase of the actual game.
+     * @see Phase {@link Phase} In the phase is contained the next() method.
+     */
     public void updatePhase(){
         phase = Phase.next(phase);
     }
@@ -149,6 +201,9 @@ public class Model extends Observable<ViewMessage> {
         notifyChanges();
     }
 
+    /**
+     * @return the actual player of the game.
+     */
     public Player getActualPlayer() {
         return turn[id];
     }
@@ -172,6 +227,11 @@ public class Model extends Observable<ViewMessage> {
         return gods;
     }
 
+    /**
+     *
+     * @param i is an int that represent the value of a player in turn[].
+     * @return the corresponding player in turn[i].
+     */
     public Player getPlayer(int i){
         return turn[i];
     }
@@ -184,7 +244,12 @@ public class Model extends Observable<ViewMessage> {
         return gods.size() >= card + 1;
     }
 
-    public Player getGCPlayer(Gods gods){//returna null se non c'é un giocatore assegnato alla carta
+    /**
+     * This method return the corresponding Player that own a specific GodCard (gods). This method return null if there are no player associated of that specific card.
+     * @param gods is the GodCard for which i'm searching the player.
+     * @return the searched player.
+     */
+    public Player getGCPlayer(Gods gods){
         return playerCards.get(gods);
     }
 
@@ -294,11 +359,7 @@ public class Model extends Observable<ViewMessage> {
         notifyObservers(end);
     }
 
-    public void close(){
-
-    }
-
-    public void startOver(Map<Player, ClientConnection> activeConnections){
+    public void startOver(){
         resetBoard();
         podium.clear();
         leftPlayers = turn.length;
@@ -319,15 +380,6 @@ public class Model extends Observable<ViewMessage> {
         this.podium.clear();
         this.id = 0;
         initialize();
-        /*for (Player player: activeConnections.keySet()) {
-            ArrayList<String> opponentsNames = new ArrayList<>();
-            for (Player player2: activeConnections.keySet()) {
-                if (!player2.equals(player)){
-                    opponentsNames.add(player2.getPlayerName());
-                }
-            }
-            activeConnections.get(player).send(new ClientConfigurator(turn.length,opponentsNames,player));
-        }*/
     }
     //Before call set all params -> MessageType, PlayerMessage, Phase, Turn
     public void notifyChanges(){

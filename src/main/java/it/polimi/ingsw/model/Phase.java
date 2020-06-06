@@ -20,10 +20,18 @@ public enum Phase {
     ;
 
     private final int phaseId;
+
+    /**
+     * Constructor of the class
+     * @param phaseId is an int that represent the value of the actual phase in the game.
+     */
     Phase(int phaseId) {
         this.phaseId = phaseId;
     }
 
+    /**
+     * @return an int corresponding to a phase in the game.
+     */
     public int getPhaseId() {
         return phaseId;
     }
