@@ -8,13 +8,27 @@ import it.polimi.ingsw.view.View;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class is used to notify at the controller the player choice of using a god power
+ */
 public class UseGodPower extends Message {
     char usePower;
+
+    /**
+     * Class constructor
+     * {@inheritDoc}
+     * @param usePower char representing player choice
+     */
     public UseGodPower(Player player, View view, char usePower) {
         super(player, view);
         this.usePower = usePower;
     }
 
+    /**
+     * If player choose to use the god power with y answer call the god card instance userPower function
+     * else set the next model configuration for each case of phase
+     * @param controller thr game controller instance
+     */
     @Override
     public void handler(Controller controller) {
         Model model = controller.getModel();
