@@ -41,6 +41,7 @@ public class SimpleController extends Controller {
                     model.setNextPlayerMessage(PlayerMessage.PLACE_SECOND_WORKER);
                 }
                 model.setPlayerWorker(playerWorker);
+                checkVictory();
             }
             else{
                 playerWorker.getView().reportError("The cell is busy.");
