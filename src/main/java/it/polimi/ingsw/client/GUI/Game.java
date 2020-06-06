@@ -298,7 +298,7 @@ public class Game extends JFrame implements Observer<Object> {
             nameLabel.setVerticalTextPosition(SwingConstants.CENTER);
             nameLabel.setVerticalAlignment(SwingConstants.CENTER);
             nameLabel.setFont(customFont);
-            nameLabel.setText(gameMessage.getPlayer().getPlayerName());
+            nameLabel.setText(gameMessage.getPlayer().getPlayerName().substring(0,9) + "...");
             nameLabel.setForeground(Color.WHITE);
             playerPanel.add(nameLabel, BorderLayout.NORTH);
             playerPanel.add(godLabel, BorderLayout.CENTER);
@@ -352,7 +352,7 @@ public class Game extends JFrame implements Observer<Object> {
                 nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
                 nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 nameLabel.setFont(customFont);
-                nameLabel.setText(opponentName);
+                nameLabel.setText(opponentName.substring(0,9) + "...");
                 nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
                 playerPanel.add(godLabel, BorderLayout.CENTER);
@@ -399,7 +399,7 @@ public class Game extends JFrame implements Observer<Object> {
                 nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
                 nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 nameLabel.setFont(customFont);
-                nameLabel.setText(opponentName);
+                nameLabel.setText(opponentName.substring(0,9) + "...");
                 nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
                 playerPanel.add(enemyLabel, BorderLayout.CENTER);
@@ -1586,7 +1586,7 @@ public class Game extends JFrame implements Observer<Object> {
             setMessageOnPopup(arg.getMessage());
             turnPhaseManager(arg);
         } else {
-            setMessageOnPopup("It's now " + player.getPlayerName() + "'s turn");
+            setMessageOnPopup("It's now " + player.getPlayerName().substring(0,9) + "..." + "'s turn");
             phaseManager(arg);
             if(arg instanceof GameBoardMessage){
                 updateBoard(((GameBoardMessage)arg).getBoard(), false);
