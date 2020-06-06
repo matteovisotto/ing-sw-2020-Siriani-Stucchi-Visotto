@@ -4,13 +4,14 @@ import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ClientConfigurator implements Serializable {
     private final int numberOfPlayer;
-    private final ArrayList<String> opponentsNames;
+    private final HashMap<String,String> opponentsNames;
     private final Player me;
 
-    public ClientConfigurator(int numberOfPlayer, ArrayList<String> opponentsNames, Player me) {
+    public ClientConfigurator(int numberOfPlayer, HashMap<String,String> opponentsNames, Player me) {
         this.numberOfPlayer = numberOfPlayer;
         this.opponentsNames = opponentsNames;
         this.me = me;
@@ -20,7 +21,7 @@ public class ClientConfigurator implements Serializable {
         return numberOfPlayer;
     }
 
-    public ArrayList<String> getOpponentsNames() {
+    public HashMap<String,String> getOpponentsNames() {
         return opponentsNames;
     }
 

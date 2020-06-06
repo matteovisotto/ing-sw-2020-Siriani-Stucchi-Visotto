@@ -24,6 +24,7 @@ public class Game extends JFrame implements Observer<Object> {
     private boolean initedBoard = false;
     private boolean isSimplePlay = true;
     private ArrayList<String> opponentsNames = new ArrayList<>();
+    private ArrayList<Player> opponentsPlayers = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel, endGamePanelPlayers, exitGame, playAgain;
@@ -31,6 +32,7 @@ public class Game extends JFrame implements Observer<Object> {
     private JButton startPlayBtn;
     private MessageType messageType = MessageType.PLAYER_NAME;
     private Player player;
+    private Player actualPlayer;
     private ClientConfigurator clientConfigurator;
     private String response;
     private final ArrayList<String> multipleSelections = new ArrayList<>();
@@ -329,8 +331,15 @@ public class Game extends JFrame implements Observer<Object> {
                 value = 1.7391304347826;
                 godLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1); //400
                 BufferedImage god, frame;
+                String filename = "";
+                if (clientConfigurator.getOpponentsNames().get(opponentName).equals("red")){
+                    filename = "images/opponentNameFrame.png";
+                }
+                else {
+                    filename = "images/opponentGreenNameFrame.png";
+                }
                 try {
-                    frame = ImageIO.read(new File("images/opponentNameFrame.png"));
+                    frame = ImageIO.read(new File(filename));
                     god = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
                     Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
                     Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -819,7 +828,7 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private void setCell(JButton cell, Blocks blocks, boolean isFree, boolean mine){
+    private void setCell(JButton cell, Blocks blocks, boolean isFree, String color){
         BufferedImage image;
         String path="images/Blocks/";
         boolean isVisible=true;
@@ -842,11 +851,11 @@ public class Game extends JFrame implements Observer<Object> {
                     break;
             }
             if(!isFree){
-                if(mine){
+                if(color.equals("blue")){
                     path+="_me";
                 }
-                else{
-                    path+="_enemy";
+                else {
+                    path+="_enemy_" + color;
                 }
             }
             path+=".png";
@@ -1137,10 +1146,14 @@ public class Game extends JFrame implements Observer<Object> {
                 if(player.equals(this.player)){
                     s[podium.get(player)-1]="our";
                 }
-                else{
-                    s[podium.get(player)-1]="their";
+                else {
+                    if(clientConfigurator.getOpponentsNames().get(actualPlayer.getPlayerName()).equals("red")){
+                        s[podium.get(player)-1]="Enemy_red";
+                    }
+                    else{
+                        s[podium.get(player)-1]="Enemy_green";
+                    }
                 }
-
             }
         }
 
@@ -1199,21 +1212,44 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void updateBoard(Board board, boolean enable){
+        Player[] players = board.getPlayers();
         try{
             for(int i=0; i<5; i++){
                 for(int j=0; j<5; j++){
-                    boolean mine=false;
+                    String color = "";
                     Cell cell = board.getCell(i,j);
-                    try{
-                        if(player.getWorker(0).getCell().equals(cell) || player.getWorker(1).getCell().equals(cell)){
-                            mine=true;
-                        }
-                    }catch (IndexOutOfBoundsException e2){
-                        //mine=false;
-                    }
+                    if (!cell.isFree()){
+                        try{
+                            for (int p = 0; p < players.length; p++){
+                                Player play = players[p];
+                                if(play.equals(player)){
+                                    if (player.getWorker(0).getCell().equals(cell)){
+                                        color = "blue";
+                                        break;
+                                    }
+                                    else if(player.getWorker(1).getCell().equals(cell)){
+                                        color = "blue";
+                                        break;
+                                    }
+                                } else {
+                                    if (play.getWorker(0).getCell().equals(cell)){
+                                        color = clientConfigurator.getOpponentsNames().get(play.getPlayerName());
+                                        break;
+                                    }
+                                    else if (play.getWorker(1).getCell().equals(cell)){
+                                        color = clientConfigurator.getOpponentsNames().get(play.getPlayerName());
+                                        break;
+                                    }
+                                }
 
+
+                            }
+                        }catch (IndexOutOfBoundsException e2){
+                            e2.printStackTrace();
+                        }
+                    }
                     JButton jButton = ((JButton) initialBoardPanel.getComponent(i * 5 + j));
-                    setCell(jButton, cell.getLevel(), cell.isFree(), mine);
+                    setCell(jButton, cell.getLevel(), cell.isFree(), color);
                     jButton.setEnabled(enable);
 
                 }
@@ -1545,6 +1581,7 @@ public class Game extends JFrame implements Observer<Object> {
             this.player=arg.getPlayer();
             if(arg instanceof GameBoardMessage){
                 updateBoard(((GameBoardMessage)arg).getBoard(), true);
+                actualPlayer = arg.getPlayer();
             }
             setMessageOnPopup(arg.getMessage());
             turnPhaseManager(arg);
