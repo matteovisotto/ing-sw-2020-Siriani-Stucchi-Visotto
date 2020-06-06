@@ -139,10 +139,17 @@ public class Board implements Serializable, Cloneable {
         }
     }
 
+    /**
+     * @return the players using this board
+     */
     public Player[] getPlayers(){
         return players;
     }
 
+    /**
+     * @return a new instance of the class as clone
+     * @throws CloneNotSupportedException if it can't be cloneable
+     */
     @Override
     protected final Board clone() throws CloneNotSupportedException{
         super.clone();

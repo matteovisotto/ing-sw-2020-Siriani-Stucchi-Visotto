@@ -37,6 +37,9 @@ public class Cell implements Serializable, Cloneable{
         this.level = level;
     }
 
+    /**
+     *{@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Cell) {
@@ -45,6 +48,9 @@ public class Cell implements Serializable, Cloneable{
         } else return false;
     }
 
+    /**
+     * @return a string that represent the level of the cell and a flag if it is free
+     */
     @Override
     public String toString() {
         int free = 0;
@@ -52,36 +58,60 @@ public class Cell implements Serializable, Cloneable{
         return "L:" + this.getLevel().getBlockId() + " F:" + free;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
         return new Cell(x, y, level, isFree);
     }
 
+    /**
+     * @return the x value of the cell
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * @return the y value of the cell
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * @return the level of the cell as a Blocks instance
+     */
     public Blocks getLevel () {
         return level;
     }
 
+    /**
+     * @param level the Block enum instance to assign at the cell
+     */
     public void setLevel (Blocks level) {
         this.level = level;
     }
 
+    /**
+     * @return true if the cell is not used
+     */
     public boolean isFree () {
         return isFree;
     }
 
+    /**
+     * Set the cell ad free
+     */
     public void freeCell () {
         this.isFree = true;
     }
 
+    /**
+     * Set the cell as used
+     */
     public void useCell () {
         this.isFree = false;
     }
