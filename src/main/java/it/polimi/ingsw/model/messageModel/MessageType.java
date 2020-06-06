@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model.messageModel;
 
+/**
+ * This enum contains all the possible message type for a play. This is used in particular
+ * in the GUI for changing elements dynamically
+ */
 public enum MessageType{
     PLAYER_NAME,
     JOIN_OR_CREATE_LOBBY,

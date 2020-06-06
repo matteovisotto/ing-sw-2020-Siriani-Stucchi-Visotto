@@ -26,7 +26,7 @@ public class UseGodPower extends Message {
 
     /**
      * If player choose to use the god power with y answer call the god card instance userPower function
-     * else set the next model configuration for each case of phase
+     * else set the next default model configuration for each case of phase in base of the point of the game
      * @param controller thr game controller instance
      */
     @Override
