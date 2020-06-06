@@ -370,22 +370,25 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void addOpponentsSimpleMode() {
         try {
+            //rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             String filename = "";
             JPanel opponentsPanel = new JPanel(true);
             opponentsPanel.setOpaque(false);
             opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
-            opponentsPanel.setSize(rightPanel.getWidth()/2, 230 * opponentsNames.size());
+            opponentsPanel.setSize(rightPanel.getWidth()/2, rightPanel.getHeight()*2/3);
+            //opponentsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             for (String opponentName : opponentsNames) {
                 JPanel playerPanel = new JPanel(true);
-                playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() * 11/10 / opponentsNames.size());
+                playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() / opponentsNames.size());
                 playerPanel.setOpaque(false);
                 playerPanel.setLayout(new BorderLayout(0, 0));
                 JLabel nameLabel = new JLabel();
                 JLabel enemyLabel = new JLabel();
-                value = 0.304347826;
-                nameLabel.setSize((playerPanel.getWidth() * 9/10) / opponentsNames.size() + 1, (int)(playerPanel.getHeight() * value)); //70
-                value = 1.7391304347826;
-                enemyLabel.setSize((playerPanel.getWidth() * 9/10) / opponentsNames.size() + 1, (int)(playerPanel.getHeight() * value) / opponentsNames.size() + 1); //500
+                value = 0.2;
+                nameLabel.setSize((playerPanel.getWidth() * 9/10), (int)(playerPanel.getHeight() * value)); //70
+                value = 0.75;
+                enemyLabel.setSize((playerPanel.getWidth() * 9/(10*opponentsNames.size())), (int)(playerPanel.getHeight() * value)); //500
+                //enemyLabel.setBorder(BorderFactory.createLineBorder(Color.black));
                 BufferedImage enemy, frame;
                 if (clientConfigurator.getOpponentsNames().get(opponentName).equals("red")){
                     filename = "images/opponentNameFrame.png";
