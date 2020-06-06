@@ -1140,7 +1140,11 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addPlayersEndGame(HashMap<Player, Integer> podium){
-        String filename = "";
+        double value2 = 0.8;
+        double name = 0.5;
+        double height = 0.2;
+        String[] podiumNames = new String[3];
+        String[] realPodiumNames = new String[3];
         JLabel centerEnd = new JLabel();
         String[] s=new String[3];
         centerEnd.setLayout(new BorderLayout());
@@ -1156,69 +1160,172 @@ public class Game extends JFrame implements Observer<Object> {
         else{
             for (Player player: podium.keySet()) {
                 if(player.equals(this.player)){
-                    s[podium.get(player)-1]="our";
+                    s[podium.get(player)-1] = "our";
                 }
                 else if (clientConfigurator.getOpponentsNames().get(player.getPlayerName()).equals("red")){
-                    s[podium.get(player)-1]="Enemy_red";
+                    s[podium.get(player)-1] = "Enemy_red";
                 }
                 else {
-                    s[podium.get(player)-1]="Enemy_green";
+                    s[podium.get(player)-1] = "Enemy_green";
                 }
             }
-
+        }
+        for (Player player: podium.keySet()) {
+            if(player.equals(this.player)){
+                podiumNames[podium.get(player)-1] = "Our";
+                realPodiumNames[podium.get(player)-1] = player.getPlayerName();
+            }
+            else if (clientConfigurator.getOpponentsNames().get(player.getPlayerName()).equals("red")){
+                podiumNames[podium.get(player)-1] = "Enemy_red";
+                realPodiumNames[podium.get(player)-1] = player.getPlayerName();
+            }
+            else {
+                podiumNames[podium.get(player)-1] = "Enemy_green";
+                realPodiumNames[podium.get(player)-1] = player.getPlayerName();
+            }
         }
 
+        JPanel winnerPanel = new JPanel();
+        winnerPanel.setLayout(new BorderLayout(0,0));
+        winnerPanel.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2));
+        winnerPanel.setSize(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2);
+        winnerPanel.setOpaque(false);
+        JLabel winnerName = new JLabel();
+        winnerName.setPreferredSize(new Dimension((int)(winnerPanel.getWidth() * name),(int)(winnerPanel.getHeight() * height)));
+        winnerName.setSize((int)(winnerPanel.getWidth() * name),(int)(winnerPanel.getHeight() * height));
+        winnerName.setOpaque(false);
+        winnerName.setHorizontalAlignment(SwingConstants.CENTER);
+        winnerName.setFont(customFont);
+        int maxLength = Math.min(realPodiumNames[0].length(), 9);
+        winnerName.setText(realPodiumNames[0].substring(0,maxLength));
+        winnerName.setForeground(Color.WHITE);
+        winnerName.setHorizontalTextPosition(SwingConstants.CENTER);
         JLabel winner = new JLabel();
-        winner.setLayout(new GridLayout(1,1,0,0));
-        winner.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2));
-        winner.setSize(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2);
+        value = 0.6;
+        winner.setPreferredSize(new Dimension((int)(winnerPanel.getWidth() * value),(int)(winnerPanel.getHeight() * value2)));
+        winner.setSize((int)(winnerPanel.getWidth() * value),(int)(winnerPanel.getHeight() * value2));
         winner.setOpaque(false);
         winner.setHorizontalAlignment(SwingConstants.CENTER);
-        BufferedImage imgWinner;
+        BufferedImage imgWinner, imgNameWinner;
         try {
             imgWinner = ImageIO.read(new File("images/Podium_win/"+Parser.toCapitalize(s[0])+"_podium_win.png"));
             Image dimg = imgWinner.getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
+            if (podiumNames[0].equals("Our")){
+                imgNameWinner = ImageIO.read(new File("images/myNameFrame.png"));
+            }
+            else if (podiumNames[0].equals("Enemy_red")){
+                imgNameWinner = ImageIO.read(new File("images/opponentNameFrame.png"));
+            }
+            else {
+                imgNameWinner = ImageIO.read(new File("images/opponentGreenNameFrame.png"));
+            }
+            Image dimg2 = imgNameWinner.getScaledInstance(winnerName.getWidth(),winnerName.getHeight(), Image.SCALE_AREA_AVERAGING);
             ImageIcon imageIcon = new ImageIcon(dimg);
+            ImageIcon imageIcon2 = new ImageIcon(dimg2);
             winner.setIcon(imageIcon);
-            endGamePanelPlayers.add(winner, BorderLayout.NORTH);
+            winnerName.setIcon(imageIcon2);
+            winnerPanel.add(winner,BorderLayout.CENTER);
+            winnerPanel.add(winnerName, BorderLayout.SOUTH);
+            endGamePanelPlayers.add(winnerPanel, BorderLayout.NORTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JPanel loser = new JPanel();
-        loser.setLayout(new GridLayout(1,2,0,0));
-        loser.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
-        loser.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
-        loser.setOpaque(false);
-        BufferedImage imgLosers;
-        JLabel loser1, loser2;
-        loser1=new JLabel();
-        loser1.setPreferredSize(new Dimension(loser.getWidth()/2,loser.getHeight()));
-        loser1.setSize(loser.getWidth()/2,loser.getHeight());
+        JPanel losers = new JPanel();
+        JPanel loserPanel1 = new JPanel();
+        JPanel loserPanel2 = new JPanel();
+        losers.setLayout(new GridLayout(1,2,0,0));
+        losers.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
+        losers.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
+        losers.setOpaque(false);
+        loserPanel1.setLayout(new BorderLayout(0,0));
+        loserPanel1.setPreferredSize(new Dimension(losers.getWidth()/2,losers.getHeight()));
+        loserPanel1.setSize(losers.getWidth()/2,losers.getHeight());
+        loserPanel1.setOpaque(false);
+        loserPanel2.setLayout(new BorderLayout(0,0));
+        loserPanel2.setPreferredSize(new Dimension(losers.getWidth()/2,losers.getHeight()));
+        loserPanel2.setSize(losers.getWidth()/2,losers.getHeight());
+        loserPanel2.setOpaque(false);
+        BufferedImage imgLoser, imgNameLoser;
+        JLabel loser1 = new JLabel();
+        JLabel loserName1 = new JLabel();
+        JLabel loser2 = new JLabel();
+        JLabel loserName2 = new JLabel();
+        loser1.setPreferredSize(new Dimension((int)(loserPanel1.getWidth() * value),(int)(loserPanel1.getHeight() * value2)));
+        loser1.setSize((int)(loserPanel1.getWidth() * value),(int)(loserPanel1.getHeight() * value2));
+        loser1.setOpaque(false);
+        loser1.setHorizontalAlignment(SwingConstants.CENTER);
+        loserName1.setPreferredSize(new Dimension((int)(loserPanel1.getWidth() * name),(int)(loserPanel1.getHeight() * height)));
+        loserName1.setSize((int)(loserPanel1.getWidth() * name),(int)(loserPanel1.getHeight() * height));
+        loserName1.setOpaque(false);
+        loserName1.setHorizontalAlignment(SwingConstants.CENTER);
+        loserName1.setFont(customFont);
+        int maxLength2 = Math.min(realPodiumNames[1].length(), 9);
+        loserName1.setText(realPodiumNames[1].substring(0,maxLength2));
+        loserName1.setForeground(Color.WHITE);
+        loserName1.setHorizontalTextPosition(SwingConstants.CENTER);
         try {
-            imgLosers = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[1])+"_podium.png"));
-            Image dimg = imgLosers.getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
+            imgLoser = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[1])+"_podium.png"));
+            Image dimg = imgLoser.getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
+            if (podiumNames[1].equals("Our")){
+                imgNameLoser = ImageIO.read(new File("images/myNameFrame.png"));
+            }
+            else if (podiumNames[1].equals("Enemy_red")){
+                imgNameLoser = ImageIO.read(new File("images/opponentNameFrame.png"));
+            }
+            else {
+                imgNameLoser = ImageIO.read(new File("images/opponentGreenNameFrame.png"));
+            }
+            Image dimg2 = imgNameLoser.getScaledInstance(loserName1.getWidth(),loserName1.getHeight(), Image.SCALE_AREA_AVERAGING);
             ImageIcon imageIcon = new ImageIcon(dimg);
+            ImageIcon imageIcon2 = new ImageIcon(dimg2);
             loser1.setIcon(imageIcon);
-            loser.add(loser1);
+            loserName1.setIcon(imageIcon2);
+            loserPanel1.add(loser1,BorderLayout.CENTER);
+            loserPanel1.add(loserName1, BorderLayout.SOUTH);
+            losers.add(loserPanel1);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(s[2]!=null){
-            loser2=new JLabel();
-            loser2.setPreferredSize(new Dimension(loser.getWidth()/2,loser.getHeight()));
-            loser2.setSize(loser.getWidth()/2,loser.getHeight());
+        if(s[2] != null){
+            loser2.setPreferredSize(new Dimension((int)(loserPanel2.getWidth() * value),(int)(loserPanel2.getHeight() * value2)));
+            loser2.setSize((int)(loserPanel2.getWidth() * value),(int)(loserPanel2.getHeight() * value2));
+            loser2.setOpaque(false);
+            loser2.setHorizontalAlignment(SwingConstants.CENTER);
+            loserName2.setPreferredSize(new Dimension((int)(loserPanel2.getWidth() * name),(int)(loserPanel2.getHeight() * height)));
+            loserName2.setSize((int)(loserPanel2.getWidth() * name),(int)(loserPanel2.getHeight() * height));
+            loserName2.setOpaque(false);
+            loserName2.setHorizontalAlignment(SwingConstants.CENTER);
+            loserName2.setFont(customFont);
+            int maxLength3 = Math.min(realPodiumNames[2].length(), 9);
+            loserName2.setText(realPodiumNames[2].substring(0,maxLength3));
+            loserName2.setForeground(Color.WHITE);
+            loserName2.setHorizontalTextPosition(SwingConstants.CENTER);
             try {
-                imgLosers = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[2])+"_podium.png"));
-                Image dimg = imgLosers.getScaledInstance(loser2.getWidth(),loser2.getHeight(), Image.SCALE_AREA_AVERAGING);
+                imgLoser = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[2])+"_podium.png"));
+                Image dimg = imgLoser.getScaledInstance(loser2.getWidth(),loser2.getHeight(), Image.SCALE_AREA_AVERAGING);
+                if (podiumNames[2].equals("Our")){
+                    imgNameLoser = ImageIO.read(new File("images/myNameFrame.png"));
+                }
+                else if (podiumNames[2].equals("Enemy_red")){
+                    imgNameLoser = ImageIO.read(new File("images/opponentNameFrame.png"));
+                }
+                else {
+                    imgNameLoser = ImageIO.read(new File("images/opponentGreenNameFrame.png"));
+                }
+                Image dimg2 = imgNameLoser.getScaledInstance(loserName2.getWidth(),loserName2.getHeight(), Image.SCALE_AREA_AVERAGING);
                 ImageIcon imageIcon = new ImageIcon(dimg);
+                ImageIcon imageIcon2 = new ImageIcon(dimg2);
                 loser2.setIcon(imageIcon);
-                loser.add(loser2);
+                loserName2.setIcon(imageIcon2);
+                loserPanel2.add(loser2,BorderLayout.CENTER);
+                loserPanel2.add(loserName2, BorderLayout.SOUTH);
+                losers.add(loserPanel2);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         setMessageOnPopup("Would you like to play again?");
-        endGamePanelPlayers.add(loser, BorderLayout.SOUTH);
+        endGamePanelPlayers.add(losers, BorderLayout.SOUTH);
         endGamePanelPlayers.revalidate();
         endGamePanelPlayers.repaint();
     }
