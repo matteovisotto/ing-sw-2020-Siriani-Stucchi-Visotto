@@ -10,7 +10,7 @@ public abstract class GodCard implements Serializable {
     protected final Phase phase;
 
     /**
-     *
+     * Constructor of the class
      * @param card the Gods enum instance for creating the model card
      * @param phase the phase in which the gods power should be activated
      */

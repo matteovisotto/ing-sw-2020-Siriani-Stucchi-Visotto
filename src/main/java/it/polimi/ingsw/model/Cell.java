@@ -13,7 +13,7 @@ public class Cell implements Serializable, Cloneable{
     private final int y;
 
     /**
-     * Constructor
+     * Constructor of the class
      * @param x x value of the new cell
      * @param y y value of the new cell
      */

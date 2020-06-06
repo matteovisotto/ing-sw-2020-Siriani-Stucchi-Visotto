@@ -9,11 +9,21 @@ public class Board implements Serializable, Cloneable {
     private Cell[][] board;
     private Player[] players;
 
+    /**
+     * Constructor of the class
+     * @param players are the gamer of the actual game.
+     */
     public Board(Player[] players){
         this.players = players;
         this.reset();
     }
 
+    /**
+     * @param x is the x value of the cell.
+     * @param y is the y value of the cell.
+     * @return the cell (x,y).
+     * @throws IllegalArgumentException if the value 'x' or 'y' is higher or equal to 4 and if is lower then 0.
+     */
     public Cell getCell(int x, int y) throws IllegalArgumentException{
         if((x < 0 || x >= 5) || (y < 0 || y >= 5)){
             throw new IllegalArgumentException();
@@ -21,6 +31,9 @@ public class Board implements Serializable, Cloneable {
         return board[x][y];
     }
 
+    /**
+     * This method reset the board and set all precedent cells to new Cell.
+     */
     public void reset(){
         board=new Cell[5][5];
         for(int i = 0; i < 5; i++){

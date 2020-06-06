@@ -18,6 +18,10 @@ public enum Gods {
 
     private final int simplegod;
 
+    /**
+     * Constructor of the class
+     * @param simplegod represent a specific God.
+     */
     Gods(int simplegod) {
         this.simplegod = simplegod;
     }
@@ -53,6 +57,9 @@ public enum Gods {
         }
     }
 
+    /**
+     * @return in int corresponding to a specific God.
+     */
     public int getSimpleGodId() {
         return simplegod;
     }
