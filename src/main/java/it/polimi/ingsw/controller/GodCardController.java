@@ -143,8 +143,6 @@ public class GodCardController extends Controller{
         if(!turnCheck(move)){
             return;
         }
-        //checkVictory();
-        //qua fa la mossa
         if(!move.getPlayer().getWorker(move.getWorkerId()).getStatus()){
             move.getView().reportError("This worker can't move anywhere");
             return;
@@ -255,7 +253,6 @@ public class GodCardController extends Controller{
                         model.victory(move.getPlayer());
                     }
                     checkVictory();
-                    //checkCantBuild(move);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println(e.getMessage());
                 }
@@ -267,22 +264,6 @@ public class GodCardController extends Controller{
         }
 
     }
-
-    /*public synchronized void checkCantBuild(PlayerMove move){
-        Cell cell=model.getBoard().getCell(move.getRow(), move.getColumn());
-        Board board=model.getBoardClone();
-        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
-            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
-                if((x>=0 && x<=4) && (y>=0 && y<=4)){
-                    if(board.getCell(x,y).getLevel().getBlockId()!=4){
-                        return;
-                    }
-                }
-            }
-        }
-        model.loose(move.getPlayer());
-    }*/
-
 
     @Override
     protected synchronized boolean canMove(Worker worker, Player player){

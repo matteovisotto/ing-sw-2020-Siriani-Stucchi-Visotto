@@ -12,6 +12,10 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class merge all the data madel of the game
+ */
+
 public class Model extends Observable<ViewMessage> {
     private Board board;
     private final Player[] turn;

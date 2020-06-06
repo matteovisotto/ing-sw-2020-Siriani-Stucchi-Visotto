@@ -12,12 +12,24 @@ public class Cell implements Serializable, Cloneable{
     private final int x;
     private final int y;
 
+    /**
+     * Constructor
+     * @param x x value of the new cell
+     * @param y y value of the new cell
+     */
     public Cell(int x, int y){
         this.level = Blocks.EMPTY;
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Private constructor to create a new cell in clone method
+     * @param x x value of cloneable cell
+     * @param y y value of cloneable cell
+     * @param level level of cloneable cell
+     * @param isFree actual usage of cloneable cell
+     */
     private Cell(int x, int y, Blocks level, boolean isFree){
         this.x = x;
         this.y = y;

@@ -30,13 +30,30 @@ public class Board implements Serializable, Cloneable {
         }
     }
 
-
+    /**
+     * Default checker for a move
+     * @param x the x value of the cell
+     * @param y the y value of the cell
+     * @param actualWorker the worker who is performing the move
+     * @param maxUpDifference the max step the worker can move up, normal 1, with some gods could be heigher
+     * @return true if it can perform the asked move
+     * @throws IllegalArgumentException if cell values are not between 0 and 4
+     */
     public boolean checkCell (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
         Cell nextCell = getCell(x,y);
         Cell actualCell = actualWorker.getCell();
         return nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
+    /**
+     * Modifed control for Apollo
+     * @param x the x value of the cell
+     * @param y the y value of the cell
+     * @param actualWorker the worker who is performing the move
+     * @param maxUpDifference the max step the worker can move up, normal 1, with some gods could be heigher
+     * @return true if it can move in the selected cell
+     * @throws IllegalArgumentException if cell values are not between 0 and 4
+     */
     public boolean checkCellApollo (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
         Cell nextCell = getCell(x,y);
         Cell actualCell = actualWorker.getCell();
@@ -51,6 +68,16 @@ public class Board implements Serializable, Cloneable {
         }
         return (nextCell.isFree() || isPlayerSwitchable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId()< maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
+
+    /**
+     * Modifed control for Minotaur
+     * @param x the x value of the cell
+     * @param y the y value of the cell
+     * @param actualWorker the worker who is performing the move
+     * @param maxUpDifference the max step the worker can move up, normal 1, with some gods could be heigher
+     * @return true if it can move in the selected cell
+     * @throws IllegalArgumentException if cell values are not between 0 and 4
+     */
     public boolean checkCellMinotaur (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
         Cell nextCell = getCell(x,y);
         Cell actualCell = actualWorker.getCell();
@@ -70,6 +97,9 @@ public class Board implements Serializable, Cloneable {
         return (nextCell.isFree() || isEnemyPushable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
+    /**
+     * Print board in standard output as string
+     */
     public synchronized void print(){
         try {
             System.out.println(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4");
