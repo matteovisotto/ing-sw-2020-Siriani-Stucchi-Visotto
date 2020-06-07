@@ -1286,7 +1286,7 @@ public class Game extends JFrame implements Observer<Object> {
         loserName1.setForeground(Color.WHITE);
         loserName1.setHorizontalTextPosition(SwingConstants.CENTER);
         try {
-            imgLoser = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[1])+"_podium.png"));
+            imgLoser = ImageIO.read(new File("images/Podium_silver/"+Parser.toCapitalize(s[1])+"_podium_silver.png"));
             Image dimg = imgLoser.getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
             if (podiumNames[1].equals("Our")){
                 imgNameLoser = ImageIO.read(new File("images/myNameFrame.png"));
@@ -1323,7 +1323,7 @@ public class Game extends JFrame implements Observer<Object> {
             loserName2.setForeground(Color.WHITE);
             loserName2.setHorizontalTextPosition(SwingConstants.CENTER);
             try {
-                imgLoser = ImageIO.read(new File("images/Podium/"+Parser.toCapitalize(s[2])+"_podium.png"));
+                imgLoser = ImageIO.read(new File("images/Podium_bronze/"+Parser.toCapitalize(s[2])+"_podium_bronze.png"));
                 Image dimg = imgLoser.getScaledInstance(loser2.getWidth(),loser2.getHeight(), Image.SCALE_AREA_AVERAGING);
                 if (podiumNames[2].equals("Our")){
                     imgNameLoser = ImageIO.read(new File("images/myNameFrame.png"));
