@@ -143,6 +143,10 @@ public class GodCardController extends Controller{
         if(!turnCheck(move)){
             return;
         }
+        if(!canMove(move.getPlayer().getWorker(move.getWorkerId()),move.getPlayer()) && model.getGCPlayer(Gods.TRITON)==move.getPlayer()){
+            if(((Triton)move.getPlayer().getGodCard()).getUsedWorkerID()!=-1)
+                model.loose(move.getPlayer());
+        }
         if(!move.getPlayer().getWorker(move.getWorkerId()).getStatus()){
             move.getView().reportError("This worker can't move anywhere");
             return;
@@ -241,6 +245,28 @@ public class GodCardController extends Controller{
                             model.move(move);
                         }
                     }
+                    else if(model.getGCPlayer(Gods.TRITON) == move.getPlayer()){// se è il turno del player con Tritone
+                        if(((Triton)move.getPlayer().getGodCard()).getUsedWorkerID()==-1){
+                            ((Triton)move.getPlayer().getGodCard()).setUsedWorkerID(move.getWorkerId());
+                        }
+                        if(((Triton)move.getPlayer().getGodCard()).getUsedWorkerID() != move.getWorkerId()){
+                            move.getView().reportError("you have to move the same worker");
+                        }
+                        else if(move.getRow()==0 || move.getRow()==4 || move.getColumn()==0 || move.getColumn()==4 ){
+                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                            model.setNextMessageType(MessageType.USE_POWER);
+                            model.move(move);
+                        }
+                        else{
+                            ((Triton)move.getPlayer().getGodCard()).setUsedWorkerID(-1);
+                            model.setNextMessageType(MessageType.BUILD);
+                            model.setNextPlayerMessage(PlayerMessage.BUILD);
+                            model.setNextPhase(Phase.BUILD);
+                            model.move(move);
+                        }
+
+                    }
                     else{
                         if(model.getGCPlayer(Gods.ATLAS) == move.getPlayer()){
                             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
@@ -268,14 +294,12 @@ public class GodCardController extends Controller{
     @Override
     protected synchronized boolean canMove(Worker worker, Player player){
         HashMap<Cell, Boolean> availableCells=checkCellsAround(worker);
-        boolean canMove=false;
         for (Boolean can:availableCells.values()) {
             if(can){
-                canMove=true;
-                break;
+                return true;
             }
         }
-        return canMove;
+        return false;
     }
 
     @Override
