@@ -303,7 +303,6 @@ public class GodCardController extends Controller{
 
         Cell buildingCell = this.model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()); //ottengo la cella sulla quale costruire
         Blocks level = buildingCell.getLevel();//ottengo l'altezza della cella
-        //qui devo fare i controlli
 
         if(checkBuild(buildingCell, playerBuild)){
             if(model.getGCPlayer(Gods.ATLAS) == playerBuild.getPlayer() && ((Atlas)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
@@ -391,6 +390,21 @@ public class GodCardController extends Controller{
                 }
                 else{
                     ((Hestia)playerBuild.getPlayer().getGodCard()).setHasBuilt(false);
+                    model.setNextMessageType(MessageType.MOVE);
+                    model.setNextPlayerMessage(PlayerMessage.MOVE);
+                    model.updatePhase();
+                    model.updateTurn();
+                }
+                godIncreaseLevel(level.getBlockId(), buildingCell);
+            }
+            else if(model.getGCPlayer(Gods.POSEIDON)==playerBuild.getPlayer()){
+                if(((Poseidon)model.getGCPlayer(Gods.POSEIDON).getGodCard()).getNumOfBuild()<=3 && playerBuild.getPlayer().getWorker(playerBuild.getPlayer().getUnusedWorker()).getCell().getLevel().getBlockId()==0 ){
+
+                    model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                    model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                    model.setNextMessageType(MessageType.USE_POWER);
+                }
+                else{
                     model.setNextMessageType(MessageType.MOVE);
                     model.setNextPlayerMessage(PlayerMessage.MOVE);
                     model.updatePhase();

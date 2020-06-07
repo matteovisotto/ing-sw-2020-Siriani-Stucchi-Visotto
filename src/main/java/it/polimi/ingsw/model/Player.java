@@ -113,6 +113,7 @@ public class Player implements Serializable {
         return (workers.get(number));
     }
 
+
     /**
      *
      * @param worker a worker class instance
@@ -131,6 +132,10 @@ public class Player implements Serializable {
      */
     public int getUsedWorker() {
         return usedWorker;
+    }
+
+    public int getUnusedWorker(){
+        return  (usedWorker+1)%2;
     }
 
     /**
