@@ -414,7 +414,9 @@ public class GodCardController extends Controller{
                 godIncreaseLevel(level.getBlockId(), buildingCell);
             }
             else if(model.getGCPlayer(Gods.HESTIA)==playerBuild.getPlayer()){
-                if(!((Hestia)model.getGCPlayer(Gods.HESTIA).getGodCard()).hasBuilt() && checkHestiaCells(playerBuild)){
+
+
+                if(!(((Hestia)model.getGCPlayer(Gods.HESTIA).getGodCard()).hasBuilt()) && checkHestiaCells(playerBuild)){
                     model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                     model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                     model.setNextMessageType(MessageType.USE_POWER);
@@ -486,13 +488,13 @@ public class GodCardController extends Controller{
     }
 
     private boolean checkHestiaCells(PlayerBuild playerBuild){
-        int x=playerBuild.getX();
-        int y=playerBuild.getY();
+        int x=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX();
+        int y=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY();
         Board board=model.getBoard();
-        for(int i=x-1; i<x+1; i++){
-            for(int j=y-1; j<y+1; j++){
+        for(int i=x-1; i<=x+1; i++){
+            for(int j=y-1; j<=y+1; j++){
                 try{
-                    if(board.getCell(i,j).getLevel().getBlockId() < 4 && i!=0 && i!=4 && j!=0 && j!=4 && i!=j && board.getCell(i,j).isFree()){
+                    if(board.getCell(i,j).getLevel().getBlockId() < 4 && i!=0 && i!=4 && j!=0 && j!=4 && board.getCell(i,j).isFree()){
                         return true;
                     }
                 }catch(Exception e){
