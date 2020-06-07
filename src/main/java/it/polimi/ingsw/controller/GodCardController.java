@@ -398,13 +398,22 @@ public class GodCardController extends Controller{
                 godIncreaseLevel(level.getBlockId(), buildingCell);
             }
             else if(model.getGCPlayer(Gods.POSEIDON)==playerBuild.getPlayer()){
-                if(((Poseidon)model.getGCPlayer(Gods.POSEIDON).getGodCard()).getNumOfBuild()<=3 && playerBuild.getPlayer().getWorker(playerBuild.getPlayer().getUnusedWorker()).getCell().getLevel().getBlockId()==0 ){
-
+                Poseidon poseidon= (Poseidon) model.getGCPlayer(Gods.POSEIDON).getGodCard();
+                if(poseidon.getMovedWorker()==null){
+                    poseidon.setMovedWorker(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()));
+                    poseidon.setUnusedWorker(playerBuild.getPlayer().getWorker((playerBuild.getWorkerId()+1)%2));
+                    model.getGCPlayer(Gods.POSEIDON).setUsedWorker(model.getGCPlayer(Gods.POSEIDON).getUnusedWorker());
+                }
+                //se non ho costruito già 3 volte e se il worker inutilizzato e' al livello 0 e se il worker inutilizzato puo costruire
+                if(poseidon.getNumOfBuild()<3 && poseidon.getUnusedWorker().getCell().getLevel().getBlockId()==0 && checkCanBuild(poseidon.getUnusedWorker())){
                     model.setNextPhase(Phase.WAIT_GOD_ANSWER);
                     model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                     model.setNextMessageType(MessageType.USE_POWER);
                 }
                 else{
+                    ((Poseidon)model.getGCPlayer(Gods.POSEIDON).getGodCard()).setUnusedWorker(null);
+                    ((Poseidon)model.getGCPlayer(Gods.POSEIDON).getGodCard()).setMovedWorker(null);
+                    ((Poseidon)model.getGCPlayer(Gods.POSEIDON).getGodCard()).resetBuild();
                     model.setNextMessageType(MessageType.MOVE);
                     model.setNextPlayerMessage(PlayerMessage.MOVE);
                     model.updatePhase();
@@ -425,6 +434,24 @@ public class GodCardController extends Controller{
         }
         checkVictory();
 
+    }
+
+    private boolean checkCanBuild(Worker worker){
+        int x=worker.getCell().getX();
+        int y=worker.getCell().getY();
+        Board board=model.getBoard();
+        for(int i=x-1; i<=x+1; i++){
+            for(int j=y-1; j<=y+1; j++){
+                try{
+                    if(board.getCell(i,j).getLevel().getBlockId() < 4 && board.getCell(i,j).isFree()){
+                        return true;
+                    }
+                }catch(Exception e){
+                    //ignore
+                }
+            }
+        }
+        return false;
     }
 
     private boolean checkHestiaCells(PlayerBuild playerBuild){
