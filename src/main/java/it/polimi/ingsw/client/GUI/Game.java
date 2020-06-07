@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.utils.Parser;
 
-
+import java.util.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TimerTask;
 
 public class Game extends JFrame implements Observer<Object> {
 
@@ -25,8 +26,8 @@ public class Game extends JFrame implements Observer<Object> {
     private ArrayList<String> opponentsNames = new ArrayList<>();
     private HashMap<String, String> opponentGods = new HashMap<>();
     private HashMap<String, String> myGod = new HashMap<>();
-    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, southPanel, godPanel, endGamePanel, endGamePanelPlayers, exitGame, playAgain;
-    private JLabel messageLabel, background, endGameImage;
+    private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, godPanel, endGamePanel, endGamePanelPlayers, exitGame, playAgain;
+    private JLabel messageLabel, background, endGameImage, southPanel;
     private JButton startPlayBtn;
     private MessageType messageType = MessageType.PLAYER_NAME;
     private Player player;
@@ -176,11 +177,27 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         value = 0.1389;
-        southPanel = new JPanel(true);
+        southPanel = new JLabel();
         southPanel.setLayout(new BorderLayout(10, 10));
         southPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //150
         southPanel.setSize(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
         southPanel.setOpaque(false);
+
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(40f);
+            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+        southPanel.setHorizontalTextPosition(SwingConstants.CENTER);
+        southPanel.setHorizontalAlignment(SwingConstants.CENTER);
+        southPanel.setFont(customFont);
+        southPanel.setForeground(Color.RED);
+
+
         //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
@@ -456,7 +473,9 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 try{
-                    ((JButton)overlayPanel.getComponent(i*5+j)).removeActionListener(((JButton)overlayPanel.getComponent(i*5+j)).getActionListeners()[0]);
+                    for (ActionListener actionListener :((JButton)overlayPanel.getComponent(i*5+j)).getActionListeners()) {
+                        ((JButton)overlayPanel.getComponent(i*5+j)).removeActionListener(actionListener);
+                    }
                     overlayPanel.getComponent(i*5+j).setVisible(false);
                 }catch(ArrayIndexOutOfBoundsException e){
                     //e.printStackTrace();
@@ -470,7 +489,9 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 try{
-                    ((JButton)initialBoardPanel.getComponent(i*5+j)).removeActionListener(((JButton)initialBoardPanel.getComponent(i*5+j)).getActionListeners()[0]);
+                    for (ActionListener actionListener:((JButton)initialBoardPanel.getComponent(i*5+j)).getActionListeners()) {
+                        ((JButton)initialBoardPanel.getComponent(i*5+j)).removeActionListener(actionListener);
+                    }
                 }catch(ArrayIndexOutOfBoundsException e){
                     //e.printStackTrace();
                 }
@@ -1031,7 +1052,7 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
 
         value = 0.2129629;
-        southPanel = new JPanel(true);
+        southPanel = new JLabel();
         southPanel.setLayout(new BorderLayout(10, 10));
         southPanel.setPreferredSize(new Dimension(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value))); //210
         southPanel.setSize(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value));
@@ -1381,6 +1402,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void usePower(){
+        resetBoardPanel();
         BufferedImage image;
         final Image normal;
         setMessageOnPopup("Make a choice");
@@ -1713,20 +1735,31 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
+    private void showError(String s){
+        try{
+            southPanel.setText(s);
+            Timer timer=new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    southPanel.setText("");
+                }
+            }, 3000);
+
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+    }
+
     @Override
     public void update(Object msg) {
 
         if(msg instanceof String){
-            if (!alreadySend){
-                String message = (String) msg;
-                if(message.startsWith("ERROR: ")){
-                    String errorString = message.substring(7);
-                    JOptionPane.showMessageDialog(this,
-                            errorString,
-                            "Command error",
-                            JOptionPane.WARNING_MESSAGE);
-                }
-                alreadySend = true;
+            String message = (String) msg;
+            if(message.startsWith("ERROR: ")){
+                String errorString = message.substring(7);
+                showError(errorString);
             }
         } else if (msg instanceof ViewMessage) {
             ViewMessage viewMessage = (ViewMessage) msg;

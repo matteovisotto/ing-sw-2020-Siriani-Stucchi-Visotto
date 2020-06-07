@@ -81,11 +81,14 @@ public class Initialization extends JDialog implements Observer<Object> {
             String message = (String) msg;
             if(message.startsWith("ERROR: ")){
                 String errorString = message.substring(7);
-                JOptionPane.showMessageDialog(this,
+                /*JOptionPane.showMessageDialog(this,
                         errorString,
                         "Command error",
                         JOptionPane.WARNING_MESSAGE);
+
+                 */
             }
+
         }
     }
 
