@@ -21,12 +21,12 @@ public class Model extends Observable<ViewMessage> {
     private int leftPlayers, playersWhoWon=0, playersWhoLost=0;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
-    private Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
-    private ArrayList<GodCard> gods = new ArrayList<>();
+    private final Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
+    private final ArrayList<GodCard> gods = new ArrayList<>();
     private boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
     private String playerMessage = PlayerMessage.DRAW_CARD;
-    private HashMap<Player, Integer> podium=new HashMap<>();
+    private final HashMap<Player, Integer> podium=new HashMap<>();
 
     /**
      * Constructor of the class
