@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.GUI;
 
-
 import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
@@ -48,6 +47,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     public Game(final GUIClient guiClient){
         //customCursor();
+        setIconImage(Toolkit.getDefaultToolkit().getImage("/images/icon.png"));
         this.guiClient = guiClient;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Santorini");
