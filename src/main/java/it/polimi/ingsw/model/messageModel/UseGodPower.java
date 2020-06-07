@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.messageModel;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.simplegod.Poseidon;
 import it.polimi.ingsw.model.simplegod.Triton;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.View;
@@ -55,6 +56,11 @@ public class UseGodPower extends Message {
                         model.setNextMessageType(MessageType.USE_POWER);
                         model.updateTurn();
                         break;
+                    }
+                    if(controller.getModel().getActualPlayer().getGodCard().getCardGod()==Gods.POSEIDON){
+                        ((Poseidon)playerGodCard).setMovedWorker(null);
+                        ((Poseidon)playerGodCard).setUnusedWorker(null);
+                        ((Poseidon)playerGodCard).resetBuild();
                     }
 
                     model.setNextPhase(Phase.MOVE);

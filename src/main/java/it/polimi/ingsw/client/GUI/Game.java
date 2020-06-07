@@ -811,12 +811,14 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void performBuild(){
-        int x=player.getWorker(selectedWorker).getCell().getX();
-        int y=player.getWorker(selectedWorker).getCell().getY();
+        int x=player.getWorker(player.getUsedWorker()).getCell().getX();
+        int y=player.getWorker(player.getUsedWorker()).getCell().getY();
         for (int i = x-1; i <= x+1; i++) {
             for (int j = y-1; j <= y+1; j++){
                 try{
-                    if(!(i==x && j==y) && i>=0 && j>=0 && i<=4 && j<=4 && !(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) && !(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j)){
+                    if((!(i==x && j==y) || player.getGodCard().getCardGod()==Gods.ZEUS) && i>=0 && j>=0 && i<=4 && j<=4 &&
+                            (!(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) || player.getGodCard().getCardGod()==Gods.ZEUS) &&
+                            (!(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j) || player.getGodCard().getCardGod()==Gods.ZEUS)){
                         (overlayPanel.getComponent(i*5+j)).setVisible(true);
                         (overlayPanel.getComponent(i*5+j)).setEnabled(true);
                         ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {

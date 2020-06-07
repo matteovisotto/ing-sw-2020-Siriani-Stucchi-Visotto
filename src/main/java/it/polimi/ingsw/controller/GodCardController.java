@@ -318,8 +318,8 @@ public class GodCardController extends Controller{
         if(playerBuild.getPlayer().getGodCard().getCardGod()==Gods.ZEUS){
             return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
                     Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
-                    (buildingCell.getX() > 0 && buildingCell.getX() < 4) &&
-                    (buildingCell.getY() > 0 && buildingCell.getY() < 4) &&
+                    (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
+                    (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
                     (buildingCell.getLevel().getBlockId() <= 3);
         }
         return super.checkBuild(buildingCell, playerBuild);
@@ -433,7 +433,7 @@ public class GodCardController extends Controller{
                 if(poseidon.getMovedWorker()==null){
                     poseidon.setMovedWorker(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()));
                     poseidon.setUnusedWorker(playerBuild.getPlayer().getWorker((playerBuild.getWorkerId()+1)%2));
-                    model.getGCPlayer(Gods.POSEIDON).setUsedWorker(model.getGCPlayer(Gods.POSEIDON).getUnusedWorker());
+                    model.getGCPlayer(Gods.POSEIDON).setUsedWorker((playerBuild.getWorkerId()+1)%2);
                 }
                 //se non ho costruito già 3 volte e se il worker inutilizzato e' al livello 0 e se il worker inutilizzato puo costruire
                 if(poseidon.getNumOfBuild()<3 && poseidon.getUnusedWorker().getCell().getLevel().getBlockId()==0 && checkCanBuild(poseidon.getUnusedWorker())){
