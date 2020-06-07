@@ -315,6 +315,13 @@ public class GodCardController extends Controller{
                         (buildingCell.isFree());
             }
         }
+        if(playerBuild.getPlayer().getGodCard().getCardGod()==Gods.ZEUS){
+            return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
+                    Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
+                    (buildingCell.getX() > 0 && buildingCell.getX() < 4) &&
+                    (buildingCell.getY() > 0 && buildingCell.getY() < 4) &&
+                    (buildingCell.getLevel().getBlockId() <= 3);
+        }
         return super.checkBuild(buildingCell, playerBuild);
 
     }
