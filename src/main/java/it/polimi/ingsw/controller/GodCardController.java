@@ -279,6 +279,23 @@ public class GodCardController extends Controller{
     }
 
     @Override
+    protected synchronized boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild) {
+        if(playerBuild.getPlayer().getGodCard().getCardGod()==Gods.HESTIA){
+            if(((Hestia)playerBuild.getPlayer().getGodCard()).hasBuilt()){
+                return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
+                        Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
+                        (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&
+                        (buildingCell.getX() > 0 && buildingCell.getX() < 4) &&
+                        (buildingCell.getY() > 0 && buildingCell.getY() < 4) &&
+                        (buildingCell.getLevel().getBlockId() <= 3) &&
+                        (buildingCell.isFree());
+            }
+        }
+        return super.checkBuild(buildingCell, playerBuild);
+
+    }
+
+    @Override
     public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {
         if(!turnCheck(playerBuild)){
             return;
@@ -366,6 +383,21 @@ public class GodCardController extends Controller{
                 }
                 godIncreaseLevel(level.getBlockId(), buildingCell);
             }
+            else if(model.getGCPlayer(Gods.HESTIA)==playerBuild.getPlayer()){
+                if(!((Hestia)model.getGCPlayer(Gods.HESTIA).getGodCard()).hasBuilt()){
+                    model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                    model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                    model.setNextMessageType(MessageType.USE_POWER);
+                }
+                else{
+                    ((Hestia)playerBuild.getPlayer().getGodCard()).setHasBuilt(false);
+                    model.setNextMessageType(MessageType.MOVE);
+                    model.setNextPlayerMessage(PlayerMessage.MOVE);
+                    model.updatePhase();
+                    model.updateTurn();
+                }
+                godIncreaseLevel(level.getBlockId(), buildingCell);
+            }
             else{
                 model.setNextMessageType(MessageType.MOVE);
                 model.setNextPlayerMessage(PlayerMessage.MOVE);
@@ -382,7 +414,7 @@ public class GodCardController extends Controller{
     }
 
     private void godIncreaseLevel(int blockId, Cell buildingCell) {
-        if(model.getActualPlayer() == model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+        if((model.getActualPlayer() == model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt())) {
             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
             model.setNextMessageType(MessageType.USE_POWER);
