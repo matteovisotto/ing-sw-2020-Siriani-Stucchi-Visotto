@@ -41,6 +41,6 @@ public class GodsTest {
     @Test
     public void getSimpleGodException() {
         exception.expect(IllegalArgumentException.class);
-        Gods.getGod(10);
+        Gods.getGod(15);
     }
 }
