@@ -15,7 +15,7 @@ public class Chronus extends GodCard {
     }
 
     /**
-     *
+     * No additional action for this God, the controller is enough
      * @param objectList a generic list of Objects
      */
     @Override

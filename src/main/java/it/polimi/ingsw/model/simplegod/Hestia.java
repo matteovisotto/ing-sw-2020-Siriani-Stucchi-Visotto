@@ -28,6 +28,9 @@ public class Hestia extends GodCard {
 
     /**
      * {@inheritDoc}
+     * In this case the only parameters is the model,
+     * If this function is called, let the player to build the first time and set te model params
+     * for letting him to build again
      */
     @Override
     public void usePower(List<Object> objectList) {
