@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.server.ClientConnection;
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.observer.Observer;
 
@@ -88,7 +87,7 @@ public abstract class Controller implements Observer<Message> {
             activeClients.put(newGameMessage.getPlayer(), newGameMessage.getClientConnection());
             if(counter == model.getNumOfPlayers()){
                 //TODO model reset
-                model.startOver(activeClients);
+                model.startOver();
             } else if(answers == model.getNumOfPlayers()){
                 for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
                     this.playersName.add(names.getKey().getPlayerName());

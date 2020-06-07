@@ -9,12 +9,11 @@ import java.util.List;
  */
 public class Pan extends GodCard {
 
+    /**
+     * {@inheritDoc}
+     */
     public Pan(){
         super(Gods.PAN, Phase.MOVE);
-    }
-
-    public Phase getPhase() {
-        return phase;
     }
 
     /**

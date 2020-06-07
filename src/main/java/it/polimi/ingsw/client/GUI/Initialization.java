@@ -68,7 +68,6 @@ public class Initialization extends JDialog implements Observer<Object> {
                 guiClient.send(returnedMessage);
             }
         });
-        //this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         add(mainPanel);
         pack();
         this.getRootPane().setDefaultButton(sendButton);

@@ -5,12 +5,23 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.view.RemoteView;
 
+/**
+ * This class is used to parse the input command string received by the server from the client
+ * Central point is the phase that is used to decide which type of string we expect
+ */
 public class CommandParser {
     private final Phase phase;
     private String string;
     private final Player player;
     private final RemoteView view;
 
+    /**
+     * Class constructor
+     * @param phase the actual game phase
+     * @param string the client input string recived
+     * @param player the player instance who is sending the command
+     * @param view the instance of the player view from which is asking to parse the command
+     */
     public CommandParser(Phase phase, String string, Player player, RemoteView view){
         this.phase = phase;
         this.string = string;
@@ -18,6 +29,20 @@ public class CommandParser {
         this.view = view;
     }
 
+    /**
+     *  For each game phase is parsed the input string, if the format doesn't correspond an IllegalArgumentException is thrown.
+     *  DRAWCARD: expect x,y or x,y,z format.
+     *  PICK_CARD: expect a single integer value.
+     *  SETWORKER1 and SETWORKER2: expect x,y format representing the cell coordinates.
+     *  MOVE: expect w,x,y format where w is the worker id and x,y the cel coordinates.
+     *  BUILT: expect x,y format as cell coordinates.
+     *  WAIT_GOD_ANSWER: expect a single char for the answer y or n.
+     *  PROMETHEUS_WORKER: expect a single integer representing the selected worker id.
+     *  END_GAME: expect a signle char representing the player answer y or n.
+     * @return the specific Message subclass for notifying the controller.
+     * @throws IllegalArgumentException if the input string does not conform to the game phase.
+     * @throws IndexOutOfBoundsException report at the function caller errors sent by used class.
+     */
     public Message parse() throws IllegalArgumentException, IndexOutOfBoundsException{
         String[] s;
         switch(phase){

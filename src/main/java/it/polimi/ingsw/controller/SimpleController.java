@@ -2,12 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
-import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.utils.PlayerMessage;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SimpleController extends Controller {
 
@@ -44,6 +41,7 @@ public class SimpleController extends Controller {
                     model.setNextPlayerMessage(PlayerMessage.PLACE_SECOND_WORKER);
                 }
                 model.setPlayerWorker(playerWorker);
+                checkVictory();
             }
             else{
                 playerWorker.getView().reportError("The cell is busy.");

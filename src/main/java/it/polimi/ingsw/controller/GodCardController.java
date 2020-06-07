@@ -143,8 +143,6 @@ public class GodCardController extends Controller{
         if(!turnCheck(move)){
             return;
         }
-        //checkVictory();
-        //qua fa la mossa
         if(!move.getPlayer().getWorker(move.getWorkerId()).getStatus()){
             move.getView().reportError("This worker can't move anywhere");
             return;
@@ -202,10 +200,10 @@ public class GodCardController extends Controller{
                     else if(model.getGCPlayer(Gods.ARTEMIS) == move.getPlayer()){
                         if(((Artemis)move.getPlayer().getGodCard()).hasUsedPower()){
                             if(((Artemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
-                                move.getView().reportError("you have to move the same worker");
+                                move.getView().reportError("You have to move the same worker");
                             }
                             else if(((Artemis)move.getPlayer().getGodCard()).getFirstMove() == model.getBoard().getCell(move.getRow(), move.getColumn())){
-                                move.getView().reportError("you can't move into the previous cell");
+                                move.getView().reportError("You can't move into the previous cell");
                             }
                             else{
                                 ((Artemis)move.getPlayer().getGodCard()).setUsedPower(false);
@@ -255,7 +253,6 @@ public class GodCardController extends Controller{
                         model.victory(move.getPlayer());
                     }
                     checkVictory();
-                    //checkCantBuild(move);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println(e.getMessage());
                 }
@@ -267,22 +264,6 @@ public class GodCardController extends Controller{
         }
 
     }
-
-    /*public synchronized void checkCantBuild(PlayerMove move){
-        Cell cell=model.getBoard().getCell(move.getRow(), move.getColumn());
-        Board board=model.getBoardClone();
-        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
-            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
-                if((x>=0 && x<=4) && (y>=0 && y<=4)){
-                    if(board.getCell(x,y).getLevel().getBlockId()!=4){
-                        return;
-                    }
-                }
-            }
-        }
-        model.loose(move.getPlayer());
-    }*/
-
 
     @Override
     protected synchronized boolean canMove(Worker worker, Player player){
@@ -359,7 +340,7 @@ public class GodCardController extends Controller{
             else if(model.getGCPlayer(Gods.PROMETHEUS)==playerBuild.getPlayer()) {
                 if(((Prometheus)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
                     if(((Prometheus)playerBuild.getPlayer().getGodCard()).getWorkerID() != playerBuild.getWorkerId()){
-                        playerBuild.getView().reportError("Utilizzare il worker precedentemente selezionato");
+                        playerBuild.getView().reportError("You have to use the same worker.");
                         return;
                     }
                     if(!((Prometheus)playerBuild.getPlayer().getGodCard()).hasBuilt()){

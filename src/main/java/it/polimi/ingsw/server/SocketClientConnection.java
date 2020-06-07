@@ -150,8 +150,11 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                         send(e.getMessage());
                     } catch (UnavailablePlayerNameException e1){
                         send(e1.getMessage());
+                        do {
                         send(new ViewMessage(MessageType.PLAYER_NAME, PlayerMessage.WELCOME,null));
                         name = in.nextLine();
+                        read = name;
+                        } while(read.isEmpty());
                     }
 
                 }

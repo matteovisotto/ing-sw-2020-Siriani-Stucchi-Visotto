@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class Hephaestus extends GodCard {
     private Cell firstBuilt;
+
+    /**
+     * {@inheritDoc}
+     */
     public Hephaestus() {
         super(Gods.HEPHAESTUS, Phase.BUILD);
     }
@@ -31,12 +35,8 @@ public class Hephaestus extends GodCard {
         this.firstBuilt = firstBuilt;
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
-
     /**
-     * This method makes a player's worker build another time, in the same cell built in this turn; it could be used only if the player decide to activate his power.
+     * This method makes a player's worker build another time, in the same cell built in this turn.
      * @param objectList contain the model of the actual game (objectList.get(0)).
      * @see Model {@link Model} In the model is contained the increaseLevel Method.
      */

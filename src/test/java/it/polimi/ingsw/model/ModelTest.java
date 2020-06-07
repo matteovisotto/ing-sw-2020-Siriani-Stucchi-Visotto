@@ -55,32 +55,6 @@ public class ModelTest {
         assertEquals(model.getActualPlayer(),players[0]);
     }
 
-   /* @Test
-    public void updateTurnLoseTest(){
-        Player[] players = new Player[2];
-        players[0] = new Player("Mario");
-        players[1] = new Player("Luigi");
-
-        Worker worker = new Worker(new Cell(0,0));
-        players[0].setWorkers(worker);
-        worker = new Worker(new Cell(0,1));
-        players[0].setWorkers(worker);
-
-        worker = new Worker(new Cell(1,0));
-        players[1].setWorkers(worker);
-        worker = new Worker(new Cell(1,1));
-        players[1].setWorkers(worker);
-
-        Model model = new Model(players,true);
-
-        players[0].getWorker(0).setStatus(false);
-        players[0].getWorker(1).setStatus(false);
-
-        model.updateTurn();
-        model.updateTurn();
-        assertTrue(model.getActualPlayer().getHasLost());
-    }*/
-
     @Test
     public void getPlayerTest(){
         Player[] players = new Player[2];
@@ -189,27 +163,6 @@ public class ModelTest {
         assertTrue(cell.getX()==playerWorker.getX() && cell.getY()==playerWorker.getY());
     }
 
-    /*@Test
-    public void testChooseCard(){
-        Player[] players = new Player[2];
-        players[0] = new Player("Mario");
-        players[1] = new Player("Luigi");
-        Model model = new Model(players,true);
-        for (int i = 0; i < 10000; i++){
-            GodCard[] godCards = model.chooseCards();
-            assertTrue(godCards[0]!=null && godCards[1]!=null && godCards[0]!=godCards[1]);
-        }
-        Player[] players2 = new Player[3];
-        players2[0] = new Player("Mario");
-        players2[1] = new Player("Luigi");
-        players2[2] = new Player("Toad");
-        Model model2 = new Model(players2,true);
-        for (int i = 0; i < 10000; i++){
-            GodCard[] godCards2 = model2.chooseCards();
-            assertTrue(godCards2[0]!=null && godCards2[1]!=null && godCards2[2]!=null && godCards2[0]!=godCards2[1] && godCards2[0]!=godCards2[2] && godCards2[1]!=godCards2[2]);
-        }
-    }*/
-
     @Test
     public void assignCardTest(){
         Player[] players = new Player[2];
@@ -273,7 +226,7 @@ public class ModelTest {
         assertTrue(model.getActualPlayer().hasWon());
     }
 
-    /*@Test
+    @Test
     public void looseTest(){
         Player[] players = new Player[3];
         players[0] = new Player("Mario");
@@ -281,8 +234,7 @@ public class ModelTest {
         players[2] = new Player("Toad");
         Model model = new Model(players, true);
         model.loose(players[0]);
-        assertTrue(model.getActualPlayer().getHasLost());
         assertEquals(2, model.getLeftPlayers());
-    }*/
+    }
 }
 

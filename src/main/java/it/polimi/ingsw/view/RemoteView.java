@@ -3,17 +3,14 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.ClientConfigurator;
-import it.polimi.ingsw.model.messageModel.GameMessage;
-import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Lobby;
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.utils.CommandParser;
 
-import java.rmi.Remote;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
@@ -52,8 +49,8 @@ public class RemoteView extends View {
         c.removeExcept(messageReceiver);
         c.asyncSend("Your opponent is: " + opponent);
         this.lobby = lobby;
-        ArrayList<String> opponents = new ArrayList<>();
-        opponents.add(opponent);
+        HashMap<String,String> opponents = new HashMap<>();
+        opponents.put(opponent,"red");
         clientConnection.asyncSend(new ClientConfigurator(2, opponents, player));
     }
 
@@ -66,9 +63,9 @@ public class RemoteView extends View {
         c.removeExcept(messageReceiver);
         c.asyncSend("Your opponents are: " + opponent1 + " and " + opponent2);
         this.lobby = lobby;
-        ArrayList<String> opponents = new ArrayList<>();
-        opponents.add(opponent1);
-        opponents.add(opponent2);
+        HashMap<String,String> opponents = new HashMap<>();
+        opponents.put(opponent1,"red");
+        opponents.put(opponent2,"green");
         clientConnection.asyncSend(new ClientConfigurator(3, opponents, player));
     }
 

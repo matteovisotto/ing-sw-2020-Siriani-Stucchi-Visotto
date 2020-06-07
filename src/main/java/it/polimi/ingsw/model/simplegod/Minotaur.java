@@ -9,17 +9,16 @@ import java.util.List;
  */
 public class Minotaur extends GodCard {
 
+    /**
+     * {@inheritDoc}
+     */
     public Minotaur() {
         super(Gods.MINOTAUR, Phase.MOVE);
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
-
     /**
      * This method makes a player's worker move into an enemy worker's cell, forcing him to move one space straight backwards to an unoccupied space at any level; it could be used only if the player decide to activate his power.
-     * @param objectList contain the worker of the Minotaur's player (objectList.get(0)), the enemy's worker (objectList.get(1)) and the cell straight backwards of the enemy's worker.
+     * @param objectList contain the worker of the Minotaur's player (objectList.get(0)), the enemy's worker (objectList.get(1)) and the cell straight backwards of the enemy's worker (objectList.get(2)).
      */
     @Override
     public void usePower(List<Object> objectList) {
