@@ -1,11 +1,25 @@
 package it.polimi.ingsw.utils;
 
+/**
+ * This class contain some utilities for parsing strings
+ */
 public class Parser {
 
+    /**
+     * This function return the capitalize version of the same stirng
+     * @param string the string to be parsed
+     * @return the string in capitalize form
+     */
     public static String toCapitalize(String string){
         return string.substring(0,1).toUpperCase() + string.substring(1).toLowerCase();
     }
 
+    /**
+     * This function is used in Initialization GUI to transform the lobbies list string to a 2dimensional array
+     * used to fill the table
+     * @param inputMessage the lobbies string list
+     * @return a matrix containing for each lobby the id, the name, number of players and the game mode
+     */
     public static String[][] parseLobbies(String inputMessage){
         String[] splitted = inputMessage.split("\n");
         String[][] lobbies = new String[splitted.length-2][4];
