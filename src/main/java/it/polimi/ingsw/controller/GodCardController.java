@@ -200,10 +200,10 @@ public class GodCardController extends Controller{
                     else if(model.getGCPlayer(Gods.ARTEMIS) == move.getPlayer()){
                         if(((Artemis)move.getPlayer().getGodCard()).hasUsedPower()){
                             if(((Artemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
-                                move.getView().reportError("you have to move the same worker");
+                                move.getView().reportError("You have to move the same worker");
                             }
                             else if(((Artemis)move.getPlayer().getGodCard()).getFirstMove() == model.getBoard().getCell(move.getRow(), move.getColumn())){
-                                move.getView().reportError("you can't move into the previous cell");
+                                move.getView().reportError("You can't move into the previous cell");
                             }
                             else{
                                 ((Artemis)move.getPlayer().getGodCard()).setUsedPower(false);
@@ -340,7 +340,7 @@ public class GodCardController extends Controller{
             else if(model.getGCPlayer(Gods.PROMETHEUS)==playerBuild.getPlayer()) {
                 if(((Prometheus)playerBuild.getPlayer().getGodCard()).hasUsedPower()){
                     if(((Prometheus)playerBuild.getPlayer().getGodCard()).getWorkerID() != playerBuild.getWorkerId()){
-                        playerBuild.getView().reportError("Utilizzare il worker precedentemente selezionato");
+                        playerBuild.getView().reportError("You have to use the same worker.");
                         return;
                     }
                     if(!((Prometheus)playerBuild.getPlayer().getGodCard()).hasBuilt()){

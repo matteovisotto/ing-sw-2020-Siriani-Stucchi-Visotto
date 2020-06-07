@@ -44,6 +44,7 @@ public class Game extends JFrame implements Observer<Object> {
     private GraphicsEnvironment ge;
     private Font customFont;
     private boolean isEnded = false;
+    private boolean alreadySend = false;
 
     public Game(final GUIClient guiClient){
         //customCursor();
@@ -1716,13 +1717,16 @@ public class Game extends JFrame implements Observer<Object> {
     public void update(Object msg) {
 
         if(msg instanceof String){
-            String message = (String) msg;
-            if(message.startsWith("ERROR: ")){
-                String errorString = message.substring(7);
-                JOptionPane.showMessageDialog(this,
-                        errorString,
-                        "Command error",
-                        JOptionPane.WARNING_MESSAGE);
+            if (!alreadySend){
+                String message = (String) msg;
+                if(message.startsWith("ERROR: ")){
+                    String errorString = message.substring(7);
+                    JOptionPane.showMessageDialog(this,
+                            errorString,
+                            "Command error",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+                alreadySend = true;
             }
         } else if (msg instanceof ViewMessage) {
             ViewMessage viewMessage = (ViewMessage) msg;
