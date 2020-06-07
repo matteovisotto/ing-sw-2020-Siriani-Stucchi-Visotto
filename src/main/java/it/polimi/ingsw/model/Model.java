@@ -72,7 +72,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This function reset the board, creating a new different Board. It's used when we want to start another game.
+     * This function resets the board, creating a new different Board. It's used when we want to start another game.
      */
     public void resetBoard(){
         this.board = new Board(turn);
@@ -377,6 +377,7 @@ public class Model extends Observable<ViewMessage> {
             player.reset();
         }
         this.playersWhoWon=0;
+        this.playersWhoLost=0;
         this.podium.clear();
         this.id = 0;
         initialize();
