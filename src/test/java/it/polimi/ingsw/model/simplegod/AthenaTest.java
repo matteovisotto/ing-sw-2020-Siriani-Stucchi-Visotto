@@ -35,7 +35,7 @@ public class AthenaTest {
         List<Object> athenaList = new ArrayList<>();
         Model model = new Model(players,true);
         athenaList.add(model);
-        Model.athenaId = model.getAthenaPlayer();
+        //Model.athenaId = model.getAthenaPlayer();
         model.getActualPlayer().getGodCard().usePower(athenaList);
         assertTrue(model.isMovedUp());
         model.updateTurn();
