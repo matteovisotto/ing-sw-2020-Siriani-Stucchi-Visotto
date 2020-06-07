@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Cell implements Serializable, Cloneable{
     private Blocks level;
     private boolean isFree = true;
+    private boolean isFull=false;
 
     private final int x;
     private final int y;
@@ -30,11 +31,16 @@ public class Cell implements Serializable, Cloneable{
      * @param level level of cloneable cell
      * @param isFree actual usage of cloneable cell
      */
-    private Cell(int x, int y, Blocks level, boolean isFree){
+    private Cell(int x, int y, Blocks level, boolean isFree, boolean isFull){
         this.x = x;
         this.y = y;
         this.isFree = isFree;
         this.level = level;
+        this.isFull=isFull;
+    }
+
+    public boolean isFull(){
+        return this.isFull;
     }
 
     /**
@@ -64,7 +70,7 @@ public class Cell implements Serializable, Cloneable{
     @Override
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
-        return new Cell(x, y, level, isFree);
+        return new Cell(x, y, level, isFree, isFull);
     }
 
     /**
@@ -92,7 +98,11 @@ public class Cell implements Serializable, Cloneable{
      * @param level the Block enum instance to assign at the cell
      */
     public void setLevel (Blocks level) {
+        if(level==Blocks.DOME && this.level==Blocks.LEVEL3){
+            this.isFull=true;
+        }
         this.level = level;
+
     }
 
     /**

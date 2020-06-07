@@ -390,6 +390,29 @@ public class GodCardController extends Controller{
         super.increaseLevel(blockId, buildingCell);
     }
 
+    private synchronized int countTowers(){
+        int counter=0;
+        Board board=model.getBoard();
+        for(int i=0; i<5;i++){
+            for(int j=0; j<5; j++){
+                if(board.getCell(i,j).isFull()){
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
+    @Override
+    protected synchronized void checkVictory() {
+        if(model.getGCPlayer(Gods.CHRONUS)!=null){
+            if(countTowers()>=5){
+                model.victory(model.getGCPlayer(Gods.CHRONUS));
+            }
+        }
+        super.checkVictory();
+    }
+
     @Override
     protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();

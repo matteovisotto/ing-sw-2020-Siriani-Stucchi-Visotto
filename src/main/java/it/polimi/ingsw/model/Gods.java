@@ -14,7 +14,13 @@ public enum Gods {
     HEPHAESTUS(5),
     MINOTAUR(6),
     PAN(7),
-    PROMETHEUS(8);
+    PROMETHEUS(8),
+    CHRONUS(9),
+    HESTIA(10),
+    POSEIDON(11),
+    TRITON(12),
+    ZEUS(13)
+    ;
 
     private final int simplegod;
 
@@ -52,6 +58,16 @@ public enum Gods {
                 return new Pan();
             case 8:
                 return new Prometheus();
+            case 9:
+                return new Chronus();
+            case 10:
+                return new Hestia();
+            case 11:
+                return new Poseidon();
+            case 12:
+                return new Triton();
+            case 13:
+                return new Zeus();
             default:
                 throw new IllegalArgumentException();
         }
