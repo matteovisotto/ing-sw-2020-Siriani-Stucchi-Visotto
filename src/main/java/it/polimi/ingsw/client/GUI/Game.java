@@ -573,14 +573,80 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void drawCards(){
+        BufferedImage image;
         final HashMap<JButton, Integer> gods = new HashMap<>();
         setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
-        BufferedImage image;
+
         final JPanel panel = new JPanel(true);
         panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,10,10));
-        for (int i=0; i<9; i++) {
+
+        final JPanel arrowPanel=new JPanel(true);
+        arrowPanel.setLayout(new GridLayout(1,2,100,10));
+        arrowPanel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight()/10));
+        arrowPanel.setOpaque(false);
+        JButton leftArrow=new JButton();
+        leftArrow.setOpaque(false);
+        leftArrow.setContentAreaFilled(false);
+        leftArrow.setBorderPainted(false);
+        leftArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
+        try{
+            image=ImageIO.read(new File("images/Miscellaneous/btn_back.png"));
+            Image normal = image.getScaledInstance(leftArrow.getWidth(), leftArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
+            leftArrow.setIcon(new ImageIcon(normal));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        leftArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Component component:gods.keySet()) {
+                    panel.remove(component);
+                }
+                for (JButton god:gods.keySet()) {
+                    if(gods.get(god)>=0 && gods.get(god)<=8)
+                    panel.add(god);
+                }
+                revalidate();
+                repaint();
+            }
+        });
+        arrowPanel.add(leftArrow);
+        JButton rightArrow=new JButton();
+        rightArrow.setOpaque(false);
+        rightArrow.setContentAreaFilled(false);
+        rightArrow.setBorderPainted(false);
+        rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
+        try{
+            image=ImageIO.read(new File("images/Miscellaneous/btn_front.png"));
+            Image normal = image.getScaledInstance(rightArrow.getWidth(), rightArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
+            rightArrow.setIcon(new ImageIcon(normal));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        rightArrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Component component:gods.keySet()) {
+                    panel.remove(component);
+                }
+                for (JButton god:gods.keySet()) {
+                    if(gods.get(god)>=9 && gods.get(god)<=13)
+                        panel.add(god);
+                }
+                revalidate();
+                repaint();
+            }
+        });
+        arrowPanel.add(rightArrow);
+        southPanel.add(arrowPanel);
+
+
+
+
+        for (int i=0; i<14; i++) {
             final JButton god = new JButton();
             god.setOpaque(false);
             god.setContentAreaFilled(false);
@@ -592,7 +658,9 @@ public class Game extends JFrame implements Observer<Object> {
                 image=ImageIO.read(new File("images/God_with_frame/"+ fileName +".png"));
                 Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
                 god.setIcon(new ImageIcon(normal));
-                panel.add(god);
+                if(i<=8){
+                    panel.add(god);
+                }
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -601,6 +669,7 @@ public class Game extends JFrame implements Observer<Object> {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     multipleSelections.add(gods.get((JButton) e.getSource()).toString());
+                    gods.remove((JButton) e.getSource());
                     panel.remove((JButton) e.getSource());
                     panel.revalidate();
                     panel.repaint();
@@ -615,10 +684,13 @@ public class Game extends JFrame implements Observer<Object> {
                             }
                             response = stringBuilder.toString();
                             guiClient.send(response);
+                            southPanel.remove(arrowPanel);
                             multipleSelections.clear();
                             centerPanel.remove(panel);
                             centerPanel.revalidate();
                             centerPanel.repaint();
+                            southPanel.revalidate();
+                            southPanel.repaint();
                         }
                     }
                 }

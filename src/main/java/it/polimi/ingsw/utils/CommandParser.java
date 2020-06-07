@@ -50,13 +50,13 @@ public class CommandParser {
                 string = string.replaceAll(" ", "");
                 s = string.split(",");//x,y,z
                 if(s.length == 2){
-                    if(Integer.parseInt(s[0]) >= 0 && Integer.parseInt(s[1]) >= 0 && Integer.parseInt(s[0]) <= 13 && Integer.parseInt(s[1]) <= 8){
+                    if(Integer.parseInt(s[0]) >= 0 && Integer.parseInt(s[1]) >= 0 && Integer.parseInt(s[0]) <= 13 && Integer.parseInt(s[1]) <= 13){
                         return new DrawedCards(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), view);
                     }
 
                 }
                 else if(s.length == 3){
-                    if(Integer.parseInt(s[0]) >= 0 && Integer.parseInt(s[1]) >= 0 && Integer.parseInt(s[0]) <= 13 && Integer.parseInt(s[1]) <= 8 && Integer.parseInt(s[2]) >= 0 && Integer.parseInt(s[2]) <= 8) {
+                    if(Integer.parseInt(s[0]) >= 0 && Integer.parseInt(s[1]) >= 0 && Integer.parseInt(s[0]) <= 13 && Integer.parseInt(s[1]) <= 13 && Integer.parseInt(s[2]) >= 0 && Integer.parseInt(s[2]) <= 13) {
                         return new DrawedCards(player, Integer.parseInt(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), view);
                     }
                 }
