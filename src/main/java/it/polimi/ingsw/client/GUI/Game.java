@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.utils.Parser;
 
-import java.util.Timer;
+import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +14,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TimerTask;
+import java.util.Timer;
 
 public class Game extends JFrame implements Observer<Object> {
 
@@ -574,7 +572,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void drawCards(){
         BufferedImage image, imagePressed;
-        final HashMap<JButton, Integer> gods = new HashMap<>();
+        final HashMap<JButton, Integer> gods = new LinkedHashMap<>();
         setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
 
         final JPanel panel = new JPanel(true);
