@@ -12,8 +12,8 @@ public class ClientApp
         try{
             if(args.length!=0){
                 if(args[0].equals("-cli")){
-                    //Client client = new Client("93.43.230.177", 15986);
-                    Client client = new Client("127.0.0.1", 15986);
+                    Client client = new Client("93.43.230.177", 15986);
+                    //Client client = new Client("127.0.0.1", 15986);
                     client.run();
                 }
                 else{
@@ -21,8 +21,8 @@ public class ClientApp
                 }
             }
             else{
-                //GUIClient client = new GUIClient("93.43.230.177", 15986);
-                GUIClient client = new GUIClient("127.0.0.1", 15986);
+                GUIClient client = new GUIClient("93.43.230.177", 15986);
+                //GUIClient client = new GUIClient("127.0.0.1", 15986);
                 client.run();
             }
         }catch (IOException e){
