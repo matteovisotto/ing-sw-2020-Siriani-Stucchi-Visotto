@@ -959,7 +959,7 @@ public class Game extends JFrame implements Observer<Object> {
                     }
 
                 }catch(Exception e){
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
 
             }
