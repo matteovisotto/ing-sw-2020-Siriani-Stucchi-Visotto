@@ -582,6 +582,28 @@ public class Game extends JFrame implements Observer<Object> {
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,10,10));
 
+        final JLabel centerSouthLabel = new JLabel();
+        centerSouthLabel.setPreferredSize(new Dimension(southPanel.getWidth(),southPanel.getHeight())); //150
+        centerSouthLabel.setSize(southPanel.getWidth(),southPanel.getHeight());
+        centerSouthLabel.setOpaque(false);
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(40f);
+            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+        centerSouthLabel.setText("Simple Gods");
+        centerSouthLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+        centerSouthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        centerSouthLabel.setVerticalAlignment(SwingConstants.CENTER);
+        centerSouthLabel.setVerticalTextPosition(SwingConstants.CENTER);
+        centerSouthLabel.setFont(customFont);
+        centerSouthLabel.setForeground(Color.BLUE);
+        southPanel.add(centerSouthLabel);
+
         final JPanel arrowPanel=new JPanel(true);
         arrowPanel.setLayout(new GridLayout(1,2,100,10));
         arrowPanel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight()/10));
@@ -612,6 +634,7 @@ public class Game extends JFrame implements Observer<Object> {
                     if(gods.get(god)>=0 && gods.get(god)<=8)
                     panel.add(god);
                 }
+                centerSouthLabel.setText("Simple Gods");
                 revalidate();
                 repaint();
             }
@@ -642,6 +665,7 @@ public class Game extends JFrame implements Observer<Object> {
                     if(gods.get(god)>=9 && gods.get(god)<=13)
                         panel.add(god);
                 }
+                centerSouthLabel.setText("Advanced Gods");
                 revalidate();
                 repaint();
             }
