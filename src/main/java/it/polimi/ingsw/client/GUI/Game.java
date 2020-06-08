@@ -716,6 +716,7 @@ public class Game extends JFrame implements Observer<Object> {
                             guiClient.send(response);
                             southPanel.remove(arrowPanel);
                             multipleSelections.clear();
+                            centerSouthLabel.setText("");
                             centerPanel.remove(panel);
                             centerPanel.revalidate();
                             centerPanel.repaint();

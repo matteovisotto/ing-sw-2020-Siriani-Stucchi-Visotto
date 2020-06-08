@@ -98,7 +98,7 @@ public class Cell implements Serializable, Cloneable{
      * @param level the Block enum instance to assign at the cell
      */
     public void setLevel (Blocks level) {
-        if(level==Blocks.DOME && this.level==Blocks.LEVEL3){
+        if(level==Blocks.DOME){
             this.isFull=true;
         }
         this.level = level;
