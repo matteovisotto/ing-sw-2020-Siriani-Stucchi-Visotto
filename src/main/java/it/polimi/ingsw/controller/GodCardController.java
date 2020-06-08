@@ -291,6 +291,21 @@ public class GodCardController extends Controller{
 
     }
 
+    public synchronized void checkCantBuild(PlayerBuild playerBuild){
+        Cell cell = model.getBoard().getCell(playerBuild.getX(), playerBuild.getY());
+        Board board = model.getBoardClone();
+        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
+            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+                if((x >= 0 && x <= 4) && (y >= 0 && y <= 4)){
+                    if(board.getCell(x,y).getLevel().getBlockId() != 4){
+                        return;
+                    }
+                }
+            }
+        }
+        model.loose(playerBuild.getPlayer());
+    }
+
     @Override
     protected synchronized boolean canMove(Worker worker, Player player){
         HashMap<Cell, Boolean> availableCells=checkCellsAround(worker);
@@ -466,7 +481,7 @@ public class GodCardController extends Controller{
             throw new IllegalArgumentException();
         }
         checkVictory();
-
+        checkCantBuild(playerBuild);
     }
 
     private boolean checkCanBuild(Worker worker){
