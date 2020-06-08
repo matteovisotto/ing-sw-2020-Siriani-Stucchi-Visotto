@@ -573,7 +573,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void drawCards(){
-        BufferedImage image;
+        BufferedImage image, imagePressed;
         final HashMap<JButton, Integer> gods = new HashMap<>();
         setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
 
@@ -593,8 +593,11 @@ public class Game extends JFrame implements Observer<Object> {
         leftArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
         try{
             image=ImageIO.read(new File("images/Miscellaneous/btn_back.png"));
+            imagePressed=ImageIO.read(new File("images/Miscellaneous/btn_back_pressed.png"));
             Image normal = image.getScaledInstance(leftArrow.getWidth(), leftArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
+            Image pressed = imagePressed.getScaledInstance(leftArrow.getWidth(), leftArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
             leftArrow.setIcon(new ImageIcon(normal));
+            leftArrow.setPressedIcon(new ImageIcon(pressed));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -621,8 +624,11 @@ public class Game extends JFrame implements Observer<Object> {
         rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
         try{
             image=ImageIO.read(new File("images/Miscellaneous/btn_front.png"));
+            imagePressed=ImageIO.read(new File("images/Miscellaneous/btn_front_pressed.png"));
             Image normal = image.getScaledInstance(rightArrow.getWidth(), rightArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
+            Image pressed = imagePressed.getScaledInstance(rightArrow.getWidth(), rightArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
             rightArrow.setIcon(new ImageIcon(normal));
+            rightArrow.setPressedIcon(new ImageIcon(pressed));
         }catch (IOException e){
             e.printStackTrace();
         }
