@@ -44,7 +44,22 @@ public class PlayerMessage {
             "\tmore levels.\n" +
 
             "8 - PROMETHEUS \n\tIf your Worker does not move up, it may build both\n" +
-            "\tbefore and after moving.";
+            "\tbefore and after moving.\n" +
+
+            "9 - CHRONUS \n\tYou also win when there are at least five\n" +
+            "\tComplete Towers on the board.\n" +
+
+            "10 - HESTIA \n\tYour Worker may build one additional time, but this\n" +
+            "\tcannot be on a perimeter space.\n" +
+
+            "11 - POSEIDON \n\tIf your unmoved Worker is on the ground level,\n " +
+            "\tit may build up to three times.\n" +
+
+            "12 - TRITON \n\tEach time your Worker moves into a perimeter\n" +
+            "\tspace, it may immediately move again.\n" +
+
+            "13 - ZEUS \n\tYour Worker may build a block under itself.\n";
+
 
 
     public static final String PICK_CARD = "Pick a card:";
