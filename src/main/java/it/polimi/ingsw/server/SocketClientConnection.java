@@ -14,6 +14,10 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This class extend the abstract  ClientConnection
+ * This is used to talk to clients throw a socket
+ */
 public class SocketClientConnection extends ClientConnection implements Runnable {
 
     private final Socket socket;
@@ -21,15 +25,30 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     private final Server server;
     private boolean active = true;
 
+    /**
+     * Class constructor
+     * @param socket Socket instance after connection is been accepted by the server
+     * @param server The main server instance which manage connections
+     */
     public SocketClientConnection(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
     }
 
+    /**
+     * Check if the connection is alreasdy active
+     * @return true if connection is active
+     */
     private synchronized boolean isActive(){
         return active;
     }
 
+    /**
+     * Using global out object, this method write the string message out in the socket
+     * @param message Object representing the message to be sent to client
+     * All type of objects are sent to client except an EndGameServerMessage object that is used
+     * to configure a new lobby at the end of the game if player wants to play again
+     */
     @Override
     public synchronized void send(Object message) {
         if(message instanceof EndGameServerMessage){
@@ -46,6 +65,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
     }
 
+    /**
+     * Call the socket close function in order to close the connection.
+     * Set isActive flag to false
+     */
     @Override
     public synchronized void closeConnection() {
         send(ConnectionMessage.CLOSE_SOCKET);
@@ -57,6 +80,9 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         active = false;
     }
 
+    /**
+     * Call closeConnection and print on standard output that a connection had being closed
+     */
     private void close() {
         closeConnection();
         System.out.println("Deregistering client...");
@@ -64,10 +90,10 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         System.out.println("Done!");
     }
 
-    public void returnToLobby(){
-        this.run();
-    }
-
+    /**
+     * This method create a new Thread runnable and from it call the send method
+     * @param message Object representing the message to be sent to client
+     */
     @Override
     public void asyncSend(final Object message){
         new Thread(new Runnable() {
@@ -78,6 +104,26 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         }).start();
     }
 
+    /**
+     * {@inheritDoc}
+     * Create a new Scanner object and use it to read from socket
+     * In this part is handled the configuration of the player
+     * First ask his name, then an action between creating a lobby or join it
+     * Case new lobby:
+     *      ask the number of players
+     *      ask the name of the lobby
+     *      ask if the player want a simple play
+     *      then call server addLobby method
+     *
+     * Case join lobby:
+     *      ask server the list of available lobbies
+     *      get the selected lobby id
+     *      call server joinLobby function
+     *
+     * After created the lobby and while the isActive flag is true notify the observer
+     * {@link it.polimi.ingsw.view.RemoteView} with the received message
+     *
+     */
     @Override
     public void run() {
         Scanner in;
