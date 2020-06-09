@@ -120,6 +120,8 @@ public class SocketClientConnection extends ClientConnection implements Runnable
      *      get the selected lobby id
      *      call server joinLobby function
      *
+     * For all configuration, if input not match the step is asked again
+     *
      * After created the lobby and while the isActive flag is true notify the observer
      * {@link it.polimi.ingsw.view.RemoteView} with the received message
      *
