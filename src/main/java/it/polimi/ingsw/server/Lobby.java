@@ -13,6 +13,9 @@ import it.polimi.ingsw.view.RemoteView;
 
 import java.util.*;
 
+/**
+ * This class represent a Lobby that is a room for a single play
+ */
 public class Lobby {
     private final int numPlayers;
     private final String lobbyName;
@@ -21,32 +24,58 @@ public class Lobby {
     private final Map<String, ClientConnection> waitingConnection = new LinkedHashMap<>();
     private final boolean simplePlay;
 
-    public Lobby(String lobbyName, String playerName, ClientConnection c, int numPlayers, boolean simplePlay){
+    /**
+     * Class constructor
+     * @param lobbyName The selected lobby name
+     * @param playerName the name of the player who created the lobby
+     * @param clientConnection the clientConnection instance of the player
+     * @param numPlayers selected number of player
+     * @param simplePlay the selected game mode
+     */
+    public Lobby(String lobbyName, String playerName, ClientConnection clientConnection, int numPlayers, boolean simplePlay){
         this.numPlayers = numPlayers;
         this.lobbyName = lobbyName;
         this.simplePlay = simplePlay;
-        connections.add(c);
-        waitingConnection.put(playerName, c);
-        c.asyncSend(new ViewMessage(MessageType.WAIT_FOR_START, PlayerMessage.WAIT_PLAYERS, Phase.WAIT_PLAYERS));
+        connections.add(clientConnection);
+        waitingConnection.put(playerName, clientConnection);
+        clientConnection.asyncSend(new ViewMessage(MessageType.WAIT_FOR_START, PlayerMessage.WAIT_PLAYERS, Phase.WAIT_PLAYERS));
     }
 
+    /**
+     *
+     * @return the name of the lobby
+     */
     public String getLobbyName(){
         return this.lobbyName;
     }
 
+    /**
+     *
+     * @return an int for the number of the player
+     */
     public int getNumPlayers(){
         return this.numPlayers;
     }
 
+    /**
+     *
+     * @return false if the lobby have space for other players
+     */
     public boolean isFull(){
         return this.isFull;
     }
 
+    /**
+     *
+     * @return true if has being selected the simpla mode
+     */
     public boolean isSimplePlay(){
         return this.simplePlay;
     }
 
-
+    /**
+     * This method remove all the players from the lobby and close their connections
+     */
     public void closeLobby() {
         for(int i = connections.size() - 1; i >= 0; i--){
             ClientConnection clientConnection = connections.get(i);
@@ -56,9 +85,19 @@ public class Lobby {
         waitingConnection.clear();
     }
 
-    public void addPlayer(String playerName, ClientConnection c) {
-        connections.add(c);
-        waitingConnection.put(playerName, c);
+    /**
+     * This method is used to add a player to the lobby
+     * @param playerName the name of the new player
+     * @param clientConnection the ClientConnection instance of the new player
+     *
+     *  When the lobby is full is called a methid to configure the beginning of the game:
+     *   twoPlayer if this.numPlayer==2 else threePlayer
+     *
+     *  If the lobby is not already full a wait message is sent to client
+     */
+    public void addPlayer(String playerName, ClientConnection clientConnection) {
+        connections.add(clientConnection);
+        waitingConnection.put(playerName, clientConnection);
 
         if(waitingConnection.size() == this.numPlayers){    //appena si riempie la stanza
             this.isFull = true;
@@ -71,26 +110,39 @@ public class Lobby {
             }
 
         } else {
-            c.asyncSend(new ViewMessage(MessageType.WAIT_FOR_START, PlayerMessage.WAIT_PLAYERS, Phase.WAIT_PLAYERS));
+            clientConnection.asyncSend(new ViewMessage(MessageType.WAIT_FOR_START, PlayerMessage.WAIT_PLAYERS, Phase.WAIT_PLAYERS));
         }
     }
 
+    /**
+     * This method send the same message to all player of the lobby.
+     * Is used only before creating model and controller
+     * @param o an object to send throw network
+     */
     private void sendAllPlayer(Object o){
         for (ClientConnection connection : connections) {
             connection.send(o);
         }
     }
 
-    private void sendAllPlayerAsync(Object o){
-        for (ClientConnection connection : connections) {
-            connection.asyncSend(o);
-        }
-    }
-
+    /**
+     * This method check if the name of the new player already exists in the lobby
+     * @param name the name chosen by the player
+     * @return true is the name doesn't exist
+     */
     public boolean isPlayerNameAvailable (String name) {
         return waitingConnection.get(name) == null;
     }
 
+    /**
+     * This method configure a play for two players
+     * @param players an array list containing the names of the player who joined the lobby
+     * For each player it create a remove view instance with his connection, the instance of the lobby,
+     *                his own player object and the name of the opponents.
+     *
+     * Then a new model object is created and also a controller: SimpleController if in a simple play
+     *              or a GodCardController otherwise
+     */
     private void twoPlayer(List<String> players){
         ClientConnection c1,c2;
         Player player1,player2;
@@ -127,6 +179,15 @@ public class Lobby {
 
     }
 
+    /**
+     * This method configure a play for three players
+     * @param players an array list containing the names of the player who joined the lobby
+     * For each player it create a remove view instance with his connection, the instance of the lobby,
+     *                his own player object and the name of the opponents.
+     *
+     * Then a new model object is created and also a controller: SimpleController if in a simple play
+     *              or a GodCardController otherwise
+     */
     private void threePlayer(List<String> players) {
         ClientConnection c1, c2, c3;
         Player player1, player2, player3;
