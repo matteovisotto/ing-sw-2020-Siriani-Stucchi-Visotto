@@ -30,6 +30,7 @@ public class Cell implements Serializable, Cloneable{
      * @param y y value of cloneable cell
      * @param level level of cloneable cell
      * @param isFree actual usage of cloneable cell
+     * @param isFull a flag if the cell has been built from leve 0 to dome
      */
     private Cell(int x, int y, Blocks level, boolean isFree, boolean isFull){
         this.x = x;
@@ -39,6 +40,9 @@ public class Cell implements Serializable, Cloneable{
         this.isFull=isFull;
     }
 
+    /**
+     * @return true if the cell has been built from level 0 to dome
+     */
     public boolean isFull(){
         return this.isFull;
     }
@@ -98,7 +102,7 @@ public class Cell implements Serializable, Cloneable{
      * @param level the Block enum instance to assign at the cell
      */
     public void setLevel (Blocks level) {
-        if(level==Blocks.DOME){
+        if(level==Blocks.DOME && this.level == Blocks.LEVEL3){
             this.isFull=true;
         }
         this.level = level;
