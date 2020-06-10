@@ -432,6 +432,15 @@ public class GodCardController extends Controller{
                     model.updateTurn();
                 }
                 godIncreaseLevel(level.getBlockId(), buildingCell);
+                if(!canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())){
+                    if(playerBuild.getPlayer().getGodCard().getCardGod()==Gods.PROMETHEUS){
+                        if(((Prometheus)playerBuild.getPlayer().getGodCard()).hasBuilt()){
+                            model.loose(playerBuild.getPlayer());
+                        }
+                    }
+                    playerBuild.getView().reportError("This worker can't move anywhere");
+                    return;
+                }
             }
             else if(model.getGCPlayer(Gods.HESTIA)==playerBuild.getPlayer()){
 
