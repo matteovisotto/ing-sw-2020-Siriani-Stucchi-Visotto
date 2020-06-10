@@ -436,6 +436,8 @@ public class Model extends Observable<ViewMessage> {
             this.playerMessage = PlayerMessage.PLACE_FIRST_WORKER;
         }
         else{
+            playerCards.clear();
+            gods.clear();
             this.phase = Phase.DRAWCARD;
             this.messageType = MessageType.DRAW_CARD;
             this.playerMessage = PlayerMessage.DRAW_CARD;
@@ -445,7 +447,6 @@ public class Model extends Observable<ViewMessage> {
         }
         this.playersWhoWon=0;
         this.playersWhoLost=0;
-        this.podium.clear();
         this.id = 0;
         initialize();
     }

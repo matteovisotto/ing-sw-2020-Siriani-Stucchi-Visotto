@@ -87,6 +87,10 @@ public abstract class Controller implements Observer<Message> {
             activeClients.put(newGameMessage.getPlayer(), newGameMessage.getClientConnection());
             if(counter == model.getNumOfPlayers()){
                 //TODO model reset
+                counter=0;
+                answers=0;
+                activeClients.clear();
+                playersName.clear();
                 model.startOver();
             } else if(answers == model.getNumOfPlayers()){
                 for (Map.Entry<Player, ClientConnection> names: activeClients.entrySet()) {
