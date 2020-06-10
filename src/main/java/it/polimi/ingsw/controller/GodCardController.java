@@ -198,10 +198,10 @@ public class GodCardController extends Controller{
                         model.move(move);
                     }
                     else if(model.getGCPlayer(Gods.ARTEMIS) == move.getPlayer()){
-                        if(canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())==1){
-                            model.loose(move.getPlayer());
-                        }
                         if(((Artemis)move.getPlayer().getGodCard()).hasUsedPower()){
+                            if(canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())==1){
+                                model.loose(move.getPlayer());
+                            }
                             if(((Artemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
                                 move.getView().reportError("You have to move the same worker");
                             }
