@@ -251,47 +251,23 @@ public class Game extends JFrame implements Observer<Object> {
             JLabel nameLabel = new JLabel();
             JLabel godLabel = new JLabel();
             value = 0.2;
-            nameLabel.setSize((playerPanel.getWidth()), (int) (playerPanel.getHeight() * value));
+            setJLabelProperties(nameLabel,0,0,25f,Color.WHITE,(playerPanel.getWidth()), (int) (playerPanel.getHeight() * value) );
             value = 2;
-            godLabel.setSize((playerPanel.getWidth()), (int) (playerPanel.getHeight() * value) / 2);
-            BufferedImage god, frame;
+            setJLabelProperties(godLabel, 0,0,25f, Color.WHITE,(playerPanel.getWidth()), (int) (playerPanel.getHeight() * value) / 2);
+            String path;
             if (isSimplePlay){
-                try {
-                    frame = ImageIO.read(new File("images/myNameFrame.png"));
-                    god = ImageIO.read(new File("images/enemy_player.png"));
-                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    nameLabel.setIcon(new ImageIcon(frameImage));
-                    godLabel.setIcon(new ImageIcon(godImage));
-                    godLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                path="images/enemy_player.png";
             }
             else {
                 myGod.put(gameMessage.getPlayer().getPlayerName(), gameMessage.getPlayer().getGodCard().getName());
-                System.out.println(gameMessage.getPlayer().getPlayerName());
+                //System.out.println(gameMessage.getPlayer().getPlayerName());
                 String godName = myGod.get(gameMessage.getPlayer().getPlayerName());
-                try {
-                    frame = ImageIO.read(new File("images/myNameFrame.png"));
-                    god = ImageIO.read(new File("images/God_with_frame/" + Parser.toCapitalize(godName) + ".png"));
-                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    nameLabel.setIcon(new ImageIcon(frameImage));
-                    godLabel.setIcon(new ImageIcon(godImage));
-                    godLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                path="images/God_with_frame/" + Parser.toCapitalize(godName) + ".png";
             }
-            nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-            nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            nameLabel.setVerticalTextPosition(SwingConstants.CENTER);
-            nameLabel.setVerticalAlignment(SwingConstants.CENTER);
-            nameLabel.setFont(customFont);
+            nameLabel.setIcon(loadImage("images/myNameFrame.png", nameLabel.getWidth(), nameLabel.getHeight()));
+            godLabel.setIcon(loadImage(path, godLabel.getWidth(), godLabel.getHeight()));
             int maxLength = Math.min(gameMessage.getPlayer().getPlayerName().length(), 9);
             nameLabel.setText(gameMessage.getPlayer().getPlayerName().substring(0,maxLength));
-            nameLabel.setForeground(Color.WHITE);
             playerPanel.add(nameLabel, BorderLayout.NORTH);
             playerPanel.add(godLabel, BorderLayout.CENTER);
             myPanel.add(playerPanel, BorderLayout.NORTH);
@@ -309,7 +285,7 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.setLayout(new GridLayout(opponentGods.size(), 1, 0, 0));
             opponentsPanel.setSize(rightPanel.getWidth()/2, 230 * opponentGods.size());
             for (String opponentName : opponentGods.keySet()) {
-                System.out.println(opponentName);
+                //System.out.println(opponentName);
                 String godName = opponentGods.get(opponentName);
                 JPanel playerPanel = new JPanel(true);
                 playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() * 11/10 / opponentGods.size());
@@ -318,9 +294,11 @@ public class Game extends JFrame implements Observer<Object> {
                 JLabel nameLabel = new JLabel();
                 JLabel godLabel = new JLabel();
                 value = 0.304347826;
-                nameLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value));
+                setJLabelProperties(nameLabel, 0,0,20f, Color.WHITE,(playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value));
+                //nameLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value));
                 value = 1.7391304347826;
-                godLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1);
+                setJLabelProperties(godLabel, 0,0, 20f, Color.WHITE,(playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1);
+                //godLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1);
                 BufferedImage god, frame;
                 String filename = "";
                 if (clientConfigurator.getOpponentsNames().get(opponentName).equals("red")){
@@ -340,12 +318,8 @@ public class Game extends JFrame implements Observer<Object> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-                nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                nameLabel.setFont(customFont);
                 int maxLength = Math.min(opponentName.length(), 9);
                 nameLabel.setText(opponentName.substring(0,maxLength));
-                nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
                 playerPanel.add(godLabel, BorderLayout.CENTER);
                 opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
