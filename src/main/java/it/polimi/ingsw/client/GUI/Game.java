@@ -86,15 +86,13 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color){
-        label.setLayout(new BorderLayout(10, 10));
+        label.setLayout(new BorderLayout(hgap, vgap));
         label.setPreferredSize(new Dimension(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //150
         label.setSize(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
         label.setOpaque(false);
         try {
-            //create the font to use. Specify the size!
             customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(fontDimension);
             ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
             ge.registerFont(customFont);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
