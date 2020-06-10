@@ -612,15 +612,9 @@ public class Game extends JFrame implements Observer<Object> {
             final JButton god = new JButton();
             setJButtonProperties(god);
             god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
-            try {
-                String fileName = godsName.get(i);
-                image = ImageIO.read(new File("images/God_with_frame/" + fileName + ".png"));
-                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
-                god.setIcon(new ImageIcon(normal));
-                panel.add(god);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String fileName = godsName.get(i);
+            god.setIcon(loadImage("images/God_with_frame/" + fileName + ".png",god.getWidth(), god.getHeight()));
+            panel.add(god);
             gods.put(god, i);
             god.addActionListener(new ActionListener() {
                 @Override
@@ -864,46 +858,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void removeBoard(){
-        for (Component component: leftPanel.getComponents()){
-            leftPanel.remove(component);
-        }
-        mainPanel.remove(leftPanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-        for (Component component: rightPanel.getComponents()){
-            rightPanel.remove(component);
-        }
-        mainPanel.remove(rightPanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-        for (Component component: southPanel.getComponents()){
-            southPanel.remove(component);
-        }
-        mainPanel.remove(southPanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-        for (Component component: initialBoardPanel.getComponents()){
-            initialBoardPanel.remove(component);
-        }
-        centerPanel.remove(initialBoardPanel);
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        for (Component component: messageLabel.getComponents()){
-            messageLabel.remove(component);
-        }
-        centerPanel.remove(messageLabel);
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        removeOverlayPanel();
-        for (Component component: centerPanel.getComponents()){
-            centerPanel.remove(component);
-        }
-        mainPanel.remove(centerPanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-        for (Component component: mainPanel.getComponents()){
-            mainPanel.remove(component);
-        }
+        mainPanel.removeAll();
         mainPanel.revalidate();
         mainPanel.repaint();
     }
@@ -911,63 +866,20 @@ public class Game extends JFrame implements Observer<Object> {
     private void endGame(HashMap<Player, Integer> podium){
         removeBoard();
         endGamePanel = new JPanel();
-        endGamePanel.setLayout(new BorderLayout(0,0));
-        endGamePanel.setPreferredSize(new Dimension(mainPanel.getWidth(), mainPanel.getHeight()));
-        endGamePanel.setSize(mainPanel.getWidth(), mainPanel.getHeight());
-        endGamePanel.setOpaque(false);
+        setJPanelProperties(endGamePanel,0,0,mainPanel.getWidth(), mainPanel.getHeight());
         mainPanel.add(endGamePanel);
         endGameImage = new JLabel();
         endGameImage.setPreferredSize(new Dimension(endGamePanel.getWidth(), endGamePanel.getHeight()));
         endGameImage.setSize(endGamePanel.getWidth(), endGamePanel.getHeight());
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File("images/End_game.png"));
-            Image dimg = img.getScaledInstance(endGameImage.getWidth(),endGameImage.getHeight(), Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            endGameImage.setIcon(imageIcon);
-            mainPanel.add(endGameImage, BorderLayout.CENTER);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        endGameImage.setIcon(loadImage("images/End_game.png", endGameImage.getWidth(),endGameImage.getHeight()));
+        mainPanel.add(endGameImage, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();
         setJPanelsOnEndGame(podium);
     }
 
     private void removeEndGameLayout(){
-        for (Component component: southPanel.getComponents()){
-            southPanel.remove(component);
-        }
-        endGamePanel.remove(southPanel);
-        endGamePanel.revalidate();
-        endGamePanel.repaint();
-        for (Component component: endGamePanelPlayers.getComponents()){
-            endGamePanelPlayers.remove(component);
-        }
-        endGamePanel.remove(endGamePanelPlayers);
-        endGamePanel.revalidate();
-        endGamePanel.repaint();
-        for (Component component: playAgain.getComponents()){
-            playAgain.remove(component);
-        }
-        endGamePanel.remove(playAgain);
-        endGamePanel.revalidate();
-        endGamePanel.repaint();
-        for (Component component: exitGame.getComponents()){
-            exitGame.remove(component);
-        }
-        endGamePanel.remove(exitGame);
-        endGamePanel.revalidate();
-        endGamePanel.repaint();
-        for (Component component: messageLabel.getComponents()){
-            messageLabel.remove(component);
-        }
-        endGamePanel.remove(messageLabel);
-        endGamePanel.revalidate();
-        endGamePanel.repaint();
-        for (Component component: endGamePanel.getComponents()){
-            endGamePanel.remove(component);
-        }
+        endGamePanel.removeAll();
         remove(endGamePanel);
         mainPanel.revalidate();
         mainPanel.repaint();
