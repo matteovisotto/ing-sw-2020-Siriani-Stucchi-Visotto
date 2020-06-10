@@ -319,7 +319,6 @@ public class Game extends JFrame implements Observer<Object> {
             myPanel.setAlignmentX(SwingConstants.CENTER);
             leftPanel.add(myPanel, BorderLayout.NORTH);
         }catch (Exception e){
-            System.out.println("From function");
             e.printStackTrace();
         }
     }
@@ -376,7 +375,6 @@ public class Game extends JFrame implements Observer<Object> {
             rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
 
         }catch (Exception e){
-            System.out.println("From function");
             e.printStackTrace();
         }
     }
@@ -434,7 +432,6 @@ public class Game extends JFrame implements Observer<Object> {
             rightPanel.add(opponentsPanel, BorderLayout.SOUTH);
 
         }catch (Exception e){
-            System.out.println("From function");
             e.printStackTrace();
         }
     }
