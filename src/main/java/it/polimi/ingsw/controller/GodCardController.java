@@ -148,6 +148,11 @@ public class GodCardController extends Controller{
                 model.loose(move.getPlayer());
         }
         if(!move.getPlayer().getWorker(move.getWorkerId()).getStatus()){
+            if(move.getPlayer().getGodCard().getCardGod()==Gods.PROMETHEUS){
+                if(((Prometheus)move.getPlayer().getGodCard()).hasBuilt()){
+                    model.loose(move.getPlayer());
+                }
+            }
             move.getView().reportError("This worker can't move anywhere");
             return;
         }
