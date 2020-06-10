@@ -69,6 +69,13 @@ public class Game extends JFrame implements Observer<Object> {
         setCursor(cursor);
     }
 
+    private void setJButtonProperties(JButton button){
+        button.setBorder(BorderFactory.createEmptyBorder());
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+    }
+
     private void setLayout() {
         background = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -96,9 +103,10 @@ public class Game extends JFrame implements Observer<Object> {
         add(mainPanel);
 
         startPlayBtn = new JButton();
-        startPlayBtn.setOpaque(false);
+        /*startPlayBtn.setOpaque(false);
         startPlayBtn.setContentAreaFilled(false);
-        startPlayBtn.setBorderPainted(false);
+        startPlayBtn.setBorderPainted(false);*/
+        setJButtonProperties(startPlayBtn);
         startPlayBtn.setSize(526*3/4,644*3/4);
         BufferedImage normalImage, pressedImage;
         try {
@@ -518,10 +526,11 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
-                cell.setBorder(BorderFactory.createEmptyBorder());
+                /*cell.setBorder(BorderFactory.createEmptyBorder());
                 cell.setOpaque(false);
                 cell.setContentAreaFilled(false);
-                cell.setBorderPainted(false);
+                cell.setBorderPainted(false);*/
+                setJButtonProperties(cell);
                 cell.setSize(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5);
                 try{
                     image = ImageIO.read(new File("images/blue_square.png"));
@@ -550,12 +559,9 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 board[i][j] = new JButton();
-                board[i][j].setOpaque(false);
-                board[i][j].setContentAreaFilled(false);
-                board[i][j].setBorderPainted(false);
+                setJButtonProperties(board[i][j]);
                 board[i][j].setPreferredSize(new Dimension(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5));
                 board[i][j].setSize(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5);
-                board[i][j].setBorder(BorderFactory.createEmptyBorder());
                 board[i][j].setEnabled(false);
                 board[i][j].setVisible(false);
                 initialBoardPanel.add(board[i][j]);
@@ -601,9 +607,7 @@ public class Game extends JFrame implements Observer<Object> {
         arrowPanel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight()/10));
         arrowPanel.setOpaque(false);
         JButton leftArrow=new JButton();
-        leftArrow.setOpaque(false);
-        leftArrow.setContentAreaFilled(false);
-        leftArrow.setBorderPainted(false);
+        setJButtonProperties(leftArrow);
         leftArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
         try{
             image=ImageIO.read(new File("images/Miscellaneous/btn_back.png"));
@@ -633,9 +637,7 @@ public class Game extends JFrame implements Observer<Object> {
         });
         arrowPanel.add(leftArrow);
         JButton rightArrow=new JButton();
-        rightArrow.setOpaque(false);
-        rightArrow.setContentAreaFilled(false);
-        rightArrow.setBorderPainted(false);
+        setJButtonProperties(leftArrow);
         rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
         try{
             image=ImageIO.read(new File("images/Miscellaneous/btn_front.png"));
@@ -670,9 +672,7 @@ public class Game extends JFrame implements Observer<Object> {
 
         for (int i=0; i<14; i++) {
             final JButton god = new JButton();
-            god.setOpaque(false);
-            god.setContentAreaFilled(false);
-            god.setBorderPainted(false);
+            setJButtonProperties(god);
             god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
             try{
                 String fileName = Gods.getGod(i).toString();
@@ -746,9 +746,7 @@ public class Game extends JFrame implements Observer<Object> {
         panel.setLayout(new GridLayout(2,2,0,0));
         for (int i = 0; i < godsName.size(); i++) {
             final JButton god = new JButton();
-            god.setOpaque(false);
-            god.setContentAreaFilled(false);
-            god.setBorderPainted(false);
+            setJButtonProperties(god);
             god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
             try {
                 String fileName = godsName.get(i);
@@ -1162,9 +1160,7 @@ public class Game extends JFrame implements Observer<Object> {
         playAgain.setOpaque(false);
         JButton playAgainButton = new JButton();
         playAgainButton.setSize(playAgain.getWidth()/2, playAgain.getHeight()/4);
-        playAgainButton.setOpaque(false);
-        playAgainButton.setContentAreaFilled(false);
-        playAgainButton.setBorderPainted(false);
+        setJButtonProperties(playAgainButton);
 
         playAgainButton.setHorizontalAlignment(SwingConstants.CENTER);
         BufferedImage imagePlay, imagePlayPressed;
@@ -1198,9 +1194,7 @@ public class Game extends JFrame implements Observer<Object> {
         exitGame.setOpaque(false);
         JButton exitButton = new JButton();
         exitButton.setSize(exitGame.getWidth()/2, exitGame.getHeight()/4);
-        exitButton.setOpaque(false);
-        exitButton.setContentAreaFilled(false);
-        exitButton.setBorderPainted(false);
+        setJButtonProperties(exitButton);
 
         exitButton.setHorizontalAlignment(SwingConstants.CENTER);
         BufferedImage image, image2;
@@ -1538,12 +1532,8 @@ public class Game extends JFrame implements Observer<Object> {
         no.setBorder(BorderFactory.createLineBorder(Color.black));*/
         yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
         no.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
-        yes.setOpaque(false);
-        no.setOpaque(false);
-        yes.setContentAreaFilled(false);
-        no.setContentAreaFilled(false);
-        yes.setBorderPainted(false);
-        no.setBorderPainted(false);
+        setJButtonProperties(yes);
+        setJButtonProperties(no);
 
         yes.setHorizontalAlignment(SwingConstants.LEFT);
         no.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -1653,17 +1643,13 @@ public class Game extends JFrame implements Observer<Object> {
         //internalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         JButton yes = new JButton();
-        /*yes.setBorder(BorderFactory.createLineBorder(Color.black));
-        no.setBorder(BorderFactory.createLineBorder(Color.black));*/
         yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
         yes.setOpaque(false);
         yes.setContentAreaFilled(false);
         yes.setBorderPainted(false);
         yes.setHorizontalAlignment(SwingConstants.CENTER);
-        /*yes.setVerticalAlignment(SwingConstants.SOUTH);
-        no.setVerticalAlignment(SwingConstants.SOUTH);*/
-        Image n, n2;
-        Image np, n2p;
+        Image n;
+        Image np;
         try{
             image=ImageIO.read(new File("images/GodPower/btn_ok.png")); //DA CAMBIARE CON UN'IMMAGINE CON SCRITTO SOLO OK
             n = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -1683,8 +1669,6 @@ public class Game extends JFrame implements Observer<Object> {
             }
         });
 
-
-        //internalPanel.setPreferredSize(new Dimension(godPanel.getWidth(), godPanel.getHeight()/3));
         internalPanel.add(yes);
         internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
         godPanel.add(internalPanel, BorderLayout.SOUTH);
