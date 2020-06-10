@@ -67,8 +67,8 @@ public abstract class Controller implements Observer<Message> {
         //in questo for controllo
         try{
             for(int i = 0; i < model.getNumOfPlayers(); i++){
-                players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0), players[i]));
-                players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1), players[i]));
+                players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0), players[i])!=0);
+                players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1), players[i])!=0);
                 //se tutti e due non si possono muovere
                 if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
                     model.loose(players[i]);
@@ -116,19 +116,20 @@ public abstract class Controller implements Observer<Message> {
 
     }
 
-    protected synchronized boolean canMove(Worker worker, Player player){
+    protected synchronized int canMove(Worker worker, Player player){
         Cell actualCell = worker.getCell();
+        int numOfAvailableCells=0;
         for (int x = actualCell.getX() - 1; x <= actualCell.getX() + 1; x++) {
             for (int y = actualCell.getY() - 1; y <= actualCell.getY() + 1; y++) {
                 if(x >= 0 && y >= 0 && x < 5 && y < 5){
                     Cell nextCell = model.getBoard().getCell(x,y);
                     if(nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId() < 2) && nextCell.getLevel().getBlockId() != 4){
-                        return true;
+                        numOfAvailableCells++;
                     }
                 }
             }
         }
-        return false;
+        return numOfAvailableCells;
     }
 
     protected abstract HashMap<Cell, Boolean> checkCellsAround (Worker worker);

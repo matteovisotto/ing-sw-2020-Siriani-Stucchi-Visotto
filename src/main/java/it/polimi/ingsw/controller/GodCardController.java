@@ -143,7 +143,7 @@ public class GodCardController extends Controller{
         if(!turnCheck(move)){
             return;
         }
-        if(!canMove(move.getPlayer().getWorker(move.getWorkerId()),move.getPlayer()) && model.getGCPlayer(Gods.TRITON)==move.getPlayer()){
+        if(canMove(move.getPlayer().getWorker(move.getWorkerId()),move.getPlayer())==0 && model.getGCPlayer(Gods.TRITON)==move.getPlayer()){
             if(((Triton)move.getPlayer().getGodCard()).getUsedWorkerID()!=-1)
                 model.loose(move.getPlayer());
         }
@@ -198,7 +198,7 @@ public class GodCardController extends Controller{
                         model.move(move);
                     }
                     else if(model.getGCPlayer(Gods.ARTEMIS) == move.getPlayer()){
-                        if(!canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())){
+                        if(canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())==1){
                             model.loose(move.getPlayer());
                         }
                         if(((Artemis)move.getPlayer().getGodCard()).hasUsedPower()){
@@ -306,14 +306,15 @@ public class GodCardController extends Controller{
     }
 
     @Override
-    protected synchronized boolean canMove(Worker worker, Player player){
+    protected synchronized int canMove(Worker worker, Player player){
         HashMap<Cell, Boolean> availableCells=checkCellsAround(worker);
+        int numOfAvailableCells=0;
         for (Boolean can:availableCells.values()) {
             if(can){
-                return true;
+                numOfAvailableCells++;
             }
         }
-        return false;
+        return numOfAvailableCells;
     }
 
     @Override
@@ -426,7 +427,7 @@ public class GodCardController extends Controller{
                     model.updateTurn();
                 }
                 godIncreaseLevel(level.getBlockId(), buildingCell);
-                if(!canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())){
+                if(canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())==0){
                     if(playerBuild.getPlayer().getGodCard().getCardGod()==Gods.PROMETHEUS){
                         if(((Prometheus)playerBuild.getPlayer().getGodCard()).hasBuilt()){
                             model.loose(playerBuild.getPlayer());
