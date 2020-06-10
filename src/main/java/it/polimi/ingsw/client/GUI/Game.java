@@ -172,6 +172,20 @@ public class Game extends JFrame implements Observer<Object> {
 
     }
 
+    private ImageIcon loadImage(String path, int width, int height){
+        BufferedImage img;
+        ImageIcon imageIcon;
+        try {
+            img = ImageIO.read(new File(path));
+            Image dimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(dimg);
+        } catch (IOException e) {
+            e.printStackTrace();
+            imageIcon=null;
+        }
+        return imageIcon;
+    }
+
     private synchronized void initGame() {
         value = 0.484375;
         this.setEnabled(true);
@@ -182,16 +196,8 @@ public class Game extends JFrame implements Observer<Object> {
         this.setSize(d);
         setContentPane(background);
         add(mainPanel);
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File("images/SantoriniBoard.png"));
-            Image dimg = img.getScaledInstance(d.width, d.height,
-                    Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            background.setIcon(imageIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        background.setIcon(loadImage("images/SantoriniBoard.png", d.width, d.height));
 
         centerPanel = new JPanel(true);
         setJPanelProperties(centerPanel, 10,10,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
@@ -215,15 +221,8 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel = new JLabel();
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
 
-        try {
-            img = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
-            Image dimg = img.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
-                    Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            messageLabel.setIcon(imageIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        messageLabel.setIcon(loadImage("images/Santorini_GenericPopup.png", messageLabel.getWidth(), messageLabel.getHeight()));
+
         centerPanel.add(messageLabel, BorderLayout.NORTH);
 
         addInitialBoard();
