@@ -75,20 +75,19 @@ public class Game extends JFrame implements Observer<Object> {
         button.setBorderPainted(false);
         button.setOpaque(false);
         button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
     }
 
-    private void setJPanelProperties(JPanel panel, int hgap, int vgap){
+    private void setJPanelProperties(JPanel panel, int hgap, int vgap, int width, int height){
         panel.setLayout(new BorderLayout(hgap, vgap));
-        panel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), mainPanel.getHeight())); //565
-        panel.setSize((int)(mainPanel.getWidth() * value), mainPanel.getHeight());
+        panel.setPreferredSize(new Dimension(width, height)); //565
+        panel.setSize(width, height);
         panel.setOpaque(false);
     }
 
-    private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color){
+    private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color, int width, int height){
         label.setLayout(new BorderLayout(hgap, vgap));
-        label.setPreferredSize(new Dimension(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //150
-        label.setSize(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
+        label.setPreferredSize(new Dimension(width, height)); //150
+        label.setSize(width, height);
         label.setOpaque(false);
         try {
             customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(fontDimension);
@@ -100,8 +99,6 @@ public class Game extends JFrame implements Observer<Object> {
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setFont(customFont);
-        label.setPreferredSize(new Dimension(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //120
-        label.setSize(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value)); //120
         label.setForeground(color);
     }
 
@@ -197,41 +194,30 @@ public class Game extends JFrame implements Observer<Object> {
         }
 
         centerPanel = new JPanel(true);
-        centerPanel.setLayout(new BorderLayout(10, 10));
-        centerPanel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389))); //930
-        centerPanel.setSize((int)(mainPanel.getWidth() * value), (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
-        centerPanel.setOpaque(false);
-        //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        setJPanelProperties(centerPanel, 10,10,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         value = 0.1389;
         southPanel = new JLabel();
-        setJLabelProperties(southPanel, 10,10,40f, Color.RED);
-        /*southPanel.setHorizontalTextPosition(SwingConstants.CENTER);
-        southPanel.setHorizontalAlignment(SwingConstants.CENTER);
-        southPanel.setFont(customFont);
-        southPanel.setForeground(Color.RED);*/
-
+        setJLabelProperties(southPanel, 10,10,40f, Color.RED,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         value = 0.2942708;
         leftPanel = new JPanel(true);
-        setJPanelProperties(leftPanel,10,50);
+        setJPanelProperties(leftPanel,10,50, (int)(mainPanel.getWidth() * value), mainPanel.getHeight());
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new JPanel(true);
-        setJPanelProperties(rightPanel,10,10);
+        setJPanelProperties(rightPanel,10,10,(int)(mainPanel.getWidth() * value), mainPanel.getHeight());
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
         value = 0.1111111111;
         messageLabel = new JLabel();
-        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE);
+        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
 
-
-        BufferedImage messageBoard;
         try {
-            messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
-            Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
+            img = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
+            Image dimg = img.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(),
                     Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(dimg);
             messageLabel.setIcon(imageIcon);
@@ -267,7 +253,6 @@ public class Game extends JFrame implements Observer<Object> {
             JLabel godLabel = new JLabel();
             value = 0.2;
             nameLabel.setSize((playerPanel.getWidth()), (int) (playerPanel.getHeight() * value)); //70
-            //value = 1.7391304347826;
             value = 2;
             godLabel.setSize((playerPanel.getWidth()), (int) (playerPanel.getHeight() * value) / 2); //400
             BufferedImage god, frame;
@@ -286,7 +271,6 @@ public class Game extends JFrame implements Observer<Object> {
             }
             else {
                 myGod.put(gameMessage.getPlayer().getPlayerName(), gameMessage.getPlayer().getGodCard().getName());
-                //myPanel.setBorder(BorderFactory.createLineBorder(Color.black));
                 System.out.println(gameMessage.getPlayer().getPlayerName());
                 String godName = myGod.get(gameMessage.getPlayer().getPlayerName());
                 try {
@@ -760,6 +744,17 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.repaint();
     }
 
+    private void sendCell(ActionEvent e){
+        StringBuilder stringBuilder = new StringBuilder();
+        chosenCellX = cellsX.get((JButton) e.getSource()).toString();
+        chosenCellY = cellsY.get((JButton) e.getSource()).toString();
+        stringBuilder.append(chosenCellX);
+        stringBuilder.append(",");
+        stringBuilder.append(chosenCellY);
+        response = stringBuilder.toString();
+        guiClient.send(response);
+    }
+
     public void placeWorker(Board board) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
@@ -769,14 +764,7 @@ public class Game extends JFrame implements Observer<Object> {
                 ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        StringBuilder stringBuilder = new StringBuilder();
-                        chosenCellX = cellsX.get((JButton) e.getSource()).toString();
-                        chosenCellY = cellsY.get((JButton) e.getSource()).toString();
-                        stringBuilder.append(chosenCellX);
-                        stringBuilder.append(",");
-                        stringBuilder.append(chosenCellY);
-                        response = stringBuilder.toString();
-                        guiClient.send(response);
+                        sendCell(e);
                         if(messageType==MessageType.SET_WORKER_2){
                             player.setWorkers(new Worker(new Cell(Integer.parseInt(chosenCellX), Integer.parseInt(chosenCellY))));
                         }
@@ -901,14 +889,7 @@ public class Game extends JFrame implements Observer<Object> {
                         ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                StringBuilder stringBuilder = new StringBuilder();
-                                chosenCellX = cellsX.get((JButton) e.getSource()).toString();
-                                chosenCellY = cellsY.get((JButton) e.getSource()).toString();
-                                stringBuilder.append(chosenCellX);
-                                stringBuilder.append(",");
-                                stringBuilder.append(chosenCellY);
-                                response = stringBuilder.toString();
-                                guiClient.send(response);
+                                sendCell(e);
                             }
                         });
                         (initialBoardPanel.getComponent(i*5+j)).setEnabled(true);
@@ -1124,7 +1105,6 @@ public class Game extends JFrame implements Observer<Object> {
         value = 0.552083;
         endGamePanelPlayers.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389))); //1060
         endGamePanelPlayers.setSize((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
-        //endGamePanelPlayers.setBorder(BorderFactory.createLineBorder(Color.black));
         endGamePanelPlayers.setOpaque(false);
         endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
 
@@ -1281,26 +1261,17 @@ public class Game extends JFrame implements Observer<Object> {
         }
 
         JPanel winnerPanel = new JPanel();
-        winnerPanel.setLayout(new BorderLayout(0,0));
-        winnerPanel.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2));
-        winnerPanel.setSize(endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2);
-        winnerPanel.setOpaque(false);
+        setJPanelProperties(winnerPanel,0,0,endGamePanelPlayers.getWidth()/2,endGamePanelPlayers.getHeight()/2);
+
         JLabel winnerName = new JLabel();
-        winnerName.setPreferredSize(new Dimension((int)(winnerPanel.getWidth() * name),(int)(winnerPanel.getHeight() * height)));
-        winnerName.setSize((int)(winnerPanel.getWidth() * name),(int)(winnerPanel.getHeight() * height));
-        winnerName.setOpaque(false);
-        winnerName.setHorizontalAlignment(SwingConstants.CENTER);
-        winnerName.setFont(customFont);
+        setJLabelProperties(winnerName, 0,0,25f,Color.WHITE, (int)(winnerPanel.getWidth() * name),(int)(winnerPanel.getHeight() * height));
         int maxLength = Math.min(realPodiumNames[0].length(), 9);
         winnerName.setText(realPodiumNames[0].substring(0,maxLength));
-        winnerName.setForeground(Color.WHITE);
         winnerName.setHorizontalTextPosition(SwingConstants.CENTER);
         JLabel winner = new JLabel();
         value = 0.6;
-        winner.setPreferredSize(new Dimension((int)(winnerPanel.getWidth() * value),(int)(winnerPanel.getHeight() * value2)));
-        winner.setSize((int)(winnerPanel.getWidth() * value),(int)(winnerPanel.getHeight() * value2));
-        winner.setOpaque(false);
-        winner.setHorizontalAlignment(SwingConstants.CENTER);
+        setJLabelProperties(winner,0,0, 25f,Color.WHITE, (int)(winnerPanel.getWidth() * value),(int)(winnerPanel.getHeight() * value2));
+
         BufferedImage imgWinner, imgNameWinner;
         try {
             imgWinner = ImageIO.read(new File("images/Podium_win/"+Parser.toCapitalize(s[0])+"_podium_win.png"));
@@ -1332,32 +1303,19 @@ public class Game extends JFrame implements Observer<Object> {
         losers.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
         losers.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
         losers.setOpaque(false);
-        loserPanel1.setLayout(new BorderLayout(0,0));
-        loserPanel1.setPreferredSize(new Dimension(losers.getWidth()/2,losers.getHeight()));
-        loserPanel1.setSize(losers.getWidth()/2,losers.getHeight());
-        loserPanel1.setOpaque(false);
-        loserPanel2.setLayout(new BorderLayout(0,0));
-        loserPanel2.setPreferredSize(new Dimension(losers.getWidth()/2,losers.getHeight()));
-        loserPanel2.setSize(losers.getWidth()/2,losers.getHeight());
-        loserPanel2.setOpaque(false);
+        setJPanelProperties(loserPanel1,0,0,losers.getWidth()/2,losers.getHeight());
+        setJPanelProperties(loserPanel2,0,0,losers.getWidth()/2,losers.getHeight());
         BufferedImage imgLoser, imgNameLoser;
         JLabel loser1 = new JLabel();
         JLabel loserName1 = new JLabel();
         JLabel loser2 = new JLabel();
         JLabel loserName2 = new JLabel();
-        loser1.setPreferredSize(new Dimension((int)(loserPanel1.getWidth() * value),(int)(loserPanel1.getHeight() * value2)));
-        loser1.setSize((int)(loserPanel1.getWidth() * value),(int)(loserPanel1.getHeight() * value2));
-        loser1.setOpaque(false);
-        loser1.setHorizontalAlignment(SwingConstants.CENTER);
-        loserName1.setPreferredSize(new Dimension((int)(loserPanel1.getWidth() * name),(int)(loserPanel1.getHeight() * height)));
-        loserName1.setSize((int)(loserPanel1.getWidth() * name),(int)(loserPanel1.getHeight() * height));
-        loserName1.setOpaque(false);
-        loserName1.setHorizontalAlignment(SwingConstants.CENTER);
-        loserName1.setFont(customFont);
+
+        setJLabelProperties(loser1, 0,0, 25f, Color.WHITE,(int)(loserPanel1.getWidth() * value),(int)(loserPanel1.getHeight() * value2));
+        setJLabelProperties(loserName1, 0,0, 25f, Color.WHITE,(int)(loserPanel1.getWidth() * name),(int)(loserPanel1.getHeight() * height));
         int maxLength2 = Math.min(realPodiumNames[1].length(), 9);
         loserName1.setText(realPodiumNames[1].substring(0,maxLength2));
-        loserName1.setForeground(Color.WHITE);
-        loserName1.setHorizontalTextPosition(SwingConstants.CENTER);
+        
         try {
             imgLoser = ImageIO.read(new File("images/Podium_silver/"+Parser.toCapitalize(s[1])+"_podium_silver.png"));
             Image dimg = imgLoser.getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
@@ -1612,10 +1570,7 @@ public class Game extends JFrame implements Observer<Object> {
                 }
             }
         };
-        godPanel.setLayout(new BorderLayout(10,10));
-        godPanel.setOpaque(false);
-        godPanel.setPreferredSize(new Dimension(leftPanel.getWidth(), leftPanel.getHeight()/2));
-        godPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight()/2);
+        setJPanelProperties(godPanel,10,10,leftPanel.getWidth(),leftPanel.getHeight()/2);
 
         godPanel.setAlignmentX(SwingConstants.CENTER);
         godPanel.setAlignmentY(SwingConstants.CENTER);
@@ -1627,10 +1582,8 @@ public class Game extends JFrame implements Observer<Object> {
         //internalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         JButton yes = new JButton();
+        setJButtonProperties(yes);
         yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
-        yes.setOpaque(false);
-        yes.setContentAreaFilled(false);
-        yes.setBorderPainted(false);
         yes.setHorizontalAlignment(SwingConstants.CENTER);
         Image n;
         Image np;
