@@ -42,7 +42,7 @@ public class Server {
      */
     public synchronized void deregisterConnection(ClientConnection connection){
         Lobby lobby = this.lobbyConnections.get(connection);
-        //this.lobbyConnections.get(connection).closeLobby();
+        this.lobbyConnections.get(connection).closeLobby();
         ArrayList<ClientConnection> toRemove = playerInLobby.get(lobby);
         for (ClientConnection clientConnection : toRemove) {
             lobbyConnections.remove(clientConnection);
