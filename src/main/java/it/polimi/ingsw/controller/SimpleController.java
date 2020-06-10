@@ -58,7 +58,6 @@ public class SimpleController extends Controller {
         if(!turnCheck(move)){
             return;
         }
-        System.out.println("qui porcaccia");
         canMove = move.getPlayer().getWorker(move.getWorkerId()).getStatus();
         if(!canMove){
             move.getView().reportError("This worker can't move anywhere");
