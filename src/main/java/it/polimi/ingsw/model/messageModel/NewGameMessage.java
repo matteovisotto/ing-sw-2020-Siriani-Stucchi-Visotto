@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.messageModel;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.*;
 import it.polimi.ingsw.view.View;
 

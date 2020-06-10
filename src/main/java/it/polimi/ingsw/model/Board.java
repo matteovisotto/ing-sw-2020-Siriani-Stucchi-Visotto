@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class Board implements Serializable, Cloneable {
     private Cell[][] board;
-    private Player[] players;
+    private final Player[] players;
 
     /**
      * Constructor of the class

@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.messageModel;
 import it.polimi.ingsw.model.Player;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

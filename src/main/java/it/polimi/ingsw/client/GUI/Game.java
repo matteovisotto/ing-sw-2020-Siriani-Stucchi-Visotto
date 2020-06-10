@@ -21,29 +21,26 @@ public class Game extends JFrame implements Observer<Object> {
     private final GUIClient guiClient;
     private boolean initedBoard = false;
     private boolean isSimplePlay = true;
-    private ArrayList<String> opponentsNames = new ArrayList<>();
-    private HashMap<String, String> opponentGods = new HashMap<>();
-    private HashMap<String, String> myGod = new HashMap<>();
+    private final ArrayList<String> opponentsNames = new ArrayList<>();
+    private final HashMap<String, String> opponentGods = new HashMap<>();
+    private final HashMap<String, String> myGod = new HashMap<>();
     private JPanel mainPanel, leftPanel, centerPanel, rightPanel, overlayPanel, initialBoardPanel, godPanel, endGamePanel, endGamePanelPlayers, exitGame, playAgain;
     private JLabel messageLabel, background, endGameImage, southPanel;
     private JButton startPlayBtn;
     private MessageType messageType = MessageType.PLAYER_NAME;
     private Player player;
-    private Player actualPlayer;
     private ClientConfigurator clientConfigurator;
     private String response;
     private final ArrayList<String> multipleSelections = new ArrayList<>();
     private String chosenCellX;
     private String chosenCellY;
-    private JButton[][] board = new JButton[5][5];
+    private final JButton[][] board = new JButton[5][5];
     private double value = 0;
     protected int selectedWorker;
     private final HashMap<JButton, Integer> cellsX = new HashMap<>();
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
     private GraphicsEnvironment ge;
     private Font customFont;
-    private boolean isEnded = false;
-    private boolean alreadySend = false;
 
     public Game(final GUIClient guiClient){
         //customCursor();
@@ -1056,7 +1053,6 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void endGame(HashMap<Player, Integer> podium){
-        isEnded = true;
         removeBoard();
         endGamePanel = new JPanel();
         endGamePanel.setLayout(new BorderLayout(0,0));
@@ -1127,7 +1123,6 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void resetNewGame(){
-        isEnded = false;
         initedBoard = false;
         opponentsNames.clear();
         opponentGods.clear();
@@ -1720,8 +1715,6 @@ public class Game extends JFrame implements Observer<Object> {
             case SET_WORKER_2:
                 placeWorker(((GameBoardMessage)gameMessage).getBoard());
                 break;
-            case BEGINNING:
-                break;
             case MOVE:
                 resetOverlayPanel();
                 resetBoardPanel();
@@ -1755,10 +1748,6 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void phaseManager(GameMessage gameMessage){
         switch (gameMessage.getMessageType()) {
-            case PICK_CARD:
-                break;
-            case BEGINNING:
-                break;
             case SET_WORKER_1:
                 try {
                     if (!isSimplePlay && opponentGods.size() != clientConfigurator.getNumberOfPlayer() - 1) {
@@ -1789,10 +1778,7 @@ public class Game extends JFrame implements Observer<Object> {
                 break;
             case MOVE:
             case BUILD:
-                resetOverlayPanel();
-                break;
             case USE_POWER:
-                break;
             case PROMETHEUS:
                 resetOverlayPanel();
                 break;
@@ -1823,7 +1809,6 @@ public class Game extends JFrame implements Observer<Object> {
             this.player=arg.getPlayer();
             if(arg instanceof GameBoardMessage){
                 updateBoard(((GameBoardMessage)arg).getBoard(), true);
-                actualPlayer = arg.getPlayer();
             }
             setMessageOnPopup(arg.getMessage());
             turnPhaseManager(arg);

@@ -9,7 +9,7 @@ import java.util.HashMap;
  * This class is used to notify clients for the ending of the game
  */
 public class EndGameMessage extends GameMessage {
-    private HashMap<Player, Integer> podium;
+    private  final HashMap<Player, Integer> podium;
 
     /**
      * Class constructor

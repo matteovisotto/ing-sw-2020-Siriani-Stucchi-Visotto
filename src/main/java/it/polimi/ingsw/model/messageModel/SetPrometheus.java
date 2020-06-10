@@ -12,7 +12,7 @@ import it.polimi.ingsw.view.View;
  * This class is used to perform choice with the player who have prometheus god card
  */
 public class SetPrometheus extends Message{
-    int usedWorkerId;
+    final int usedWorkerId;
 
     /**
      * Class constructor

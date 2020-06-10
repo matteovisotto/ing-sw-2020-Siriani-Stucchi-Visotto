@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.utils.CommandParser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RemoteView extends View {

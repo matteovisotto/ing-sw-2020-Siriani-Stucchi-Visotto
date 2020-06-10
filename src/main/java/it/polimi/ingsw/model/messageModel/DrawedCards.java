@@ -9,9 +9,9 @@ import it.polimi.ingsw.view.View;
  * This class is used to notify the controller of the selected cards for the play by the first player
  */
 public class DrawedCards extends Message {
-    int firstCard;
-    int secondCard;
-    int thirdCard;
+    final int firstCard;
+    final int secondCard;
+    final int thirdCard;
 
     /**
      * Class constructor for a two players play

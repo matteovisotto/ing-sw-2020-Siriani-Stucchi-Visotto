@@ -10,11 +10,11 @@ import java.util.*;
 
 public abstract class Controller implements Observer<Message> {
     protected final Model model;
-    protected ArrayList<String> playersName = new ArrayList<>();
-    protected ArrayList<ClientConnection> clientConnections = new ArrayList<>();
+    protected final ArrayList<String> playersName = new ArrayList<>();
+    protected final ArrayList<ClientConnection> clientConnections = new ArrayList<>();
     protected int counter = 0;
     protected int answers = 0;
-    protected Map<Player, ClientConnection> activeClients = new LinkedHashMap<>();
+    protected final Map<Player, ClientConnection> activeClients = new LinkedHashMap<>();
 
     public Controller(Model model){
         super();

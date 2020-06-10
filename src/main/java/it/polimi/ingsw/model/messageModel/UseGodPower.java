@@ -14,7 +14,7 @@ import java.util.Collections;
  * This class is used to notify at the controller the player choice of using a god power
  */
 public class UseGodPower extends Message {
-    char usePower;
+    final char usePower;
 
     /**
      * Class constructor

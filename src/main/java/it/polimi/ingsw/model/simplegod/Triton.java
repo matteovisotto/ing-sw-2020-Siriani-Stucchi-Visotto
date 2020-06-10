@@ -11,13 +11,11 @@ import java.util.List;
 
 public class Triton extends GodCard {
     private int usedWorkerID =-1;
-    private boolean usedPower;
     /**
      * {@inheritDoc}
      */
     public Triton() {
         super(Gods.TRITON, Phase.MOVE);
-        usedWorkerID =-1;
     }
 
     public int getUsedWorkerID(){

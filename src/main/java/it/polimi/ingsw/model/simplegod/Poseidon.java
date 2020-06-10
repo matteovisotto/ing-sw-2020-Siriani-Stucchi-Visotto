@@ -7,7 +7,7 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.util.List;
 
 public class Poseidon  extends GodCard {
-    private int counter=0;
+    private int counter;
     private Worker unusedWorker=null;
     private Worker movedWorker=null;
     /**

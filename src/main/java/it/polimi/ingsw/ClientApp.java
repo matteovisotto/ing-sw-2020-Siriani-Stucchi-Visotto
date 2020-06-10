@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.GUIClient;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ClientApp
 {

@@ -16,8 +16,8 @@ public class GUIClient extends Observable<Object> {
     private final String ip;
     private final int port;
     private boolean active = true;
-    private Initialization initialization;
-    private Game game;
+    private final Initialization initialization;
+    private final Game game;
     private PrintWriter socketOut;
 
     public GUIClient(String ip, int port){

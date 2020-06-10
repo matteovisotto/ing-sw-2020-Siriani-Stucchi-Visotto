@@ -20,8 +20,8 @@ import java.io.IOException;
 public class Initialization extends JDialog implements Observer<Object> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
     private final GUIClient guiClient;
-    private JLabel serverStatusLabel = new JLabel(); //Label for server status
-    JButton sendButton = new JButton("Next");
+    private final JLabel serverStatusLabel = new JLabel(); //Label for server status
+    final JButton sendButton = new JButton("Next");
     private JPanel contentPanel; //This contains all elements
     private JLabel messageLabel;
     private JTextField jTextField;
@@ -42,7 +42,7 @@ public class Initialization extends JDialog implements Observer<Object> {
     public GUIClient getGuiClient() {
         return guiClient;
     }
-    private void setLayout() throws IOException {
+    private void setLayout() {
         mainPanel = new JPanel(true);
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBorder(new EmptyBorder(10,10,10,10)); //Add padding
