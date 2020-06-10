@@ -315,7 +315,7 @@ public class Model extends Observable<ViewMessage> {
         movingWorker.setCell(this.getBoard().getCell(move.getRow(), move.getColumn()));
         this.getBoard().getCell(move.getRow(), move.getColumn()).useCell();
         getActualPlayer().setUsedWorker(move.getWorkerId());
-        notifyChanges();
+        //notifyChanges();
     }
 
     /**

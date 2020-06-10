@@ -187,6 +187,7 @@ public class GodCardController extends Controller{
                             return;
                         }
                         model.move(move);
+                        model.notifyChanges();
                     }
                     else if(model.getGCPlayer(Gods.ATHENA) == move.getPlayer()){// se è il turno del player con athena
                         if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() > model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
@@ -196,12 +197,10 @@ public class GodCardController extends Controller{
                             model.setMovedUp(false);
                         }
                         model.move(move);
+                        model.notifyChanges();
                     }
                     else if(model.getGCPlayer(Gods.ARTEMIS) == move.getPlayer()){
                         if(((Artemis)move.getPlayer().getGodCard()).hasUsedPower()){
-                            if(canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())==1){
-                                model.loose(move.getPlayer());
-                            }
                             if(((Artemis)move.getPlayer().getGodCard()).getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
                                 move.getView().reportError("You have to move the same worker");
                             }
@@ -211,6 +210,7 @@ public class GodCardController extends Controller{
                             else{
                                 ((Artemis)move.getPlayer().getGodCard()).setUsedPower(false);
                                 model.move(move);
+                                model.notifyChanges();
                             }
                         }
                         else{
@@ -220,6 +220,12 @@ public class GodCardController extends Controller{
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);
                             model.move(move);
+                            if(canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())==1){
+                                model.setNextPhase(Phase.BUILD);
+                                model.setNextPlayerMessage(PlayerMessage.BUILD);
+                                model.setNextMessageType(MessageType.BUILD);
+                            }
+                            model.notifyChanges();
                         }
                     }
                     else if(model.getGCPlayer(Gods.PROMETHEUS) == move.getPlayer()){// se è il turno del player con Prometheus
@@ -235,6 +241,7 @@ public class GodCardController extends Controller{
                                 model.setNextPlayerMessage(PlayerMessage.BUILD);
                                 model.setNextPhase(Phase.BUILD);
                                 model.move(move);
+                                model.notifyChanges();
                             }
                         }
                         else{
@@ -242,6 +249,7 @@ public class GodCardController extends Controller{
                             model.setNextPlayerMessage(PlayerMessage.BUILD);
                             model.setNextPhase(Phase.BUILD);
                             model.move(move);
+                            model.notifyChanges();
                         }
                     }
                     else if(model.getGCPlayer(Gods.TRITON) == move.getPlayer()){// se è il turno del player con Tritone
@@ -256,6 +264,7 @@ public class GodCardController extends Controller{
                             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
                             model.setNextMessageType(MessageType.USE_POWER);
                             model.move(move);
+                            model.notifyChanges();
                         }
                         else{
                             ((Triton)move.getPlayer().getGodCard()).setUsedWorkerID(-1);
@@ -263,6 +272,7 @@ public class GodCardController extends Controller{
                             model.setNextPlayerMessage(PlayerMessage.BUILD);
                             model.setNextPhase(Phase.BUILD);
                             model.move(move);
+                            model.notifyChanges();
                         }
 
                     }
@@ -273,6 +283,7 @@ public class GodCardController extends Controller{
                             model.setNextMessageType(MessageType.USE_POWER);
                         }
                         model.move(move);
+                        model.notifyChanges();
                     }
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() == 3 && oldLevel!=3){
                         model.victory(move.getPlayer());

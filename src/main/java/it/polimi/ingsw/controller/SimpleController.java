@@ -72,6 +72,7 @@ public class SimpleController extends Controller {
                     model.setNextPlayerMessage(PlayerMessage.BUILD);
                     model.updatePhase();
                     model.move(move);
+                    model.notifyChanges();
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
                         model.victory(move.getPlayer());
                     }
