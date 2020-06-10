@@ -346,6 +346,7 @@ public class Model extends Observable<ViewMessage> {
             for (Player value : turn) {
                 if (!value.getHasLost() && !value.hasWon() && value != player) {
                     loose(value);
+                    return;
                 }
             }
             endGame();
@@ -403,6 +404,7 @@ public class Model extends Observable<ViewMessage> {
             for (Player value : turn) {
                 if (!value.hasWon() && !value.getHasLost() && value != player) {
                     victory(value);
+                    return;
                 }
             }
             endGame();

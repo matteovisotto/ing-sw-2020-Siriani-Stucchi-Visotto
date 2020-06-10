@@ -86,7 +86,6 @@ public abstract class Controller implements Observer<Message> {
             this.counter++;
             activeClients.put(newGameMessage.getPlayer(), newGameMessage.getClientConnection());
             if(counter == model.getNumOfPlayers()){
-                //TODO model reset
                 counter=0;
                 answers=0;
                 activeClients.clear();
