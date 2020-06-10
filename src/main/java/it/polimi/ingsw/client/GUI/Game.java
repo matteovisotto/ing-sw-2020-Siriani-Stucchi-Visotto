@@ -295,29 +295,17 @@ public class Game extends JFrame implements Observer<Object> {
                 JLabel godLabel = new JLabel();
                 value = 0.304347826;
                 setJLabelProperties(nameLabel, 0,0,20f, Color.WHITE,(playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value));
-                //nameLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value));
                 value = 1.7391304347826;
                 setJLabelProperties(godLabel, 0,0, 20f, Color.WHITE,(playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1);
-                //godLabel.setSize((playerPanel.getWidth()) / opponentGods.size() + 1, (int)(playerPanel.getHeight() * value) / opponentGods.size() + 1);
-                BufferedImage god, frame;
-                String filename = "";
+                String filename;
                 if (clientConfigurator.getOpponentsNames().get(opponentName).equals("red")){
                     filename = "images/opponentNameFrame.png";
                 }
                 else {
                     filename = "images/opponentGreenNameFrame.png";
                 }
-                try {
-                    frame = ImageIO.read(new File(filename));
-                    god = ImageIO.read(new File("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png"));
-                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    Image godImage = god.getScaledInstance(godLabel.getWidth(), godLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    nameLabel.setIcon(new ImageIcon(frameImage));
-                    godLabel.setIcon(new ImageIcon(godImage));
-                    godLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                nameLabel.setIcon(loadImage(filename, nameLabel.getWidth(), nameLabel.getHeight()));
+                godLabel.setIcon(loadImage("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png", godLabel.getWidth(), godLabel.getHeight()));
                 int maxLength = Math.min(opponentName.length(), 9);
                 nameLabel.setText(opponentName.substring(0,maxLength));
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
@@ -347,9 +335,9 @@ public class Game extends JFrame implements Observer<Object> {
                 JLabel nameLabel = new JLabel();
                 JLabel enemyLabel = new JLabel();
                 value = 0.2;
-                nameLabel.setSize((playerPanel.getWidth() * 9/10), (int)(playerPanel.getHeight() * value));
+                setJLabelProperties(nameLabel,0,0,20f,Color.WHITE,(playerPanel.getWidth() * 9/10), (int)(playerPanel.getHeight() * value) );
                 value = 0.75;
-                enemyLabel.setSize((playerPanel.getWidth() * 9/(10*opponentsNames.size())), (int)(playerPanel.getHeight() * value));
+                setJLabelProperties(enemyLabel, 0,0,20f, Color.WHITE,(playerPanel.getWidth() * 9/(10*opponentsNames.size())), (int)(playerPanel.getHeight() * value));
                 BufferedImage enemy, frame;
                 if (clientConfigurator.getOpponentsNames().get(opponentName).equals("red")){
                     filename = "images/opponentNameFrame.png";
@@ -357,23 +345,10 @@ public class Game extends JFrame implements Observer<Object> {
                 else {
                     filename = "images/opponentGreenNameFrame.png";
                 }
-                try {
-                    frame = ImageIO.read(new File(filename));
-                    enemy = ImageIO.read(new File("images/enemy_player.png"));
-                    Image frameImage = frame.getScaledInstance(nameLabel.getWidth(), nameLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    Image enemyImage = enemy.getScaledInstance(enemyLabel.getWidth(), enemyLabel.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    nameLabel.setIcon(new ImageIcon(frameImage));
-                    enemyLabel.setIcon(new ImageIcon(enemyImage));
-                    enemyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-                nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                nameLabel.setFont(customFont);
+                nameLabel.setIcon(loadImage(filename,nameLabel.getWidth(), nameLabel.getHeight()));
+                enemyLabel.setIcon(loadImage("images/enemy_player.png", enemyLabel.getWidth(), enemyLabel.getHeight()));
                 int maxLength = Math.min(opponentName.length(), 9);
                 nameLabel.setText(opponentName.substring(0,maxLength));
-                nameLabel.setForeground(Color.WHITE);
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
                 playerPanel.add(enemyLabel, BorderLayout.CENTER);
                 opponentsPanel.add(playerPanel, BorderLayout.SOUTH);
@@ -470,14 +445,8 @@ public class Game extends JFrame implements Observer<Object> {
                 final JButton cell = new JButton();
                 setJButtonProperties(cell);
                 cell.setSize(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5);
-                try{
-                    image = ImageIO.read(new File("images/blue_square.png"));
-                    Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
-                    cell.setIcon(new ImageIcon(normal));
-                    overlayPanel.add(cell,BorderLayout.CENTER);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
+                cell.setIcon(loadImage("images/blue_square.png",cell.getWidth(), cell.getHeight() ));
+                overlayPanel.add(cell,BorderLayout.CENTER);
                 cell.setVisible(false);
                 cellsX.put(cell,i);
                 cellsY.put(cell,j);
@@ -519,23 +488,8 @@ public class Game extends JFrame implements Observer<Object> {
         panel.setLayout(new GridLayout(3,3,10,10));
 
         final JLabel centerSouthLabel = new JLabel();
-        centerSouthLabel.setPreferredSize(new Dimension(southPanel.getWidth(),southPanel.getHeight()));
-        centerSouthLabel.setSize(southPanel.getWidth(),southPanel.getHeight());
-        centerSouthLabel.setOpaque(false);
-        try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(40f);
-            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(customFont);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
+        setJLabelProperties(centerSouthLabel, 0,0, 40f, Color.BLUE, southPanel.getWidth(),southPanel.getHeight());
         centerSouthLabel.setText("Simple Gods");
-        centerSouthLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        centerSouthLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        centerSouthLabel.setVerticalAlignment(SwingConstants.CENTER);
-        centerSouthLabel.setVerticalTextPosition(SwingConstants.CENTER);
-        centerSouthLabel.setFont(customFont);
-        centerSouthLabel.setForeground(Color.BLUE);
         southPanel.add(centerSouthLabel);
 
         final JPanel arrowPanel=new JPanel(true);
@@ -545,17 +499,8 @@ public class Game extends JFrame implements Observer<Object> {
         JButton leftArrow=new JButton();
         setJButtonProperties(leftArrow);
         leftArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
-        try{
-            image=ImageIO.read(new File("images/Miscellaneous/btn_back.png"));
-            imagePressed=ImageIO.read(new File("images/Miscellaneous/btn_back_pressed.png"));
-            Image normal = image.getScaledInstance(leftArrow.getWidth(), leftArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
-            Image pressed = imagePressed.getScaledInstance(leftArrow.getWidth(), leftArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
-            leftArrow.setIcon(new ImageIcon(normal));
-            leftArrow.setPressedIcon(new ImageIcon(pressed));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+        leftArrow.setIcon(loadImage("images/Miscellaneous/btn_back.png",leftArrow.getWidth(), leftArrow.getHeight()));
+        leftArrow.setPressedIcon(loadImage("images/Miscellaneous/btn_back_pressed.png",leftArrow.getWidth(), leftArrow.getHeight()));
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -572,19 +517,13 @@ public class Game extends JFrame implements Observer<Object> {
             }
         });
         arrowPanel.add(leftArrow);
+
+
         JButton rightArrow=new JButton();
         setJButtonProperties(rightArrow);
         rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
-        try{
-            image=ImageIO.read(new File("images/Miscellaneous/btn_front.png"));
-            imagePressed=ImageIO.read(new File("images/Miscellaneous/btn_front_pressed.png"));
-            Image normal = image.getScaledInstance(rightArrow.getWidth(), rightArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
-            Image pressed = imagePressed.getScaledInstance(rightArrow.getWidth(), rightArrow.getHeight(), Image.SCALE_AREA_AVERAGING);
-            rightArrow.setIcon(new ImageIcon(normal));
-            rightArrow.setPressedIcon(new ImageIcon(pressed));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        rightArrow.setIcon(loadImage("images/Miscellaneous/btn_front.png", rightArrow.getWidth(), rightArrow.getHeight()));
+        rightArrow.setPressedIcon(loadImage("images/Miscellaneous/btn_front_pressed.png", rightArrow.getWidth(), rightArrow.getHeight()));
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -603,24 +542,15 @@ public class Game extends JFrame implements Observer<Object> {
         arrowPanel.add(rightArrow);
         southPanel.add(arrowPanel);
 
-
-
-
         for (int i=0; i<14; i++) {
             final JButton god = new JButton();
             setJButtonProperties(god);
             god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
-            try{
-                String fileName = Gods.getGod(i).toString();
-                fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
-                image=ImageIO.read(new File("images/God_with_frame/"+ fileName +".png"));
-                Image normal = image.getScaledInstance(god.getWidth(), god.getHeight(), Image.SCALE_AREA_AVERAGING);
-                god.setIcon(new ImageIcon(normal));
-                if(i<=8){
-                    panel.add(god);
-                }
-            }catch (IOException e){
-                e.printStackTrace();
+            String fileName = Gods.getGod(i).toString();
+            fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
+            god.setIcon(loadImage("images/God_with_frame/"+ fileName +".png", god.getWidth(), god.getHeight()));
+            if(i<=8){
+                panel.add(god);
             }
             gods.put(god, i);
             god.addActionListener(new ActionListener() {
@@ -655,7 +585,6 @@ public class Game extends JFrame implements Observer<Object> {
                 }
             });
         }
-
         centerPanel.add(panel);
         centerPanel.revalidate();
         centerPanel.repaint();
