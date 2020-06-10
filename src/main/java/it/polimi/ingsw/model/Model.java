@@ -432,6 +432,7 @@ public class Model extends Observable<ViewMessage> {
         resetBoard();
         podium.clear();
         leftPlayers = turn.length;
+        this.movedUp=false;
         if(simplePlay){
             this.phase = Phase.SETWORKER1;
             this.messageType = MessageType.SET_WORKER_1;
