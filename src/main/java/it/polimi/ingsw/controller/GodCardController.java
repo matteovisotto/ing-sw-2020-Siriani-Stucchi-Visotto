@@ -223,7 +223,7 @@ public class GodCardController extends Controller{
                             model.move(move);
                         }
                     }
-                    else if(model.getGCPlayer(Gods.PROMETHEUS) == move.getPlayer()){// se è il turno del player con athena
+                    else if(model.getGCPlayer(Gods.PROMETHEUS) == move.getPlayer()){// se è il turno del player con Prometheus
                         if(((Prometheus)move.getPlayer().getGodCard()).hasUsedPower()){
                             if(((Prometheus)move.getPlayer().getGodCard()).getWorkerID() != move.getWorkerId()){
                                 move.getView().reportError("you have to move the same worker");

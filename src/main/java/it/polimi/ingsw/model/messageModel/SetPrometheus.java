@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.messageModel;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.Gods;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
@@ -36,9 +37,19 @@ public class SetPrometheus extends Message{
         ((Prometheus)player.getGodCard()).setWorkerID(usedWorkerId);
         player.setUsedWorker(usedWorkerId);
         Model model = controller.getModel();
-        model.setNextPhase(Phase.BUILD);
-        model.setNextPlayerMessage(PlayerMessage.BUILD);
-        model.setNextMessageType(MessageType.BUILD);
-        model.notifyChanges();
+        if(model.getGCPlayer(Gods.PROMETHEUS).getWorker(usedWorkerId).getStatus()){
+            model.setNextPhase(Phase.BUILD);
+            model.setNextPlayerMessage(PlayerMessage.BUILD);
+            model.setNextMessageType(MessageType.BUILD);
+            model.notifyChanges();
+        }
+        else{
+            model.setNextPhase(Phase.PROMETHEUS_WORKER);
+            model.setNextPlayerMessage(PlayerMessage.PROMETHEUS_ASK_WORKER);
+            model.setNextMessageType(MessageType.PROMETHEUS);
+            this.view.reportError("The selected worker can't move");
+            model.notifyChanges();
+        }
+
     }
 }
