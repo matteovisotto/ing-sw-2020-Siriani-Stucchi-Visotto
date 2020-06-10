@@ -491,7 +491,7 @@ public class GodCardController extends Controller{
         for(int i=x-1; i<=x+1; i++){
             for(int j=y-1; j<=y+1; j++){
                 try{
-                    if(board.getCell(i,j).getLevel().getBlockId() < 4 && board.getCell(i,j).isFree()){
+                    if(board.getCell(i,j).getLevel() != Blocks.DOME && board.getCell(i,j).isFree()){
                         return true;
                     }
                 }catch(Exception e){
