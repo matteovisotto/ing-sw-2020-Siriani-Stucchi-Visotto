@@ -32,11 +32,7 @@ public class Initialization extends JDialog implements Observer<Object> {
         setResizable(false);
         this.guiClient = guiClient;
         //customCursor();
-        try{
-            setLayout();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        setLayout();
     }
 
     public GUIClient getGuiClient() {
