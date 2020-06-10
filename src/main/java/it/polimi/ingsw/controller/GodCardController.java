@@ -331,7 +331,7 @@ public class GodCardController extends Controller{
                     Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
                     (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
                     (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
-                    (buildingCell.getLevel().getBlockId() <= 3);
+                    (buildingCell.getLevel().getBlockId() <= 2);
         }
         return super.checkBuild(buildingCell, playerBuild);
 
