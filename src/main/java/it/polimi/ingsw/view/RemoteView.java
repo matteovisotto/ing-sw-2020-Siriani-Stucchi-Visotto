@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.messageModel.ClientConfigurator;
+import it.polimi.ingsw.model.messageModel.EndGameMessage;
 import it.polimi.ingsw.model.messageModel.ViewMessage;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
@@ -75,6 +76,9 @@ public class RemoteView extends View {
 
     @Override
     public void update(ViewMessage arg) {//questa riceve dal model
+        if(arg instanceof EndGameMessage){
+            this.lobby.setEndGame();
+        }
         phase = arg.getPhase();
         showMessage(arg);
 

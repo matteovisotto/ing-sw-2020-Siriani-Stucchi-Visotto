@@ -23,6 +23,7 @@ public class Lobby {
     private final List<ClientConnection> connections = new ArrayList<>();
     private final Map<String, ClientConnection> waitingConnection = new LinkedHashMap<>();
     private final boolean simplePlay;
+    private boolean isGameEnded = false;
 
     /**
      * Class constructor
@@ -77,12 +78,28 @@ public class Lobby {
      * This method remove all the players from the lobby and close their connections
      */
     public void closeLobby() {
-        for(int i = connections.size() - 1; i >= 0; i--){
-            ClientConnection clientConnection = connections.get(i);
-            clientConnection.closeConnection();
-            connections.remove(i);
+        if(!isGameEnded) {
+            for (int i = connections.size() - 1; i >= 0; i--) {
+                ClientConnection clientConnection = connections.get(i);
+                clientConnection.closeConnection();
+                connections.remove(i);
+            }
+            waitingConnection.clear();
         }
-        waitingConnection.clear();
+    }
+
+    /**
+     * Set that the play for this lobby is ended
+     */
+    public void setEndGame(){
+        this.isGameEnded = true;
+    }
+
+    /**
+     * Set isEndGame to false
+     */
+    public void resetEndGame(){
+        this.isGameEnded = false;
     }
 
     /**
