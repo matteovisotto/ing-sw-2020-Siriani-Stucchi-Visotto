@@ -71,9 +71,40 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void setJButtonProperties(JButton button){
         button.setBorder(BorderFactory.createEmptyBorder());
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
+    }
+
+    private void setJPanelProperties(JPanel panel, int hgap, int vgap){
+        panel.setLayout(new BorderLayout(hgap, vgap));
+        panel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), mainPanel.getHeight())); //565
+        panel.setSize((int)(mainPanel.getWidth() * value), mainPanel.getHeight());
+        panel.setOpaque(false);
+    }
+
+    private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color){
+        label.setLayout(new BorderLayout(10, 10));
+        label.setPreferredSize(new Dimension(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //150
+        label.setSize(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
+        label.setOpaque(false);
+        try {
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(fontDimension);
+            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+        label.setHorizontalTextPosition(SwingConstants.CENTER);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setFont(customFont);
+        label.setPreferredSize(new Dimension(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //120
+        label.setSize(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value)); //120
+        label.setForeground(color);
     }
 
     private void setLayout() {
@@ -103,9 +134,6 @@ public class Game extends JFrame implements Observer<Object> {
         add(mainPanel);
 
         startPlayBtn = new JButton();
-        /*startPlayBtn.setOpaque(false);
-        startPlayBtn.setContentAreaFilled(false);
-        startPlayBtn.setBorderPainted(false);*/
         setJButtonProperties(startPlayBtn);
         startPlayBtn.setSize(526*3/4,644*3/4);
         BufferedImage normalImage, pressedImage;
@@ -169,7 +197,6 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         centerPanel = new JPanel(true);
         centerPanel.setLayout(new BorderLayout(10, 10));
@@ -181,65 +208,28 @@ public class Game extends JFrame implements Observer<Object> {
 
         value = 0.1389;
         southPanel = new JLabel();
-        southPanel.setLayout(new BorderLayout(10, 10));
-        southPanel.setPreferredSize(new Dimension(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //150
-        southPanel.setSize(mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
-        southPanel.setOpaque(false);
-
-        try {
-            //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(40f);
-            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
-            ge.registerFont(customFont);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-        southPanel.setHorizontalTextPosition(SwingConstants.CENTER);
+        setJLabelProperties(southPanel, 10,10,40f, Color.RED);
+        /*southPanel.setHorizontalTextPosition(SwingConstants.CENTER);
         southPanel.setHorizontalAlignment(SwingConstants.CENTER);
         southPanel.setFont(customFont);
-        southPanel.setForeground(Color.RED);
+        southPanel.setForeground(Color.RED);*/
 
-
-        //centerPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         value = 0.2942708;
         leftPanel = new JPanel(true);
-        leftPanel.setLayout(new BorderLayout(10, 50));
-        leftPanel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), mainPanel.getHeight())); //565
-        leftPanel.setSize((int)(mainPanel.getWidth() * value), mainPanel.getHeight());
-        leftPanel.setOpaque(false);
-        //leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        setJPanelProperties(leftPanel,10,50);
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new JPanel(true);
-        rightPanel.setLayout(new BorderLayout(10, 10));
-        rightPanel.setPreferredSize(new Dimension((int)(mainPanel.getWidth() * value), mainPanel.getBounds().height)); //565
-        rightPanel.setSize((int)(mainPanel.getWidth() * value), mainPanel.getBounds().height);
-        rightPanel.setOpaque(false);
-        //rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-
+        setJPanelProperties(rightPanel,10,10);
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
         value = 0.1111111111;
         messageLabel = new JLabel();
-        try {
-            //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(25f);
-            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
-            ge.registerFont(customFont);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-        messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        messageLabel.setFont(customFont);
-        messageLabel.setPreferredSize(new Dimension(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value))); //120
-        messageLabel.setSize(centerPanel.getWidth(), (int)(mainPanel.getHeight() * value)); //120
-        messageLabel.setForeground(Color.WHITE);
+        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE);
+
+
         BufferedImage messageBoard;
         try {
             messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
@@ -526,10 +516,6 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
-                /*cell.setBorder(BorderFactory.createEmptyBorder());
-                cell.setOpaque(false);
-                cell.setContentAreaFilled(false);
-                cell.setBorderPainted(false);*/
                 setJButtonProperties(cell);
                 cell.setSize(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5);
                 try{
@@ -637,7 +623,7 @@ public class Game extends JFrame implements Observer<Object> {
         });
         arrowPanel.add(leftArrow);
         JButton rightArrow=new JButton();
-        setJButtonProperties(leftArrow);
+        setJButtonProperties(rightArrow);
         rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
         try{
             image=ImageIO.read(new File("images/Miscellaneous/btn_front.png"));
