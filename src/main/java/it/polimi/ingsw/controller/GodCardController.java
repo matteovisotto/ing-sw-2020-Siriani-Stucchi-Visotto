@@ -549,7 +549,7 @@ public class GodCardController extends Controller{
 
     @Override
     protected synchronized void checkVictory() {
-        if(model.getGCPlayer(Gods.CHRONUS)!=null){
+        if(model.getGCPlayer(Gods.CHRONUS)!=null && !model.getGCPlayer(Gods.CHRONUS).hasWon() && !model.getGCPlayer(Gods.CHRONUS).getHasLost()){
             if(countTowers()>=5){
                 model.victory(model.getGCPlayer(Gods.CHRONUS));
             }
