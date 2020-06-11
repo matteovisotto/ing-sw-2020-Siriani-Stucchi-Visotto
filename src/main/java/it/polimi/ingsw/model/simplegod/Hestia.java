@@ -42,6 +42,16 @@ public class Hestia extends GodCard {
         model.notifyChanges();
     }
 
+    /**
+     * This method modified the check cell if Hestia built the second time.
+     * If the player haven't built the super checkBuilt function is called
+     * If is the second one, it check that the selected cell is not in the board perimeter
+     * @param controller the play controller
+     * @param buildingCell the cell where player wants to build
+     * @param playerBuild the message received by the view
+     * @return the super method result if it is not the second built, else return true if the selected cell is
+     *      not in the perimeter, else false
+     */
     @Override
     public boolean checkBuilt(Controller controller, Cell buildingCell, PlayerBuild playerBuild) {
         if(hasBuilt()){
@@ -56,6 +66,16 @@ public class Hestia extends GodCard {
         return super.checkBuilt(controller,buildingCell, playerBuild);
     }
 
+    /**
+     * This method override the default built control.
+     * If the player has just built the first time modify the game flow to ask if using the god power, else reset the built flag
+     *  and return false tu use the standard flow.
+     * @param model the play model
+     * @param controller the play controller
+     * @param build the message recived by the view
+     * @param buildingCell the cell where the player wants to build
+     * @return true if the cell control is positive and if the second built isn't done, else false
+     */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
         if(!hasBuilt() && checkHestiaCells(model, build)){
@@ -70,6 +90,13 @@ public class Hestia extends GodCard {
         return false;
     }
 
+    /**
+     * Modified control for Hestia, check if the cell is not in the perimeter
+     * @param model the game model
+     * @param playerBuild the built message recived from the view
+     * @return true if it can build in the selected cell, else false
+     * The IllegalArgumentException is ignored due tue return a false result
+     */
     private boolean checkHestiaCells(Model model, PlayerBuild playerBuild){
         int x=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX();
         int y=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY();
@@ -80,7 +107,7 @@ public class Hestia extends GodCard {
                     if(board.getCell(i,j).getLevel().getBlockId() < 4 && i!=0 && i!=4 && j!=0 && j!=4 && board.getCell(i,j).isFree()){
                         return true;
                     }
-                }catch(Exception e){
+                }catch(IllegalArgumentException e){
                     //ignore
                 }
             }

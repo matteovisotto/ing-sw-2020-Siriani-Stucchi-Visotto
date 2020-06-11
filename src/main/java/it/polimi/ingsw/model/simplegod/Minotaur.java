@@ -70,6 +70,18 @@ public class Minotaur extends GodCard {
         return (nextCell.isFree() || isEnemyPushable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
+    /**
+     * Minotaur can push a enemy worker one cell forward in the direction of the move
+     * This method modify the normal move controller in order to check:
+     *  - if the selected cell is not free check which worker is occupying it
+     *  - then add the worker to the object param list and call the use power function which made the switch
+     *  - return true to use this
+     *  - return false if the selected cell is free to make a normal move
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return true if the move has been modified else false
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(!model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){
