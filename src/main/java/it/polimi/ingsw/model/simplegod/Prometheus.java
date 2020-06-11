@@ -112,7 +112,7 @@ public class Prometheus extends GodCard {
      */
     @Override
     public void afterBuildHandler(Model model, GodCardController controller, PlayerBuild playerBuild, Cell buildingCell) {
-        if(controller.canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())==0){
+        if(controller.canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())==0 && playerBuild.getPlayer().equals(model.getGCPlayer(getCardGod()))){
             if(hasBuilt()){
                 model.loose(playerBuild.getPlayer());
             }
