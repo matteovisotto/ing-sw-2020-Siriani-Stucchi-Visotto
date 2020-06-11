@@ -18,7 +18,7 @@ public class CommandParser {
     /**
      * Class constructor
      * @param phase the actual game phase
-     * @param string the client input string recived
+     * @param string the client input string received
      * @param player the player instance who is sending the command
      * @param view the instance of the player view from which is asking to parse the command
      */
@@ -38,7 +38,7 @@ public class CommandParser {
      *  BUILT: expect x,y format as cell coordinates.
      *  WAIT_GOD_ANSWER: expect a single char for the answer y or n.
      *  PROMETHEUS_WORKER: expect a single integer representing the selected worker id.
-     *  END_GAME: expect a signle char representing the player answer y or n.
+     *  END_GAME: expect a single char representing the player answer y or n.
      * @return the specific Message subclass for notifying the controller.
      * @throws IllegalArgumentException if the input string does not conform to the game phase.
      * @throws IndexOutOfBoundsException report at the function caller errors sent by used class.

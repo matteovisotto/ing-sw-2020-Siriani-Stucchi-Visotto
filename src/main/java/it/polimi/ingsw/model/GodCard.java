@@ -110,7 +110,7 @@ public class GodCard implements Serializable {
      * This method have to be overridden to make controls in a build action for a god power
      * @param model the play model
      * @param controller the play controller
-     * @param build the message recived by the view
+     * @param build the message received by the view
      * @param buildingCell the cell where the player wants to build
      * @return always false if not overridden
      *
@@ -205,7 +205,7 @@ public class GodCard implements Serializable {
 
     /**
      *
-     * @param active a flag that rappresent if the god card is active in the turn
+     * @param active a flag that represents if the god card is active in the turn
      */
     public void setActive(boolean active){
         this.active = active;

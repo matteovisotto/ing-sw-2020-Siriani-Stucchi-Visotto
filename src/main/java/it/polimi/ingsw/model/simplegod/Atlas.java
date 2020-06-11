@@ -61,7 +61,7 @@ public class Atlas extends GodCard {
      * If the power is activated this method build a DOME in the selected cell and return true
      * @param model the play model
      * @param controller the play controller
-     * @param build the message recived by the view
+     * @param build the message received by the view
      * @param buildingCell the cell where the player wants to build
      * @return true if a DOME has been built else false
      */

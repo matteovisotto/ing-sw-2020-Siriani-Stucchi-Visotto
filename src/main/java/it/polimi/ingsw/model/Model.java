@@ -236,8 +236,8 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      * This method add a chosen god card to the play Array
-     * This methid also add the godcard to godsInPlay array
-     * @param godCard the choosen god card instance
+     * This method also add the godCard to godsInPlay array
+     * @param godCard the chosen god card instance
      */
     public void addGod(GodCard godCard){
         gods.add(godCard);
@@ -317,8 +317,8 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      * This method is called by the controller to update data for a move event
-     * @param move the message recived by the client and already controlled by the controller
-     * @throws ArrayIndexOutOfBoundsException
+     * @param move the message received by the client and already controlled by the controller
+     * @throws ArrayIndexOutOfBoundsException when you try to move outside the board
      */
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
         Worker movingWorker = move.getPlayer().getWorker(move.getWorkerId());
@@ -333,7 +333,7 @@ public class Model extends Observable<ViewMessage> {
      * This function is called by the controller to update data for a build event
      * @see Cell
      * @param cell the cell chosen for the built
-     * @param level the level to be assignd at the cell
+     * @param level the level to be assigned at the cell
      */
     public void increaseLevel(Cell cell, Blocks level) {//build
         cell.setLevel(level);
@@ -440,7 +440,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method reset all the model for starting a new play and call the inizialise function
+     * This method reset all the model for starting a new play and call the initialize function
      * startOver is called only if all player have chosen to play again
      *
      */

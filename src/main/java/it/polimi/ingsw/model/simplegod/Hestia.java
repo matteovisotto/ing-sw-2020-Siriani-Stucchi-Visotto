@@ -93,7 +93,7 @@ public class Hestia extends GodCard {
     /**
      * Modified control for Hestia, check if the cell is not in the perimeter
      * @param model the game model
-     * @param playerBuild the built message recived from the view
+     * @param playerBuild the built message received from the view
      * @return true if it can build in the selected cell, else false
      * The IllegalArgumentException is ignored due tue return a false result
      */

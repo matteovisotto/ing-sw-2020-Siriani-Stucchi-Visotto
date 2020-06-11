@@ -128,7 +128,7 @@ public class Poseidon  extends GodCard {
 
     /**
      * When the player doesn't want to use the power, the model is set in normal flow, updated the turn and rest the flags
-     * @param phase the god card phase gicen by the controller
+     * @param phase the god card phase given by the controller
      * @param controller the play controller
      * Always notify clients changes
      *
