@@ -113,6 +113,10 @@ public class Model extends Observable<ViewMessage> {
         return turn;
     }
 
+    /**
+     *
+     * @return the gods card which are active in the play
+     */
     public ArrayList<GodCard> getGodsInPlay() {
         return godsInPlay;
     }
@@ -232,6 +236,7 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      * This method add a chosen god card to the play Array
+     * This methid also add the godcard to godsInPlay array
      * @param godCard the choosen god card instance
      */
     public void addGod(GodCard godCard){

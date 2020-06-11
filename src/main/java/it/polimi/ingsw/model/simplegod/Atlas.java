@@ -44,6 +44,12 @@ public class Atlas extends GodCard {
         return usedPower;
     }
 
+    /**
+     * Atlas power have to be activated after a normal move, so this function is used to modify model next phase and messages when a normal move is done
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     */
     @Override
     public void normalMoveModifier(Model model, GodCardController controller, PlayerMove move) {
         model.setNextPhase(Phase.WAIT_GOD_ANSWER);
@@ -51,6 +57,14 @@ public class Atlas extends GodCard {
         model.setNextMessageType(MessageType.USE_POWER);
     }
 
+    /**
+     * If the power is activated this method build a DOME in the selected cell and return true
+     * @param model the play model
+     * @param controller the play controller
+     * @param build the message recived by the view
+     * @param buildingCell the cell where the player wants to build
+     * @return true if a DOME has been built else false
+     */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
         if(hasUsedPower()) {

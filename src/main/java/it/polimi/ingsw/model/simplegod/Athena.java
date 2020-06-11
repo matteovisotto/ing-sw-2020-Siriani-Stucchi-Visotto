@@ -35,11 +35,24 @@ public class Athena extends GodCard {
         model.setMovedUp(true);
     }
 
+    /**
+     * Before athena perform a move the previews value of the flag is reset
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     */
     @Override
     public void beforeMoveHandler(Model model, GodCardController controller, PlayerMove move) {
         model.setMovedUp(false);
     }
 
+    /**
+     * Athena power is auto activated, if she moved up the flag is set at true, else false
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return always true because the flag changed
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() > model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){

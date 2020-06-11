@@ -21,9 +21,17 @@ public class Triton extends GodCard {
         super(Gods.TRITON, Phase.MOVE);
     }
 
+    /**
+     * @return the used worker id
+     */
     public int getUsedWorkerID(){
         return this.usedWorkerID;
     }
+
+    /**
+     *
+     * @param worker the id of the used worker at the first action
+     */
     public void setUsedWorkerID(int worker){
         this.usedWorkerID =worker;
     }
@@ -31,7 +39,7 @@ public class Triton extends GodCard {
 
 
     /**
-     * {@inheritDoc}
+     * Set model next messages and phase to MOVE again
      */
     @Override
     public void usePower(List<Object> objectList) {
@@ -42,6 +50,13 @@ public class Triton extends GodCard {
         model.notifyChanges();
     }
 
+    /**
+     * This method ad a control before a move action is performed
+     * If after confirmed the usages of the god power he can't move, he lose
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     */
     @Override
     public void beforeMoveHandler(Model model, GodCardController controller, PlayerMove move) {
         if(controller.canMove(move.getPlayer().getWorker(move.getWorkerId()),move.getPlayer())==0){
@@ -50,6 +65,16 @@ public class Triton extends GodCard {
         }
     }
 
+    /**
+     * This method change the flow of the play asking the player to use the god power after a move action is done
+     * In particular this god can move all the times he want around the perimeter of the board. It check if the selected worker is in the perimeter and if
+     * true ask to use the power until he get stuck, he moved away from the perimeter or he answered no
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return true if an error is reported or the flow has been modified, false if not
+     * If the power has been used the worker flag is reset
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(getUsedWorkerID()==-1){
@@ -73,6 +98,13 @@ public class Triton extends GodCard {
         return true;
     }
 
+    /**
+     * When a no answer is given for the power the flow is changed to built as default
+     * @param phase the god card phase gicen by the controller
+     * @param controller the play controller
+     * Always notify clients changes
+     *
+     */
     @Override
     public void performGodMessageForPhaseWithNegativeAnswer(Phase phase, Controller controller) {
         Model model = controller.getModel();

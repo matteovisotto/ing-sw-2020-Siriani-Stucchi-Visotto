@@ -59,6 +59,15 @@ public class Hephaestus extends GodCard {
         model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId() + 1));
     }
 
+    /**
+     * This method change game flow if the cell used to built by the player have a level <2, so Hepheastus can built an other time
+     * It change game model phase to ask the usage of god power
+     * @param model the play model
+     * @param controller the play controller
+     * @param build the message recived by the view
+     * @param buildingCell the cell where the player wants to build
+     * @return true if the gale flow has been modified, else false
+     */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
         if(model.getBoard().getCell(build.getX(), build.getY()).getLevel().getBlockId()<2){
