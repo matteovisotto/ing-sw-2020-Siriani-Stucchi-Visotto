@@ -105,7 +105,7 @@ public class Poseidon  extends GodCard {
         ArrayList<Cell> availableCell=controller.checkCanBuild(getUnusedWorker());
         boolean check=true;
         if(availableCell.size()==1){
-            if(availableCell.get(0).getLevel()==Blocks.LEVEL3){
+            if(availableCell.get(0).getLevel()==Blocks.LEVEL3 && buildingCell == availableCell.get(0)){
                 check=false;
             }
         }
