@@ -121,6 +121,13 @@ public class Prometheus extends GodCard {
         }
     }
 
+    @Override
+    public boolean checkCell(GodCardController controller, int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException {
+        if(hasBuilt()){
+            maxUpDifference = 1;
+        }
+        return super.checkCell(controller, x, y, actualWorker, maxUpDifference);
+    }
 
     /**
      * This method is used at the beginnign of the turn to set model to sent a god power request to the player
