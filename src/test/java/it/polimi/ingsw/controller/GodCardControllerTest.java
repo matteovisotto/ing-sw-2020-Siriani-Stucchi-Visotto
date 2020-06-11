@@ -1613,6 +1613,260 @@ public class GodCardControllerTest {
     }
 
     @Test
+    public void newGameTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,false);
+        GodCardController controller = new GodCardController(model);
+        ClientConnection clientConnection = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        Lobby lobby = new Lobby("ciao",players[0].getPlayerName(),clientConnection,2,false);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), clientConnection, lobby);
+
+        ClientConnection clientConnection2 = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        lobby.addPlayer(players[1].getPlayerName(),clientConnection2);
+        RemoteView remoteView1 = new RemoteView(players[1], players[0].getPlayerName(), clientConnection2, lobby);
+
+        DrawedCards drawedCards = new DrawedCards(players[0], 0, 6, remoteView);
+        controller.drawedCards(drawedCards);
+
+        PickedCard pickedCard = new PickedCard(players[1], remoteView1, 1);
+        controller.pickACard(pickedCard);
+
+        PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1],3,2,remoteView1);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMoveWorker1_s = new PlayerMove(players[0],1,0,1,remoteView);
+        controller.move(playerMoveWorker1_s);
+
+        PlayerBuild playerBuildWorker1_d = new PlayerBuild(players[0],players[0].getUsedWorker(),1,0,remoteView);
+        controller.build(playerBuildWorker1_d);
+
+        PlayerMove playerMove2Worker0_a = new PlayerMove(players[1],0,2,1,remoteView1);
+        controller.move(playerMove2Worker0_a);
+
+        PlayerBuild playerBuild2Worker0_a = new PlayerBuild(players[1],players[1].getUsedWorker(),2,0,remoteView1);
+        controller.build(playerBuild2Worker0_a);
+
+        PlayerMove playerMoveWorker0_d = new PlayerMove(players[0],0,1,0,remoteView);
+        controller.move(playerMoveWorker0_d);
+
+        PlayerBuild playerBuildWorker0_d = new PlayerBuild(players[0],players[0].getUsedWorker(),2,0,remoteView);
+        controller.build(playerBuildWorker0_d);
+
+        PlayerMove playerMove2Worker1_a = new PlayerMove(players[1],1,3,1,remoteView1);
+        controller.move(playerMove2Worker1_a);
+
+        PlayerBuild playerBuild2Worker1_a = new PlayerBuild(players[1],players[1].getUsedWorker(),3,0,remoteView1);
+        controller.build(playerBuild2Worker1_a);
+
+        PlayerMove playerMoveWorker0_d2 = new PlayerMove(players[0],0,2,0,remoteView);
+        controller.move(playerMoveWorker0_d2);
+
+        PlayerBuild playerBuildWorker0_d2 = new PlayerBuild(players[0],players[0].getUsedWorker(),3,0,remoteView);
+        controller.build(playerBuildWorker0_d2);
+
+        PlayerMove playerMove2Worker1_d = new PlayerMove(players[1],1,4,1,remoteView1);
+        controller.move(playerMove2Worker1_d);
+
+        PlayerBuild playerBuild2Worker1_s = new PlayerBuild(players[1],players[1].getUsedWorker(),3,0,remoteView1);
+        controller.build(playerBuild2Worker1_s);
+
+        PlayerMove playerMoveWorker0_win = new PlayerMove(players[0],0,3,0,remoteView);
+        controller.move(playerMoveWorker0_win);
+
+        assertTrue(model.getActualPlayer().hasWon());
+
+        char ch = 'y';
+        NewGameMessage newGameMessage = new NewGameMessage(players[0],remoteView,ch,clientConnection,lobby);
+        newGameMessage.handler(controller);
+
+        NewGameMessage newGameMessage2 = new NewGameMessage(players[1],remoteView1,ch,clientConnection2,lobby);
+        newGameMessage2.handler(controller);
+
+        assertEquals(model.getPhase(),Phase.DRAWCARD);
+    }
+
+    @Test
+    public void newGameNewPlayerTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,false);
+        GodCardController controller = new GodCardController(model);
+        ClientConnection clientConnection = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        Lobby lobby = new Lobby("ciao",players[0].getPlayerName(),clientConnection,2,false);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), clientConnection, lobby);
+
+        ClientConnection clientConnection2 = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        lobby.addPlayer(players[1].getPlayerName(),clientConnection2);
+        RemoteView remoteView1 = new RemoteView(players[1], players[0].getPlayerName(), clientConnection2, lobby);
+
+        DrawedCards drawedCards = new DrawedCards(players[0], 0, 6, remoteView);
+        controller.drawedCards(drawedCards);
+
+        PickedCard pickedCard = new PickedCard(players[1], remoteView1, 1);
+        controller.pickACard(pickedCard);
+
+        PlayerWorker playerWorker = new PlayerWorker(players[0],0,0,remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,1,remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1],2,2,remoteView1);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1],3,2,remoteView1);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMoveWorker1_s = new PlayerMove(players[0],1,0,1,remoteView);
+        controller.move(playerMoveWorker1_s);
+
+        PlayerBuild playerBuildWorker1_d = new PlayerBuild(players[0],players[0].getUsedWorker(),1,0,remoteView);
+        controller.build(playerBuildWorker1_d);
+
+        PlayerMove playerMove2Worker0_a = new PlayerMove(players[1],0,2,1,remoteView1);
+        controller.move(playerMove2Worker0_a);
+
+        PlayerBuild playerBuild2Worker0_a = new PlayerBuild(players[1],players[1].getUsedWorker(),2,0,remoteView1);
+        controller.build(playerBuild2Worker0_a);
+
+        PlayerMove playerMoveWorker0_d = new PlayerMove(players[0],0,1,0,remoteView);
+        controller.move(playerMoveWorker0_d);
+
+        PlayerBuild playerBuildWorker0_d = new PlayerBuild(players[0],players[0].getUsedWorker(),2,0,remoteView);
+        controller.build(playerBuildWorker0_d);
+
+        PlayerMove playerMove2Worker1_a = new PlayerMove(players[1],1,3,1,remoteView1);
+        controller.move(playerMove2Worker1_a);
+
+        PlayerBuild playerBuild2Worker1_a = new PlayerBuild(players[1],players[1].getUsedWorker(),3,0,remoteView1);
+        controller.build(playerBuild2Worker1_a);
+
+        PlayerMove playerMoveWorker0_d2 = new PlayerMove(players[0],0,2,0,remoteView);
+        controller.move(playerMoveWorker0_d2);
+
+        PlayerBuild playerBuildWorker0_d2 = new PlayerBuild(players[0],players[0].getUsedWorker(),3,0,remoteView);
+        controller.build(playerBuildWorker0_d2);
+
+        PlayerMove playerMove2Worker1_d = new PlayerMove(players[1],1,4,1,remoteView1);
+        controller.move(playerMove2Worker1_d);
+
+        PlayerBuild playerBuild2Worker1_s = new PlayerBuild(players[1],players[1].getUsedWorker(),3,0,remoteView1);
+        controller.build(playerBuild2Worker1_s);
+
+        PlayerMove playerMoveWorker0_win = new PlayerMove(players[0],0,3,0,remoteView);
+        controller.move(playerMoveWorker0_win);
+
+        assertTrue(model.getActualPlayer().hasWon());
+
+        char ch = 'y';
+        NewGameMessage newGameMessage = new NewGameMessage(players[0],remoteView,ch,clientConnection,lobby);
+        newGameMessage.handler(controller);
+
+        char ch2 = 'n';
+        NewGameMessage newGameMessage2 = new NewGameMessage(players[1],remoteView1,ch2,clientConnection2,lobby);
+        newGameMessage2.handler(controller);
+
+        Lobby lobby1 = new Lobby("pizza",players[0].getPlayerName(),clientConnection,2,false);
+
+        Player player3 = new Player("Toad");
+
+        Player[] players1 = new Player[2];
+        players1[0] = players[0];
+        players1[1] = player3;
+        Model model1 = new Model(players1,false);
+        Controller controller1 = new Controller(model1);
+
+        ClientConnection clientConnection3 = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        lobby1.addPlayer(players1[1].getPlayerName(),clientConnection3);
+        RemoteView remoteView2 = new RemoteView(players1[1],players1[0].getPlayerName(),clientConnection3,lobby1);
+
+        assertEquals(controller1.getModel().getPhase(),Phase.DRAWCARD);
+    }
+
+    @Test
     public void newGame3PlayersTest(){
         Player[] players = new Player[3];
         players[0] = new Player("Mario");
