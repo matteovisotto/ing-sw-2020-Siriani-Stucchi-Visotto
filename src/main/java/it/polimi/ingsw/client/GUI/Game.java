@@ -217,7 +217,7 @@ public class Game extends JFrame implements Observer<Object> {
         setJPanelProperties(rightPanel,10,10,(int)(mainPanel.getWidth() * value), mainPanel.getHeight());
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
-        value = 0.1111111111;
+        value = 0.12;
         messageLabel = new JLabel();
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,centerPanel.getWidth(), (int)(centerPanel.getHeight() * value));
 
@@ -905,27 +905,30 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void setJPanelsOnEndGame(HashMap<Player, Integer> podium){
         endGamePanelPlayers = new JPanel();
-        endGamePanelPlayers.setLayout(new BorderLayout(10,60));
         value = 0.552083;
+        setJPanelProperties(endGamePanelPlayers, 10,60, (int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
+        /*endGamePanelPlayers.setLayout(new BorderLayout(10,60));
         endGamePanelPlayers.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389)));
         endGamePanelPlayers.setSize((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
-        endGamePanelPlayers.setOpaque(false);
+        endGamePanelPlayers.setOpaque(false);*/
         endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
 
         value = 0.2129629;
         southPanel = new JLabel();
-        southPanel.setLayout(new BorderLayout(10, 10));
+        setJLabelProperties(southPanel, 10,60, 25f,Color.WHITE, (int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() * value));
+        /*southPanel.setLayout(new BorderLayout(10, 10));
         southPanel.setPreferredSize(new Dimension(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value)));
         southPanel.setSize(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value));
-        southPanel.setOpaque(false);
+        southPanel.setOpaque(false);*/
         endGamePanel.add(southPanel, BorderLayout.SOUTH);
 
         value = 0.260416;
         playAgain = new JPanel(true);
-        playAgain.setLayout(new BorderLayout(10, 50));
+        setJPanelProperties(playAgain, 10,50, (int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
+        /*playAgain.setLayout(new BorderLayout(10, 50));
         playAgain.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight()));
         playAgain.setSize((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
-        playAgain.setOpaque(false);
+        playAgain.setOpaque(false);*/
         JButton playAgainButton = new JButton();
         playAgainButton.setSize(playAgain.getWidth()/2, playAgain.getHeight()/4);
         setJButtonProperties(playAgainButton);
@@ -983,6 +986,8 @@ public class Game extends JFrame implements Observer<Object> {
 
         value = 0.199074;
         messageLabel = new JLabel();
+        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
+/*
         try {
             customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(25f);
             ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -995,6 +1000,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel.setFont(customFont);
         messageLabel.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value))); //215
         messageLabel.setSize(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
+        */
         endGamePanel.add(messageLabel, BorderLayout.NORTH);
 
         BufferedImage messageBoard;
@@ -1006,7 +1012,7 @@ public class Game extends JFrame implements Observer<Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        messageLabel.setForeground(Color.WHITE);
+        //messageLabel.setForeground(Color.WHITE);
         addPlayersEndGame(podium);
     }
 
