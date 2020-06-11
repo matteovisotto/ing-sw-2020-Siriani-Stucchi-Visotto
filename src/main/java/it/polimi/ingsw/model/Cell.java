@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Cell implements Serializable, Cloneable{
     private Blocks level;
     private boolean isFree = true;
-    private boolean isFull=false;
+    private boolean isFull = false;
 
     private final int x;
     private final int y;

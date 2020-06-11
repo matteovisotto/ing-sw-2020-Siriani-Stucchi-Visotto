@@ -18,7 +18,7 @@ public class Model extends Observable<ViewMessage> {
     private Board board;
     private final Player[] turn;
     private int id = 0;
-    private int leftPlayers, playersWhoWon=0, playersWhoLost=0;
+    private int leftPlayers, playersWhoWon = 0, playersWhoLost = 0;
     private final boolean simplePlay;
     private Phase phase = Phase.DRAWCARD;
     private final Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
@@ -27,7 +27,7 @@ public class Model extends Observable<ViewMessage> {
     private boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
     private String playerMessage = PlayerMessage.DRAW_CARD;
-    private final HashMap<Player, Integer> podium=new HashMap<>();
+    private final HashMap<Player, Integer> podium = new HashMap<>();
 
     /**
      * Constructor of the class

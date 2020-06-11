@@ -13,7 +13,7 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.util.List;
 
 public class Triton extends GodCard {
-    private int usedWorkerID =-1;
+    private int usedWorkerID = -1;
     /**
      * {@inheritDoc}
      */
