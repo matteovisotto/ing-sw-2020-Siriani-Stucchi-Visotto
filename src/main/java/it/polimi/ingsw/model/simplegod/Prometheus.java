@@ -94,7 +94,7 @@ public class Prometheus extends GodCard {
     }
 
     @Override
-    public void turnStartHandler(GodCardController godCardController, int blockId, Cell buildingCell) {
+    public void turnStartHandler(GodCardController godCardController, int blockId, Cell cell) {
         if(!hasBuilt()) {
             godCardController.getModel().setNextPhase(Phase.WAIT_GOD_ANSWER);
             godCardController.getModel().setNextPlayerMessage(PlayerMessage.USE_POWER);
