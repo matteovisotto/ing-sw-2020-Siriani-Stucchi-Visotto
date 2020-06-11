@@ -24,7 +24,7 @@ public class SimpleControllerTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        SimpleController controller = new SimpleController(model);
+        Controller controller = new Controller(model);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
             @Override
             public void closeConnection() {
@@ -80,7 +80,7 @@ public class SimpleControllerTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        SimpleController controller = new SimpleController(model);
+        Controller controller = new Controller(model);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
             @Override
             public void closeConnection() {
@@ -139,7 +139,7 @@ public class SimpleControllerTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        SimpleController controller = new SimpleController(model);
+        Controller controller = new Controller(model);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
             @Override
             public void closeConnection() {
@@ -245,7 +245,7 @@ public class SimpleControllerTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        SimpleController controller = new SimpleController(model);
+        Controller controller = new Controller(model);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
             @Override
             public void closeConnection() {
@@ -337,7 +337,7 @@ public class SimpleControllerTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        SimpleController controller = new SimpleController(model);
+        Controller controller = new Controller(model);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
             @Override
             public void closeConnection() {
@@ -415,7 +415,7 @@ public class SimpleControllerTest {
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
         Model model = new Model(players,true);
-        SimpleController controller = new SimpleController(model);
+        Controller controller = new Controller(model);
         RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection () {
             @Override
             public void closeConnection() {
