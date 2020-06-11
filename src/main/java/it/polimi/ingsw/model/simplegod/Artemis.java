@@ -53,6 +53,16 @@ public class Artemis extends GodCard {
         model.notifyChanges();
     }
 
+    /**
+     * Artemis can move two times but not in the cell from which starts the turn
+     * This method control if is the first time it move and so ask for using god power,
+     * If this is the second move, it controls if the used worker is the same, the selected cell is not the one from which it moved
+     * and then reset flag and make a normal move.
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return false only if this is the second move and all error controls are negative
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(hasUsedPower()){
@@ -64,8 +74,7 @@ public class Artemis extends GodCard {
             }
             else{
                 setUsedPower(false);
-                model.move(move);
-                model.notifyChanges();
+                return false;
             }
         }
         else{

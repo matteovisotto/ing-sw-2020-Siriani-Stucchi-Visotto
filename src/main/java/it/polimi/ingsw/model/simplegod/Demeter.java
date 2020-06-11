@@ -68,6 +68,18 @@ public class Demeter extends GodCard {
         this.usedPower = usedPower;
     }
 
+    /**
+     * Modified controller for build action
+     * Demeter can built two times but not in the same cell
+     * This method check that if the build is the first, modify the game flow in order to ask the player to use the god power
+     * Instead, if this is the second built, check that the cell is not the same (if it is, report an error and return true to block the standard build)
+     * if not, reset the build flag and return false for using the standard control
+     * @param model the play model
+     * @param controller the play controller
+     * @param build the message recived by the view
+     * @param buildingCell the cell where the player wants to build
+     * @return true if this is the first built or the player is trying to build in the same cell, else false
+     */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
         if(hasUsedPower()){
