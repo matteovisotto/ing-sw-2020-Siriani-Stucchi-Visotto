@@ -121,6 +121,16 @@ public class Prometheus extends GodCard {
         }
     }
 
+    /**
+     * Modified check cell for Prometheus, set muxUpDifference at one if the player has built
+     * @param controller the play controller
+     * @param x the x value of the cell
+     * @param y the y value of the cell
+     * @param actualWorker the selected worker by the player
+     * @param maxUpDifference the max difference between move cell levels permitted for the action
+     * @return super checkCell with set muxUpDifference
+     * @throws IllegalArgumentException
+     */
     @Override
     public boolean checkCell(GodCardController controller, int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException {
         if(hasBuilt()){
