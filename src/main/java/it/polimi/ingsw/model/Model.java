@@ -23,6 +23,7 @@ public class Model extends Observable<ViewMessage> {
     private Phase phase = Phase.DRAWCARD;
     private final Map<Gods, Player> playerCards = new EnumMap<>(Gods.class);
     private final ArrayList<GodCard> gods = new ArrayList<>();
+    private final ArrayList<GodCard> godsInPlay = new ArrayList<>();
     private boolean movedUp = false;
     private MessageType messageType = MessageType.DRAW_CARD;
     private String playerMessage = PlayerMessage.DRAW_CARD;
@@ -110,6 +111,10 @@ public class Model extends Observable<ViewMessage> {
      */
     public Player[] getPlayers(){
         return turn;
+    }
+
+    public ArrayList<GodCard> getGodsInPlay() {
+        return godsInPlay;
     }
 
     /**
@@ -231,6 +236,7 @@ public class Model extends Observable<ViewMessage> {
      */
     public void addGod(GodCard godCard){
         gods.add(godCard);
+        godsInPlay.add(godCard);
     }
 
     /**
@@ -354,7 +360,7 @@ public class Model extends Observable<ViewMessage> {
         else{
             leftPlayers--;
             player.remove();
-            if(this.phase==Phase.BUILD){
+            if(this.phase== Phase.BUILD){
                 updateTurn();
             }
             setNextPhase(Phase.MOVE);
@@ -380,7 +386,7 @@ public class Model extends Observable<ViewMessage> {
     public void loose(Player player){
         player.setHasLost(true);
         if(!isSimplePlay()){
-            if(player.getGodCard().getCardGod()==Gods.ATHENA){
+            if(player.getGodCard().getCardGod()== Gods.ATHENA){
                 setMovedUp(false);
             }
         }
@@ -391,7 +397,7 @@ public class Model extends Observable<ViewMessage> {
         if(leftPlayers == 3){
             leftPlayers--;
             player.remove();
-            if(this.phase==Phase.BUILD){
+            if(this.phase== Phase.BUILD){
                 updateTurn();
             }
             setNextPhase(Phase.MOVE);

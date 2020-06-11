@@ -1,11 +1,15 @@
 
 package it.polimi.ingsw.model.simplegod;
 
+import it.polimi.ingsw.controller.GodCardController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.PlayerBuild;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
+
 /**
  This class is intended to represent the Prometheus's GodCard
  */
@@ -33,6 +37,70 @@ public class Prometheus extends GodCard {
      */
     public void setBuild(boolean built){
         this.built = built;
+    }
+
+    @Override
+    public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
+        if(hasUsedPower()){
+            if(getWorkerID() != move.getWorkerId()){
+                move.getView().reportError("you have to move the same worker");
+                return true;
+            }
+            else if(move.getPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId() < model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()){
+                move.getView().reportError("you can't move up");
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
+        if(hasUsedPower()){
+            if(getWorkerID() != build.getWorkerId()){
+                build.getView().reportError("You have to use the same worker.");
+                return true;
+            }
+            if(!hasBuilt()){
+                model.setNextMessageType(MessageType.MOVE);
+                model.setNextPlayerMessage(PlayerMessage.MOVE);
+                model.setNextPhase(Phase.MOVE);
+                setBuild(true);
+                controller.godIncreaseLevel(buildingCell.getLevel().getBlockId(), buildingCell);
+                return true;
+            }
+
+                setUsedPower(false);
+                setBuild(false);
+                return false;
+
+        }
+        return false;
+
+    }
+
+    @Override
+    public void afterBuildHandler(Model model, GodCardController controller, PlayerBuild playerBuild, Cell buildingCell) {
+        if(controller.canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())==0){
+            if(hasBuilt()){
+                model.loose(playerBuild.getPlayer());
+            }
+
+            playerBuild.getView().reportError("This worker can't move anywhere");
+        }
+    }
+
+    @Override
+    public void turnStartHandler(GodCardController godCardController, int blockId, Cell buildingCell) {
+        if(!hasBuilt()) {
+            godCardController.getModel().setNextPhase(Phase.WAIT_GOD_ANSWER);
+            godCardController.getModel().setNextPlayerMessage(PlayerMessage.USE_POWER);
+            godCardController.getModel().setNextMessageType(MessageType.USE_POWER);
+
+        }
     }
 
     /**

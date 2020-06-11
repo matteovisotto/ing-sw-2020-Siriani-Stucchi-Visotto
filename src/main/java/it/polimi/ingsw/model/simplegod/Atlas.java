@@ -1,11 +1,15 @@
 
 package it.polimi.ingsw.model.simplegod;
 
+import it.polimi.ingsw.controller.GodCardController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.PlayerBuild;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
+
 /**
  This class is intended to represent the Atlas's GodCard
  */
@@ -38,6 +42,28 @@ public class Atlas extends GodCard {
      */
     public boolean hasUsedPower() {
         return usedPower;
+    }
+
+    @Override
+    public void normalMoveModifier(Model model, GodCardController controller, PlayerMove move) {
+        model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+        model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+        model.setNextMessageType(MessageType.USE_POWER);
+    }
+
+    @Override
+    public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
+        if(hasUsedPower()) {
+            setUsedPower(false);
+            model.setNextMessageType(MessageType.MOVE);
+            model.setNextPlayerMessage(PlayerMessage.MOVE);
+            model.updatePhase();
+            model.updateTurn();
+            model.increaseLevel(buildingCell, Blocks.DOME);
+            return true;
+        }
+
+        return false;
     }
 
     /**

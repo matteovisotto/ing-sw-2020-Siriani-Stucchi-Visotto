@@ -1,11 +1,14 @@
 
 package it.polimi.ingsw.model.simplegod;
 
+import it.polimi.ingsw.controller.GodCardController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.PlayerBuild;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
+
 /**
  This class is intended to represent the Hephaestus's GodCard
  */
@@ -54,5 +57,19 @@ public class Hephaestus extends GodCard {
         }
         model.updateTurn();
         model.increaseLevel(firstBuilt, Blocks.getBlock(firstBuilt.getLevel().getBlockId() + 1));
+    }
+
+    @Override
+    public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
+        if(model.getBoard().getCell(build.getX(), build.getY()).getLevel().getBlockId()<2){
+            setFirstBuilt(model.getBoard().getCell(build.getX(), build.getY()));
+            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+            model.setNextMessageType(MessageType.USE_POWER);
+            controller.godIncreaseLevel(buildingCell.getLevel().getBlockId(), buildingCell);
+            return true;
+        }
+        return false;
+
     }
 }

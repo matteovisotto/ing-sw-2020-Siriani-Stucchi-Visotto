@@ -1,9 +1,16 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.GodCardController;
+import it.polimi.ingsw.model.messageModel.MessageType;
+import it.polimi.ingsw.model.messageModel.PlayerBuild;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.utils.PlayerMessage;
+
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class GodCard implements Serializable {
+public class GodCard implements Serializable {
 
     protected final Gods card;
     private boolean active = false;
@@ -40,7 +47,59 @@ public abstract class GodCard implements Serializable {
      * Have to be overridden in subclasses to define the behavior
      * @param objectList a generic list of Objects
      */
-    public abstract void usePower(List<Object> objectList);
+    public void usePower(List<Object> objectList){}
+
+    public boolean checkCell(GodCardController controller, int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
+        return controller.checkCell(x,y, actualWorker, maxUpDifference);
+    }
+
+    public void beforeMoveHandler(Model model, GodCardController controller, PlayerMove move){}
+
+    public boolean handlerMove(Model model, GodCardController controller, PlayerMove move){return false;}
+
+    public void normalMoveModifier(Model model, GodCardController controller, PlayerMove move){}
+
+    public boolean checkBuilt(Controller controller, Cell buildingCell, PlayerBuild playerBuild) {
+        return controller.checkBuild(buildingCell, playerBuild);
+    }
+    public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell){return false;}
+
+    public void turnStartHandler(GodCardController godCardController, int blockId, Cell buildingCell){
+    }
+
+    public void afterBuildHandler(Model model, GodCardController controller, PlayerBuild playerBuild, Cell buildingCell){}
+
+    public void checkVictory(Model model, GodCardController controller){}
+
+    public void performGodMessageForPhaseWithNegativeAnswer(Phase phase, Controller controller){
+        Model model = controller.getModel();
+        switch(phase){
+            case MOVE:
+                model.setNextPhase(Phase.BUILD);
+                model.setNextPlayerMessage(PlayerMessage.BUILD);
+                model.setNextMessageType(MessageType.BUILD);
+                break;
+            case BUILD:
+                if(controller.getModel().getNextPlayerGC().getCardGod()== Gods.PROMETHEUS){
+                    model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                    model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                    model.setNextMessageType(MessageType.USE_POWER);
+                    model.updateTurn();
+                    break;
+                }
+                model.setNextPhase(Phase.MOVE);
+                model.setNextPlayerMessage(PlayerMessage.MOVE);
+                model.setNextMessageType(MessageType.MOVE);
+                model.updateTurn();
+                break;
+            case PROMETHEUS_WORKER:
+                model.setNextPhase(Phase.MOVE);
+                model.setNextPlayerMessage(PlayerMessage.MOVE);
+                model.setNextMessageType(MessageType.MOVE);
+                break;
+        }
+        model.notifyChanges();
+    }
 
     /**
      *
@@ -76,4 +135,6 @@ public abstract class GodCard implements Serializable {
     public boolean isActive() {
         return active;
     }
+
+
 }

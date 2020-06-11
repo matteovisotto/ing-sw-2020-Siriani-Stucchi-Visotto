@@ -2,11 +2,14 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.utils.PlayerMessage;
-import it.polimi.ingsw.observer.Observer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Main Controller class, define some abstract method used by subclasses and implements common methods
@@ -50,6 +53,21 @@ public abstract class Controller implements Observer<Message> {
     }
 
     /**
+     * Default checker for a move
+     * @param x the x value of the cell
+     * @param y the y value of the cell
+     * @param actualWorker the worker who is performing the move
+     * @param maxUpDifference the max step the worker can move up, normal 1, with some gods could be heigher
+     * @return true if it can perform the asked move
+     * @throws IllegalArgumentException if cell values are not between 0 and 4
+     */
+    public boolean checkCell (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
+        Cell nextCell = model.getBoard().getCell(x,y);
+        Cell actualCell = actualWorker.getCell();
+        return nextCell.isFree() && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() - actualCell.getLevel().getBlockId() < maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
+    }
+
+    /**
      * Update the model with a new cell level
      * @param blockId the integer id representing the Bloks enum instance
      * @param buildingCell the cell where increasing the level
@@ -84,7 +102,7 @@ public abstract class Controller implements Observer<Message> {
      * @param playerBuild The Message subclass containing the information for this action
      * @return true if the player could built in the cell
      */
-    protected synchronized boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild){
+    public synchronized boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild){
         return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
                 Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
                 (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell() != buildingCell) &&

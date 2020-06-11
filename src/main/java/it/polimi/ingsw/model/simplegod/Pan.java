@@ -1,9 +1,15 @@
 
 package it.polimi.ingsw.model.simplegod;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.controller.GodCardController;
+import it.polimi.ingsw.model.GodCard;
+import it.polimi.ingsw.model.Gods;
+import it.polimi.ingsw.model.Model;
+import it.polimi.ingsw.model.Phase;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
 
 import java.util.List;
+
 /**
  This class is intended to represent the Pan's GodCard
  */
@@ -25,5 +31,14 @@ public class Pan extends GodCard {
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);
         model.victory(model.getActualPlayer());
+    }
+
+    @Override
+    public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
+        if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>=2){
+            model.victory(move.getPlayer());
+            return true;
+        }
+        return false;
     }
 }

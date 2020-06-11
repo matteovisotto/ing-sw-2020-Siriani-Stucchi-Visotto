@@ -172,7 +172,7 @@ public class SimpleController extends Controller {
         for (int x = actualWorkerCell.getX() - 1; x <= actualWorkerCell.getX() + 1; x++) {
             for (int y = actualWorkerCell.getY() - 1; y <= actualWorkerCell.getY() + 1; y++) {
                 try{
-                    availableCells.put(board.getCell(x,y), board.checkCell(x,y,actualWorker,2));
+                    availableCells.put(board.getCell(x,y), checkCell(x,y,actualWorker,2));
                 }
                 catch (IllegalArgumentException e){
                     Cell c= new Cell(x,y);

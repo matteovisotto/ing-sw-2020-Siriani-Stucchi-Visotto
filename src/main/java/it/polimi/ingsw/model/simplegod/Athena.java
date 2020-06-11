@@ -1,9 +1,17 @@
 
 package it.polimi.ingsw.model.simplegod;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.controller.GodCardController;
+import it.polimi.ingsw.model.GodCard;
+import it.polimi.ingsw.model.Gods;
+import it.polimi.ingsw.model.Model;
+import it.polimi.ingsw.model.Phase;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 /**
  This class is intended to represent the Athena's GodCard
  */
@@ -25,5 +33,23 @@ public class Athena extends GodCard {
     public void usePower(List<Object> objectList) {
         Model model = (Model)objectList.get(0);
         model.setMovedUp(true);
+    }
+
+    @Override
+    public void beforeMoveHandler(Model model, GodCardController controller, PlayerMove move) {
+        model.setMovedUp(false);
+    }
+
+    @Override
+    public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
+        if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() > model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()){
+            move.getPlayer().getGodCard().usePower(new ArrayList<Object>(Collections.singletonList(model)));
+        }
+        else{
+            model.setMovedUp(false);
+        }
+        model.move(move);
+        model.notifyChanges();
+        return true;
     }
 }

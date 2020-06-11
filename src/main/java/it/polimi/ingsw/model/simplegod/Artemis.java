@@ -1,12 +1,14 @@
 
 package it.polimi.ingsw.model.simplegod;
 
+import it.polimi.ingsw.controller.GodCardController;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.List;
+
 /**
  This class is intended to represent the Artemis's GodCard
  */
@@ -51,6 +53,37 @@ public class Artemis extends GodCard {
         model.notifyChanges();
     }
 
+    @Override
+    public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
+        if(hasUsedPower()){
+            if(getPreviousWorker() != move.getPlayer().getWorker(move.getWorkerId())){
+                move.getView().reportError("You have to move the same worker");
+            }
+            else if(getFirstMove() == model.getBoard().getCell(move.getRow(), move.getColumn())){
+                move.getView().reportError("You can't move into the previous cell");
+            }
+            else{
+                setUsedPower(false);
+                model.move(move);
+                model.notifyChanges();
+            }
+        }
+        else{
+            setFirstMove(model.getActualPlayer().getWorker(move.getWorkerId()).getCell());
+            setPreviousWorker(model.getActualPlayer().getWorker(move.getWorkerId()));
+            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+            model.setNextMessageType(MessageType.USE_POWER);
+            model.move(move);
+            if(controller.canMove(move.getPlayer().getWorker(move.getWorkerId()), move.getPlayer())==1){
+                model.setNextPhase(Phase.BUILD);
+                model.setNextPlayerMessage(PlayerMessage.BUILD);
+                model.setNextMessageType(MessageType.BUILD);
+            }
+            model.notifyChanges();
+        }
+        return true;
+    }
     /**
      * @return true if the power has already been used.
      */
