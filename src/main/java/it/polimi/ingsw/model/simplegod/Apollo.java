@@ -36,7 +36,7 @@ public class Apollo extends GodCard {
     }
 
     /**
-     * Modifed control for Apollo
+     * Modified control for Apollo, check is the selected cell is also full and the two workers switchable
      * @param x the x value of the cell
      * @param y the y value of the cell
      * @param actualWorker the worker who is performing the move
@@ -60,6 +60,14 @@ public class Apollo extends GodCard {
         return (nextCell.isFree() || isPlayerSwitchable) && !nextCell.equals(actualCell) && (nextCell.getLevel().getBlockId() -  actualCell.getLevel().getBlockId()< maxUpDifference) && nextCell.getLevel().getBlockId() != 4;
     }
 
+    /**
+     * In this case Apollo power is activated automatically so the move control use this class check cell
+     * and call use power function to perform the move
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return true if the selected cell contains a switchable worker and the flow has been modified
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(!model.getBoard().getCell(move.getRow(), move.getColumn()).isFree()){

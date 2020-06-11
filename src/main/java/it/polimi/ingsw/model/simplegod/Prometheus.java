@@ -39,6 +39,15 @@ public class Prometheus extends GodCard {
         this.built = built;
     }
 
+    /**
+     * This method make move controls for Prometheus, in particular check if the moved worker is the same used to built the step before
+     * and also check if player try to move up
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return true if an error is reported as described in superclass for a wrong worker selection or a try to move up
+     *          return false if all error controls are skipped, so a standard built is done
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(hasUsedPower()){
@@ -56,7 +65,19 @@ public class Prometheus extends GodCard {
         return false;
     }
 
-
+    /**
+     * This method makes controls for the build.
+     * If the player has not already used the god power return false to make a standard built, if not check:
+     *  - The worker used to built is the same of the first two actions
+     *  - If he has already built the first time reset flags and return false for a standard build
+     *  - If is the power built action, set model next phase and messages to move, set flags at true and call the controller increase level to make it returning true
+     *
+     * @param model the play model
+     * @param controller the play controller
+     * @param build the message received by the view
+     * @param buildingCell the cell where the player wants to build
+     * @return true if a different control is done else false
+     */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
         if(hasUsedPower()){
@@ -82,6 +103,13 @@ public class Prometheus extends GodCard {
 
     }
 
+    /**
+     * This method is called after the first build to check if the worker used for the built is stacked so he can't complete the move and the second build so he loose
+     * @param model the play model
+     * @param controller the play controller
+     * @param playerBuild the building message received by the view
+     * @param buildingCell the cell where the player has built
+     */
     @Override
     public void afterBuildHandler(Model model, GodCardController controller, PlayerBuild playerBuild, Cell buildingCell) {
         if(controller.canMove(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), playerBuild.getPlayer())==0){
@@ -93,6 +121,13 @@ public class Prometheus extends GodCard {
         }
     }
 
+
+    /**
+     * This method is used at the beginnign of the turn to set model to sent a god power request to the player
+     * @param godCardController the play controller
+     * @param blockId the level id of the cell
+     * @param cell the cell where the player wants to build
+     */
     @Override
     public void turnStartHandler(GodCardController godCardController, int blockId, Cell cell) {
         if(!hasBuilt()) {

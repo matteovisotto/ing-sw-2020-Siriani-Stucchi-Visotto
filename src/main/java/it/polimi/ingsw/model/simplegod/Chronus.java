@@ -14,7 +14,12 @@ public class Chronus extends GodCard {
         super(Gods.CHRONUS, Phase.BEGINNING);
     }
 
-
+    /**
+     * This method change winning condition. Chronus win if the board there are 5 full towers (built from 0 to DOME)
+     * When called, counts the tower and if there are 5 or more call the victory for the player
+     * @param model the play model
+     * @param controller the play controller
+     */
     @Override
     public void checkVictory(Model model, GodCardController controller) {
         if(!model.getGCPlayer(Gods.CHRONUS).hasWon() && !model.getGCPlayer(Gods.CHRONUS).getHasLost()){

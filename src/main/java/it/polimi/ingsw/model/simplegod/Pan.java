@@ -33,6 +33,13 @@ public class Pan extends GodCard {
         model.victory(model.getActualPlayer());
     }
 
+    /**
+     * This control has been done in the move action, if the selected cell is 2 or more level smaller, the victory is called.
+     * @param model the play model
+     * @param controller the play controller
+     * @param move the move message received from the view
+     * @return true if the victory is called, else false
+     */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
         if(model.getActualPlayer().getWorker(move.getWorkerId()).getCell().getLevel().getBlockId()-model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()>=2){
