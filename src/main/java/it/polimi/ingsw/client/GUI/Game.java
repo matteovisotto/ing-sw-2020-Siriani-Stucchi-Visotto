@@ -98,6 +98,8 @@ public class Game extends JFrame implements Observer<Object> {
         }
         label.setHorizontalTextPosition(SwingConstants.CENTER);
         label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setVerticalTextPosition(SwingConstants.CENTER);
         label.setFont(customFont);
         label.setForeground(color);
     }
@@ -907,28 +909,16 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanelPlayers = new JPanel();
         value = 0.552083;
         setJPanelProperties(endGamePanelPlayers, 10,60, (int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
-        /*endGamePanelPlayers.setLayout(new BorderLayout(10,60));
-        endGamePanelPlayers.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389)));
-        endGamePanelPlayers.setSize((int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
-        endGamePanelPlayers.setOpaque(false);*/
         endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
 
         value = 0.2129629;
         southPanel = new JLabel();
         setJLabelProperties(southPanel, 10,60, 25f,Color.WHITE, (int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() * value));
-        /*southPanel.setLayout(new BorderLayout(10, 10));
-        southPanel.setPreferredSize(new Dimension(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value)));
-        southPanel.setSize(endGamePanel.getWidth(), (int)(endGamePanel.getHeight() * value));
-        southPanel.setOpaque(false);*/
         endGamePanel.add(southPanel, BorderLayout.SOUTH);
 
         value = 0.260416;
         playAgain = new JPanel(true);
         setJPanelProperties(playAgain, 10,50, (int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
-        /*playAgain.setLayout(new BorderLayout(10, 50));
-        playAgain.setPreferredSize(new Dimension((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight()));
-        playAgain.setSize((int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
-        playAgain.setOpaque(false);*/
         JButton playAgainButton = new JButton();
         playAgainButton.setSize(playAgain.getWidth()/2, playAgain.getHeight()/4);
         setJButtonProperties(playAgainButton);
@@ -987,20 +977,6 @@ public class Game extends JFrame implements Observer<Object> {
         value = 0.199074;
         messageLabel = new JLabel();
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
-/*
-        try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(25f);
-            ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(customFont);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-        messageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        messageLabel.setFont(customFont);
-        messageLabel.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value))); //215
-        messageLabel.setSize(endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
-        */
         endGamePanel.add(messageLabel, BorderLayout.NORTH);
 
         BufferedImage messageBoard;
