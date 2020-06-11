@@ -1124,23 +1124,23 @@ public class ControllerTest {
         assertTrue(model.getPlayer(1).hasWon());
 
         char ch = 'y';
+        char ch2 = 'n';
         NewGameMessage newGameMessage = new NewGameMessage(players[0],remoteView,ch,clientConnection,lobby);
         newGameMessage.handler(controller);
 
-        NewGameMessage newGameMessage2 = new NewGameMessage(players[1],remoteView1,ch,clientConnection2,lobby);
+        NewGameMessage newGameMessage2 = new NewGameMessage(players[1],remoteView1,ch2,clientConnection2,lobby);
         newGameMessage2.handler(controller);
 
-        char ch2 = 'n';
-        NewGameMessage newGameMessage3 = new NewGameMessage(players[2],remoteView2,ch2,clientConnection3,lobby);
+        NewGameMessage newGameMessage3 = new NewGameMessage(players[2],remoteView2,ch,clientConnection3,lobby);
         newGameMessage3.handler(controller);
 
         Lobby lobby1 = new Lobby("pizza",players[0].getPlayerName(),clientConnection,3,true);
-        lobby1.addPlayer(players[1].getPlayerName(),clientConnection2);
+        lobby1.addPlayer(players[2].getPlayerName(),clientConnection3);
         Player player3 = new Player("Peach");
 
         Player[] players1 = new Player[3];
         players1[0] = players[0];
-        players1[1] = players[1];
+        players1[1] = players[2];
         players1[2] = player3;
         Model model1 = new Model(players1,true);
         Controller controller1 = new Controller(model1);
