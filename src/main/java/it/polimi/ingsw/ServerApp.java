@@ -6,6 +6,12 @@ import java.io.IOException;
 
 public class ServerApp
 {
+    /**
+     * Server entry point main class
+     * Create a new server and run it.
+     * Print in standard output errors
+     * @param args command parameters
+     */
     public static void main( String[] args )
     {
         Server server;

@@ -7,6 +7,13 @@ import java.io.IOException;
 
 public class ClientApp
 {
+    /**
+     * Client entry point main class
+     * If command line arguments are null, the GUI client is created and started
+     * If command line argiment is -cli, the CLI client is created and started
+     * Other situations generate error which are printed in standard output
+     * @param args command arguments
+     */
     public static void main(String[] args){
         try{
             if(args.length!=0){

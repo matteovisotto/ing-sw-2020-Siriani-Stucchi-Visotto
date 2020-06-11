@@ -19,6 +19,7 @@ public class GodCardController extends Controller {
         super(model);
     }
 
+
     @Override
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
         //Check for right turn
