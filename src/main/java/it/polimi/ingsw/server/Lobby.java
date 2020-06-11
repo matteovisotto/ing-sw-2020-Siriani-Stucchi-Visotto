@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.GodCardController;
-import it.polimi.ingsw.controller.SimpleController;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
@@ -179,7 +178,7 @@ public class Lobby {
         Model model = new Model(playerArray, simplePlay);
         Controller controller;
         if(simplePlay){
-            controller = new SimpleController(model);
+            controller = new Controller(model);
         }
         else{
             controller=new GodCardController(model);
@@ -231,7 +230,7 @@ public class Lobby {
         Model model = new Model(playerArray, simplePlay);
         Controller controller;
         if(simplePlay){
-            controller = new SimpleController(model);
+            controller = new Controller(model);
         }
         else{
             controller=new GodCardController(model);
