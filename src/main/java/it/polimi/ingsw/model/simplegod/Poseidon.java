@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.messageModel.MessageType;
 import it.polimi.ingsw.model.messageModel.PlayerBuild;
 import it.polimi.ingsw.utils.PlayerMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Poseidon  extends GodCard {
@@ -101,8 +102,15 @@ public class Poseidon  extends GodCard {
             setUnusedWorker(build.getPlayer().getWorker((build.getWorkerId()+1)%2));
             build.getPlayer().setUsedWorker((build.getWorkerId()+1)%2);
         }
+        ArrayList<Cell> availableCell=controller.checkCanBuild(getUnusedWorker());
+        boolean check=true;
+        if(availableCell.size()==1){
+            if(availableCell.get(0).getLevel()==Blocks.LEVEL3){
+                check=false;
+            }
+        }
         //se non ho costruito già 3 volte e se il worker inutilizzato e' al livello 0 e se il worker inutilizzato puo costruire
-        if(getNumOfBuild()<3 && getUnusedWorker().getCell().getLevel().getBlockId()==0 && controller.checkCanBuild(getUnusedWorker())) {
+        if(getNumOfBuild()<3 && getUnusedWorker().getCell().getLevel().getBlockId()==0 && controller.checkCanBuild(getUnusedWorker()).size()>0 && check) {
             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
             model.setNextMessageType(MessageType.USE_POWER);

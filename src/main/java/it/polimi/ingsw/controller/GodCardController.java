@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.model.simplegod.Prometheus;
 import it.polimi.ingsw.utils.PlayerMessage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -232,22 +233,23 @@ public class GodCardController extends Controller {
         checkCantBuild(playerBuild);
     }
 
-    public boolean checkCanBuild(Worker worker){
+    public ArrayList<Cell> checkCanBuild(Worker worker){
         int x=worker.getCell().getX();
         int y=worker.getCell().getY();
         Board board=model.getBoard();
+        ArrayList<Cell> availableCells=new ArrayList<>();
         for(int i=x-1; i<=x+1; i++){
             for(int j=y-1; j<=y+1; j++){
                 try{
                     if(board.getCell(i,j).getLevel() != Blocks.DOME && board.getCell(i,j).isFree()){
-                        return true;
+                        availableCells.add(board.getCell(i,j));
                     }
                 }catch(Exception e){
                     //ignore
                 }
             }
         }
-        return false;
+        return availableCells;
     }
 
 
