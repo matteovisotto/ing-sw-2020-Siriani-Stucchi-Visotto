@@ -26,20 +26,6 @@ public class BoardTest {
     }
 
     @Test
-    public void checkCell() {
-        Player[] players=new Player[2];
-        players[0]=new Player("pioppo");
-        players[1]=new Player("Amedeus");
-        Board board=new Board(players);
-        Worker worker= new Worker(board.getCell(1,1));
-        assertTrue(board.checkCell(1,2,worker,2));
-        assertFalse(board.checkCell(1,1,worker,2));
-        board.getCell(2,1).setLevel(Blocks.DOME);
-        assertFalse(board.checkCell(2,1,worker,2));
-
-    }
-
-    @Test
     public void getCellException(){
         exception.expect(IllegalArgumentException.class);
         Player[] players=new Player[2];
