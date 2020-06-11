@@ -219,7 +219,7 @@ public class Game extends JFrame implements Observer<Object> {
 
         value = 0.1111111111;
         messageLabel = new JLabel();
-        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
+        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,centerPanel.getWidth(), (int)(centerPanel.getHeight() * value));
 
         messageLabel.setIcon(loadImage("images/Santorini_GenericPopup.png", messageLabel.getWidth(), messageLabel.getHeight()));
 
