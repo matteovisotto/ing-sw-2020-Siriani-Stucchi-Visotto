@@ -63,7 +63,7 @@ public class Game extends JFrame implements Observer<Object> {
     public void customCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         toolkit.getBestCursorSize(32, 32);
-        Image image = toolkit.getImage("images/godpower_hand_select2.png");
+        Image image = toolkit.getImage(getClass().getClassLoader().getResource("images/godpower_hand_select2.png"));
         Point hotspot = new Point(0,0);
         Cursor cursor = toolkit.createCustomCursor(image, hotspot, "hand");
         setCursor(cursor);
@@ -113,16 +113,10 @@ public class Game extends JFrame implements Observer<Object> {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //togliere il commento qua sotto per metterlo completo full screen.
         //this.setUndecorated(true);
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File("images/home/SantoriniHomeBackground.png"));
-            Image dimg = img.getScaledInstance(d.width, d.height,
-                    Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            background.setIcon(imageIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image dimg = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/home/SantoriniHomeBackground.png"))).getScaledInstance(d.width, d.height,
+                Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        background.setIcon(imageIcon);
         mainPanel = new JPanel(true);
         mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.setSize(d);
@@ -133,34 +127,21 @@ public class Game extends JFrame implements Observer<Object> {
         startPlayBtn = new JButton();
         setJButtonProperties(startPlayBtn);
         startPlayBtn.setSize(526*3/4,644*3/4);
-        BufferedImage normalImage, pressedImage;
-        try {
-            normalImage = ImageIO.read(new File("images/button-play-normal.png"));
-            pressedImage = ImageIO.read(new File("images/button-play-down.png"));
-            Image normal = normalImage.getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
-                    Image.SCALE_SMOOTH);
-            Image pressed = pressedImage.getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
-                    Image.SCALE_SMOOTH);
-            startPlayBtn.setIcon(new ImageIcon(normal));
-            startPlayBtn.setPressedIcon(new ImageIcon(pressed));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image normal = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/button-play-normal.png"))).getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
+                Image.SCALE_SMOOTH);
+        Image pressed = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/button-play-down.png"))).getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
+                Image.SCALE_SMOOTH);
+        startPlayBtn.setIcon(new ImageIcon(normal));
+        startPlayBtn.setPressedIcon(new ImageIcon(pressed));
 
 
         mainPanel.add(startPlayBtn, BorderLayout.SOUTH);
 
         //Add logo
-        BufferedImage logo;
-        try {
-            logo = ImageIO.read(new File("images/home/SantoriniHomeLogo.png"));
-            Image dimg = logo.getScaledInstance(d.width*3/4, d.height/3,
-                    Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            mainPanel.add(new JLabel(imageIcon), BorderLayout.NORTH);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image dimg2 = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/home/SantoriniHomeLogo.png"))).getScaledInstance(d.width*3/4, d.height/3,
+                Image.SCALE_SMOOTH);
+        ImageIcon imageIcon2 = new ImageIcon(dimg2);
+        mainPanel.add(new JLabel(imageIcon2), BorderLayout.NORTH);
 
         startPlayBtn.addActionListener(new ActionListener() {
             @Override
@@ -175,16 +156,11 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private ImageIcon loadImage(String path, int width, int height){
-        BufferedImage img;
         ImageIcon imageIcon;
-        try {
-            img = ImageIO.read(new File(path));
-            Image dimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            imageIcon = new ImageIcon(dimg);
-        } catch (IOException e) {
-            e.printStackTrace();
-            imageIcon=null;
-        }
+
+        Image dimg = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource(path)).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+
         return imageIcon;
     }
 
@@ -815,10 +791,8 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setCell(JButton cell, Blocks blocks, boolean isFree, String color){
-        BufferedImage image;
         String path="images/Blocks/";
         boolean isVisible=true;
-        try{
             switch(blocks){
                 case EMPTY:
                     isVisible=!isFree;
@@ -846,16 +820,12 @@ public class Game extends JFrame implements Observer<Object> {
             }
             path+=".png";
             if(isVisible){
-                image = ImageIO.read(new File(path));
-                Image normal = image.getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
+                Image normal = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource(path)).getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
                 cell.setIcon(new ImageIcon(normal));
                 cell.setDisabledIcon(new ImageIcon(normal));
             }
             cell.setVisible(isVisible);
 
-        }catch(IOException e){
-            e.printStackTrace();
-        }
 
     }
 
@@ -924,18 +894,11 @@ public class Game extends JFrame implements Observer<Object> {
         setJButtonProperties(playAgainButton);
 
         playAgainButton.setHorizontalAlignment(SwingConstants.CENTER);
-        BufferedImage imagePlay, imagePlayPressed;
-        try{
-            imagePlay = ImageIO.read(new File("images/button-play-again-normal.png"));
-            imagePlayPressed = ImageIO.read(new File("images/button-play-again-down.png"));
-            Image playAgainImage = imagePlay.getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
-            Image playAgainImagePressed = imagePlayPressed.getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
-            playAgainButton.setIcon(new ImageIcon(playAgainImage));
-            playAgainButton.setPressedIcon(new ImageIcon(playAgainImagePressed));
-            playAgain.add(playAgainButton,BorderLayout.CENTER);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        Image playAgainImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/button-play-again-normal.png")).getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+        Image playAgainImagePressed = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/button-play-again-down.png")).getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+        playAgainButton.setIcon(new ImageIcon(playAgainImage));
+        playAgainButton.setPressedIcon(new ImageIcon(playAgainImagePressed));
+        playAgain.add(playAgainButton,BorderLayout.CENTER);
         playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -952,18 +915,11 @@ public class Game extends JFrame implements Observer<Object> {
         setJButtonProperties(exitButton);
 
         exitButton.setHorizontalAlignment(SwingConstants.CENTER);
-        BufferedImage image, image2;
-        try{
-            image = ImageIO.read(new File("images/btn-exit-normal.png"));
-            Image exit = image.getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
-            image2 = ImageIO.read(new File("images/btn-exit-down.png"));
-            Image exit_pressed = image2.getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
-            exitButton.setIcon(new ImageIcon(exit));
-            exitButton.setPressedIcon(new ImageIcon(exit_pressed));
-            exitGame.add(exitButton,BorderLayout.CENTER);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        Image exit = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/btn-exit-normal.png")).getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+        Image exit_pressed = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/btn-exit-down.png")).getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
+        exitButton.setIcon(new ImageIcon(exit));
+        exitButton.setPressedIcon(new ImageIcon(exit_pressed));
+        exitGame.add(exitButton,BorderLayout.CENTER);
 
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -979,15 +935,9 @@ public class Game extends JFrame implements Observer<Object> {
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
         endGamePanel.add(messageLabel, BorderLayout.NORTH);
 
-        BufferedImage messageBoard;
-        try {
-            messageBoard = ImageIO.read(new File("images/Santorini_GenericPopup.png"));
-            Image dimg = messageBoard.getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(), Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            messageLabel.setIcon(imageIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image dimg = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/Santorini_GenericPopup.png")).getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        messageLabel.setIcon(imageIcon);
         //messageLabel.setForeground(Color.WHITE);
         addPlayersEndGame(podium);
     }
@@ -1050,30 +1000,26 @@ public class Game extends JFrame implements Observer<Object> {
         value = 0.6;
         setJLabelProperties(winner,0,0, 25f,Color.WHITE, (int)(winnerPanel.getWidth() * value),(int)(winnerPanel.getHeight() * value2));
 
-        BufferedImage imgWinner, imgNameWinner;
-        try {
-            imgWinner = ImageIO.read(new File("images/Podium_win/"+Parser.toCapitalize(s[0])+"_podium_win.png"));
-            Image dimg = imgWinner.getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
-            if (podiumNames[0].equals("Our")){
-                imgNameWinner = ImageIO.read(new File("images/myNameFrame.png"));
-            }
-            else if (podiumNames[0].equals("Enemy_red")){
-                imgNameWinner = ImageIO.read(new File("images/opponentNameFrame.png"));
-            }
-            else {
-                imgNameWinner = ImageIO.read(new File("images/opponentGreenNameFrame.png"));
-            }
-            Image dimg2 = imgNameWinner.getScaledInstance(winnerName.getWidth(),winnerName.getHeight(), Image.SCALE_AREA_AVERAGING);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            ImageIcon imageIcon2 = new ImageIcon(dimg2);
-            winner.setIcon(imageIcon);
-            winnerName.setIcon(imageIcon2);
-            winnerPanel.add(winner,BorderLayout.CENTER);
-            winnerPanel.add(winnerName, BorderLayout.SOUTH);
-            endGamePanelPlayers.add(winnerPanel, BorderLayout.NORTH);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Image dimg2;
+
+        Image dimg = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/Podium_win/"+Parser.toCapitalize(s[0])+"_podium_win.png")).getScaledInstance(winner.getWidth(),winner.getHeight(), Image.SCALE_AREA_AVERAGING);
+        if (podiumNames[0].equals("Our")){
+            dimg2 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/myNameFrame.png")).getScaledInstance(winnerName.getWidth(),winnerName.getHeight(), Image.SCALE_AREA_AVERAGING);
         }
+        else if (podiumNames[0].equals("Enemy_red")){
+            dimg2 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/opponentNameFrame.png")).getScaledInstance(winnerName.getWidth(),winnerName.getHeight(), Image.SCALE_AREA_AVERAGING);
+        }
+        else {
+            dimg2 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/opponentGreenNameFrame.png")).getScaledInstance(winnerName.getWidth(),winnerName.getHeight(), Image.SCALE_AREA_AVERAGING);
+        }
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        ImageIcon imageIcon2 = new ImageIcon(dimg2);
+        winner.setIcon(imageIcon);
+        winnerName.setIcon(imageIcon2);
+        winnerPanel.add(winner,BorderLayout.CENTER);
+        winnerPanel.add(winnerName, BorderLayout.SOUTH);
+        endGamePanelPlayers.add(winnerPanel, BorderLayout.NORTH);
+
         JPanel losers = new JPanel();
         JPanel loserPanel1 = new JPanel();
         JPanel loserPanel2 = new JPanel();
@@ -1094,57 +1040,50 @@ public class Game extends JFrame implements Observer<Object> {
         int maxLength2 = Math.min(realPodiumNames[1].length(), 9);
         loserName1.setText(realPodiumNames[1].substring(0,maxLength2));
 
-        try {
-            imgLoser = ImageIO.read(new File("images/Podium_silver/"+Parser.toCapitalize(s[1])+"_podium_silver.png"));
-            Image dimg = imgLoser.getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
-            if (podiumNames[1].equals("Our")){
-                imgNameLoser = ImageIO.read(new File("images/myNameFrame.png"));
-            }
-            else if (podiumNames[1].equals("Enemy_red")){
-                imgNameLoser = ImageIO.read(new File("images/opponentNameFrame.png"));
-            }
-            else {
-                imgNameLoser = ImageIO.read(new File("images/opponentGreenNameFrame.png"));
-            }
-            Image dimg2 = imgNameLoser.getScaledInstance(loserName1.getWidth(),loserName1.getHeight(), Image.SCALE_AREA_AVERAGING);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            ImageIcon imageIcon2 = new ImageIcon(dimg2);
-            loser1.setIcon(imageIcon);
-            loserName1.setIcon(imageIcon2);
-            loserPanel1.add(loser1,BorderLayout.CENTER);
-            loserPanel1.add(loserName1, BorderLayout.SOUTH);
-            losers.add(loserPanel1);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Image dimg4;
+        Image dimg3 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/Podium_silver/"+Parser.toCapitalize(s[1])+"_podium_silver.png")).getScaledInstance(loser1.getWidth(),loser1.getHeight(), Image.SCALE_AREA_AVERAGING);
+        if (podiumNames[1].equals("Our")){
+            dimg4 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/myNameFrame.png")).getScaledInstance(loserName1.getWidth(),loserName1.getHeight(), Image.SCALE_AREA_AVERAGING);
         }
+        else if (podiumNames[1].equals("Enemy_red")){
+            dimg4 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/opponentNameFrame.png")).getScaledInstance(loserName1.getWidth(),loserName1.getHeight(), Image.SCALE_AREA_AVERAGING);
+        }
+        else {
+            dimg4 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/opponentGreenNameFrame.png")).getScaledInstance(loserName1.getWidth(),loserName1.getHeight(), Image.SCALE_AREA_AVERAGING);
+        }
+
+        ImageIcon imageIcon3 = new ImageIcon(dimg3);
+        ImageIcon imageIcon4 = new ImageIcon(dimg4);
+        loser1.setIcon(imageIcon3);
+        loserName1.setIcon(imageIcon4);
+        loserPanel1.add(loser1,BorderLayout.CENTER);
+        loserPanel1.add(loserName1, BorderLayout.SOUTH);
+        losers.add(loserPanel1);
+
         if(s[2] != null){
             setJLabelProperties(loser2, 0,0, 25f, Color.WHITE,(int)(loserPanel2.getWidth() * value),(int)(loserPanel2.getHeight() * value2));
             setJLabelProperties(loserName2, 0,0, 25f, Color.WHITE,(int)(loserPanel2.getWidth() * name),(int)(loserPanel2.getHeight() * height));
             int maxLength3 = Math.min(realPodiumNames[2].length(), 9);
             loserName2.setText(realPodiumNames[2].substring(0,maxLength3));
-            try {
-                imgLoser = ImageIO.read(new File("images/Podium_bronze/"+Parser.toCapitalize(s[2])+"_podium_bronze.png"));
-                Image dimg = imgLoser.getScaledInstance(loser2.getWidth(),loser2.getHeight(), Image.SCALE_AREA_AVERAGING);
-                if (podiumNames[2].equals("Our")){
-                    imgNameLoser = ImageIO.read(new File("images/myNameFrame.png"));
-                }
-                else if (podiumNames[2].equals("Enemy_red")){
-                    imgNameLoser = ImageIO.read(new File("images/opponentNameFrame.png"));
-                }
-                else {
-                    imgNameLoser = ImageIO.read(new File("images/opponentGreenNameFrame.png"));
-                }
-                Image dimg2 = imgNameLoser.getScaledInstance(loserName2.getWidth(),loserName2.getHeight(), Image.SCALE_AREA_AVERAGING);
-                ImageIcon imageIcon = new ImageIcon(dimg);
-                ImageIcon imageIcon2 = new ImageIcon(dimg2);
-                loser2.setIcon(imageIcon);
-                loserName2.setIcon(imageIcon2);
-                loserPanel2.add(loser2,BorderLayout.CENTER);
-                loserPanel2.add(loserName2, BorderLayout.SOUTH);
-                losers.add(loserPanel2);
-            } catch (IOException e) {
-                e.printStackTrace();
+            Image dimg6;
+            Image dimg5 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/Podium_bronze/"+Parser.toCapitalize(s[2])+"_podium_bronze.png")).getScaledInstance(loser2.getWidth(),loser2.getHeight(), Image.SCALE_AREA_AVERAGING);
+            if (podiumNames[2].equals("Our")){
+                dimg6 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/myNameFrame.png")).getScaledInstance(loserName2.getWidth(),loserName2.getHeight(), Image.SCALE_AREA_AVERAGING);
             }
+            else if (podiumNames[2].equals("Enemy_red")){
+                dimg6 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/opponentNameFrame.png")).getScaledInstance(loserName2.getWidth(),loserName2.getHeight(), Image.SCALE_AREA_AVERAGING);
+            }
+            else {
+                dimg6 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/opponentGreenNameFrame.png")).getScaledInstance(loserName2.getWidth(),loserName2.getHeight(), Image.SCALE_AREA_AVERAGING);
+            }
+            ImageIcon imageIcon5 = new ImageIcon(dimg5);
+            ImageIcon imageIcon6 = new ImageIcon(dimg6);
+            loser2.setIcon(imageIcon5);
+            loserName2.setIcon(imageIcon6);
+            loserPanel2.add(loser2,BorderLayout.CENTER);
+            loserPanel2.add(loserName2, BorderLayout.SOUTH);
+            losers.add(loserPanel2);
+
         }
         setMessageOnPopup("Would you like to play again?");
         endGamePanelPlayers.add(losers, BorderLayout.SOUTH);
@@ -1203,24 +1142,26 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void usePower(){
         resetBoardPanel();
-        BufferedImage image;
-        final Image normal;
         setMessageOnPopup("Make a choice");
         resetOverlayPanel();
 
 
+
         godPanel = new JPanel(true){
+
             @Override
             protected void paintComponent(Graphics g) {
 
                 super.paintComponent(g);
-                try{
-                    BufferedImage image=ImageIO.read(new File("images/GodPower/main.png"));
-                    Image normal = image.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
-                    g.drawImage(normal, 0, 0, null);
-                }catch(Exception e){
+                BufferedImage bufferedImage = null;
+                try {
+                    bufferedImage = ImageIO.read(Game.class.getClassLoader().getResource("images/GodPower/main.png"));
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Image image = bufferedImage.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
+                g.drawImage(image, 0, 0, null);
+
             }
         };
         godPanel.setLayout(new BorderLayout(10,10));
@@ -1247,22 +1188,15 @@ public class Game extends JFrame implements Observer<Object> {
         no.setHorizontalAlignment(SwingConstants.RIGHT);
         Image n, n2;
         Image np, n2p;
-        try{
-            image=ImageIO.read(new File("images/GodPower/btn_green.png"));
-            n = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
-            yes.setIcon(new ImageIcon(n));
-            image=ImageIO.read(new File("images/GodPower/btn_green_pressed.png"));
-            np = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
-            yes.setPressedIcon(new ImageIcon(np));
-            image=ImageIO.read(new File("images/GodPower/btn_coral.png"));
-            n2 = image.getScaledInstance(no.getWidth(), no.getHeight(), Image.SCALE_AREA_AVERAGING);
-            no.setIcon(new ImageIcon(n2));
-            image=ImageIO.read(new File("images/GodPower/btn_coral_pressed.png"));
-            n2p = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
-            no.setPressedIcon(new ImageIcon(n2p));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
+        n = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_green.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+        yes.setIcon(new ImageIcon(n));
+        np = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_green_pressed.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+        yes.setPressedIcon(new ImageIcon(np));
+        n2 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_coral.png")).getScaledInstance(no.getWidth(), no.getHeight(), Image.SCALE_AREA_AVERAGING);
+        no.setIcon(new ImageIcon(n2));
+        n2p = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_coral_pressed.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+        no.setPressedIcon(new ImageIcon(n2p));
 
         yes.addActionListener(new ActionListener() {
             @Override
@@ -1324,13 +1258,16 @@ public class Game extends JFrame implements Observer<Object> {
             protected void paintComponent(Graphics g) {
 
                 super.paintComponent(g);
-                try{
-                    BufferedImage image=ImageIO.read(new File("images/GodPower/select_worker.png"));
-                    Image normal = image.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
-                    g.drawImage(normal, 0, 0, null);
-                }catch(Exception e){
+
+                BufferedImage bufferedImage = null;
+                try {
+                    bufferedImage = ImageIO.read(Game.class.getClassLoader().getResource("images/GodPower/select_worker.png"));
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Image normal = bufferedImage.getScaledInstance(leftPanel.getWidth(), leftPanel.getHeight()/2, Image.SCALE_AREA_AVERAGING);
+                g.drawImage(normal, 0, 0, null);
+
             }
         };
         setJPanelProperties(godPanel,10,10,leftPanel.getWidth(),leftPanel.getHeight()/2);
@@ -1349,16 +1286,13 @@ public class Game extends JFrame implements Observer<Object> {
         yes.setHorizontalAlignment(SwingConstants.CENTER);
         Image n;
         Image np;
-        try{
-            image=ImageIO.read(new File("images/GodPower/btn_ok.png"));
-            n = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
-            yes.setIcon(new ImageIcon(n));
-            image=ImageIO.read(new File("images/GodPower/btn_ok_pressed.png"));
-            np = image.getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
-            yes.setPressedIcon(new ImageIcon(np));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
+        n = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_ok.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+        yes.setIcon(new ImageIcon(n));
+
+        np = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_ok_pressed.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
+        yes.setPressedIcon(new ImageIcon(np));
+
 
         yes.addActionListener(new ActionListener() {
             @Override
