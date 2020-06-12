@@ -36,7 +36,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     }
 
     /**
-     * Check if the connection is alreasdy active
+     * Check if the connection is already active
      * @return true if connection is active
      */
     private synchronized boolean isActive(){

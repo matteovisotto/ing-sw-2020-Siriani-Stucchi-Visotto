@@ -140,7 +140,7 @@ public class Server {
     /**
      * This function is used to add player to a new lobby after he decided to play an other player without old players
      * If it is a three players game, it adds also the second opponents who chose to play again
-     * @param endGameServerMessage the particular message that contins all info for the new play
+     * @param endGameServerMessage the particular message that contains all info for the new play
      * @see EndGameServerMessage
      */
     public synchronized void addLobbyEndGame(EndGameServerMessage endGameServerMessage){
@@ -157,8 +157,8 @@ public class Server {
     }
 
     /**
-     * When a new play is performed this method delete the old lobby from the sewrver
-     * @param endGameServerMessage endGameServerMessage the particular message that contins all info for the new play
+     * When a new play is performed this method delete the old lobby from the server
+     * @param endGameServerMessage endGameServerMessage the particular message that contains all info for the new play
      * @see EndGameServerMessage
      */
     private synchronized void deleteOldLobby(EndGameServerMessage endGameServerMessage) {

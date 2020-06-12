@@ -64,7 +64,7 @@ public class Hephaestus extends GodCard {
      * It change game model phase to ask the usage of god power
      * @param model the play model
      * @param controller the play controller
-     * @param build the message recived by the view
+     * @param build the message received by the view
      * @param buildingCell the cell where the player wants to build
      * @return true if the gale flow has been modified, else false
      */

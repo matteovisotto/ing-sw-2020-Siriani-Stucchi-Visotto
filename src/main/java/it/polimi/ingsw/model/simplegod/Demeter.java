@@ -76,7 +76,7 @@ public class Demeter extends GodCard {
      * if not, reset the build flag and return false for using the standard control
      * @param model the play model
      * @param controller the play controller
-     * @param build the message recived by the view
+     * @param build the message received by the view
      * @param buildingCell the cell where the player wants to build
      * @return true if this is the first built or the player is trying to build in the same cell, else false
      */
