@@ -1,20 +1,19 @@
 package it.polimi.ingsw.client.GUI;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.client.GUIClient;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.utils.Parser;
 
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Timer;
 
 public class Game extends JFrame implements Observer<Object> {
@@ -219,7 +218,7 @@ public class Game extends JFrame implements Observer<Object> {
         remove(mainPanel);
     }
 
-    private void addMyCard(GameMessage gameMessage) {
+    private void addMyCard(final GameMessage gameMessage) {
         try {
             JPanel myPanel = new JPanel(true);
             myPanel.setOpaque(false);
@@ -247,6 +246,17 @@ public class Game extends JFrame implements Observer<Object> {
             }
             nameLabel.setIcon(loadImage("images/myNameFrame.png", nameLabel.getWidth(), nameLabel.getHeight()));
             godLabel.setIcon(loadImage(path, godLabel.getWidth(), godLabel.getHeight()));
+            godLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    String god = myGod.get(gameMessage.getPlayer().getPlayerName());
+                    String string;
+                    string = correspondingGod(god);
+                    final ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("/images/icon.png")));
+                    JOptionPane.showMessageDialog(Game.this,string,"God information",JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
             int maxLength = Math.min(gameMessage.getPlayer().getPlayerName().length(), 9);
             nameLabel.setText(gameMessage.getPlayer().getPlayerName().substring(0,maxLength));
             playerPanel.add(nameLabel, BorderLayout.NORTH);
@@ -257,6 +267,25 @@ public class Game extends JFrame implements Observer<Object> {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private String correspondingGod(String god){
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("GodsDescription.json");
+        InputStreamReader isReader = new InputStreamReader(inputStream);
+        //Creating a BufferedReader object
+        BufferedReader reader = new BufferedReader(isReader);
+        StringBuffer sb = new StringBuffer();
+        String str;
+        try {
+            while((str = reader.readLine())!= null){
+                sb.append(str);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        HashMap<String,String> gods = gson.fromJson(sb.toString(),HashMap.class);
+        return gods.get(Parser.toCapitalize(god));
     }
 
     private void addOpponents() {
