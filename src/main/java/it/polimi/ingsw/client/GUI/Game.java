@@ -253,8 +253,7 @@ public class Game extends JFrame implements Observer<Object> {
                     String god = myGod.get(gameMessage.getPlayer().getPlayerName());
                     String string;
                     string = correspondingGod(god);
-                    final ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("/images/icon.png")));
-                    JOptionPane.showMessageDialog(Game.this,string,"God information",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
                 }
             });
             int maxLength = Math.min(gameMessage.getPlayer().getPlayerName().length(), 9);
@@ -297,6 +296,7 @@ public class Game extends JFrame implements Observer<Object> {
             for (String opponentName : opponentGods.keySet()) {
                 //System.out.println(opponentName);
                 String godName = opponentGods.get(opponentName);
+                final String opponentNameForMouseClicked = opponentName;
                 JPanel playerPanel = new JPanel(true);
                 playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() * 11/10 / opponentGods.size());
                 playerPanel.setOpaque(false);
@@ -316,6 +316,16 @@ public class Game extends JFrame implements Observer<Object> {
                 }
                 nameLabel.setIcon(loadImage(filename, nameLabel.getWidth(), nameLabel.getHeight()));
                 godLabel.setIcon(loadImage("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png", godLabel.getWidth(), godLabel.getHeight()));
+                godLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        String god = opponentGods.get(opponentNameForMouseClicked);
+                        String string;
+                        string = correspondingGod(god);
+                        JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
                 int maxLength = Math.min(opponentName.length(), 9);
                 nameLabel.setText(opponentName.substring(0,maxLength));
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
