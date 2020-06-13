@@ -167,6 +167,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private synchronized void initGame() {
+        //this.guiClient.removeExcept(this);
         value = 0.484375;
         this.setEnabled(true);
         clearGui();
