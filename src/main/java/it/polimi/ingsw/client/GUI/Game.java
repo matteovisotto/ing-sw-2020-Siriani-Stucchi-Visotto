@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.utils.Parser;
 
+import java.io.InputStream;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -90,7 +91,8 @@ public class Game extends JFrame implements Observer<Object> {
         label.setSize(width, height);
         label.setOpaque(false);
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("Fonts/LillyBelle.ttf")).deriveFont(fontDimension);
+            InputStream is = this.getClass().getClassLoader().getResourceAsStream("fonts/LillyBelle.ttf");
+            customFont = Font.createFont(Font.TRUETYPE_FONT,is).deriveFont(fontDimension);
             ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         } catch (IOException | FontFormatException e) {
