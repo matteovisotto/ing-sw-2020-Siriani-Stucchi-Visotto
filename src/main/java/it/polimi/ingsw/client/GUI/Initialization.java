@@ -74,17 +74,16 @@ public class Initialization extends JDialog implements Observer<Object> {
         if(msg instanceof ViewMessage) {
             setPanelContent(((ViewMessage) msg).getMessageType(), ((ViewMessage) msg).getMessage());
         } else if (msg instanceof String) {
-            String message = (String) msg;
-            if(message.startsWith("ERROR: ")){
-                String errorString = message.substring(7);
-                /*JOptionPane.showMessageDialog(this,
-                        errorString,
-                        "Command error",
-                        JOptionPane.WARNING_MESSAGE);
-
-                 */
+            if (!guiClient.isConfig()){
+                String message = (String) msg;
+                if(message.startsWith("ERROR: ")){
+                    String errorString = message.substring(7);
+                    JOptionPane.showMessageDialog(this,
+                            errorString,
+                            "Command error",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
-
         }
     }
 

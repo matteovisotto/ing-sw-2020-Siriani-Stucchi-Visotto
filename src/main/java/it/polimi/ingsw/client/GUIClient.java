@@ -19,6 +19,7 @@ public class GUIClient extends Observable<Object> {
     private final Initialization initialization;
     private final Game game;
     private PrintWriter socketOut;
+    private boolean isConfig = false;
 
     public GUIClient(String ip, int port){
         this.ip = ip;
@@ -31,12 +32,15 @@ public class GUIClient extends Observable<Object> {
 
     public synchronized void openInitializator() {
         initialization.setVisible(true);
-        //game.setEnabled(false);
     }
 
     public synchronized void closeInitializator() {
         game.setEnabled(true);
-        //removeObserver(initialization);
+        this.isConfig = true;
+    }
+
+    public boolean isConfig() {
+        return isConfig;
     }
 
     public synchronized boolean isActive(){
