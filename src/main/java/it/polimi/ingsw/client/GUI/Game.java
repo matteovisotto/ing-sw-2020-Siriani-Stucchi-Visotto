@@ -43,7 +43,7 @@ public class Game extends JFrame implements Observer<Object> {
     private Font customFont;
 
     public Game(final GUIClient guiClient){
-        //customCursor();
+        customCursor();
         setIconImage(Toolkit.getDefaultToolkit().getImage("/images/icon.png"));
         this.guiClient = guiClient;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,7 +63,8 @@ public class Game extends JFrame implements Observer<Object> {
     public void customCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         toolkit.getBestCursorSize(32, 32);
-        Image image = toolkit.getImage(getClass().getClassLoader().getResource("images/godpower_hand_select2.png"));
+        Image image = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/godpower_hand_select2.png"))).getScaledInstance(32, 32,
+                Image.SCALE_SMOOTH);
         Point hotspot = new Point(0,0);
         Cursor cursor = toolkit.createCustomCursor(image, hotspot, "hand");
         setCursor(cursor);
