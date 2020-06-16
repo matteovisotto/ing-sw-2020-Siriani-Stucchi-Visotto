@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.multi.MultiLabelUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -235,8 +236,17 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         value = 0.1389;
-        southPanel = new JLabel();
+        southPanel = new JLabel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor( getBackground() );
+                g.fillRect(southPanel.getWidth()/4, southPanel.getHeight()/4, getWidth()/2, getHeight()/2);
+                super.paintComponent(g);
+            }
+        };
         setJLabelProperties(southPanel, 10,10,40f, Color.RED,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
+        southPanel.setOpaque(false);
+        southPanel.setBackground(new Color(255, 0, 0, 0));
         southPanel.revalidate();
         southPanel.repaint();
 
@@ -408,7 +418,7 @@ public class Game extends JFrame implements Observer<Object> {
                         String god = opponentGods.get(opponentNameForMouseClicked);
                         String string;
                         string = correspondingGod(god);
-                        //string = godsFunction.get(god);
+                        //string = godsFunction.get(Parser.toCapitalize(god));
                         JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
                     }
                 });
@@ -621,6 +631,26 @@ public class Game extends JFrame implements Observer<Object> {
         final HashMap<JButton, Integer> gods = new LinkedHashMap<>();
         setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
 
+        final JLabel label = new JLabel();
+        setJLabelProperties(label,0,0,25f, Color.WHITE,(int)(leftPanel.getWidth() * 0.75),(int)(leftPanel.getHeight() * 0.5));
+        final JLabel label2 = new JLabel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor( getBackground() );
+                g.fillRect(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+        };
+        setJLabelProperties(label2,0,0,25f, Color.WHITE,(int)(leftPanel.getWidth() * 0.75),(int)(leftPanel.getHeight() * 0.5));
+
+        label2.setOpaque(false);
+        label2.setBackground(new Color(255, 255, 255, 0));
+        label2.revalidate();
+        label2.repaint();
+
+        leftPanel.add(label,BorderLayout.NORTH);
+        leftPanel.add(label2,BorderLayout.CENTER);
+
         final JPanel panel = new JPanel(true);
         panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() * 0.8333));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         panel.revalidate();
@@ -628,8 +658,17 @@ public class Game extends JFrame implements Observer<Object> {
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,10,10));
 
-        final JLabel centerSouthLabel = new JLabel();
+        final JLabel centerSouthLabel = new JLabel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor(getBackground());
+                g.fillRect((int)(southPanel.getWidth() * 0.28), southPanel.getHeight()/4, (int)(getWidth() * 0.44), getHeight()/2);
+                super.paintComponent(g);
+            }
+        };
         setJLabelProperties(centerSouthLabel, 0,0, 40f, Color.BLUE, southPanel.getWidth(),southPanel.getHeight());
+        centerSouthLabel.setOpaque(false);
+        centerSouthLabel.setBackground(new Color(0, 0, 255, 60));
         centerSouthLabel.setText("Simple Gods");
         southPanel.add(centerSouthLabel);
 
@@ -668,7 +707,7 @@ public class Game extends JFrame implements Observer<Object> {
         arrowPanel.add(leftArrow);
 
 
-        JButton rightArrow=new JButton();
+        JButton rightArrow = new JButton();
         setJButtonProperties(rightArrow);
         rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
         rightArrow.revalidate();
@@ -712,6 +751,25 @@ public class Game extends JFrame implements Observer<Object> {
                 panel.add(god);
             }
             gods.put(god, i);
+            god.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    label2.setOpaque(false);
+                    label2.setBackground(new Color(255, 255, 255, 75));
+                    String string = Gods.getGod(gods.get((JButton) e.getSource())).toString();
+                    string = string.substring(string.lastIndexOf('.')+1, string.indexOf('@'));
+                    if (gods.get((JButton) e.getSource()) > 8){
+                        label.setIcon(loadImage("images/God_with_frame/"+ string +".png", god.getWidth(), (int)(god.getHeight() * 1.5)));
+                    } else {
+                        label.setIcon(loadImage("images/God_with_frame/"+ string +".png", (int)(god.getWidth() * 1.5), (int)(god.getHeight() * 1.5)));
+                    }
+                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
+                    label2.setText(labelText);
+                    label2.setVerticalTextPosition(SwingConstants.TOP);
+                    label2.setVerticalAlignment(SwingConstants.TOP);
+                }
+            });
             god.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -737,8 +795,12 @@ public class Game extends JFrame implements Observer<Object> {
                             centerPanel.remove(panel);
                             centerPanel.revalidate();
                             centerPanel.repaint();
+                            southPanel.remove(centerSouthLabel);
                             southPanel.revalidate();
                             southPanel.repaint();
+                            leftPanel.removeAll();
+                            leftPanel.revalidate();
+                            leftPanel.repaint();
                         }
                     }
                 }
@@ -1742,11 +1804,14 @@ public class Game extends JFrame implements Observer<Object> {
     private void showError(String s){
         try{
             southPanel.setText(s);
-            Timer timer=new Timer();
+            southPanel.setOpaque(false);
+            southPanel.setBackground(new Color(255, 0, 0, 60));
+            Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     southPanel.setText("");
+                    southPanel.setBackground(new Color(255, 0, 0, 0));
                 }
             }, 3000);
 
