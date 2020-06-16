@@ -244,7 +244,7 @@ public class Game extends JFrame implements Observer<Object> {
                 super.paintComponent(g);
             }
         };
-        setJLabelProperties(southPanel, 10,10,40f, Color.RED,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
+        setJLabelProperties(southPanel, 10,10,40f, new Color(200,0,0),mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
         southPanel.setOpaque(false);
         southPanel.setBackground(new Color(255, 0, 0, 0));
         southPanel.revalidate();
@@ -637,7 +637,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(0, 0, getWidth(), getHeight());
+                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.55));
                 super.paintComponent(g);
             }
         };
@@ -662,7 +662,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(getBackground());
-                g.fillRect((int)(southPanel.getWidth() * 0.28), southPanel.getHeight()/4, (int)(getWidth() * 0.44), getHeight()/2);
+                g.fillRect((int)(southPanel.getWidth() * 0.28), southPanel.getHeight()/4, (int)(getWidth() * 0.4405), getHeight()/2);
                 super.paintComponent(g);
             }
         };
@@ -764,7 +764,7 @@ public class Game extends JFrame implements Observer<Object> {
                     } else {
                         label.setIcon(loadImage("images/God_with_frame/"+ string +".png", (int)(god.getWidth() * 1.5), (int)(god.getHeight() * 1.5)));
                     }
-                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
+                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.85) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
                     label2.setText(labelText);
                     label2.setVerticalTextPosition(SwingConstants.TOP);
                     label2.setVerticalAlignment(SwingConstants.TOP);
@@ -812,6 +812,25 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void pickCard(ViewMessage viewMessage) {
+        final JLabel label = new JLabel();
+        setJLabelProperties(label,0,0,25f, Color.WHITE,(int)(leftPanel.getWidth() * 0.75),(int)(leftPanel.getHeight() * 0.5));
+        final JLabel label2 = new JLabel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor( getBackground() );
+                g.fillRect(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+        };
+        setJLabelProperties(label2,0,0,25f, Color.WHITE,(int)(leftPanel.getWidth() * 0.75),(int)(leftPanel.getHeight() * 0.5));
+
+        label2.setOpaque(false);
+        label2.setBackground(new Color(255, 255, 255, 0));
+        label2.revalidate();
+        label2.repaint();
+
+        leftPanel.add(label,BorderLayout.NORTH);
+        leftPanel.add(label2,BorderLayout.CENTER);
         final ArrayList<String> godsName = new ArrayList<>();
         String[] splitted = viewMessage.getMessage().split("\n");
         String firstGod = Parser.toCapitalize(splitted[1].substring(4).trim());
@@ -843,6 +862,21 @@ public class Game extends JFrame implements Observer<Object> {
             god.repaint();
             panel.add(god);
             gods.put(god, i);
+            god.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    label2.setOpaque(false);
+                    label2.setBackground(new Color(255, 255, 255, 75));
+                    String string = Gods.getGod(gods.get((JButton) e.getSource())).toString();
+                    string = string.substring(string.lastIndexOf('.')+1, string.indexOf('@'));
+                    label.setIcon(loadImage("images/God_with_frame/"+ string +".png", (int)(god.getWidth()/2), (int)(god.getHeight())));
+                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
+                    label2.setText(labelText);
+                    label2.setVerticalTextPosition(SwingConstants.TOP);
+                    label2.setVerticalAlignment(SwingConstants.TOP);
+                }
+            });
             god.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -851,6 +885,9 @@ public class Game extends JFrame implements Observer<Object> {
                     centerPanel.remove(panel);
                     centerPanel.revalidate();
                     centerPanel.repaint();
+                    leftPanel.removeAll();
+                    leftPanel.revalidate();
+                    leftPanel.repaint();
                 }
             });
             panel.add(god);
