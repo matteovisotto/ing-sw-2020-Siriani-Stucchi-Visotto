@@ -17,6 +17,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+/**
+ * Game initialization gui class
+ */
 public class Initialization extends JDialog implements Observer<Object> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
     private final GUIClient guiClient;
@@ -26,6 +29,12 @@ public class Initialization extends JDialog implements Observer<Object> {
     private JLabel messageLabel;
     private JTextField jTextField;
     private String returnedMessage = "";
+
+    /**
+     * Class construction
+     * @param guiClient Main gui client class
+     * This method set the title for the GUI dialog and call the set layout method
+     */
     public Initialization(GUIClient guiClient) {
         setTitle("Initialization");
         setPreferredSize(new Dimension(400, 170));
@@ -35,9 +44,21 @@ public class Initialization extends JDialog implements Observer<Object> {
         setLayout();
     }
 
+    /**
+     *
+     * @return the main guiClient
+     */
     public GUIClient getGuiClient() {
         return guiClient;
     }
+
+
+    /**
+     * This method set the principal layout
+     * Create the new BorderLayout main panel, with server status label,
+     * the message label on north position and a center space for configuration elements.
+     * On the bottom a newx button has been added with the action listener to sent the response to server
+     */
     private void setLayout() {
         mainPanel = new JPanel(true);
         mainPanel.setBackground(Color.WHITE);
@@ -69,6 +90,13 @@ public class Initialization extends JDialog implements Observer<Object> {
         this.getRootPane().setDefaultButton(sendButton);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param msg the message which has been sent
+     * This method also control if the recived message is a string, in this case is an error and it will be shown
+     *            in a JOptionPane
+     *            Else the message is sent to setPanelContent method
+     */
     @Override
     public void update(Object msg) {
         if(msg instanceof ViewMessage) {
@@ -87,6 +115,9 @@ public class Initialization extends JDialog implements Observer<Object> {
         }
     }
 
+    /**
+     * Thid method is used to clear the center panel content after a step has been sent to the server.
+     */
     private void resetPanelContent(){
         Component[] components = contentPanel.getComponents();
         for (Component component : components) {
@@ -98,6 +129,9 @@ public class Initialization extends JDialog implements Observer<Object> {
 
     }
 
+    /**
+     * Add a custom cursor for this interface
+     */
     public void customCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         toolkit.getBestCursorSize(32, 32);
