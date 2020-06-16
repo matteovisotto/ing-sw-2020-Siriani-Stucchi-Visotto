@@ -80,14 +80,24 @@ public class Game extends JFrame implements Observer<Object> {
     private void setJPanelProperties(JPanel panel, int hgap, int vgap, int width, int height){
         panel.setLayout(new BorderLayout(hgap, vgap));
         panel.setPreferredSize(new Dimension(width, height));
+        panel.revalidate();
+        panel.repaint();
         panel.setSize(width, height);
+        panel.revalidate();
+        panel.repaint();
         panel.setOpaque(false);
+        panel.revalidate();
+        panel.repaint();
     }
 
     private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color, int width, int height){
         label.setLayout(new BorderLayout(hgap, vgap));
         label.setPreferredSize(new Dimension(width, height));
+        label.revalidate();
+        label.repaint();
         label.setSize(width, height);
+        label.revalidate();
+        label.repaint();
         label.setOpaque(false);
         try {
             InputStream is = this.getClass().getClassLoader().getResourceAsStream("fonts/LillyBelle.ttf");
@@ -103,6 +113,8 @@ public class Game extends JFrame implements Observer<Object> {
         label.setVerticalTextPosition(SwingConstants.CENTER);
         label.setFont(customFont);
         label.setForeground(color);
+        label.revalidate();
+        label.repaint();
     }
 
     private void setLayout() {
@@ -118,9 +130,13 @@ public class Game extends JFrame implements Observer<Object> {
                 Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(dimg);
         background.setIcon(imageIcon);
+        background.revalidate();
+        background.repaint();
         mainPanel = new JPanel(true);
         mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.setSize(d);
+        mainPanel.revalidate();
+        mainPanel.repaint();
         mainPanel.setOpaque(false);
 
         add(mainPanel);
@@ -128,12 +144,18 @@ public class Game extends JFrame implements Observer<Object> {
         startPlayBtn = new JButton();
         setJButtonProperties(startPlayBtn);
         startPlayBtn.setSize(526*3/4,644*3/4);
+        startPlayBtn.revalidate();
+        startPlayBtn.repaint();
         Image normal = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/button-play-normal.png"))).getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
                 Image.SCALE_SMOOTH);
         Image pressed = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/button-play-down.png"))).getScaledInstance(startPlayBtn.getWidth(), startPlayBtn.getHeight(),
                 Image.SCALE_SMOOTH);
         startPlayBtn.setIcon(new ImageIcon(normal));
+        startPlayBtn.revalidate();
+        startPlayBtn.repaint();
         startPlayBtn.setPressedIcon(new ImageIcon(pressed));
+        startPlayBtn.revalidate();
+        startPlayBtn.repaint();
 
 
         mainPanel.add(startPlayBtn, BorderLayout.SOUTH);
@@ -174,27 +196,44 @@ public class Game extends JFrame implements Observer<Object> {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
         this.setSize(d);
+        revalidate();
+        repaint();
         setContentPane(background);
         add(mainPanel);
 
         background.setIcon(loadImage("images/SantoriniBoard.png", d.width, d.height));
+        background.revalidate();
+        background.repaint();
 
         centerPanel = new JPanel(true);
-        setJPanelProperties(centerPanel, 10,10,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        setJPanelProperties(centerPanel, 10,10,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight() * 0.98));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        centerPanel.revalidate();
+        centerPanel.repaint();
+
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         value = 0.1389;
         southPanel = new JLabel();
         setJLabelProperties(southPanel, 10,10,40f, Color.RED,mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
+        southPanel.revalidate();
+        southPanel.repaint();
+
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         value = 0.2942708;
         leftPanel = new JPanel(true);
+
         setJPanelProperties(leftPanel,10,50, (int)(mainPanel.getWidth() * value), mainPanel.getHeight());
+        leftPanel.revalidate();
+        leftPanel.repaint();
+
         mainPanel.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new JPanel(true);
         setJPanelProperties(rightPanel,10,10,(int)(mainPanel.getWidth() * value), mainPanel.getHeight());
+        rightPanel.revalidate();
+        rightPanel.repaint();
+
         mainPanel.add(rightPanel, BorderLayout.EAST);
 
         value = 0.12;
@@ -202,12 +241,19 @@ public class Game extends JFrame implements Observer<Object> {
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,centerPanel.getWidth(), (int)(centerPanel.getHeight() * value));
 
         messageLabel.setIcon(loadImage("images/Santorini_GenericPopup.png", messageLabel.getWidth(), messageLabel.getHeight()));
+        messageLabel.revalidate();
+        messageLabel.repaint();
 
         centerPanel.add(messageLabel, BorderLayout.NORTH);
 
+        centerPanel.revalidate();
+        centerPanel.repaint();
         addInitialBoard();
+        mainPanel.revalidate();
+        mainPanel.repaint();
         revalidate();
         repaint();
+        pack();
     }
 
     private void clearGui(){
@@ -224,8 +270,12 @@ public class Game extends JFrame implements Observer<Object> {
             myPanel.setOpaque(false);
             myPanel.setLayout(new BorderLayout());
             myPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight() / 3);
+            myPanel.revalidate();
+            myPanel.repaint();
             JPanel playerPanel = new JPanel(true);
             playerPanel.setSize(myPanel.getWidth() / 2, myPanel.getHeight());
+            playerPanel.revalidate();
+            playerPanel.repaint();
             playerPanel.setOpaque(false);
             playerPanel.setLayout(new BorderLayout(0, 0));
             JLabel nameLabel = new JLabel();
@@ -245,7 +295,11 @@ public class Game extends JFrame implements Observer<Object> {
                 path="images/God_with_frame/" + Parser.toCapitalize(godName) + ".png";
             }
             nameLabel.setIcon(loadImage("images/myNameFrame.png", nameLabel.getWidth(), nameLabel.getHeight()));
+            nameLabel.revalidate();
+            nameLabel.repaint();
             godLabel.setIcon(loadImage(path, godLabel.getWidth(), godLabel.getHeight()));
+            godLabel.revalidate();
+            godLabel.repaint();
             godLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -293,12 +347,16 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.setOpaque(false);
             opponentsPanel.setLayout(new GridLayout(opponentGods.size(), 1, 0, 0));
             opponentsPanel.setSize(rightPanel.getWidth()/2, 230 * opponentGods.size());
+            opponentsPanel.revalidate();
+            opponentsPanel.repaint();
             for (String opponentName : opponentGods.keySet()) {
                 //System.out.println(opponentName);
                 String godName = opponentGods.get(opponentName);
                 final String opponentNameForMouseClicked = opponentName;
                 JPanel playerPanel = new JPanel(true);
                 playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() * 11/10 / opponentGods.size());
+                playerPanel.revalidate();
+                playerPanel.repaint();
                 playerPanel.setOpaque(false);
                 playerPanel.setLayout(new BorderLayout(0, 0));
                 JLabel nameLabel = new JLabel();
@@ -315,7 +373,11 @@ public class Game extends JFrame implements Observer<Object> {
                     filename = "images/opponentGreenNameFrame.png";
                 }
                 nameLabel.setIcon(loadImage(filename, nameLabel.getWidth(), nameLabel.getHeight()));
+                nameLabel.revalidate();
+                nameLabel.repaint();
                 godLabel.setIcon(loadImage("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png", godLabel.getWidth(), godLabel.getHeight()));
+                godLabel.revalidate();
+                godLabel.repaint();
                 godLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -347,9 +409,13 @@ public class Game extends JFrame implements Observer<Object> {
             opponentsPanel.setOpaque(false);
             opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
             opponentsPanel.setSize(rightPanel.getWidth()/2, rightPanel.getHeight()*2/3);
+            opponentsPanel.revalidate();
+            opponentsPanel.repaint();
             for (String opponentName : opponentsNames) {
                 JPanel playerPanel = new JPanel(true);
                 playerPanel.setSize(opponentsPanel.getWidth() * 3 / 2, opponentsPanel.getHeight() / opponentsNames.size());
+                playerPanel.revalidate();
+                playerPanel.repaint();
                 playerPanel.setOpaque(false);
                 playerPanel.setLayout(new BorderLayout(0, 0));
                 JLabel nameLabel = new JLabel();
@@ -366,7 +432,11 @@ public class Game extends JFrame implements Observer<Object> {
                     filename = "images/opponentGreenNameFrame.png";
                 }
                 nameLabel.setIcon(loadImage(filename,nameLabel.getWidth(), nameLabel.getHeight()));
+                nameLabel.revalidate();
+                nameLabel.repaint();
                 enemyLabel.setIcon(loadImage("images/enemy_player.png", enemyLabel.getWidth(), enemyLabel.getHeight()));
+                enemyLabel.revalidate();
+                enemyLabel.repaint();
                 int maxLength = Math.min(opponentName.length(), 9);
                 nameLabel.setText(opponentName.substring(0,maxLength));
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
@@ -384,6 +454,8 @@ public class Game extends JFrame implements Observer<Object> {
     private void setMessageOnPopup(String message) {
         try{
             messageLabel.setText(message);
+            messageLabel.revalidate();
+            messageLabel.repaint();
         } catch (Exception e) {
             //e.printStackTrace();
         }
@@ -452,21 +524,35 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void addOverlayPanel() {
-        BufferedImage image;
         overlayPanel = new JPanel(true);
         overlayPanel.setLayout(new GridLayout(5,5,0,0));
         overlayPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
+        overlayPanel.revalidate();
+        overlayPanel.repaint();
         overlayPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
+        overlayPanel.revalidate();
+        overlayPanel.repaint();
         overlayPanel.setOpaque(false);
         overlayPanel.setBorder(BorderFactory.createEmptyBorder());
         centerPanel.add(overlayPanel, BorderLayout.CENTER);
+        centerPanel.revalidate();
+        centerPanel.repaint();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
                 setJButtonProperties(cell);
+                cell.setPreferredSize(new Dimension(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5));
+                cell.revalidate();
+                cell.repaint();
                 cell.setSize(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5);
+                cell.revalidate();
+                cell.repaint();
                 cell.setIcon(loadImage("images/blue_square.png",cell.getWidth(), cell.getHeight() ));
+                cell.revalidate();
+                cell.repaint();
                 overlayPanel.add(cell,BorderLayout.CENTER);
+                overlayPanel.revalidate();
+                overlayPanel.repaint();
                 cell.setVisible(false);
                 cellsX.put(cell,i);
                 cellsY.put(cell,j);
@@ -480,7 +566,11 @@ public class Game extends JFrame implements Observer<Object> {
         initialBoardPanel = new JPanel();
         initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
         initialBoardPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
+        initialBoardPanel.revalidate();
+        initialBoardPanel.repaint();
         initialBoardPanel.setSize(centerPanel.getWidth(), centerPanel.getHeight());
+        initialBoardPanel.revalidate();
+        initialBoardPanel.repaint();
         initialBoardPanel.setOpaque(false);
         initialBoardPanel.setBorder(BorderFactory.createEmptyBorder());
         for (int i = 0; i < 5; i++) {
@@ -488,22 +578,29 @@ public class Game extends JFrame implements Observer<Object> {
                 board[i][j] = new JButton();
                 setJButtonProperties(board[i][j]);
                 board[i][j].setPreferredSize(new Dimension(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5));
+                board[i][j].revalidate();
+                board[i][j].repaint();
                 board[i][j].setSize(initialBoardPanel.getWidth()/5, initialBoardPanel.getHeight()/5);
+                board[i][j].revalidate();
+                board[i][j].repaint();
                 board[i][j].setEnabled(false);
                 board[i][j].setVisible(false);
                 initialBoardPanel.add(board[i][j]);
             }
         }
         centerPanel.add(initialBoardPanel,BorderLayout.CENTER);
+        centerPanel.revalidate();
+        centerPanel.repaint();
     }
 
     private void drawCards(){
-        BufferedImage image, imagePressed;
         final HashMap<JButton, Integer> gods = new LinkedHashMap<>();
         setMessageOnPopup("Please select " + clientConfigurator.getNumberOfPlayer() + " god cards");
 
         final JPanel panel = new JPanel(true);
-        panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() * 0.8333));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        panel.revalidate();
+        panel.repaint();
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(3,3,10,10));
 
@@ -515,12 +612,20 @@ public class Game extends JFrame implements Observer<Object> {
         final JPanel arrowPanel=new JPanel(true);
         arrowPanel.setLayout(new GridLayout(1,2,100,10));
         arrowPanel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight()/10));
+        arrowPanel.revalidate();
+        arrowPanel.repaint();
         arrowPanel.setOpaque(false);
         JButton leftArrow=new JButton();
         setJButtonProperties(leftArrow);
         leftArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
+        leftArrow.revalidate();
+        leftArrow.repaint();
         leftArrow.setIcon(loadImage("images/Miscellaneous/btn_back.png",leftArrow.getWidth(), leftArrow.getHeight()));
+        leftArrow.revalidate();
+        leftArrow.repaint();
         leftArrow.setPressedIcon(loadImage("images/Miscellaneous/btn_back_pressed.png",leftArrow.getWidth(), leftArrow.getHeight()));
+        leftArrow.revalidate();
+        leftArrow.repaint();
         leftArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -542,8 +647,14 @@ public class Game extends JFrame implements Observer<Object> {
         JButton rightArrow=new JButton();
         setJButtonProperties(rightArrow);
         rightArrow.setSize(southPanel.getWidth()/10,southPanel.getHeight()/2);
+        rightArrow.revalidate();
+        rightArrow.repaint();
         rightArrow.setIcon(loadImage("images/Miscellaneous/btn_front.png", rightArrow.getWidth(), rightArrow.getHeight()));
+        rightArrow.revalidate();
+        rightArrow.repaint();
         rightArrow.setPressedIcon(loadImage("images/Miscellaneous/btn_front_pressed.png", rightArrow.getWidth(), rightArrow.getHeight()));
+        rightArrow.revalidate();
+        rightArrow.repaint();
         rightArrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -566,9 +677,13 @@ public class Game extends JFrame implements Observer<Object> {
             final JButton god = new JButton();
             setJButtonProperties(god);
             god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
+            god.revalidate();
+            god.repaint();
             String fileName = Gods.getGod(i).toString();
             fileName = fileName.substring(fileName.lastIndexOf('.')+1, fileName.indexOf('@'));
             god.setIcon(loadImage("images/God_with_frame/"+ fileName +".png", god.getWidth(), god.getHeight()));
+            god.revalidate();
+            god.repaint();
             if(i<=8){
                 panel.add(god);
             }
@@ -626,14 +741,20 @@ public class Game extends JFrame implements Observer<Object> {
         BufferedImage image;
         final JPanel panel = new JPanel(true);
         panel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight());
+        panel.revalidate();
+        panel.repaint();
         panel.setOpaque(false);
         panel.setLayout(new GridLayout(2,2,0,0));
         for (int i = 0; i < godsName.size(); i++) {
             final JButton god = new JButton();
             setJButtonProperties(god);
             god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
+            god.revalidate();
+            god.repaint();
             String fileName = godsName.get(i);
             god.setIcon(loadImage("images/God_with_frame/" + fileName + ".png",god.getWidth(), god.getHeight()));
+            god.revalidate();
+            god.repaint();
             panel.add(god);
             gods.put(god, i);
             god.addActionListener(new ActionListener() {
@@ -864,6 +985,8 @@ public class Game extends JFrame implements Observer<Object> {
             if(isVisible){
                 Image normal = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource(path)).getScaledInstance(cell.getWidth(), cell.getHeight(), Image.SCALE_AREA_AVERAGING);
                 cell.setIcon(new ImageIcon(normal));
+                cell.revalidate();
+                cell.repaint();
                 cell.setDisabledIcon(new ImageIcon(normal));
             }
             cell.setVisible(isVisible);
@@ -881,11 +1004,21 @@ public class Game extends JFrame implements Observer<Object> {
         removeBoard();
         endGamePanel = new JPanel();
         setJPanelProperties(endGamePanel,0,0,mainPanel.getWidth(), mainPanel.getHeight());
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+
         mainPanel.add(endGamePanel);
         endGameImage = new JLabel();
         endGameImage.setPreferredSize(new Dimension(endGamePanel.getWidth(), endGamePanel.getHeight()));
+        endGameImage.revalidate();
+        endGameImage.repaint();
         endGameImage.setSize(endGamePanel.getWidth(), endGamePanel.getHeight());
+        endGameImage.revalidate();
+        endGameImage.repaint();
         endGameImage.setIcon(loadImage("images/End_game.png", endGameImage.getWidth(),endGameImage.getHeight()));
+        endGameImage.revalidate();
+        endGameImage.repaint();
+
         mainPanel.add(endGameImage, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -900,6 +1033,7 @@ public class Game extends JFrame implements Observer<Object> {
         resetNewGame();
         revalidate();
         repaint();
+        pack();
     }
 
     private void resetNewGame(){
@@ -920,26 +1054,41 @@ public class Game extends JFrame implements Observer<Object> {
     private void setJPanelsOnEndGame(HashMap<Player, Integer> podium){
         endGamePanelPlayers = new JPanel();
         value = 0.552083;
-        setJPanelProperties(endGamePanelPlayers, 10,60, (int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
+        setJPanelProperties(endGamePanelPlayers, 10,60, (int)(endGamePanel.getWidth() * value),(int)(endGamePanel.getHeight() * 0.83333));// (int)(endGamePanel.getHeight() - endGamePanel.getHeight() * 0.1389));
+        endGamePanelPlayers.revalidate();
+        endGamePanelPlayers.repaint();
+
         endGamePanel.add(endGamePanelPlayers, BorderLayout.CENTER);
 
         value = 0.2129629;
         southPanel = new JLabel();
         setJLabelProperties(southPanel, 10,60, 25f,Color.WHITE, (int)(endGamePanel.getWidth() * value), (int)(endGamePanel.getHeight() * value));
+        southPanel.revalidate();
+        southPanel.repaint();
+
         endGamePanel.add(southPanel, BorderLayout.SOUTH);
 
         value = 0.260416;
         playAgain = new JPanel(true);
         setJPanelProperties(playAgain, 10,50, (int)(endGamePanel.getWidth() * value), endGamePanel.getHeight());
+        playAgain.revalidate();
+        playAgain.repaint();
+
         JButton playAgainButton = new JButton();
         playAgainButton.setSize(playAgain.getWidth()/2, playAgain.getHeight()/4);
+        playAgainButton.revalidate();
+        playAgainButton.repaint();
         setJButtonProperties(playAgainButton);
 
         playAgainButton.setHorizontalAlignment(SwingConstants.CENTER);
         Image playAgainImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/button-play-again-normal.png")).getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
         Image playAgainImagePressed = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/button-play-again-down.png")).getScaledInstance(playAgainButton.getWidth(), playAgainButton.getHeight(), Image.SCALE_AREA_AVERAGING);
         playAgainButton.setIcon(new ImageIcon(playAgainImage));
+        playAgainButton.revalidate();
+        playAgainButton.repaint();
         playAgainButton.setPressedIcon(new ImageIcon(playAgainImagePressed));
+        playAgainButton.revalidate();
+        playAgainButton.repaint();
         playAgain.add(playAgainButton,BorderLayout.CENTER);
         playAgainButton.addActionListener(new ActionListener() {
             @Override
@@ -952,15 +1101,24 @@ public class Game extends JFrame implements Observer<Object> {
 
         exitGame = new JPanel(true);
         setJPanelProperties(exitGame, 10,10,(int)(endGamePanel.getWidth() * value), endGamePanel.getBounds().height);
+        exitGame.revalidate();
+        exitGame.repaint();
+
         JButton exitButton = new JButton();
         exitButton.setSize(exitGame.getWidth()/2, exitGame.getHeight()/4);
+        exitButton.revalidate();
+        exitButton.repaint();
         setJButtonProperties(exitButton);
 
         exitButton.setHorizontalAlignment(SwingConstants.CENTER);
         Image exit = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/btn-exit-normal.png")).getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
         Image exit_pressed = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/btn-exit-down.png")).getScaledInstance(exitButton.getWidth(), exitButton.getHeight(), Image.SCALE_AREA_AVERAGING);
         exitButton.setIcon(new ImageIcon(exit));
+        exitButton.revalidate();
+        exitButton.repaint();
         exitButton.setPressedIcon(new ImageIcon(exit_pressed));
+        exitButton.revalidate();
+        exitButton.repaint();
         exitGame.add(exitButton,BorderLayout.CENTER);
 
         exitButton.addActionListener(new ActionListener() {
@@ -975,13 +1133,25 @@ public class Game extends JFrame implements Observer<Object> {
         value = 0.199074;
         messageLabel = new JLabel();
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
+        messageLabel.revalidate();
+        messageLabel.repaint();
+
         endGamePanel.add(messageLabel, BorderLayout.NORTH);
 
         Image dimg = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/Santorini_GenericPopup.png")).getScaledInstance(messageLabel.getWidth(), messageLabel.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(dimg);
         messageLabel.setIcon(imageIcon);
+        messageLabel.revalidate();
+        messageLabel.repaint();
         //messageLabel.setForeground(Color.WHITE);
+        endGamePanel.revalidate();
+        endGamePanel.repaint();
+        revalidate();
+        repaint();
         addPlayersEndGame(podium);
+        revalidate();
+        repaint();
+        pack();
     }
 
     private void addPlayersEndGame(HashMap<Player, Integer> podium){
@@ -994,7 +1164,11 @@ public class Game extends JFrame implements Observer<Object> {
         String[] s=new String[3];
         centerEnd.setLayout(new BorderLayout());
         centerEnd.setPreferredSize(new Dimension(2,50));
+        centerEnd.revalidate();
+        centerEnd.repaint();
         centerEnd.setSize(2,50);
+        centerEnd.revalidate();
+        centerEnd.repaint();
         centerEnd.setOpaque(false);
         endGamePanelPlayers.add(centerEnd,BorderLayout.CENTER);
         if(!isSimplePlay){
@@ -1057,21 +1231,32 @@ public class Game extends JFrame implements Observer<Object> {
         ImageIcon imageIcon = new ImageIcon(dimg);
         ImageIcon imageIcon2 = new ImageIcon(dimg2);
         winner.setIcon(imageIcon);
+        winner.revalidate();
+        winner.repaint();
         winnerName.setIcon(imageIcon2);
+        winner.revalidate();
+        winner.repaint();
         winnerPanel.add(winner,BorderLayout.CENTER);
         winnerPanel.add(winnerName, BorderLayout.SOUTH);
+        winnerPanel.revalidate();
+        winnerPanel.repaint();
         endGamePanelPlayers.add(winnerPanel, BorderLayout.NORTH);
+        endGamePanelPlayers.revalidate();
+        endGamePanelPlayers.repaint();
 
         JPanel losers = new JPanel();
         JPanel loserPanel1 = new JPanel();
         JPanel loserPanel2 = new JPanel();
         losers.setLayout(new GridLayout(1,2,0,0));
         losers.setPreferredSize(new Dimension(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2));
+        losers.revalidate();
+        losers.repaint();
         losers.setSize(endGamePanelPlayers.getWidth(),endGamePanelPlayers.getHeight()/2);
+        losers.revalidate();
+        losers.repaint();
         losers.setOpaque(false);
         setJPanelProperties(loserPanel1,0,0,losers.getWidth()/2,losers.getHeight());
         setJPanelProperties(loserPanel2,0,0,losers.getWidth()/2,losers.getHeight());
-        BufferedImage imgLoser, imgNameLoser;
         JLabel loser1 = new JLabel();
         JLabel loserName1 = new JLabel();
         JLabel loser2 = new JLabel();
@@ -1097,10 +1282,18 @@ public class Game extends JFrame implements Observer<Object> {
         ImageIcon imageIcon3 = new ImageIcon(dimg3);
         ImageIcon imageIcon4 = new ImageIcon(dimg4);
         loser1.setIcon(imageIcon3);
+        loser1.revalidate();
+        loser1.repaint();
         loserName1.setIcon(imageIcon4);
+        loserName1.revalidate();
+        loserName1.repaint();
         loserPanel1.add(loser1,BorderLayout.CENTER);
         loserPanel1.add(loserName1, BorderLayout.SOUTH);
+        loserPanel1.revalidate();
+        loserPanel1.repaint();
         losers.add(loserPanel1);
+        losers.revalidate();
+        losers.repaint();
 
         if(s[2] != null){
             setJLabelProperties(loser2, 0,0, 25f, Color.WHITE,(int)(loserPanel2.getWidth() * value),(int)(loserPanel2.getHeight() * value2));
@@ -1121,10 +1314,18 @@ public class Game extends JFrame implements Observer<Object> {
             ImageIcon imageIcon5 = new ImageIcon(dimg5);
             ImageIcon imageIcon6 = new ImageIcon(dimg6);
             loser2.setIcon(imageIcon5);
+            loser2.revalidate();
+            loser2.repaint();
             loserName2.setIcon(imageIcon6);
+            loserName1.revalidate();
+            loserName1.repaint();
             loserPanel2.add(loser2,BorderLayout.CENTER);
             loserPanel2.add(loserName2, BorderLayout.SOUTH);
+            loserPanel2.revalidate();
+            loserPanel2.repaint();
             losers.add(loserPanel2);
+            losers.revalidate();
+            losers.repaint();
 
         }
         setMessageOnPopup("Would you like to play again?");
@@ -1209,20 +1410,33 @@ public class Game extends JFrame implements Observer<Object> {
         godPanel.setLayout(new BorderLayout(10,10));
         godPanel.setOpaque(false);
         godPanel.setPreferredSize(new Dimension(leftPanel.getWidth(), leftPanel.getHeight()/2));
+        godPanel.revalidate();
+        godPanel.repaint();
         godPanel.setSize(leftPanel.getWidth(), leftPanel.getHeight()/2);
+        godPanel.revalidate();
+        godPanel.repaint();
 
         godPanel.setAlignmentX(SwingConstants.CENTER);
         godPanel.setAlignmentY(SwingConstants.CENTER);
 
         JPanel internalPanel=new JPanel(true);
         internalPanel.setLayout(new GridLayout(1,2,10,0));
+        internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
+        internalPanel.revalidate();
+        internalPanel.repaint();
         internalPanel.setSize(godPanel.getWidth(), godPanel.getHeight()/3);
+        internalPanel.revalidate();
+        internalPanel.repaint();
         internalPanel.setOpaque(false);
 
         JButton yes = new JButton();
         JButton no = new JButton();
         yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
+        yes.revalidate();
+        yes.repaint();
         no.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
+        no.revalidate();
+        no.repaint();
         setJButtonProperties(yes);
         setJButtonProperties(no);
 
@@ -1233,12 +1447,20 @@ public class Game extends JFrame implements Observer<Object> {
 
         n = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_green.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
         yes.setIcon(new ImageIcon(n));
+        yes.revalidate();
+        yes.repaint();
         np = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_green_pressed.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
         yes.setPressedIcon(new ImageIcon(np));
+        yes.revalidate();
+        yes.repaint();
         n2 = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_coral.png")).getScaledInstance(no.getWidth(), no.getHeight(), Image.SCALE_AREA_AVERAGING);
         no.setIcon(new ImageIcon(n2));
+        no.revalidate();
+        no.repaint();
         n2p = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_coral_pressed.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
         no.setPressedIcon(new ImageIcon(n2p));
+        no.revalidate();
+        no.repaint();
 
         yes.addActionListener(new ActionListener() {
             @Override
@@ -1258,7 +1480,6 @@ public class Game extends JFrame implements Observer<Object> {
 
         internalPanel.add(no);
         internalPanel.add(yes);
-        internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
         godPanel.add(internalPanel, BorderLayout.SOUTH);
 
         leftPanel.add(godPanel, BorderLayout.SOUTH);
@@ -1267,8 +1488,6 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void prometheusPower(){
-        BufferedImage image;
-        final Image normal;
         setMessageOnPopup("Make a choice");
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
@@ -1319,21 +1538,32 @@ public class Game extends JFrame implements Observer<Object> {
 
         JPanel internalPanel=new JPanel(true);
         internalPanel.setLayout(new GridLayout(1,1,10,0));
+        internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
+        internalPanel.revalidate();
+        internalPanel.repaint();
         internalPanel.setSize(godPanel.getWidth(), godPanel.getHeight()/3);
+        internalPanel.revalidate();
+        internalPanel.repaint();
         internalPanel.setOpaque(false);
 
         JButton yes = new JButton();
         setJButtonProperties(yes);
         yes.setSize(internalPanel.getWidth()/4, internalPanel.getHeight()/5);
+        yes.revalidate();
+        yes.repaint();
         yes.setHorizontalAlignment(SwingConstants.CENTER);
         Image n;
         Image np;
 
         n = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_ok.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
         yes.setIcon(new ImageIcon(n));
+        yes.revalidate();
+        yes.repaint();
 
         np = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/GodPower/btn_ok_pressed.png")).getScaledInstance(yes.getWidth(), yes.getHeight(), Image.SCALE_AREA_AVERAGING);
         yes.setPressedIcon(new ImageIcon(np));
+        yes.revalidate();
+        yes.repaint();
 
 
         yes.addActionListener(new ActionListener() {
@@ -1345,7 +1575,7 @@ public class Game extends JFrame implements Observer<Object> {
         });
 
         internalPanel.add(yes);
-        internalPanel.setPreferredSize(new Dimension(godPanel.getWidth()/2, (int)(godPanel.getHeight()*0.6)));
+
         godPanel.add(internalPanel, BorderLayout.SOUTH);
 
         leftPanel.add(godPanel, BorderLayout.SOUTH);
