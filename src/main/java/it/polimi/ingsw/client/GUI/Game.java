@@ -285,7 +285,6 @@ public class Game extends JFrame implements Observer<Object> {
         mainPanel.repaint();
         revalidate();
         repaint();
-        pack();
     }
 
     private void clearGui(){
@@ -818,7 +817,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(0, 0, getWidth(), getHeight());
+                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.55));
                 super.paintComponent(g);
             }
         };
@@ -1163,7 +1162,6 @@ public class Game extends JFrame implements Observer<Object> {
         resetNewGame();
         revalidate();
         repaint();
-        //pack();
     }
 
     private void resetNewGame(){
@@ -1281,7 +1279,6 @@ public class Game extends JFrame implements Observer<Object> {
         addPlayersEndGame(podium);
         revalidate();
         repaint();
-        pack();
     }
 
     private void addPlayersEndGame(HashMap<Player, Integer> podium){
