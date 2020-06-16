@@ -1007,7 +1007,8 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanel.revalidate();
         endGamePanel.repaint();
 
-        mainPanel.add(endGamePanel);
+        //mainPanel.add(endGamePanel);
+        add(endGamePanel);
         endGameImage = new JLabel();
         endGameImage.setPreferredSize(new Dimension(endGamePanel.getWidth(), endGamePanel.getHeight()));
         endGameImage.revalidate();
@@ -1019,21 +1020,27 @@ public class Game extends JFrame implements Observer<Object> {
         endGameImage.revalidate();
         endGameImage.repaint();
 
-        mainPanel.add(endGameImage, BorderLayout.CENTER);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        //mainPanel.add(endGameImage, BorderLayout.CENTER);
+        add(endGameImage, BorderLayout.CENTER);
+        //mainPanel.revalidate();
+        //mainPanel.repaint();
+        remove(mainPanel);
         setJPanelsOnEndGame(podium);
     }
 
     private void removeEndGameLayout(){
+        endGameImage.setIcon(loadImage("images/SantoriniBoard.png", endGameImage.getWidth(),endGameImage.getHeight()));
+        endGameImage.revalidate();
+        endGameImage.repaint();
+        messageLabel.setText("Wait for the answers of the other players.");
         endGamePanel.removeAll();
         remove(endGamePanel);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        //mainPanel.revalidate();
+        //mainPanel.repaint();
         resetNewGame();
         revalidate();
         repaint();
-        pack();
+        //pack();
     }
 
     private void resetNewGame(){
