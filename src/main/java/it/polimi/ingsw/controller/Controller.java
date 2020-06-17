@@ -187,16 +187,16 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * This method check if a worker can move around his cell
-     * For each cell around it check:
+     * This method checks if a given worker can move
+     * For each cell around the worker it checks:
      *  - If the cell is free
-     *  - If the cell is not the same where the worker is
-     *  - If the difference between the actual cell level and the next one is at least one
-     *  - If a dome has't been built in the cell
-     *  If the control for the single cell is positive, the counter is incremented
-     * @param worker the worker the player has chosen to move
-     * @param player the player who is asking the action
-     * @return the number of cell which have passed the control
+     *  - If the cell is not the same one where the worker is
+     *  - If the difference between the actual cell level and the next one is at most one
+     *  - If the cell's level is less than 4 (meaning there is not a dome in that cell)
+     *  If every test has been passed, a counter is incremented
+     * @param worker is the player's worker which needs to be moved
+     * @param player is the player who is trying to move
+     * @return the number of cells which have passed the tests
      */
     protected synchronized int canMove(Worker worker, Player player){
         Cell actualCell = worker.getCell();
@@ -215,17 +215,17 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * This method recive a placement for a worker
-     * @param playerWorker the Message subclass containing the information about player, and the cell chosen for the worker
-     * First check if the player who has sent the message is the player in turn
-     * If he is, the worker is set in the board throw model setWorker function
+     * This method receives a the information to place a worker on the board.
+     * @param playerWorker the Message subclass containing the information about the player and the cell chosen for the worker to be placed
+     * At first it checks if the player who has sent the message is the actual turn's player
+     * If he is, the worker is placed on the board using the model's setWorker function
      * Then:
-     *      - If the Phase is SETWORKER1 update the model phase to SETWORKER2 but not the turn
-     *      - If the phase is SETWORKER2 we can have 2 different cases:
-     *                     - The player is not the last -> update turn and set the phase to SETWORKER1 again
-     *                     - The player is the last -> update turn and set model to MOVE phase
+     *      - If the phase is SETWORKER1 then it changes the model phase to SETWORKER2 but it doesn't change the turn
+     *      - If the phase is SETWORKER2 we can have 2 different alternatives:
+     *                     - If the player wasn't the only one who didn't place the worker -> this method updates the turn and sets the phase to SETWORKER1 again
+     *                     - Otherwise -> it updates the turn and sets model's phase to MOVE
      *
-     * If an error is catch, it is sent only to che client who have generated it
+     * If an error has been caught, it is sent only to che client which has generated it
      */
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
         //Check for right turn
@@ -267,15 +267,15 @@ public class Controller implements Observer<Message> {
 
 
     /**
-     * This method receive a move action
-     * @param move the Message subclass containing the whole information
-     * First check if the player who has sent the message is the player in turn
+     * This method receives a move action
+     * @param move is the Message subclass containing every information
+     * At first it checks if the player who has sent the message is turn's player
      * Then:
-     *      - Check if the selected worker can move calling canMove
-     *      - Call checkCellAround and check if the selected cell is available in the map and it results true
-     * If all controls are positive set the next model phase to BUILT, update messages and MessageType and updae the turn
-     * Then uodate the model with the new board configuration and notify clients of the uodate
-     * At the end check if someone won
+     *      - it checks if the selected worker can move, calling the canMove method
+     *      - it checks if the selected cell is in the map returned by the checkCellAround function, meaning you can move there
+     * If every test is positive, it sets the next model's phase to BUILD, it updates the messages, and updates the turn
+     * It then updates the model using the new board and notifies the clients
+     * At the end, it checks if anyone won
      * If an error is caught, it is sent to the client which generated it
      */
     public synchronized void move(PlayerMove move) {
