@@ -343,10 +343,10 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This function return the number of completed tower built in the board.
-     * A complete tower is a build made from level 0 to dome without using god power
-     * @return the number in the board
-     */
+     * This function counts the amount of complete tower built in the board.
+     * A complete tower is a build made from level 0 to 4 without using any god power
+     * @return the calculated amount
+     * */
     public synchronized int countTowers(){
         int counter=0;
         Board board=model.getBoard();
@@ -361,8 +361,8 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method check call for each god card in the play the checkVictory method.
-     * If none of them change game flow, the default function is recalled
+     * This method checks if any of the win conditions within the cards in the game affects the victory of any player.
+     * If none of them changed the game flow, the default function is recalled
      */
     @Override
     protected synchronized void checkVictory() {
@@ -373,11 +373,11 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method is used to check which cells are available for a worker
-     * @param actualWorker the worker in the bord where to check
-     * @return an HasMap containing the cells and a boolean flag with the check result
-     * The check is made by a god card function, by default, if a god card don't have a different implementation
-     * the GodCard.checkCell call the controller chack cell {@link GodCard}
+     * This method is used to determine in which cells the worker can move, associating every cell around the worker to a boolean value
+     * @param actualWorker is the worker who wants to move
+     * @return a map containing the board cell as key and a boolean representing whether cell is available for the move or not
+     * The check is made by a god card function by default, if the god card doesn't have any different implementation
+     * the GodCard.checkCell call the controller check cell {@link GodCard}
      */
     @Override
     protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){
