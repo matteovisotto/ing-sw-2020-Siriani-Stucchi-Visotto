@@ -42,7 +42,7 @@ public class Game extends JFrame implements Observer<Object> {
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
     private GraphicsEnvironment ge;
     private Font customFont;
-    private HashMap<String,String> godsFunction = new HashMap<>();
+    private HashMap<String,String> godsFunction;
 
     public Game(final GUIClient guiClient){
         customCursor();
@@ -437,7 +437,7 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void addOpponentsSimpleMode() {
         try {
-            String filename = "";
+            String filename;
             JPanel opponentsPanel = new JPanel(true);
             opponentsPanel.setOpaque(false);
             opponentsPanel.setLayout(new GridLayout(opponentsNames.size(), 1, 0, 0));
@@ -636,7 +636,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.55));
+                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.70));
                 super.paintComponent(g);
             }
         };
@@ -673,7 +673,7 @@ public class Game extends JFrame implements Observer<Object> {
 
         final JPanel arrowPanel=new JPanel(true);
         arrowPanel.setLayout(new GridLayout(1,2,100,10));
-        arrowPanel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() - mainPanel.getHeight()/10));
+        arrowPanel.setSize(centerPanel.getWidth() - 100, (mainPanel.getHeight() - mainPanel.getHeight()/10));
         arrowPanel.revalidate();
         arrowPanel.repaint();
         arrowPanel.setOpaque(false);
@@ -817,7 +817,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.55));
+                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.70));
                 super.paintComponent(g);
             }
         };
@@ -867,9 +867,8 @@ public class Game extends JFrame implements Observer<Object> {
                     super.mouseEntered(e);
                     label2.setOpaque(false);
                     label2.setBackground(new Color(255, 255, 255, 75));
-                    String string = Gods.getGod(gods.get((JButton) e.getSource())).toString();
-                    string = string.substring(string.lastIndexOf('.')+1, string.indexOf('@'));
-                    label.setIcon(loadImage("images/God_with_frame/"+ string +".png", (int)(god.getWidth()/2), (int)(god.getHeight())));
+                    String string = godsName.get(gods.get((JButton) e.getSource()));
+                    label.setIcon(loadImage("images/God_with_frame/"+ Parser.toCapitalize(string) +".png", (god.getWidth()/2), (god.getHeight())));
                     String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
                     label2.setText(labelText);
                     label2.setVerticalTextPosition(SwingConstants.TOP);
