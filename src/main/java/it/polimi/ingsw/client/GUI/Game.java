@@ -651,7 +651,7 @@ public class Game extends JFrame implements Observer<Object> {
         leftPanel.add(label2,BorderLayout.CENTER);
 
         final JPanel panel = new JPanel(true);
-        panel.setSize(centerPanel.getWidth() - 100, (int)(mainPanel.getHeight() * 0.8333));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        panel.setSize((int)(centerPanel.getWidth() * 0.873737), (int)(mainPanel.getHeight() * 0.8333));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         panel.revalidate();
         panel.repaint();
         panel.setOpaque(false);
@@ -671,9 +671,9 @@ public class Game extends JFrame implements Observer<Object> {
         centerSouthLabel.setText("Simple Gods");
         southPanel.add(centerSouthLabel);
 
-        final JPanel arrowPanel=new JPanel(true);
+        final JPanel arrowPanel = new JPanel(true);
         arrowPanel.setLayout(new GridLayout(1,2,100,10));
-        arrowPanel.setSize(centerPanel.getWidth() - 100, (mainPanel.getHeight() - mainPanel.getHeight()/10));
+        arrowPanel.setSize((int)(centerPanel.getWidth() * 0.873737), (int)(mainPanel.getHeight() * 0.1));//(mainPanel.getHeight() - mainPanel.getHeight()/10));
         arrowPanel.revalidate();
         arrowPanel.repaint();
         arrowPanel.setOpaque(false);
@@ -738,7 +738,7 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i=0; i<14; i++) {
             final JButton god = new JButton();
             setJButtonProperties(god);
-            god.setSize(panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
+            god.setSize((int)(panel.getWidth() * 0.3),(int)(panel.getHeight() * 0.22222));//panel.getWidth()/3 - 30,panel.getHeight()/3 - 100);
             god.revalidate();
             god.repaint();
             String fileName = Gods.getGod(i).toString();
@@ -844,7 +844,7 @@ public class Game extends JFrame implements Observer<Object> {
         setMessageOnPopup("Please select a god card");
         BufferedImage image;
         final JPanel panel = new JPanel(true);
-        panel.setSize(centerPanel.getWidth() - 100, centerPanel.getHeight());
+        panel.setSize((int)(centerPanel.getWidth() * 0.873737), centerPanel.getHeight());
         panel.revalidate();
         panel.repaint();
         panel.setOpaque(false);
@@ -852,7 +852,7 @@ public class Game extends JFrame implements Observer<Object> {
         for (int i = 0; i < godsName.size(); i++) {
             final JButton god = new JButton();
             setJButtonProperties(god);
-            god.setSize(panel.getWidth() / 3 - 30, panel.getHeight() / 3 - 30);
+            god.setSize((int)(panel.getWidth() * 0.3),(int)(panel.getHeight() * 0.3));
             god.revalidate();
             god.repaint();
             String fileName = godsName.get(i);
@@ -976,13 +976,13 @@ public class Game extends JFrame implements Observer<Object> {
             return;
         }
         resetOverlayPanel();
-        for (int i = x-1; i <= x+1; i++) {
-            for (int j = y-1; j <= y+1; j++){
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++){
                 try{
-                    if(!(i==x && j==y) && i>=0 && j>=0 && i<=4 && j<=4 && !(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) && !(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j)){
-                        (overlayPanel.getComponent(i*5+j)).setVisible(true);
-                        (overlayPanel.getComponent(i*5+j)).setEnabled(true);
-                        ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                    if(!(i == x && j == y) && i >= 0 && j >= 0 && i <= 4 && j <= 4 && !(player.getWorker(0).getCell().getX() == i && player.getWorker(0).getCell().getY() == j) && !(player.getWorker(1).getCell().getX() == i && player.getWorker(1).getCell().getY() == j)){
+                        (overlayPanel.getComponent(i * 5 + j)).setVisible(true);
+                        (overlayPanel.getComponent(i * 5 + j)).setEnabled(true);
+                        ((JButton)overlayPanel.getComponent(i * 5 + j)).addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 ((JButton)e.getSource()).setSelected(false);
@@ -998,10 +998,10 @@ public class Game extends JFrame implements Observer<Object> {
                                 guiClient.send(response);
                             }
                         });
-                        final int ii=i;
-                        final int jj=j;
-                        initialBoardPanel.getComponent(i*5+j).setEnabled(true);
-                        ((JButton)initialBoardPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                        final int ii = i;
+                        final int jj = j;
+                        initialBoardPanel.getComponent(i * 5 + j).setEnabled(true);
+                        ((JButton)initialBoardPanel.getComponent(i * 5 + j)).addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 ((JButton)e.getSource()).setSelected(false);
@@ -1030,15 +1030,15 @@ public class Game extends JFrame implements Observer<Object> {
     private void performBuild(){
         int x=player.getWorker(player.getUsedWorker()).getCell().getX();
         int y=player.getWorker(player.getUsedWorker()).getCell().getY();
-        for (int i = x-1; i <= x+1; i++) {
-            for (int j = y-1; j <= y+1; j++){
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++){
                 try{
-                    if((!(i==x && j==y) || player.getGodCard().getCardGod()==Gods.ZEUS) && i>=0 && j>=0 && i<=4 && j<=4 &&
-                            (!(player.getWorker(0).getCell().getX()==i && player.getWorker(0).getCell().getY()==j) || player.getGodCard().getCardGod()==Gods.ZEUS) &&
-                            (!(player.getWorker(1).getCell().getX()==i && player.getWorker(1).getCell().getY()==j) || player.getGodCard().getCardGod()==Gods.ZEUS)){
-                        (overlayPanel.getComponent(i*5+j)).setVisible(true);
-                        (overlayPanel.getComponent(i*5+j)).setEnabled(true);
-                        ((JButton)overlayPanel.getComponent(i*5+j)).addActionListener(new ActionListener() {
+                    if((!(i == x && j == y) || player.getGodCard().getCardGod()==Gods.ZEUS) && i >= 0 && j >= 0 && i <= 4 && j <= 4 &&
+                            (!(player.getWorker(0).getCell().getX() == i && player.getWorker(0).getCell().getY() == j) || player.getGodCard().getCardGod() == Gods.ZEUS) &&
+                            (!(player.getWorker(1).getCell().getX() == i && player.getWorker(1).getCell().getY() == j) || player.getGodCard().getCardGod() == Gods.ZEUS)){
+                        (overlayPanel.getComponent(i * 5 + j)).setVisible(true);
+                        (overlayPanel.getComponent(i * 5 + j)).setEnabled(true);
+                        ((JButton)overlayPanel.getComponent(i * 5 + j)).addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
                                 sendCell(e);
@@ -1168,7 +1168,7 @@ public class Game extends JFrame implements Observer<Object> {
         opponentsNames.clear();
         opponentGods.clear();
         myGod.clear();
-        selectedWorker = -1;
+        selectedWorker = - 1;
         response = "";
         multipleSelections.clear();
         chosenCellY = "";
@@ -1299,34 +1299,34 @@ public class Game extends JFrame implements Observer<Object> {
         endGamePanelPlayers.add(centerEnd,BorderLayout.CENTER);
         if(!isSimplePlay){
             for (Player player: podium.keySet()) {
-                s[podium.get(player)-1]=player.getGodCard().getName();
+                s[podium.get(player) - 1]=player.getGodCard().getName();
             }
         }
         else{
             for (Player player: podium.keySet()) {
                 if(player.equals(this.player)){
-                    s[podium.get(player)-1] = "our";
+                    s[podium.get(player) - 1] = "our";
                 }
                 else if (clientConfigurator.getOpponentsNames().get(player.getPlayerName()).equals("red")){
-                    s[podium.get(player)-1] = "Enemy_red";
+                    s[podium.get(player) - 1] = "Enemy_red";
                 }
                 else {
-                    s[podium.get(player)-1] = "Enemy_green";
+                    s[podium.get(player) - 1] = "Enemy_green";
                 }
             }
         }
         for (Player player: podium.keySet()) {
             if(player.equals(this.player)){
-                podiumNames[podium.get(player)-1] = "Our";
-                realPodiumNames[podium.get(player)-1] = player.getPlayerName();
+                podiumNames[podium.get(player) - 1] = "Our";
+                realPodiumNames[podium.get(player) - 1] = player.getPlayerName();
             }
             else if (clientConfigurator.getOpponentsNames().get(player.getPlayerName()).equals("red")){
-                podiumNames[podium.get(player)-1] = "Enemy_red";
-                realPodiumNames[podium.get(player)-1] = player.getPlayerName();
+                podiumNames[podium.get(player) - 1] = "Enemy_red";
+                realPodiumNames[podium.get(player) - 1] = player.getPlayerName();
             }
             else {
-                podiumNames[podium.get(player)-1] = "Enemy_green";
-                realPodiumNames[podium.get(player)-1] = player.getPlayerName();
+                podiumNames[podium.get(player) - 1] = "Enemy_green";
+                realPodiumNames[podium.get(player) - 1] = player.getPlayerName();
             }
         }
 
