@@ -868,7 +868,11 @@ public class Game extends JFrame implements Observer<Object> {
                     label2.setOpaque(false);
                     label2.setBackground(new Color(255, 255, 255, 75));
                     String string = godsName.get(gods.get((JButton) e.getSource()));
-                    label.setIcon(loadImage("images/God_with_frame/"+ Parser.toCapitalize(string) +".png", (god.getWidth()/2), (god.getHeight())));
+                    if (godsName.size() == 2){//quando tocca al terzo giocatore
+                        label.setIcon(loadImage("images/God_with_frame/"+ Parser.toCapitalize(string) +".png", (god.getWidth()/2), (god.getHeight())));
+                    } else {//da mettere quando tocca al secondo giocatore
+                        label.setIcon(loadImage("images/God_with_frame/"+ Parser.toCapitalize(string) +".png", (god.getWidth()), (god.getHeight())));
+                    }
                     String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
                     label2.setText(labelText);
                     label2.setVerticalTextPosition(SwingConstants.TOP);
