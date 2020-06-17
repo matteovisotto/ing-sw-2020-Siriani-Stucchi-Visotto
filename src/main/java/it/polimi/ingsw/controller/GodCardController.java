@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * This class complete the controller class for using
+ * This class integrates additional controls so that the players can play in the "hard" mode
  */
 public class GodCardController extends Controller {
 
@@ -21,17 +21,24 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * Modified set worker function, if prometheus card exists it modify the game flow, insted start with moving phase it start with asking
-     * for using the power, only if the next player in turn has that card.
-     * @param playerWorker the Message subclass containing the information about player, and the cell chosen for the worker
-     * First check if the player who has sent the message is the player in turn
-     * If he is, the worker is set in the board throw model setWorker function
-     * Then:
-     *      - If the Phase is SETWORKER1 update the model phase to SETWORKER2 but not the turn
+     * It overrides the Controller's setPlayerWorker function, if Prometheus' god card is used in the game, this function modifies the game flow, instead of starting in the moving phase it makes the game start asking
+     * the Prometheus' owner to use the power, only if the starting player has that card.
+     * @param playerWorker is the Message subclass containing the information about player, and the cell chosen for the worker
+     * At first it checks if the player who has sent the message is the actual turn's player
+     *       If he is, the worker is placed on the board using the model's setWorker function
+     *         Then:
+     *            - If the phase is SETWORKER1 then it changes the model phase to SETWORKER2 but it doesn't change the turn
+     *            - If the phase is SETWORKER2 we can have 2 different alternatives:
+     *                           - If the player wasn't the only one who didn't place the worker -> this method updates the turn and sets the phase to SETWORKER1 again
+     *                           - Otherwise -> it updates the turn and sets model's phase to MOVE
+     *
+     *       If an error has been caught, it is sent only to che client which has generated it
+     *
+     *
      *      - If the phase is SETWORKER2 we can have 2 different cases:
      *                     - The player is not the last -> update turn and set the phase to SETWORKER1 again
-     *                     - The player is the last -> update turn and set model to MOVE phase or ask power if prometheus
-     *
+     *                     - Otherwise -> it updates the turn and sets model's phase to MOVE only if the first player's god
+     *                       card isn't Prometheus, in that case it sets the model's phase to WAIT_GOD_ANSWER
      */
     @Override
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
@@ -82,12 +89,12 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method let the first player choosing 2 or 3 god cards (depending on the number of players in the game)
-     * For each selected card the model add god function is called.
-     * If the selected curd number not corresponding the number of players an error is reported and te action asked again
-     * @param drawedCards the message sent by the view containing the drawed cards
+     * This method lets the first player choose 2 or 3 god cards (depending on the number of players in the game)
+     * For each selected card the model's addGod function is called.
+     * If the selected card number does not correspond to the number of players an error is reported and the action gets asked again
+     * @param drawedCards is the message sent by the view containing the drawed cards
      *
-     *  After saved the card the phase is changed to Pick a card in order to let the other player to choose their god card
+     *  After the cards are saved, the phase is changed to PICK_CARD, in order to let the other player(s) choose a god card
      */
     public synchronized void drawedCards(DrawedCards drawedCards){
         if(drawedCards.getFirst() == drawedCards.getSecond() || drawedCards.getFirst()==drawedCards.getThird() || drawedCards.getSecond()==drawedCards.getThird()){
@@ -131,10 +138,10 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * Thid method control and save the card chosen by a player, if the card exists in the array containing the ones drawed,
-     * the card is set and the phase updated to repeat the same action for the third player, else it assign the left card to the first player
+     * This method controls and saves the card chosen by a player, if the card exists in the array containing the ones drawed,
+     * the card is set and the phase updated to repeat the same action for the third player, otherwise it assigns the left card to the first player
      * and set the game phase to the SETWORKER1
-     * @param pickedCard the message sent by the view containing the selected card
+     * @param pickedCard is the message sent by the view containing the selected card(s)
      */
     public synchronized void pickACard(PickedCard pickedCard){
         if(!turnCheck(pickedCard)){
