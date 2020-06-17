@@ -15,10 +15,10 @@ public class Chronus extends GodCard {
     }
 
     /**
-     * This method change winning condition. Chronus win if the board there are 5 full towers (built from 0 to DOME)
-     * When called, counts the tower and if there are 5 or more call the victory for the player
-     * @param model the play model
-     * @param controller the play controller
+     * This method changes the winning conditions. Chronus wins if there are 5 full towers (built from 0 to DOME) on the board
+     * When called, it counts the tower and, if there are 5 or more, it calls the controller's victory function for the player
+     * @param model is the game's model
+     * @param controller is the game's controller
      */
     @Override
     public void checkVictory(Model model, GodCardController controller) {

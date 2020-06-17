@@ -16,12 +16,12 @@ public class Zeus extends GodCard {
     }
 
     /**
-     * This method override standard check built
-     * As documented Zeus can build also in the same cell where the used worker is.
-     * It controls if the cell level is not the third one and the cell in the one of the selected worker
-     * @param controller the play controller
-     * @param buildingCell the cell where player wants to build
-     * @param playerBuild the message received by the view
+     * This method overrides the standard build controls
+     * As documented, Zeus can also build in the same cell where the used worker is.
+     * It controls if the cell level is not the third one and the cell is the selected worker's one
+     * @param controller is the game controller
+     * @param buildingCell is the cell where the player wants to build
+     * @param playerBuild is the message received by the view
      * @return true if
      */
     @Override

@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- This class is intended to represent the Athena's GodCard
+ This class represents Athena's GodCard
  */
 public class Athena extends GodCard {
 
@@ -25,9 +25,9 @@ public class Athena extends GodCard {
     }
 
     /**
-     * This method makes the setMovedUp static boolean (contained in the Model) to true -> the other player can't move up; it could be used only if the player decide to activate his power.
-     * @param objectList contain the model of the actual game (objectList.get(0)).
-     * @see Model {@link Model} In the model is contained the int static boolen MovedUp.
+     * This method makes the setMovedUp static boolean (contained in the Model) to true -> the other player(s) can't move up; it could only be used if the player decides to activate his power.
+     * @param objectList contains the actual game's model (objectList.get(0)).
+     * @see Model {@link Model} The model has the MovedUp value.
      */
     @Override
     public void usePower(List<Object> objectList) {
@@ -36,10 +36,10 @@ public class Athena extends GodCard {
     }
 
     /**
-     * Before athena perform a move the previews value of the flag is reset
-     * @param model the play model
-     * @param controller the play controller
-     * @param move the move message received from the view
+     * Before Athena performs a move, it resets the flag's value
+     * @param model is the game's model
+     * @param controller is the game's controller
+     * @param move is the move message received by the view
      */
     @Override
     public void beforeMoveHandler(Model model, GodCardController controller, PlayerMove move) {
@@ -47,11 +47,11 @@ public class Athena extends GodCard {
     }
 
     /**
-     * Athena power is auto activated, if she moved up the flag is set at true, else false
-     * @param model the play model
-     * @param controller the play controller
-     * @param move the move message received from the view
-     * @return always true because the flag changed
+     * Athena's power is automatically activated. If she moved up the flag is set to true, otherwise false
+     * @param model is the game's model
+     * @param controller is the game's controller
+     * @param move is the move message received by the view
+     * @return always true because the flag has changed
      */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {

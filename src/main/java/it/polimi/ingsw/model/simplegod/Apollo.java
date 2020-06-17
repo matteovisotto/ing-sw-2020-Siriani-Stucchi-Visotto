@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- This class is intended to represent the Apollo's GodCard
+ This class represents Apollo's GodCard
  */
 public class Apollo extends GodCard {
 
@@ -21,7 +21,7 @@ public class Apollo extends GodCard {
     }
 
     /**
-     * This method switches the position of two different workers; it could be used only if the player decide to activate his power
+     * This method switches the position of two different workers; it could only be if the player decides to activate his power
      * @param objectList contain the positions of the two different workers; objectList.get(0) = Apollo's worker; objectList.get(1) = enemy's worker
      */
     @Override
