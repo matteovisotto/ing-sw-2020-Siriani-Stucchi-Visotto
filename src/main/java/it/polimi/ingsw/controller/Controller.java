@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Main Controller class, define some abstract method used by subclasses and implements common methods
+ * This is the main Controller class. It defines some abstract methods used by subclasses and implements common methods
  */
 public class Controller implements Observer<Message> {
     protected final Model model;
@@ -24,7 +24,7 @@ public class Controller implements Observer<Message> {
 
     /**
      * Class constructor
-     * @param model model instance generated for the play
+     * @param model isd the model instance generated for the game
      */
     public Controller(Model model){
         super();
@@ -33,16 +33,17 @@ public class Controller implements Observer<Message> {
 
     /**
      *
-     * @return the model
+     * @return the game model
      */
     public Model getModel(){
         return model;
     }
 
     /**
-     * Check if the player who asked a command is the one who is in turn
-     * @param message the message recived from the view
-     * @return true if is the player's turn
+     * This function checks if the player who tried to do anything is actually allowed to,
+     *  by checking if it's its turn
+     * @param message is the message received from the view
+     * @return true if now it's the given player's turn
      */
     public synchronized boolean turnCheck(Message message){
         if(!model.isPlayerTurn(message.getPlayer())){
@@ -54,12 +55,12 @@ public class Controller implements Observer<Message> {
 
     /**
      * Default checker for a move
-     * @param x the x value of the cell
-     * @param y the y value of the cell
-     * @param actualWorker the worker who is performing the move
-     * @param maxUpDifference the max step the worker can move up, normal 1, with some gods could be heigher
-     * @return true if it can perform the asked move
-     * @throws IllegalArgumentException if cell values are not between 0 and 4
+     * @param x is the x value of the cell
+     * @param y is the y value of the cell
+     * @param actualWorker is the worker which is performing the move
+     * @param maxUpDifference represents the higher gap the worker can move upward. Is usually is set to 1, but this value can be changed by some god's powers.
+     * @return true if the player can perform the desired move
+     * @throws IllegalArgumentException if the cell values (x and y) are not between 0 and 4
      */
     public boolean checkCell (int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
         Cell nextCell = model.getBoard().getCell(x,y);
@@ -68,9 +69,9 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * Update the model with a new cell level
-     * @param blockId the integer id representing the Bloks enum instance
-     * @param buildingCell the cell where increasing the level
+     * This function updates the model giving it a new cell level
+     * @param blockId is the integer id representing the Blocks enum instance
+     * @param buildingCell the cell which level needs to be increased
      */
     public synchronized void increaseLevel(int blockId, Cell buildingCell){
         switch(blockId) {
@@ -92,15 +93,16 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * General checker for a built
-     * Check if the selected cell is next to the worker
-     * Check if it is not the same cell where the player worker is
-     * Check if the coordinates of the cell are allowed
-     * Check if the cell level is not up to level 3 (it can built the last level -> DOME)
-     * Check if the cell is free
-     * @param buildingCell The selected cell where built
+     * It checks if the given building action can be performed.
+     * It checks:
+     *  1) if the given cell is next to the worker
+     *  2) if it is not the cell where the player's worker is
+     *  3) if the cell's coordinates are within the board range
+     *  4) if the cell's level is not greater than level 3 (it can build the last level -> DOME)
+     *  5) if the cell is free
+     * @param buildingCell is the cell where the player wants to build
      * @param playerBuild The Message subclass containing the information for this action
-     * @return true if the player could built in the cell
+     * @return true if the player could build in the given cell
      */
     public synchronized boolean checkBuild(Cell buildingCell, PlayerBuild playerBuild){
         return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
@@ -113,9 +115,9 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * This method check if a player is winning
-     * This method use canMove to decide if a worker is free to move
-     * If both worker can't move, call the model lose method for the player
+     * This method checks if any player has won
+     * This method uses the function canMove to decide whether a worker is able to move or not
+     * If any player's workers can't move, it calls the model's loose method, giving it the player who looses as parameter
      */
     protected synchronized void checkVictory(){
         Player[] players = model.getPlayers();
@@ -135,19 +137,18 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * This method is called when the game is ended
-     * @param newGameMessage contains the response of one player at the question "Would you like to play again?"
-     * Using two global variable and a global counter when a number of answers equals to the num of players are been received
-     * it decide if:
-     *  CLEAR THE MODEL: only if all players answered 'yes', the model is cleared and a new play start
-     *  SEND A MESSAGE TO THE SERVER: when last player have answered and the number of yes are minor then
-     *                       the number of players a EndGameServerMessage is sended to the server with the follow information
-     *                       -  The name of the actual lobby for creating a new one with the same name
-     *                       -  The name of the last player who answered yes (and he become the new first player of the game)
-     *                       -  The name of the second player (if exist) who answered yes too
-     *                       -  The instance of ClientSocketConnection of players
-     *                       -  The actual game mode between hard and simple
-     * CLOSE CONNECTIONS of players who answered 'no'
+     * This method is called when the game is over
+     * @param newGameMessage contains the player's reply after the following question has been given: "Would you like to play again?"
+     * When the number of received answers is equal to the number of players in the game it:
+     *  CLEARS THE MODEL: it happens only if every player answered 'yes', then the model is cleared and a new game starts
+     *  SENDS A MESSAGE TO THE SERVER: when the last player has answered and the number of 'yes' are less than
+     *                       the number of players in the game, a EndGameServerMessage is sent to the server, containing the following information:
+     *                       -  The name of the previous lobby, to create a new one using the old name.
+     *                       -  The name of the last player which answered 'yes' (and he becomes the new first player of the game)
+     *                       -  The name of the second player (if it exists) who answered yes
+     *                       -  The instance of ClientSocketConnection of every player
+     *                       -  The actual game mode (hard or simple)
+     * CLOSES THE CONNECTION of every players who answered 'no'
      */
     public synchronized void endGame(NewGameMessage newGameMessage){
         answers++;

@@ -18,7 +18,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 /**
- * Game initialization gui class
+ * Game initialization GUI class
  */
 public class Initialization extends JDialog implements Observer<Object> {
     private JPanel mainPanel; //This contains server status on bottom and container on top
@@ -31,9 +31,9 @@ public class Initialization extends JDialog implements Observer<Object> {
     private String returnedMessage = "";
 
     /**
-     * Class construction
+     * Class constructor
      * @param guiClient Main gui client class
-     * This method set the title for the GUI dialog and call the set layout method
+     * This method sets the title for the GUI dialog and calls the set layout method
      */
     public Initialization(GUIClient guiClient) {
         setTitle("Initialization");
@@ -54,10 +54,10 @@ public class Initialization extends JDialog implements Observer<Object> {
 
 
     /**
-     * This method set the principal layout
-     * Create the new BorderLayout main panel, with server status label,
-     * the message label on north position and a center space for configuration elements.
-     * On the bottom a newx button has been added with the action listener to sent the response to server
+     * This method sets the main layout
+     * It creates a new BorderLayout main panel, within which there is the server status label,
+     * the message label (North position) and a center space used to configure elements.
+     * On the bottom we added a button which sends the response to  the server
      */
     private void setLayout() {
         mainPanel = new JPanel(true);
@@ -92,10 +92,10 @@ public class Initialization extends JDialog implements Observer<Object> {
 
     /**
      * {@inheritDoc}
-     * @param msg the message which has been sent
-     * This method also control if the recived message is a string, in this case is an error and it will be shown
+     * @param msg is the message received
+     * This method also checks if the received message is a String, in this case, if it's an error, it will be shown
      *            in a JOptionPane
-     *            Else the message is sent to setPanelContent method
+     *            Otherwise the message is sent to setPanelContent method
      */
     @Override
     public void update(Object msg) {
@@ -116,7 +116,7 @@ public class Initialization extends JDialog implements Observer<Object> {
     }
 
     /**
-     * Thid method is used to clear the center panel content after a step has been sent to the server.
+     * This method clears the center panel contents every time a message is sent to the server.
      */
     private void resetPanelContent(){
         Component[] components = contentPanel.getComponents();
