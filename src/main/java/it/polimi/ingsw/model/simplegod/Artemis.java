@@ -10,7 +10,7 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.util.List;
 
 /**
- This class is intended to represent the Artemis's GodCard
+ This class represents Artemis' GodCard
  */
 public class Artemis extends GodCard {
     private Cell firstMove;
@@ -25,22 +25,22 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * @return the cell corresponding to the first move make by the player.
+     * @return the cell corresponding to the first move made by the player.
      */
     public Cell getFirstMove(){
         return firstMove;
     }
 
     /**
-     * @param firstBuilt is the cell corresponding to the first move make by the player.
+     * @param firstBuilt is the cell corresponding to the first move made by the player.
      */
     public void setFirstMove(Cell firstBuilt){
         this.firstMove = firstBuilt;
     }
 
     /**
-     * This method moves the player; it could be used only if the player decide to activate his power.
-     * @param objectList contain the model of the actual game (objectList.get(0)).
+     * This method moves the player; it could be used only if the player decides to activate his power.
+     * @param objectList contains the model of the actual game (objectList.get(0)).
      * @see PlayerMove {@link PlayerMove}
      */
     @Override
@@ -54,14 +54,14 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * Artemis can move two times but not in the cell from which starts the turn
-     * This method control if is the first time it move and so ask for using god power,
-     * If this is the second move, it controls if the used worker is the same, the selected cell is not the one from which it moved
-     * and then reset flag and make a normal move.
-     * @param model the play model
-     * @param controller the play controller
-     * @param move the move message received from the view
-     * @return false only if this is the second move and all error controls are negative
+     * Artemis can move twice but not in the starting cell
+     * This method controls if it's the first time it moves and it asks if you want to use the power.
+     * If this is the second time the player moves, it controls if the used worker is the same, the selected cell is not the one from which it moved
+     * and then resets the flags and makes a normal move.
+     * @param model is the game model
+     * @param controller is the game controller
+     * @param move is the move message received by the view
+     * @return false only if this is the second time the player moves and every error control is negative
      */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
@@ -101,7 +101,7 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * @param usedPower is a flag that if it's set to true means that the power has already been used.
+     * @param usedPower is a flag that if it's true it means that the power has already been used.
      */
     public void setUsedPower(boolean usedPower) {
         this.usedPower = usedPower;
@@ -115,7 +115,7 @@ public class Artemis extends GodCard {
     }
 
     /**
-     * @param previousWorker is worker that represent the previous move make by the player (before using the power).
+     * @param previousWorker is the worker representing the previous move made by the player (before using the power).
      */
     public void setPreviousWorker(Worker previousWorker) {
         this.previousWorker = previousWorker;

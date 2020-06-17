@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class is used to notify the controller a boilt action
+ * This class notifies the controller that the player is trying to perform a build
  */
 public class PlayerBuild extends Message {
 
@@ -16,9 +16,9 @@ public class PlayerBuild extends Message {
     /**
      * Class constructor
      * {@inheritDoc}
-     * @param workerId the selected worker id for the move
-     * @param x the new x value of the cell
-     * @param y the new y value of the cell
+     * @param workerId is the selected worker's id
+     * @param x is the x value of the cell
+     * @param y is the y value of the cell
      */
     public PlayerBuild(Player player, int workerId, int x, int y, View view) {
         super(player, view);
@@ -45,17 +45,17 @@ public class PlayerBuild extends Message {
 
     /**
      *
-     * @return the selected worker id
+     * @return the selected worker's id
      */
     public int getWorkerId(){
         return workerId;
     }
 
     /**
-     * Call the controller build function
-     * If it is not permitted by checkers, the IllegalArgumentException is catch by
-     * sending an error to the client who asked this action
-     * @param controller thr game controller instance
+     * It calls the controller's build function
+     * If it is not allowed by checkers, the IllegalArgumentException is catch and it
+     * sends an error to the client requesting this action
+     * @param controller is the game controller's instance
      */
     @Override
     public void handler(Controller controller) {

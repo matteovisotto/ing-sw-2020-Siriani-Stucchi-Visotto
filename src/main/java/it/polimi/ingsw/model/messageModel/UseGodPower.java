@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * This class is used to notify at the controller the player choice of using a god power
+ * This class notifies the controller the player's choice about using or not a god power
  */
 public class UseGodPower extends Message {
     final char usePower;
@@ -18,7 +18,7 @@ public class UseGodPower extends Message {
     /**
      * Class constructor
      * {@inheritDoc}
-     * @param usePower char representing player choice
+     * @param usePower char representing the player's choice
      */
     public UseGodPower(Player player, View view, char usePower) {
         super(player, view);
@@ -26,9 +26,9 @@ public class UseGodPower extends Message {
     }
 
     /**
-     * If player choose to use the god power with y answer call the god card instance userPower function
-     * else set the next default model configuration for each case of phase in base of the point of the game
-     * @param controller thr game controller instance
+     * If the player chooses to use the god power (y answer), it calls the god card instance's usePower function
+     * otherwise it sets the next default model's configuration for each phase, based on the stage of the game
+     * @param controller is the game controller's instance
      */
     @Override
     public void handler(Controller controller) {

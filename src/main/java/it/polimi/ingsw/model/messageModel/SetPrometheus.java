@@ -10,7 +10,7 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class is used to perform choice with the player who have prometheus god card
+ * This class notifies the worker's it that the player with Prometheus decides to use while using his power
  */
 public class SetPrometheus extends Message{
     final int usedWorkerId;
@@ -18,7 +18,7 @@ public class SetPrometheus extends Message{
     /**
      * Class constructor
      * {@inheritDoc}
-     * @param usedWorkerId the worker identifier selected by the player
+     * @param usedWorkerId is the selected worker's id
      */
     public SetPrometheus(Player player, View view, int usedWorkerId) {
         super(player, view);
@@ -26,11 +26,10 @@ public class SetPrometheus extends Message{
     }
 
     /**
-     * Set the selected worker id on player gos card instance
-     * Set model next phase before update
-     * Set model message type and string message
-     * Ask model to notify changes to views
-     * @param controller thr game controller instance
+     * It sets the selected worker id in the Prometheus' instance,
+     * then it sets the model's next phase, message type, and message
+     * and finally it asks the model to notify the changes to the views
+     * @param controller is the game controller's instance
      */
     @Override
     public void handler(Controller controller) {

@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class is used to notify to the controller a move action
+ * This class notifies the controller that the player is trying to perform a move
  */
 public class PlayerMove extends Message{
     private final int x;
@@ -14,9 +14,9 @@ public class PlayerMove extends Message{
     /**
      * Class constructor
      * {@inheritDoc}
-     * @param workerId the selected worker for the move action
-     * @param x the new x cell value
-     * @param y the new y cell value
+     * @param workerId is the selected worker's id
+     * @param x is the new x cell value
+     * @param y is the new y cell value
      */
     public PlayerMove(Player player, int workerId, int x, int y, View view) {
         super(player, view);
@@ -27,7 +27,7 @@ public class PlayerMove extends Message{
 
     /**
      *
-     * @return selected worker id
+     * @return selected worker's id
      */
     public int getWorkerId(){
         return workerId;
@@ -51,8 +51,8 @@ public class PlayerMove extends Message{
 
 
     /**
-     * Call controller move for this configuration
-     * @param controller thr game controller instance
+     * It calls the controller's move
+     * @param controller is the game controller's instance
      */
     @Override
     public void handler(Controller controller) {

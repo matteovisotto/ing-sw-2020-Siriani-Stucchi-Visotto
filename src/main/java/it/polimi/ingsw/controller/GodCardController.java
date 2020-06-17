@@ -178,19 +178,19 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * Modified method, add a initial function for god card class used to reset some internal data if needed, then call
-     * an other god card method to handler the move action and controls, if the result is false means that no different action in needed and so
-     * continue with the normal move, else the normal control is skipped and each god card modify the game flow as the power has defined.
-     * Before confirming the normal move action, an other function is called, the normalMoveModifier can change same model parameter, for example
+     * It overrides the Controller's method, it adds a function to reset some internal data referred to certain gods if needed, then it calls
+     * another god card method to handle the move action and controls. If the controls's result is false, it means that there isn't any particular action that need to be done, then it
+     * does the normal move, otherwise the normal control is skipped and each god card modifies the game flow as the power has defined.
+     * Before confirming the normal move action, another function is called, the normalMoveModifier can change same model parameter, for example
      * Atlas card make a normal move but set next phase to ask god power.
-     * @param move the Message subclass containing the whole information
-     * First check if the player who has sent the message is the player in turn
+     * @param move is the Message subclass containing the information needed
+     * At first it checks if it's the turn of the player who has sent the message
      * Then:
-     *      - Check if the selected worker can move calling canMove
-     *      - Call checkCellAround and check if the selected cell is available in the map and it results true
-     * If all controls are positive set the next model phase to BUILT, update messages and MessageType and updae the turn
-     * Then uodate the model with the new board configuration and notify clients of the uodate
-     * At the end check if someone won
+     *      - It checks if the selected worker can move using the function canMove
+     *      - It calls checkCellAround to check if the selected cell is available in the map
+     * If every control has a positive outcome, it sets the next model phase to BUILT, it updates messages and MessageTypes and updates the turn
+     * It then updates the model with the new board configuration and notifies clients about the update
+     * At the end it checks if anyone won or not
      */
     @Override
     public synchronized void move(PlayerMove move) {
@@ -231,10 +231,10 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method is used to control if the worker used to build the first time can build again
-     * In particular is useful with gods that can built two or more times.
-     * If the player chooses to build again mut the worker can't the loose function is called.
-     * @param playerBuild the built message received by the view
+     * This method checks whether the worker which has been used to build the first time can build again
+     * It's in particular useful with gods that can build two or more times.
+     * If the player chooses to build again, but the worker can't, the model's loose function is called.
+     * @param playerBuild is the build message received by the view
      */
     public synchronized void checkCantBuild(PlayerBuild playerBuild){
         Cell cell = model.getBoard().getCell(playerBuild.getX(), playerBuild.getY());
@@ -242,7 +242,7 @@ public class GodCardController extends Controller {
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
             for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
                 if((x >= 0 && x <= 4) && (y >= 0 && y <= 4)){
-                    if(board.getCell(x,y).getLevel().getBlockId() != 4){
+                    if(board.getCell(x,y).getLevel().getBlockId() != 4 && board.getCell(x,y).isFree()){
                         return;
                     }
                 }
@@ -252,10 +252,10 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method return the number of cells in which the checkCellAround return true. The returned cell
-     * represent the possibility for a worker to move, if zero it can't do anything.
-     * @param worker the worker the player has chosen to move
-     * @param player the player who is asking the action
+     * This method returns the amount of cells in which the checkCellAround returns true. The returned cell
+     * represents the ability of a worker to move or not (if it returns zero it means the worker can't move)
+     * @param worker is the player's chosen worker to move
+     * @param player is the player who is trying to take the action
      * @return the number of cells in which the selected worker can move
      */
     @Override
@@ -271,13 +271,12 @@ public class GodCardController extends Controller {
     }
 
     /**
-     *  First check if the player who has sent the message is the player in turn
-     *      Then call checkBuilt to verify if the player can built there else generete a new IllegalArgumentException
-     *      Then a god card built handler ic called in porder to check if the player card can modify the game flow or controls for that build
-     *      If can, the model is being updated with the next phase, the next turn and the next message by the card controller else a normal build is done
-     *      At the end an other god card action is called for cleaning some flag is needen
-     *
-     *      At the end check if someone won or loose
+     *  At first it checks if the player which has sent the message is the turn's player
+     *      It then calls the checkBuild function to verify whether the player can build there, otherwise it throws a new IllegalArgumentException
+     *      After that, a god card build handler is called in order to check if the player card can modify the game flow or controls for that build
+     *      If it can, the model is being updated with the next phase, the next turn and the next message by the card controller else a normal build is done
+     *      At the end, another god card action is called to clear some flags if needed
+     *      and then it checks whether anyone won or lost
      * @param playerBuild the Message subclass containing the whole information
      * @throws IllegalArgumentException if the cell is out of range
      */
@@ -302,13 +301,13 @@ public class GodCardController extends Controller {
             throw new IllegalArgumentException();
         }
         checkVictory();
-        checkCantBuild(playerBuild);
+        //checkCantBuild(playerBuild);
     }
 
     /**
-     * This method check all the cell around the worker are free and with a level lower then a dome
-     * If true the cell is add to the available cells list.
-     * @param worker the worker to control
+     * This method checks every cell around the worker are free and with a level lower then a dome
+     * If true the cell is added to the available cells list.
+     * @param worker is the worker to control
      * @return a list of cells where a build can be done
      */
     public ArrayList<Cell> checkCanBuild(Worker worker){
@@ -333,10 +332,10 @@ public class GodCardController extends Controller {
 
     /**
      * Modified increase level for gods card.
-     * In this moment the turn is already updated, a funtion to configure the god card turn start is called
+     * At this poing of the game the turn is already updated, a function to configure the god card turn start is then called
      * At the end the superclass increase level is called
-     * @param blockId the level id of the cell
-     * @param buildingCell the cell where build
+     * @param blockId is the level id of the cell
+     * @param buildingCell is the cell where we built
      */
     public void godIncreaseLevel(int blockId, Cell buildingCell) {
         model.getActualPlayer().getGodCard().turnStartHandler(this, blockId, buildingCell);
@@ -344,10 +343,10 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This function return the number of completed tower built in the board.
-     * A complete tower is a build made from level 0 to dome without using god power
-     * @return the number in the board
-     */
+     * This function counts the amount of complete tower built in the board.
+     * A complete tower is a build made from level 0 to 4 without using any god power
+     * @return the calculated amount
+     * */
     public synchronized int countTowers(){
         int counter=0;
         Board board=model.getBoard();
@@ -362,8 +361,8 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method check call for each god card in the play the checkVictory method.
-     * If none of them change game flow, the default function is recalled
+     * This method checks if any of the win conditions within the cards in the game affects the victory of any player.
+     * If none of them changed the game flow, the default function is recalled
      */
     @Override
     protected synchronized void checkVictory() {
@@ -374,11 +373,11 @@ public class GodCardController extends Controller {
     }
 
     /**
-     * This method is used to check which cells are available for a worker
-     * @param actualWorker the worker in the bord where to check
-     * @return an HasMap containing the cells and a boolean flag with the check result
-     * The check is made by a god card function, by default, if a god card don't have a different implementation
-     * the GodCard.checkCell call the controller chack cell {@link GodCard}
+     * This method is used to determine in which cells the worker can move, associating every cell around the worker to a boolean value
+     * @param actualWorker is the worker who wants to move
+     * @return a map containing the board cell as key and a boolean representing whether cell is available for the move or not
+     * The check is made by a god card function by default, if the god card doesn't have any different implementation
+     * the GodCard.checkCell call the controller check cell {@link GodCard}
      */
     @Override
     protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){

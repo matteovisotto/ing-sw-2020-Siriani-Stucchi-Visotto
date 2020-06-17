@@ -110,7 +110,7 @@ public class Poseidon  extends GodCard {
             }
         }
         //se non ho costruito già 3 volte e se il worker inutilizzato e' al livello 0 e se il worker inutilizzato puo costruire
-        if(getNumOfBuild()<3 && getUnusedWorker().getCell().getLevel().getBlockId()==0 && controller.checkCanBuild(getUnusedWorker()).size()>0 && check) {
+        if(getNumOfBuild()<3 && getUnusedWorker().getCell().getLevel().getBlockId()==0 && availableCell.size()>0 && check) {
             model.setNextPhase(Phase.WAIT_GOD_ANSWER);
             model.setNextPlayerMessage(PlayerMessage.USE_POWER);
             model.setNextMessageType(MessageType.USE_POWER);

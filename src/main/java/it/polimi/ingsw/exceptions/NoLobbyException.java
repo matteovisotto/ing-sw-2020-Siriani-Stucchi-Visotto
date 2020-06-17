@@ -1,7 +1,7 @@
 package it.polimi.ingsw.exceptions;
 
 /**
- * Exception used to notify that there aren't lobbies in the server
+ * Exception used to notify that there isn't any lobby in the server
  */
 public class NoLobbyException extends LobbyException {
 

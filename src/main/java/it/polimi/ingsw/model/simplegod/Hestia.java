@@ -28,9 +28,9 @@ public class Hestia extends GodCard {
 
     /**
      * {@inheritDoc}
-     * In this case the only parameters is the model,
-     * If this function is called, let the player to build the first time and set te model params
-     * for letting him to build again
+     * In this case the only parameter is the model,
+     * If this function is called, it lets the player build the first time and set te model parameters
+     * for letting him build again
      */
     @Override
     public void usePower(List<Object> objectList) {
@@ -43,14 +43,14 @@ public class Hestia extends GodCard {
     }
 
     /**
-     * This method modified the check cell if Hestia built the second time.
-     * If the player haven't built the super checkBuilt function is called
-     * If is the second one, it check that the selected cell is not in the board perimeter
-     * @param controller the play controller
-     * @param buildingCell the cell where player wants to build
-     * @param playerBuild the message received by the view
-     * @return the super method result if it is not the second built, else return true if the selected cell is
-     *      not in the perimeter, else false
+     * This method modifies the check cell if Hestia built the second time.
+     * If the player hasn't built, the super checkBuilt function is called
+     * If it's the second one, it checks that the selected cell is not in the board perimeter
+     * @param controller is the game's controller
+     * @param buildingCell is the cell where player wants to build
+     * @param playerBuild is the message received by the view
+     * @return the super method results if it is not the second built, otherwise it returns true if the selected cell is
+     *      not in the perimeter, false otherwise
      */
     @Override
     public boolean checkBuilt(Controller controller, Cell buildingCell, PlayerBuild playerBuild) {

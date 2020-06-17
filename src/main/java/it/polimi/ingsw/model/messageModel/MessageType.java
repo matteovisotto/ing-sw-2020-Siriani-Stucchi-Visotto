@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.messageModel;
 
 /**
- * This enum contains all the possible message type for a play. This is used in particular
+ * This enum contains every possible message type for a game. This is particularly used
  * in the GUI for changing elements dynamically
  */
 public enum MessageType{

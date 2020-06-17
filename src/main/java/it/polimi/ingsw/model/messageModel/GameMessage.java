@@ -4,15 +4,15 @@ import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
 
 /**
- * This class represent messages send in a player turn
+ * This class represents messages which are sent within a player's turn
  */
 public class GameMessage extends ViewMessage{
     private final Player player;
 
     /**
-     * Class contructor
+     * Class constructor
      * {@inheritDoc}
-     * @param player the player in turn
+     * @param player is the turn player
      */
     public GameMessage(Player player, String message, MessageType messageType, Phase phase){
         super(messageType, message, phase);
