@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class is used to notify the controller of the selected cards for the play by the first player
+ * This class notifies the controller about the selected cards for the game by the first player
  */
 public class DrawedCards extends Message {
     final int firstCard;
@@ -14,10 +14,10 @@ public class DrawedCards extends Message {
     final int thirdCard;
 
     /**
-     * Class constructor for a two players play
+     * Class constructor for a two players game
      * {@inheritDoc}
-     * @param firstCard first card selected
-     * @param secondCard second card selected
+     * @param firstCard is the first card selected
+     * @param secondCard is the second card selected
      */
     public DrawedCards(Player player, int firstCard, int secondCard,View view) {
         super(player, view);
@@ -27,11 +27,11 @@ public class DrawedCards extends Message {
     }
 
     /**
-     * Class constructor for a three players play
+     * Class constructor for a three players game
      * {@inheritDoc}
-     * @param firstCard first card selected
-     * @param secondCard second card selected
-     * @param  thirdCard third card selected
+     * @param firstCard is the first card selected
+     * @param secondCard is the second card selected
+     * @param  thirdCard is the third card selected
      */
     public DrawedCards(Player player, int firstCard, int secondCard, int thirdCard, View view) {
         super(player, view);
@@ -65,7 +65,7 @@ public class DrawedCards extends Message {
     }
 
     /**
-     * Call the controller drawedCards function for this configuration
+     * It calls the controller's drawedCards function for this configuration
      * @param controller thr game controller instance
      */
     @Override

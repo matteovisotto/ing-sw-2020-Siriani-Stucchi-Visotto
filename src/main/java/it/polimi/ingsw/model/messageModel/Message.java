@@ -7,7 +7,7 @@ import it.polimi.ingsw.view.View;
 import java.io.Serializable;
 
 /**
- * This class in the genric abstract class for messages from remote view to controller
+ * This class in the generic abstract class for messages from the remote view to the controller
  */
 public abstract class Message implements Serializable {
     protected final Player player;
@@ -15,8 +15,8 @@ public abstract class Message implements Serializable {
 
     /**
      *
-     * @param player the player in tunr who in sending the message
-     * @param view the remote view instance representing the client on the server
+     * @param player is the turn player which is sending the message
+     * @param view is the remote view instance representing the client on the server
      */
     public Message(Player player, View view){
         this.player = player;
@@ -40,9 +40,9 @@ public abstract class Message implements Serializable {
     }
 
     /**
-     * Abstract metod that have to be overridden by subclasses
-     * Is used to handler actions in base of the message subclass type
-     * @param controller thr game controller instance
+     * Abstract method which has to be overrode by subclasses
+     * It is used to handle actions based on the message's subclass type
+     * @param controller is the game controller instance
      */
     public abstract void handler(Controller controller);
 }
