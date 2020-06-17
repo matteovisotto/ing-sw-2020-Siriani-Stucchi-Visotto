@@ -1,7 +1,7 @@
 package it.polimi.ingsw.exceptions;
 
 /**
- * Exception used to notify that doesn't exist the selected lobby
+ * Exception used to notify that the selected lobby doesn't exist
  */
 public class InvalidLobbyException extends LobbyException {
 

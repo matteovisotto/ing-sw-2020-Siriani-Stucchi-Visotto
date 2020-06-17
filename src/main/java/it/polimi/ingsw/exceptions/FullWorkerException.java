@@ -1,7 +1,7 @@
 package it.polimi.ingsw.exceptions;
 
 /**
- * Exception used to notify that a player has already placed all worker
+ * Exception used to notify that a player has already placed every worker
  */
 public class FullWorkerException extends WorkerException {
 
