@@ -268,7 +268,7 @@ public class Controller implements Observer<Message> {
 
     /**
      * This method receives a move action
-     * @param move is the Message subclass containing every information
+     * @param move is the Message subclass containing every information needed
      * At first it checks if the player who has sent the message is turn's player
      * Then:
      *      - it checks if the selected worker can move, calling the canMove method
@@ -315,15 +315,15 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     * This method receive a built action
-     * @param playerBuild the Message subclass containing the whole information
+     * This method receives a build action
+     * @param playerBuild is the Message subclass containing the every information needed
      * @throws IllegalArgumentException if the player can't built in the selected cell
-     * First check if the player who has sent the message is the player in turn
-     * Then call checkBuilt to verify if the player can built there else generete a new IllegalArgumentException
-     * If can, the model is being updated with the next phase, the next turn and the next message
-     * The super increase level is called
+     * At first it checks if the player who sent the message is the turn's player
+     * Then it uses the checkBuilt function to check if the player can built there, otherwise it throws a new IllegalArgumentException
+     * If it is possible, it updates the model setting the next phase, the next turn and the next message
+     * The increase level function is then called
      *
-     * At the end check if someone won
+     * At last it checks if anyone won/lost
      */
     public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {
         if(!turnCheck(playerBuild)){
@@ -350,11 +350,11 @@ public class Controller implements Observer<Message> {
     }
 
     /**
-     *This method is used to determinate which cells are available for a worker
-     * @param actualWorker the worker in the bord where to check
-     * @return a map with the board cell as key and a boolean that represent if the cell is available for the worker
+     *This method is used to determine in which cells the worker can move, associating every cell around the worker to a boolean value
+     * @param actualWorker is the worker who wants to move
+     * @return a map containing the board cell as key and a boolean representing whether cell is available for the move or not
      *
-     * The control call for all the cells around the worker the board check cell function and put in the map the result
+     * This method checks every cell around the worker, then using the checkCell function it associates a cell to the returned boolean
      * The IllegalArgumentException is caught for the perimeter cells
      */
     protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){
