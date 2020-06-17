@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class is used to notify the position where placing a player worker
+ * This class notifies the position where a certain player wants to place a worker
  */
 public class PlayerWorker extends Message{
 
@@ -15,8 +15,8 @@ public class PlayerWorker extends Message{
     /**
      * Class constructor
      * {@inheritDoc}
-     * @param x the x value of the cell
-     * @param y the y value of the cell
+     * @param x is the x value of the cell
+     * @param y is the y value of the cell
      */
     public PlayerWorker(Player player, int x, int y, View view) {
         super(player, view);
@@ -42,7 +42,7 @@ public class PlayerWorker extends Message{
     }
 
     /**
-     * Call setPlayerWorker controller function for this configuration
+     * It calls the controller's setPlayerWorker function
      * @param controller thr game controller instance
      */
     @Override

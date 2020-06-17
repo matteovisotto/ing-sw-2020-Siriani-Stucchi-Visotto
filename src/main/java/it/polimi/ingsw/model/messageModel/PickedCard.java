@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class is uset to notify the controller of a card selected by the player
+ * This class notifies the controller about the player's selected card
  */
 public class PickedCard extends Message {
     private final int card;
@@ -14,7 +14,7 @@ public class PickedCard extends Message {
     /**
      * Class constructor
      * {@inheritDoc}
-     * @param card an int value that represent the card selected by the player.
+     * @param card is an int value representing the card selected by the player.
      */
     public PickedCard(Player player, View view, int card) {
         super(player, view);
@@ -22,8 +22,8 @@ public class PickedCard extends Message {
     }
 
     /**
-     * Call controller pickACard function for this configuration
-     * @param controller thr game controller instance
+     * It calls the controller's pickACard function for this configuration
+     * @param controller is the game controller's instance
      */
     @Override
     public void handler(Controller controller) {

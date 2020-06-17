@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Phase;
 import java.io.Serializable;
 
 /**
- * This class represent the superclass of messagges sended from model to views
+ * This class represents the superclass of messages sent from the model to the views
  */
 public class ViewMessage implements Serializable {
     private final MessageType messageType;
@@ -13,9 +13,9 @@ public class ViewMessage implements Serializable {
 
     /**
      *
-     * @param messageType the MessageType enum instance that represent the type of message
-     * @param message string containing printable message
-     * @param phase the Phase enum instance that generated this message
+     * @param messageType is the MessageType enum instance that represents the type of message
+     * @param message is a string containing the printable message
+     * @param phase is the Phase enum instance that generated this message
      */
     public ViewMessage(MessageType messageType, String message, Phase phase){
         this.messageType = messageType;

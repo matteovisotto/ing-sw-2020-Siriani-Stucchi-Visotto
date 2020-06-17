@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.*;
 import it.polimi.ingsw.view.View;
 
 /**
- * This class represent the message containing the choice for starting a new play
+ * This class represents the message containing the choice for starting a new play
  */
 public class NewGameMessage extends Message {
     private final char choice;
@@ -16,9 +16,9 @@ public class NewGameMessage extends Message {
 
     /**
      * {@inheritDoc}
-     * @param choice the selected
-     * @param clientConnection the socket connection of the player who make this choice
-     * @param lobby the old lobby instance of the previews play
+     * @param choice is the selection
+     * @param clientConnection is the socket connection of the player which made this choice
+     * @param lobby is the old lobby instance of the previews game
      */
     public NewGameMessage(Player player, View view, char choice, ClientConnection clientConnection, Lobby lobby) {
         super(player, view);
@@ -29,7 +29,7 @@ public class NewGameMessage extends Message {
 
     /**
      *
-     * @return the lobby instance
+     * @return the lobby's instance
      */
     public Lobby getLobby() {
         return lobby;
@@ -37,7 +37,7 @@ public class NewGameMessage extends Message {
 
     /**
      *
-     * @return a char representing the player choice
+     * @return a char representing the player's choice
      */
     public char getChoice(){
         return this.choice;
@@ -45,15 +45,15 @@ public class NewGameMessage extends Message {
 
     /**
      *
-     * @return player client socket connection
+     * @return player client's socket connection
      */
     public ClientConnection getClientConnection() {
         return clientConnection;
     }
 
     /**
-     * Perform the controller end game actions calling controller function
-     * @param controller thr game controller instance
+     * Perform the controller end game actions by calling the controller's function
+     * @param controller the game controller's instance
      */
     @Override
     public void handler(Controller controller) {
