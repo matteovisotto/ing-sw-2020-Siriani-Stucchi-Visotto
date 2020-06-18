@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import java.util.Timer;
 
 public class Game extends JFrame implements Observer<Object> {
-
+    private final Dimension windowsSize;
     private final GUIClient guiClient;
     private boolean initedBoard = false;
     private boolean isSimplePlay = true;
@@ -44,7 +44,8 @@ public class Game extends JFrame implements Observer<Object> {
     private Font customFont;
     private HashMap<String,String> godsFunction;
 
-    public Game(final GUIClient guiClient){
+    public Game(final GUIClient guiClient, int width){
+        windowsSize=new Dimension(width, (width/16)*9);
         customCursor();
         setIconImage(Toolkit.getDefaultToolkit().getImage("/images/icon.png"));
         this.guiClient = guiClient;
@@ -143,8 +144,9 @@ public class Game extends JFrame implements Observer<Object> {
     private void setLayout() {
         background = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension d = tk.getScreenSize();
+        //Dimension d = tk.getScreenSize();
         //this.setSize(d);
+        Dimension d=windowsSize;
         setContentPane(background);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //togliere il commento qua sotto per metterlo completo full screen.
@@ -217,8 +219,8 @@ public class Game extends JFrame implements Observer<Object> {
         clearGui();
         JLabel background = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension d = tk.getScreenSize();
-        this.setSize(d);
+        Dimension d = windowsSize;
+        this.setSize(windowsSize);
         revalidate();
         repaint();
         setContentPane(background);
