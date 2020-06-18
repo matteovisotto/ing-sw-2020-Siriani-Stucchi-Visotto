@@ -11,7 +11,6 @@ import java.io.*;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.multi.MultiLabelUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -1141,7 +1140,7 @@ public class Game extends JFrame implements Observer<Object> {
                     path+="level3";
                     break;
                 case DOME:
-                    path+=getDomeLevelImage(boardCell.getPreviewsLevel());
+                    path+=getDomeLevelImage(boardCell.getPreviousLevel());
                     break;
             }
             if(!isFree){
