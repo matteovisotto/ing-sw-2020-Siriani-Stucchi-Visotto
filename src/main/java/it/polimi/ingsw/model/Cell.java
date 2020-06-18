@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Cell implements Serializable, Cloneable{
     private Blocks level;
+    private Blocks previewsLevel = Blocks.EMPTY;
     private boolean isFree = true;
     private boolean isFull = false;
 
@@ -32,12 +33,13 @@ public class Cell implements Serializable, Cloneable{
      * @param isFree is the boolean representing the cell's status
      * @param isFull is a boolean representing the fact that the cell has been built from level 0 to dome (meaning not using Atlas)
      */
-    private Cell(int x, int y, Blocks level, boolean isFree, boolean isFull){
+    private Cell(int x, int y, Blocks level, boolean isFree, boolean isFull, Blocks previewsLevel){
         this.x = x;
         this.y = y;
         this.isFree = isFree;
         this.level = level;
         this.isFull=isFull;
+        this.previewsLevel = previewsLevel;
     }
 
     /**
@@ -74,7 +76,7 @@ public class Cell implements Serializable, Cloneable{
     @Override
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
-        return new Cell(x, y, level, isFree, isFull);
+        return new Cell(x, y, level, isFree, isFull, previewsLevel);
     }
 
     /**
@@ -105,8 +107,8 @@ public class Cell implements Serializable, Cloneable{
         if(level==Blocks.DOME && this.level == Blocks.LEVEL3){
             this.isFull=true;
         }
+        this.previewsLevel = this.level;
         this.level = level;
-
     }
 
     /**
