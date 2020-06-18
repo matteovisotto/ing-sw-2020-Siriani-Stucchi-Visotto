@@ -144,8 +144,6 @@ public class Game extends JFrame implements Observer<Object> {
     private void setLayout() {
         background = new JLabel();
         Toolkit tk = Toolkit.getDefaultToolkit();
-        //Dimension d = tk.getScreenSize();
-        //this.setSize(d);
         Dimension d=windowsSize;
         setContentPane(background);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
