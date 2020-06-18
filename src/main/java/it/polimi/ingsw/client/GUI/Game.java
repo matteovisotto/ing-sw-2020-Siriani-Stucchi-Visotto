@@ -234,7 +234,7 @@ public class Game extends JFrame implements Observer<Object> {
         background.repaint();
 
         centerPanel = new JPanel(true);
-        setJPanelProperties(centerPanel, 10,10,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight() * 0.98));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        setJPanelProperties(centerPanel, 0,0,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight()));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         centerPanel.revalidate();
         centerPanel.repaint();
 
