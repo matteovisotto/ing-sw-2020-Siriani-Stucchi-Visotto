@@ -73,6 +73,7 @@ public class Atlas extends GodCard {
             model.setNextPlayerMessage(PlayerMessage.MOVE);
             model.updatePhase();
             model.updateTurn();
+            model.getActualPlayer().getGodCard().turnStartHandler(controller, 0, null);
             model.increaseLevel(buildingCell, Blocks.DOME);
             return true;
         }
