@@ -1078,10 +1078,29 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private void setCell(JButton cell, Blocks blocks, boolean isFree, String color){
+    private String getDomeLevelImage(Blocks previewsLevel){
+        String path = "";
+        switch (previewsLevel){
+            case EMPTY:
+                path = "empty_dome";
+                break;
+            case LEVEL1:
+                path = "level1_dome";
+                break;
+            case LEVEL2:
+                path = "level2_dome";
+                break;
+            case LEVEL3: case DOME:
+                path = "dome";
+                break;
+        }
+        return path;
+    }
+
+    private void setCell(JButton cell, Cell boardCell, boolean isFree, String color){
         String path="images/Blocks/";
         boolean isVisible=true;
-            switch(blocks){
+            switch(boardCell.getLevel()){
                 case EMPTY:
                     isVisible=!isFree;
                     break;
@@ -1095,7 +1114,7 @@ public class Game extends JFrame implements Observer<Object> {
                     path+="level3";
                     break;
                 case DOME:
-                    path+="dome";
+                    getDomeLevelImage(boardCell.getPreviewsLevel());
                     break;
             }
             if(!isFree){
@@ -1502,7 +1521,7 @@ public class Game extends JFrame implements Observer<Object> {
                         }
                     }
                     JButton jButton = ((JButton) initialBoardPanel.getComponent(i * 5 + j));
-                    setCell(jButton, cell.getLevel(), cell.isFree(), color);
+                    setCell(jButton, cell, cell.isFree(), color);
                     jButton.setEnabled(enable);
 
                 }
