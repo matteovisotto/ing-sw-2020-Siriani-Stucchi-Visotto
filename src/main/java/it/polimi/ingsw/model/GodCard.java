@@ -163,17 +163,11 @@ public class GodCard implements Serializable {
                 model.setNextMessageType(MessageType.BUILD);
                 break;
             case BUILD:
-                if(controller.getModel().getNextPlayerGC().getCardGod()== Gods.PROMETHEUS){
-                    model.setNextPhase(Phase.WAIT_GOD_ANSWER);
-                    model.setNextPlayerMessage(PlayerMessage.USE_POWER);
-                    model.setNextMessageType(MessageType.USE_POWER);
-                    model.updateTurn();
-                    break;
-                }
                 model.setNextPhase(Phase.MOVE);
                 model.setNextPlayerMessage(PlayerMessage.MOVE);
                 model.setNextMessageType(MessageType.MOVE);
                 model.updateTurn();
+                model.getActualPlayer().getGodCard().turnStartHandler((GodCardController) controller, 0, null);
                 break;
             case PROMETHEUS_WORKER:
                 model.setNextPhase(Phase.MOVE);

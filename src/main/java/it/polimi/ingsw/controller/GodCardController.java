@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
-import it.polimi.ingsw.model.simplegod.Prometheus;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.util.ArrayList;
@@ -57,17 +56,11 @@ public class GodCardController extends Controller {
                     }
                     else{
                         model.updateTurn();
-                        if(model.getActualPlayer()==model.getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)model.getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
-                            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
-                            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
-                            model.setNextMessageType(MessageType.USE_POWER);
-                        }
-                        else{
-                            model.updatePhase();
-                            model.setNextMessageType(MessageType.MOVE);
-                            model.setNextPlayerMessage(PlayerMessage.MOVE);
-                        }
-
+                        model.getActualPlayer().getGodCard().turnStartHandler(this, 0, null);
+                        model.updatePhase();
+                        model.setNextMessageType(MessageType.MOVE);
+                        model.setNextPlayerMessage(PlayerMessage.MOVE);
+                        model.getActualPlayer().getGodCard().turnStartHandler(this, 0, null);
                     }
 
                 }
