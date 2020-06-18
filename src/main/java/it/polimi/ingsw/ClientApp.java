@@ -31,6 +31,7 @@ public class ClientApp
                         //se viene fornita una larghezza tra 500 e la larghezza dello schermo
                         if(abs(Integer.parseInt(args[0]))>500 && abs(Integer.parseInt(args[0]))<tk.getScreenSize().getWidth()){
                             GUIClient client = new GUIClient("93.43.230.177", 15986, abs(Integer.parseInt(args[0])));
+                            //GUIClient client = new GUIClient("127.0.0.1", 15986, abs(Integer.parseInt(args[0])));
                             client.run();
                         }
                         else{
@@ -43,7 +44,7 @@ public class ClientApp
             }
             else{
                 GUIClient client = new GUIClient("93.43.230.177", 15986, (int)tk.getScreenSize().getWidth());
-                //GUIClient client = new GUIClient("127.0.0.1", 15986);
+                //GUIClient client = new GUIClient("127.0.0.1", 15986,(int)tk.getScreenSize().getWidth());
                 client.run();
             }
         }catch (IOException e){
