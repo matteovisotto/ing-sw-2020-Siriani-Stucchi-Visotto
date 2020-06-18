@@ -143,6 +143,7 @@ public class Poseidon  extends GodCard {
             model.setNextPlayerMessage(PlayerMessage.MOVE);
             model.setNextMessageType(MessageType.MOVE);
             model.updateTurn();
+            model.getActualPlayer().getGodCard().turnStartHandler((GodCardController) controller, 0, null);
             model.notifyChanges();
     }
 }
