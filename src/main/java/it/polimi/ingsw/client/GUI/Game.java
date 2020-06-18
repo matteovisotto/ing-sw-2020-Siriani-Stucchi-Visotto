@@ -1114,7 +1114,7 @@ public class Game extends JFrame implements Observer<Object> {
                     path+="level3";
                     break;
                 case DOME:
-                    path += getDomeLevelImage(boardCell.getPreviewsLevel());
+                    path+=getDomeLevelImage(boardCell.getPreviewsLevel());
                     break;
             }
             if(!isFree){
