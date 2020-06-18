@@ -11,7 +11,7 @@ import it.polimi.ingsw.utils.PlayerMessage;
 import java.util.List;
 
 /**
- This class is intended to represent the Prometheus's GodCard
+ This class represents Prometheus's GodCard
  */
 public class Prometheus extends GodCard {
     private boolean built = false; //se ha usato il potere
@@ -26,14 +26,14 @@ public class Prometheus extends GodCard {
     }
 
     /**
-     * @return a boolean that is true if the player has already used his power (the player has arrived to the second build phase).
+     * @return true if the player has already used his power (the player has arrived to the second build phase).
      */
     public boolean hasBuilt() {
         return built;
     }
 
     /**
-     * @param built is set to true if the player build using his power.
+     * @param built is set to true if the player builds using his power.
      */
     public void setBuild(boolean built){
         this.built = built;
@@ -42,11 +42,11 @@ public class Prometheus extends GodCard {
     /**
      * This method make move controls for Prometheus, in particular check if the moved worker is the same used to built the step before
      * and also check if player try to move up
-     * @param model the play model
-     * @param controller the play controller
-     * @param move the move message received from the view
-     * @return true if an error is reported as described in superclass for a wrong worker selection or a try to move up
-     *          return false if all error controls are skipped, so a standard built is done
+     * @param model is the game's model
+     * @param controller is the game's controller
+     * @param move is the move message received from the view
+     * @return true if an error is reported as described in the superclass for a wrong worker selection or a try to move up
+     *          return false if every error controls are skipped, a standard built is then performed
      */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {

@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.messageModel.PlayerMove;
 import java.util.List;
 
 /**
- This class is intended to represent the Pan's GodCard
+ This class represents Pan's GodCard
  */
 public class Pan extends GodCard {
 
@@ -23,9 +23,9 @@ public class Pan extends GodCard {
     }
 
     /**
-     * This method makes a player win if his worker moves down two or more levels; it could be used only if the player decide to activate his power.
-     * @param objectList contain the model of the actual game (objectList.get(0)).
-     * @see Model {@link Model} In the Model is contained the victory method.
+     * This method makes a player win if his/her worker moves down two or more levels; it could be used only if the player decides to activate his/her power.
+     * @param objectList contains the model of the actual game (objectList.get(0)).
+     * @see Model {@link Model} The Model class has the victory method.
      */
     @Override
     public void usePower(List<Object> objectList) {
@@ -34,11 +34,11 @@ public class Pan extends GodCard {
     }
 
     /**
-     * This control has been done in the move action, if the selected cell is 2 or more level smaller, the victory is called.
-     * @param model the play model
-     * @param controller the play controller
-     * @param move the move message received from the view
-     * @return true if the victory is called, else false
+     * This control has been done in the move action, if the selected cell is 2 or more level shorter, the victory is called.
+     * @param model is the game's model
+     * @param controller is the game's controller
+     * @param move is the move message received from the view
+     * @return true if the victory is called, false otherwise
      */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {

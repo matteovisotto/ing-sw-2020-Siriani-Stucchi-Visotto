@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- This class is intended to represent the Minotaur's GodCard
+ This class represents Minotaur's GodCard
  */
 public class Minotaur extends GodCard {
 
@@ -21,8 +21,8 @@ public class Minotaur extends GodCard {
     }
 
     /**
-     * This method makes a player's worker move into an enemy worker's cell, forcing him to move one space straight backwards to an unoccupied space at any level; it could be used only if the player decide to activate his power.
-     * @param objectList contain the worker of the Minotaur's player (objectList.get(0)), the enemy's worker (objectList.get(1)) and the cell straight backwards of the enemy's worker (objectList.get(2)).
+     * This method makes a player's worker move into an enemy worker's cell, forcing him to move one space straight backwards to an unoccupied space at any level; it could only be used if the player decides to activate his power.
+     * @param objectList contains the worker of the Minotaur's player (objectList.get(0)), the enemy's worker (objectList.get(1)) and the cell straight backwards of the enemy's worker (objectList.get(2)).
      */
     @Override
     public void usePower(List<Object> objectList) {
@@ -42,11 +42,11 @@ public class Minotaur extends GodCard {
     }
 
     /**
-     * Modifed control for Minotaur
-     * @param x the x value of the cell
-     * @param y the y value of the cell
-     * @param actualWorker the worker who is performing the move
-     * @param maxUpDifference the max step the worker can move up, normal 1, with some gods could be heigher
+     * Modified controls for Minotaur
+     * @param x is the x value of the cell
+     * @param y is the y value of the cell
+     * @param actualWorker is the worker which is performing the move
+     * @param maxUpDifference is the max gap the worker can move up, usually set to 1, but with some gods it could be higher
      * @return true if it can move in the selected cell
      * @throws IllegalArgumentException if cell values are not between 0 and 4
      */
@@ -71,16 +71,16 @@ public class Minotaur extends GodCard {
     }
 
     /**
-     * Minotaur can push a enemy worker one cell forward in the direction of the move
-     * This method modify the normal move controller in order to check:
-     *  - if the selected cell is not free check which worker is occupying it
-     *  - then add the worker to the object param list and call the use power function which made the switch
+     * Minotaur can push an enemy worker one cell forward in the direction of the move
+     * This method modifies the usual move's controller in order to check:
+     *  - if the selected cell is not free, it checks which worker is occupying it
+     *  - it then adds the worker to the object parameters list and calls the use power function which made the switch
      *  - return true to use this
      *  - return false if the selected cell is free to make a normal move
-     * @param model the play model
-     * @param controller the play controller
-     * @param move the move message received from the view
-     * @return true if the move has been modified else false
+     * @param model is the game's model
+     * @param controller is the game's controller
+     * @param move is the move's message received from the view
+     * @return true if the move has been modified, false otherwise
      */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {

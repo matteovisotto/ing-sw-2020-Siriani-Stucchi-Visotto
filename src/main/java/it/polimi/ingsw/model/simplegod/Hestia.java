@@ -43,9 +43,9 @@ public class Hestia extends GodCard {
     }
 
     /**
-     * This method modifies the check cell if Hestia built the second time.
+     * This method modifies the check cell's tests if Hestia built the second time.
      * If the player hasn't built, the super checkBuilt function is called
-     * If it's the second one, it checks that the selected cell is not in the board perimeter
+     * If it's the second build, it checks that the selected cell is not on the board's perimeter
      * @param controller is the game's controller
      * @param buildingCell is the cell where player wants to build
      * @param playerBuild is the message received by the view
@@ -67,14 +67,14 @@ public class Hestia extends GodCard {
     }
 
     /**
-     * This method override the default built control.
-     * If the player has just built the first time modify the game flow to ask if using the god power, else reset the built flag
-     *  and return false tu use the standard flow.
-     * @param model the play model
-     * @param controller the play controller
-     * @param build the message recived by the view
-     * @param buildingCell the cell where the player wants to build
-     * @return true if the cell control is positive and if the second built isn't done, else false
+     * This method overrides the default build controls.
+     * If the player just built the first time, it modifies the game flow and asks if the player wants to use the god power, otherwise it resets the build flag,
+     * it returns false and uses the standard flow.
+     * @param model is the game's model
+     * @param controller is the game's controller
+     * @param build is the message received from the view
+     * @param buildingCell is the cell where the player wants to build
+     * @return true if the cell's control is positive and if the second build isn't done, false otherwise
      */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
@@ -91,11 +91,11 @@ public class Hestia extends GodCard {
     }
 
     /**
-     * Modified control for Hestia, check if the cell is not in the perimeter
-     * @param model the game model
-     * @param playerBuild the built message received from the view
-     * @return true if it can build in the selected cell, else false
-     * The IllegalArgumentException is ignored due tue return a false result
+     * Modified controller for Hestia, it checks if the cell is not in the perimeter
+     * @param model is the game's model
+     * @param playerBuild is the build message received from the view
+     * @return true if it can build in the selected cell, false otherwise
+     * The IllegalArgumentException is ignored due to return a false result
      */
     private boolean checkHestiaCells(Model model, PlayerBuild playerBuild){
         int x=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX();
