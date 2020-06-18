@@ -31,7 +31,7 @@ public class PlayerTest {
         assertEquals(Gods.getGod(2), player.getGodCard());
     }
 
-    @Test
+    /*@Test
     public void getUnusedWorker(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -84,7 +84,7 @@ public class PlayerTest {
         PlayerMove playerMove = new PlayerMove(players[0],0,1,1,remoteView);
         controller.move(playerMove);
         assertEquals(players[0].getUnusedWorker(),1);
-    }
+    }*/
 
     @Test
     public void resetUsePowerTest(){

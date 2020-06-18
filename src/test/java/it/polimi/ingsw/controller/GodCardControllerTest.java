@@ -2549,7 +2549,7 @@ public class GodCardControllerTest {
         controller.build(playerBuild);
     }
 
-    @Test
+    /*@Test
     public void dontSsePoseidonPowerTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
@@ -2613,5 +2613,5 @@ public class GodCardControllerTest {
         UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
         useGodPower.handler(controller);
         assertEquals(model.getPhase(), Phase.MOVE);
-    }
+    }*/
 }

@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class EndGameServerMessageTest {
-    @Test
+    /*@Test
     public void endGameServerMessageTest(){
         Player player2 = new Player("Mario");
         Player player = new Player("Maria");
@@ -64,5 +64,5 @@ public class EndGameServerMessageTest {
         assertEquals(endGameServerMessage.getLobbyName(),lobby.getLobbyName());
         assertEquals(endGameServerMessage.getNumPlayer(),playerNames.size());
         assertTrue(endGameServerMessage.isSimplePlay());
-    }
+    }*/
 }

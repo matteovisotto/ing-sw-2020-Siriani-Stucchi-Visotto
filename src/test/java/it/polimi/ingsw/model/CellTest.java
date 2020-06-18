@@ -31,12 +31,12 @@ public class CellTest {
         assertEquals(cell.getLevel().getBlockId(), Blocks.DOME.getBlockId());
     }
 
-    @Test
+    /*@Test
     public void getPreviousLevel() {
         Cell cell = new Cell(1,2);
         cell.setLevel(Blocks.LEVEL1);
         assertEquals(cell.getPreviousLevel(),Blocks.EMPTY);
-    }
+    }*/
 
     @Test
     public void isFree() {
