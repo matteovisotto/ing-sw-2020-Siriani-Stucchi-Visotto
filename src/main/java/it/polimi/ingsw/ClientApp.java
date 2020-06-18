@@ -9,9 +9,9 @@ public class ClientApp
 {
     /**
      * Client entry point main class
-     * If command line arguments are null, the GUI client is created and started
-     * If command line argiment is -cli, the CLI client is created and started
-     * Other situations generate error which are printed in standard output
+     * If the command line's arguments are null, the GUI client is created and started
+     * If the command line's argument is -cli, the CLI client is created and started
+     * Other cases generate errors that are printed in the standard output
      * @param args command arguments
      */
     public static void main(String[] args){
