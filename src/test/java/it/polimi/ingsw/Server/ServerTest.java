@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 public class ServerTest {
-    @Test
+    /*@Test
     public void createNewLobbyTest() throws IOException {
         Server server = new Server();
         Player player = new Player("Toad");
@@ -57,5 +57,5 @@ public class ServerTest {
         assertEquals(server.getLobbiesNames(),"Select which lobby you want to join: \n" +
                 "0 - Go Back\n" +
                 "1 - Pippo [FULL] \n");
-    }
+    }*/
 }
