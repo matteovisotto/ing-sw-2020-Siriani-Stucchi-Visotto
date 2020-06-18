@@ -245,8 +245,12 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(southPanel.getWidth()/4, southPanel.getHeight()/4, getWidth()/2, getHeight()/2);
                 super.paintComponent(g);
+                Graphics2D graphics = (Graphics2D) g;
+                Dimension arcs = new Dimension(20, 20);
+                graphics.setColor(getBackground());
+                graphics.fillRoundRect(southPanel.getWidth()/4, southPanel.getHeight()/4, getWidth()/2, getHeight()/2, arcs.width, arcs.height);
+                graphics.setColor(getForeground());
             }
         };
         setJLabelProperties(southPanel, 10,10,40f, new Color(200,0,0),mainPanel.getWidth(), (int)(mainPanel.getHeight() * value));
@@ -641,8 +645,13 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.70));
                 super.paintComponent(g);
+                Graphics2D graphics = (Graphics2D) g;
+                Dimension arcs = new Dimension(20, 20);
+                graphics.setColor(getBackground());
+                graphics.fillRoundRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.70), arcs.width, arcs.height);
+                graphics.setColor(getForeground());
+
             }
         };
         setJLabelProperties(label2,0,0,25f, Color.WHITE,(int)(leftPanel.getWidth() * 0.75),(int)(leftPanel.getHeight() * 0.5));
@@ -666,8 +675,17 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(getBackground());
-                g.fillRect((int)(southPanel.getWidth() * 0.28), southPanel.getHeight()/4, (int)(getWidth() * 0.4405), getHeight()/2);
                 super.paintComponent(g);
+
+                Graphics2D graphics = (Graphics2D) g;
+
+                Dimension arcs = new Dimension(20, 20);
+
+                //Draws the rounded opaque panel with borders.
+                graphics.setColor(getBackground());
+                graphics.fillRoundRect((int)(southPanel.getWidth() * 0.28), southPanel.getHeight()/4, (int)(getWidth() * 0.4405), getHeight()/2, arcs.width, arcs.height);
+                graphics.setColor(getForeground());
+
             }
         };
         setJLabelProperties(centerSouthLabel, 0,0, 40f, Color.BLUE, southPanel.getWidth(),southPanel.getHeight());
@@ -822,8 +840,12 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor( getBackground() );
-                g.fillRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.70));
                 super.paintComponent(g);
+                Graphics2D graphics = (Graphics2D) g;
+                Dimension arcs = new Dimension(20, 20);
+                graphics.setColor(getBackground());
+                graphics.fillRoundRect(getWidth()/32, 0, (int)(getWidth() * 0.90), (int)(getHeight() * 0.70), arcs.width, arcs.height);
+                graphics.setColor(getForeground());
             }
         };
         setJLabelProperties(label2,0,0,25f, Color.WHITE,(int)(leftPanel.getWidth() * 0.75),(int)(leftPanel.getHeight() * 0.5));
