@@ -15,8 +15,8 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * This class extend the abstract  ClientConnection
- * This is used to talk to clients throw a socket
+ * This class extends the abstract class named ClientConnection
+ * This one is used to let the clients communicate through the socket
  */
 public class SocketClientConnection extends ClientConnection implements Runnable {
 
@@ -26,9 +26,9 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     private boolean active = true;
 
     /**
-     * Class constructor
-     * @param socket Socket instance after connection is been accepted by the server
-     * @param server The main server instance which manage connections
+     * Class' constructor
+     * @param socket is the socket instance after a connection gets accepted by the server
+     * @param server is the main server's instance which manages the connections
      */
     public SocketClientConnection(Socket socket, Server server) {
         this.socket = socket;
@@ -36,18 +36,18 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     }
 
     /**
-     * Check if the connection is already active
-     * @return true if connection is active
+     * This function checks if the connection is already active
+     * @return true if the connection is active
      */
     private synchronized boolean isActive(){
         return active;
     }
 
     /**
-     * Using global out object, this method write the string message out in the socket
-     * @param message Object representing the message to be sent to client
-     * All type of objects are sent to client except an EndGameServerMessage object that is used
-     * to configure a new lobby at the end of the game if player wants to play again
+     * This method writes the string message "out" on the socket
+     * @param message is an Object representing the message that needs to be sent to the client
+     * Every type of object is sent to the client except the EndGameServerMessage object, which is used
+     * to configure a new lobby at the end of the game, just in case a player decides to play again
      */
     @Override
     public synchronized void send(Object message) {
@@ -66,8 +66,8 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     }
 
     /**
-     * Call the socket close function in order to close the connection.
-     * Set isActive flag to false
+     * This function calls the socketClose function in order to close the connection.
+     * It also sets the isActive flag to false
      */
     @Override
     public synchronized void closeConnection() {

@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * This class is the main server class
+ * This class is the main server's class
  */
 public class Server {
     private static final int PORT = 15986;
@@ -29,16 +29,16 @@ public class Server {
 
     /**
      * Class constructor
-     * Create the server socket
-     * @throws IOException if socket can't be created
+     * It creates the server's socket
+     * @throws IOException if the socket can't be created
      */
     public Server() throws IOException {
         this.serverSocket = new ServerSocket(PORT);
     }
 
     /**
-     * This method remove and close a client connection
-     * @param connection the client socket connection instance
+     * This method removes and closes a client connection
+     * @param connection is the instance of the client's socket connection
      */
     public synchronized void deregisterConnection(ClientConnection connection){
         Lobby lobby = this.lobbyConnections.get(connection);
@@ -52,7 +52,7 @@ public class Server {
     }
 
     /**
-     * @return the number of lobbies active in the server
+     * @return the number of active lobbies in the server
      */
     public synchronized int getLobbiesCount(){
         return this.lobbies.size();
@@ -60,8 +60,8 @@ public class Server {
 
     /**
      *
-     * @return a string containing the lobby id, the name, the num of players in it and the play mode
-     * @throws NoLobbyException if no lobbies are available
+     * @return a string containing the lobby's id, the name, the number of players in it and the game mode
+     * @throws NoLobbyException if there is no lobby available
      */
     public synchronized String getLobbiesNames() throws NoLobbyException {
         if(this.lobbies.size() != 0) {
@@ -91,13 +91,13 @@ public class Server {
     }
 
     /**
-     * This function is used to create a new lobby in the server
-     * Also add the player to the playerInLobby maps and lobbyConnections maps
-     * @param lobbyName the chosen lobby name
-     * @param clientConnection the client socket connection instance
-     * @param playerName the name of the player who create the lobby
-     * @param numPlayer the chosen number of player for the lobby
-     * @param simplePlay a flag that if true indicates that the play is without god cards
+     * This function creates a new lobby in the server
+     * It also adds the player to the playerInLobby map and lobbyConnections map
+     * @param lobbyName is the chosen lobby's name
+     * @param clientConnection is he client's socket instance
+     * @param playerName is the name of the player that created the lobby
+     * @param numPlayer is the chosen number of player for the lobby
+     * @param simplePlay is a flag representing that the game is without any god card
      */
     public synchronized void addLobby(String lobbyName, ClientConnection clientConnection, String playerName, int numPlayer, boolean simplePlay){
         Lobby lobby = new Lobby(lobbyName, playerName, clientConnection, numPlayer, simplePlay);
@@ -109,11 +109,11 @@ public class Server {
     }
 
     /**
-     * This function in used to add a new player to a lobby that exists
-     * Also add the player to the playerInLobby maps and lobbyConnections maps
-     * @param lobbyId the id of the lobby
-     * @param clientConnection the client socket connection instance
-     * @param playerName the name of the player
+     * This function adds a new player to an existing lobby
+     * It also adds the player to the playerInLobby map and lobbyConnections map
+     * @param lobbyId is the lobby's id
+     * @param clientConnection is the client's socket connection instance
+     * @param playerName is the player's name
      * @throws FullLobbyException if the selected lobby is already full
      * @throws InvalidLobbyException if the selected lobby doesn't exist
      */
@@ -138,9 +138,8 @@ public class Server {
     }
 
     /**
-     * This function is used to add player to a new lobby after he decided to play an other player without old players
-     * If it is a three players game, it adds also the second opponents who chose to play again
-     * @param endGameServerMessage the particular message that contains all info for the new play
+     * This function adds the players who decided to play another game to a new lobby
+     * @param endGameServerMessage is the message that holds every information needed for the new game
      * @see EndGameServerMessage
      */
     public synchronized void addLobbyEndGame(EndGameServerMessage endGameServerMessage){
@@ -157,7 +156,7 @@ public class Server {
     }
 
     /**
-     * When a new play is performed this method delete the old lobby from the server
+     * When a new game is created after the old one is over, this method deletes the old lobby from the server
      * @param endGameServerMessage endGameServerMessage the particular message that contains all info for the new play
      * @see EndGameServerMessage
      */
@@ -178,7 +177,7 @@ public class Server {
 
     /**
      * {@inheritDoc}
-     * Open the socket and submit new accepted connection to the executor
+     * This function opens the socket and submits new accepted connection to the runner
      */
     public void run(){
         System.out.println("Server listening on port: " + PORT);

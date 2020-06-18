@@ -13,7 +13,7 @@ import it.polimi.ingsw.view.RemoteView;
 import java.util.*;
 
 /**
- * This class represent a Lobby that is a room for a single play
+ * This class represents a Lobby, which is a "room" for a game
  */
 public class Lobby {
     private final int numPlayers;
@@ -25,12 +25,12 @@ public class Lobby {
     private boolean isGameEnded = false;
 
     /**
-     * Class constructor
-     * @param lobbyName The selected lobby name
-     * @param playerName the name of the player who created the lobby
-     * @param clientConnection the clientConnection instance of the player
-     * @param numPlayers selected number of player
-     * @param simplePlay the selected game mode
+     * Class' constructor
+     * @param lobbyName is the selected lobby's name
+     * @param playerName is the name of the player who created the lobby
+     * @param clientConnection is the player's clientConnection instance
+     * @param numPlayers is the selected amount of player for the game
+     * @param simplePlay is the selected game mode
      */
     public Lobby(String lobbyName, String playerName, ClientConnection clientConnection, int numPlayers, boolean simplePlay){
         this.numPlayers = numPlayers;
@@ -43,7 +43,7 @@ public class Lobby {
 
     /**
      *
-     * @return the name of the lobby
+     * @return the lobby's name.
      */
     public String getLobbyName(){
         return this.lobbyName;
@@ -51,7 +51,7 @@ public class Lobby {
 
     /**
      *
-     * @return an int for the number of the player
+     * @return an integer representing the number players in the lobby.
      */
     public int getNumPlayers(){
         return this.numPlayers;
@@ -59,7 +59,7 @@ public class Lobby {
 
     /**
      *
-     * @return false if the lobby have space for other players
+     * @return false if the lobby has room for other players
      */
     public boolean isFull(){
         return this.isFull;
@@ -67,14 +67,14 @@ public class Lobby {
 
     /**
      *
-     * @return true if has being selected the simpla mode
+     * @return true if the lobby is made for a game in simple mode
      */
     public boolean isSimplePlay(){
         return this.simplePlay;
     }
 
     /**
-     * This method remove all the players from the lobby and close their connections
+     * This method removes every player from the lobby and closes their connections
      */
     public void closeLobby() {
         if(!isGameEnded) {
@@ -88,14 +88,14 @@ public class Lobby {
     }
 
     /**
-     * Set that the play for this lobby is ended
+     * This function sets the value of a boolean representing that the game is over.
      */
     public void setEndGame(){
         this.isGameEnded = true;
     }
 
     /**
-     * Set isEndGame to false
+     * This function is the opposite of the "setEndGame" function above
      */
     public void resetEndGame(){
         this.isGameEnded = false;
@@ -103,13 +103,12 @@ public class Lobby {
 
     /**
      * This method is used to add a player to the lobby
-     * @param playerName the name of the new player
-     * @param clientConnection the ClientConnection instance of the new player
+     * @param playerName is the new player's name
+     * @param clientConnection is the ClientConnection instance of the new player
      *
-     *  When the lobby is full is called a methid to configure the beginning of the game:
-     *   twoPlayer if this.numPlayer==2 else threePlayer
+     *  A specific algorithm is used when the lobby is full to configure the beginning of the game
      *
-     *  If the lobby is not already full a wait message is sent to client
+     *  If the lobby is not full yet, a wait message is sent to the clients connected
      */
     public void addPlayer(String playerName, ClientConnection clientConnection) {
         connections.add(clientConnection);
@@ -131,9 +130,9 @@ public class Lobby {
     }
 
     /**
-     * This method send the same message to all player of the lobby.
-     * Is used only before creating model and controller
-     * @param o an object to send throw network
+     * This method sends the same message to every player in the lobby.
+     * It is only used before the model and controller's instances are created
+     * @param o is an object to send Objects through the network
      */
     private void sendAllPlayer(Object o){
         for (ClientConnection connection : connections) {
@@ -142,22 +141,21 @@ public class Lobby {
     }
 
     /**
-     * This method check if the name of the new player already exists in the lobby
-     * @param name the name chosen by the player
-     * @return true is the name doesn't exist
+     * This method checks if the name of the new player already exists within the lobby
+     * @param name is the name chosen by the player
+     * @return true if the name doesn't exist
      */
     public boolean isPlayerNameAvailable (String name) {
         return waitingConnection.get(name) == null;
     }
 
     /**
-     * This method configure a play for two players
-     * @param players an array list containing the names of the player who joined the lobby
-     * For each player it create a remove view instance with his connection, the instance of the lobby,
+     * This method configures a game for two players
+     * @param players is an arrayList containing the names of the player that joined the lobby
+     * For each player, it creates a remove view instance linked to his connection, the lobby's instance,
      *                his own player object and the name of the opponents.
      *
-     * Then a new model object is created and also a controller: SimpleController if in a simple play
-     *              or a GodCardController otherwise
+     * A new model and a new controller objects are then created: SimpleController if it's supposed to be a simple game, a GodCardController otherwise
      */
     private void twoPlayer(List<String> players){
         ClientConnection c1,c2;
@@ -196,14 +194,13 @@ public class Lobby {
     }
 
     /**
-     * This method configure a play for three players
-     * @param players an array list containing the names of the player who joined the lobby
-     * For each player it create a remove view instance with his connection, the instance of the lobby,
+     * This method configures a game for three players
+     * @param players is an arrayList containing the names of the player that joined the lobby
+     * For each player, it creates a remove view instance linked to his connection, the lobby's instance,
      *                his own player object and the name of the opponents.
      *
-     * Then a new model object is created and also a controller: SimpleController if in a simple play
-     *              or a GodCardController otherwise
-     */
+     *A new model and a new controller objects are then created: SimpleController if it's supposed to be a simple game, a GodCardController otherwise
+     **/
     private void threePlayer(List<String> players) {
         ClientConnection c1, c2, c3;
         Player player1, player2, player3;
