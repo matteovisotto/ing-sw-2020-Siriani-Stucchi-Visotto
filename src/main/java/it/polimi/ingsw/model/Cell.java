@@ -132,4 +132,11 @@ public class Cell implements Serializable, Cloneable{
         this.isFree = false;
     }
 
+    /**
+     * @return the cell's previews level as a Blocks instance
+     */
+    public Blocks getPreviewsLevel(){
+        return this.previewsLevel;
+    }
+
 }
