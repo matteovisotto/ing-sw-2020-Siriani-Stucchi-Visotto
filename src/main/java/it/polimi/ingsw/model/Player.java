@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * This class define a player in the game.
+ * This class defines a player in the game.
  */
 public class Player implements Serializable {
     private final ArrayList<Worker> workers;
@@ -18,8 +18,8 @@ public class Player implements Serializable {
     private int usedWorker = 0;
 
     /**
-     * Constructor of the class
-     * @param playerName a string that represent the selected name by the player for hinself
+     * Class' constructor
+     * @param playerName is a string representing the player's name.
      */
     public Player(String playerName) {
         this.playerName = playerName;
@@ -28,14 +28,14 @@ public class Player implements Serializable {
 
     /**
      *
-     * @return true if this player has won in the game
+     * @return true if this player has won the game
      */
     public boolean hasWon() {
         return victory;
     }
 
     /**
-     * @param victory for set if the player has won
+     * @param victory is a boolean representing whether the player has won or not
      */
     public void setVictory(boolean victory) {
         this.victory = victory;
@@ -43,21 +43,21 @@ public class Player implements Serializable {
 
     /**
      *
-     * @return true of the player has used his god power in his turn
+     * @return true if the player has used his god's power in his turn
      */
     public boolean getUsePower() {
         return usePower;
     }
 
     /**
-     * Set the usePower to default value (False)
+     * Set the usePower to the default value (False)
      */
     public void resetUsePower(){
         usePower = false;
     }
 
     /**
-     * @param usePower set the value for usePower flag
+     * @param usePower sets the value for the usePower's flag
      */
     public void setUsePower(boolean usePower){
         this.usePower = usePower;
@@ -65,7 +65,7 @@ public class Player implements Serializable {
 
     /**
      *
-     * @param status set the hasLost flag
+     * @param status sets the hasLost flag
      */
     public void setHasLost(boolean status){
         hasLost = status;
@@ -89,7 +89,7 @@ public class Player implements Serializable {
 
     /**
      *
-     * @return the GodCard instance if player has it, else return null
+     * @return the GodCard instance if the player has it, returns null otherwise
      */
     public GodCard getGodCard() {
         return this.godCard;
@@ -97,7 +97,7 @@ public class Player implements Serializable {
 
     /**
      *
-     * @param godCard set player GodCard
+     * @param godCard is  the GodCard that needs to be assigned to the player
      */
     public void setGodCard(GodCard godCard){
         this.godCard = godCard;
@@ -105,9 +105,9 @@ public class Player implements Serializable {
 
     /**
      *
-     * @param number the number of the worker we want, between 0 and 1
-     * @return the Worker instance corresponding ad the number
-     * @throws IndexOutOfBoundsException if number is less then 0 or higher then 1
+     * @param number is the number of the worker we want, between 0 and 1
+     * @return the Worker's instance corresponding to the number
+     * @throws IndexOutOfBoundsException if the number is less than 0 or greater than 1
      */
     public Worker getWorker(int number) throws IndexOutOfBoundsException {
         return (workers.get(number));
@@ -116,8 +116,8 @@ public class Player implements Serializable {
 
     /**
      *
-     * @param worker a worker class instance
-     * @throws FullWorkerException if the player already heave two workers
+     * @param worker is a worker's class instance
+     * @throws FullWorkerException if the player already has two workers set
      */
     public void setWorkers(Worker worker) throws FullWorkerException{
         if(workers.size() == 2){
@@ -140,14 +140,14 @@ public class Player implements Serializable {
 
     /**
      *
-     * @param usedWorker the worker the player has decided to use in his turn
+     * @param usedWorker the worker that the player has decided to use in his turn
      */
     public void setUsedWorker(int usedWorker) {
         this.usedWorker = usedWorker;
     }
 
     /**
-     * Reset all the data except the name for a new play
+     * Reset every data except the name, this function is used when a neg game starts
      */
     public void reset(){
         this.hasLost = false;
@@ -158,7 +158,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Remove player's workers
+     * Remove the player's workers
      */
     public void remove(){
         for (Worker w : workers){

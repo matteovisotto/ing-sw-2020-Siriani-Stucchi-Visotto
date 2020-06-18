@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * This class define the different phases of the game in a normal match.
+ * This class defines the different phases of the game in a normal match.
  */
 public enum Phase {
     WAIT_PLAYERS(-5),
@@ -22,25 +22,25 @@ public enum Phase {
     private final int phaseId;
 
     /**
-     * Constructor of the class
-     * @param phaseId is an int that represent the value of the actual phase in the game.
+     * Class' constructor
+     * @param phaseId is an integer representing the actual phase in the game.
      */
     Phase(int phaseId) {
         this.phaseId = phaseId;
     }
 
     /**
-     * @return an int corresponding to a phase in the game.
+     * @return an integer corresponding to a phase in the game.
      */
     public int getPhaseId() {
         return phaseId;
     }
 
     /**
-     * This method found the next phase of the game.
-     * @param p define the id of the actual phase. The value accepted are: -5 -> DRAWCARD, -4 -> PICK_CARD, -3 -> SETWORKER1, -2 -> SETWORKER2, -1 || 0 || 2 -> MOVE, 1 || 6 -> BUILD, 10 -> END_GAME.
+     * This method returns the next game's phase.
+     * @param p defines the id of the actual phase. The accepted values are: -5 -> DRAWCARD, -4 -> PICK_CARD, -3 -> SETWORKER1, -2 -> SETWORKER2, -1 || 0 || 2 -> MOVE, 1 || 6 -> BUILD, 10 -> END_GAME.
      * @return the next phase.
-     * @throws IllegalArgumentException if the id is less then -5 or higher then 2, except for 6, 10.
+     * @throws IllegalArgumentException if the id is less than -5 or higher than 2, except for 6, 10.
      */
     public static Phase next(Phase p) throws IllegalArgumentException{
         int id = p.getPhaseId();
@@ -68,10 +68,10 @@ public enum Phase {
     }
 
     /**
-     * This method assign a value to it's specific phase.
-     * @param id define the id of the phase. The value accepted are: -5 -> WAIT_PLAYERS, -4 -> DRAWCARD, -3 -> PICK_CARD, -2 -> SETWORKER1, -1 -> SETWORKER2, 0 -> BEGINNING, 1 -> MOVE, 2 -> BUILD, 5 -> WAIT_GOD_ANSWER, 6 -> PROMETHEUS_WORKER, 10 -> END_GAME.
-     * @return the phase assigned to a determined id.
-     * @throws IllegalArgumentException if the id is less then -5 or higher then 2, except for 5, 6, 10.
+     * This method assigns a value to its specific phase.
+     * @param id defines the phase's id. The accepted values are: -5 -> WAIT_PLAYERS, -4 -> DRAWCARD, -3 -> PICK_CARD, -2 -> SETWORKER1, -1 -> SETWORKER2, 0 -> BEGINNING, 1 -> MOVE, 2 -> BUILD, 5 -> WAIT_GOD_ANSWER, 6 -> PROMETHEUS_WORKER, 10 -> END_GAME.
+     * @return the phase assigned to a given id.
+     * @throws IllegalArgumentException if the id is less than -5 or higher than 2, except for 5, 6, 10.
      */
     public static Phase getPhase(int id) throws IllegalArgumentException {
         switch (id){

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class merge all the data madel of the game
+ * This class merges all the game's data
  */
 
 public class Model extends Observable<ViewMessage> {
@@ -30,9 +30,9 @@ public class Model extends Observable<ViewMessage> {
     private final HashMap<Player, Integer> podium = new HashMap<>();
 
     /**
-     * Constructor of the class
-     * @param players represent the players of the actual game.
-     * @param simplePlay is a boolean that if it's set to true means that the game is played without godCard (SimpleMode mode).
+     *Class' constructor
+     * @param players represents the actual game's players.
+     * @param simplePlay is a boolean: if it's set to true it means that the game is played without godCard (SimpleMode mode).
      */
     public Model(Player[] players, boolean simplePlay){
         this.turn = players;
@@ -47,7 +47,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method configure the model and the phases of the actual game. Also this method send to all players the notify of the beginning of the game.
+     * This method configures the model and the phases of the actual game. This method also notifies every players that the game ios starting.
      */
     public void initialize(){
         notifyObservers(new GameMessage(turn[id], PlayerMessage.YOUR_TURN, MessageType.BEGINNING, Phase.BEGINNING));
@@ -56,14 +56,14 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * @return true if Athena has moved up during this turn.
+     * @return true if Athena's player has moved up during his/her turn.
      */
     public boolean isMovedUp() {
         return movedUp;
     }
 
     /**
-     * @param movedUp is set automatically to true by Athena when she use his power (go up one level). This value remain true until begin next athena turn.
+     * @param movedUp is automatically set to true by Athena when she uses her power (she goes up one level). This value remains true until the beginning of Athena's turn.
      */
     public void setMovedUp(boolean movedUp) {
         this.movedUp = movedUp;
@@ -92,7 +92,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method set the next phase of the game.
+     * This method sets the game's next phase.
      * @param phase represent a phase of the game.
      */
     public void setNextPhase(Phase phase) {
@@ -100,14 +100,14 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * @return the id of the actual player (the id is used in the array turn[]).
+     * @return the turn player's id (the id is used in the array turn[]).
      */
     public int getActualPlayerId() {
         return id;
     }
 
     /**
-     * @return an array of players containing all the players of the actual game.
+     * @return an array of players containing every actual game's players.
      */
     public Player[] getPlayers(){
         return turn;
@@ -115,7 +115,7 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @return the gods card which are active in the play
+     * @return the active gods card in the game.
      */
     public ArrayList<GodCard> getGodsInPlay() {
         return godsInPlay;
@@ -123,22 +123,22 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @return the number of players who have not yet won or lost
+     * @return the number of players who didn't win/loose yet.
      */
     public int getLeftPlayers(){
         return leftPlayers;
     }
 
     /**
-     * @return the number of the players in the actual game.
+     * @return the number of players in the actual game.
      */
     public int getNumOfPlayers(){
         return this.turn.length;
     }
 
     /**
-     * This function is used to set the next phase message type to be notified to clients
-     * @param messageType the MessageType enum instance to set
+     * This function sets the next phase message type that needs to be notified to the clients
+     * @param messageType is the MessageType enum instance to set
      */
     public void setNextMessageType(MessageType messageType) {
         this.messageType = messageType;
@@ -146,21 +146,21 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @param playerMessage string representing the next message to be notified to clients
+     * @param playerMessage is a string representing the next message that needs to be notified to the clients
      */
     public void setNextPlayerMessage(String playerMessage) {
         this.playerMessage = playerMessage;
     }
 
     /**
-     * @return the board of the actual game.
+     * @return the actual game's board.
      */
     public Board getBoard() {
         return board;
     }
 
     /**
-     * This method return a clone of the board.
+     * This method returns a clone of the board.
      * @return a clone of the board.
      */
     public Board getBoardClone() {
@@ -173,7 +173,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This void function is used to update the turn with the order players join the play.
+     * This function is used to update the turn with the order in which the players join the game.
      * If a player has won or lost he is skipped
      */
     public synchronized void updateTurn(){
@@ -205,7 +205,7 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method update the phase of the actual game.
+     * This method updates the phase of the actual game.
      * @see Phase {@link Phase} In the phase is contained the next() method.
      */
     public void updatePhase(){
@@ -213,12 +213,12 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method is used to add a new worker for a player
-     * Get the cell in board with the coordinates contained in the message
-     * Set the cell as used
-     * Add a new worker for the player who ask this event (contained in the message)
-     * At the end notify clients of changes
-     * @param playerWorker message received from the remote view
+     * This method is used to add a new worker for a player.
+     * It gets the cell inside the board with the coordinates given to it,
+     * it then sets the cell as used.
+     * I adds a new worker for the player who ask for it (contained in the message) and
+     * at the end it notifies the clients about the changes
+     * @param playerWorker is the message received from the remote view
      */
     public void setPlayerWorker (PlayerWorker playerWorker){
         Cell chosenCell = this.getBoard().getCell(playerWorker.getX(), playerWorker.getY());
@@ -228,16 +228,16 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * @return the actual player instance of the game.
+     * @return the turn player's instance.
      */
     public Player getActualPlayer() {
         return turn[id];
     }
 
     /**
-     * This method add a chosen god card to the play Array
-     * This method also add the godCard to godsInPlay array
-     * @param godCard the chosen god card instance
+     * This method adds a chosen god card to the game Array
+     * This method also adds the godCard to the godsInPlay array
+     * @param godCard is the chosen god card instance
      */
     public void addGod(GodCard godCard){
         gods.add(godCard);
@@ -246,7 +246,7 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @return play gods array
+     * @return game's gods as an array
      */
     public ArrayList<GodCard> getGods() {
         return gods;
@@ -254,7 +254,7 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @param i is an int that represent the value of a player in turn[].
+     * @param i is an int representing the value of a player in turn[].
      * @return the corresponding player instance in turn[i].
      */
     public Player getPlayer(int i){
@@ -263,7 +263,7 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @return the number of not already chosen card from the drawed ones
+     * @return the number of god cards left to choose.
      */
     public int getLeftCards(){
         return gods.size();
@@ -271,7 +271,7 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      *
-     * @param card an integer that represent the card index in the array
+     * @param card an integer representing the card's index in the array
      * @return true if the selected index is available in the array
      */
     public boolean isGodAvailable(int card){
@@ -279,16 +279,16 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method return the corresponding Player that own a specific GodCard (gods). This method return null if there are no player associated of that specific card.
-     * @param gods is the GodCard for which i'm searching the player.
-     * @return the searched player.
+     * This method returns the Player owning a specific GodCard (gods). This method returns null if there are no player associated to that specific card.
+     * @param gods is the GodCard involved.
+     * @return the player associated.
      */
     public Player getGCPlayer(Gods gods){
         return playerCards.get(gods);
     }
 
     /**
-     * This method is used to get the GodCard of the next turn player
+     * This method is used to get the next turn player's GodCard
      * @return the GodCard instance of the next turn player
      */
     public GodCard getNextPlayerGC(){
@@ -301,9 +301,9 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      * This method is used to assign a GodCard to a player
-     * @param player the player who pick a card between the drawed ones
-     * @param card the drawed card array index chosen by the player
-     * @return the GodCard instance of the chosen card
+     * @param player is the player who picked the card within the drawed ones
+     * @param card is the drawed card's array index chosen by the player
+     * @return the GodCard's instance of the chosen card
      */
     public GodCard assignCard(Player player, int card){
         GodCard godCard = gods.get(card);
@@ -317,8 +317,8 @@ public class Model extends Observable<ViewMessage> {
 
     /**
      * This method is called by the controller to update data for a move event
-     * @param move the message received by the client and already controlled by the controller
-     * @throws ArrayIndexOutOfBoundsException when you try to move outside the board
+     * @param move is the message received from the controller (which received it from the client)
+     * @throws ArrayIndexOutOfBoundsException when you try to move outside of the board
      */
     public void move(PlayerMove move) throws ArrayIndexOutOfBoundsException {
         Worker movingWorker = move.getPlayer().getWorker(move.getWorkerId());
@@ -332,8 +332,8 @@ public class Model extends Observable<ViewMessage> {
     /**
      * This function is called by the controller to update data for a build event
      * @see Cell
-     * @param cell the cell chosen for the built
-     * @param level the level to be assigned at the cell
+     * @param cell is the cell chosen for the built
+     * @param level is the level that needs to be assigned to the cell
      */
     public void increaseLevel(Cell cell, Blocks level) {//build
         cell.setLevel(level);
@@ -341,10 +341,10 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method add a player who won to the podium,
-     * then if only one player is left call lose for him.
-     * If more then one player are left, remove player worker from the board and set the player victory flag at true
-     * At the end update model phases and message and notify the changes to the clients
+     * This method adds a player who won to the podium,
+     * then, if only one player is left, it calls the loose for the player who lost.
+     * If more than one player is left, remove the player workers from the board and set the player victory flag to true
+     * At the end, ut updates the model phases and messages and notifies the changes to the clients
      * @param player the player who won
      */
     public void victory(Player player) {
@@ -382,10 +382,10 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method add a player who lost to the podium at last position,
-     * then if only one player is left call victory for him.
-     * If more then one player are left, remove player worker from the board and set the player lost flag at true
-     * At the end update model phases and message and notify the changes to the clients
+     * This method adds a player who lost to the podium at the last position,
+     * then, if only one player is left, it calls victory for that player.
+     * If more than one player is left, it removes the player's workers from the board and sets the player lost flag to true
+     * At the end it updates the model's phases and messages and notifies the changes to the clients
      * @param player the player who lost
      */
     public void loose(Player player){
@@ -429,9 +429,9 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * Set game phase to END_GAME
+     * This function sets the game's phase to END_GAME
      * This function is called when only one player is left
-     * Notify clients that the game in ended
+     * It notifies the clients that the game is ended
      */
     public void endGame(){
         phase = Phase.END_GAME;
@@ -440,8 +440,8 @@ public class Model extends Observable<ViewMessage> {
     }
 
     /**
-     * This method reset all the model for starting a new play and call the initialize function
-     * startOver is called only if all player have chosen to play again
+     * This method resets every model's parameters to start a new game and calls the model's "initialize" function
+     * startOver is called only if every player has chosen to play again
      *
      */
     public void startOver(){
@@ -472,7 +472,7 @@ public class Model extends Observable<ViewMessage> {
 
 
     /**
-     * This function notify clients a new state of board, phase, turn and message
+     * This function notifies every client a new state of the board, phase, turn and message
      */
     public void notifyChanges(){
         notifyObservers(new GameBoardMessage(getBoardClone(), turn[id], this.playerMessage, this.messageType, this.phase));
@@ -481,7 +481,7 @@ public class Model extends Observable<ViewMessage> {
     /**
      * Similar to notifyChanges, this method is used to notify clients that there is a new phase on the game
      * without changes to the board.
-     * @param message string representing the message to be notified to clients
+     * @param message is string representing the message that needs to be notified to clients
      */
     public void notifyMessage(String message){
         notifyObservers(new GameMessage(turn[id],message, MessageType.VOID_MESSAGE, this.phase));

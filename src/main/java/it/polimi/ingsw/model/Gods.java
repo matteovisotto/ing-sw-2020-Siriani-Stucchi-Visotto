@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.simplegod.*;
 
 /**
- * This class define the different simpleGod of the game.
+ * This class defines the different simpleGods of the game.
  */
 public enum Gods {
     APOLLO(0),
@@ -25,18 +25,18 @@ public enum Gods {
     private final int simplegod;
 
     /**
-     * Constructor of the class
-     * @param simplegod represent a specific God.
+     * Class' constructor
+     * @param simplegod represents a specific God.
      */
     Gods(int simplegod) {
         this.simplegod = simplegod;
     }
 
     /**
-     * This method assign a value to it's specific simpleGod.
-     * @param id define the id of the simpleGod. The value accepted are: 1 -> new Apollo(), 2 -> new Artemis(), 3 -> new Athena(), 4 -> new Atlas(), 5 -> new Demeter(), 6 -> new Hephaestus(), 7 -> new Minotaur(), 8 -> new Pan(), 9 -> new Prometheus().
-     * @return the simpleGod assigned to a determined id.
-     * @throws IllegalArgumentException if the id is less then 1 or higher then 9.
+     * This method assigns a value to its specific simpleGod.
+     * @param id defines the simpleGod's id. The values accepted are: 1 -> new Apollo(), 2 -> new Artemis(), 3 -> new Athena(), 4 -> new Atlas(), 5 -> new Demeter(), 6 -> new Hephaestus(), 7 -> new Minotaur(), 8 -> new Pan(), 9 -> new Prometheus().
+     * @return the simpleGod assigned to a given id.
+     * @throws IllegalArgumentException if the id is less than 1 or higher than 9.
      */
     public static GodCard getGod(int id) throws IllegalArgumentException{
         switch(id) {
@@ -74,7 +74,7 @@ public enum Gods {
     }
 
     /**
-     * @return in int corresponding to a specific God.
+     * @return an int corresponding to a specific God.
      */
     public int getSimpleGodId() {
         return simplegod;

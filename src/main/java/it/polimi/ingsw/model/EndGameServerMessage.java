@@ -14,10 +14,10 @@ public class EndGameServerMessage {
 
     /**
      * Constructor of the class
-     * @param lobby is the lobby of the actual game.
+     * @param lobby is the actual game's lobby.
      * @param clientConnections is an ArrayList containing the connections of the players in this game.
      * @param playerNames is an ArrayList containing the names of the players in the game.
-     * @param numPlayer is an int that represent the number of players.
+     * @param numPlayer is an int representing the number of players.
      * @param simplePlay is true if the game mode is set to simpleMode.
      */
     public EndGameServerMessage(Lobby lobby, ArrayList<ClientConnection> clientConnections, ArrayList<String> playerNames, int numPlayer, boolean simplePlay){
@@ -30,14 +30,14 @@ public class EndGameServerMessage {
     }
 
     /**
-     * @return the lobby's name of the actual game.
+     * @return the actual game's lobby's name.
      */
     public String getLobbyName() {
         return lobby.getLobbyName();
     }
 
     /**
-     * @return the lobby of the actual game.
+     * @return the actual game's lobby.
      */
     public Lobby getLobby(){
         return lobby;
@@ -58,14 +58,14 @@ public class EndGameServerMessage {
     }
 
     /**
-     * @return an int that represent the number of players.
+     * @return an int representing the number of players.
      */
     public int getNumPlayer() {
         return numPlayer;
     }
 
     /**
-     * @return a boolean that it's true if the game mode is set to simpleMode.
+     * @return true if the game mode is set to simpleMode.
      */
     public boolean isSimplePlay() {
         return simplePlay;

@@ -3,15 +3,15 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 
 /**
- * This class define the board of the game.
+ * This class defines the game's board.
  */
 public class Board implements Serializable, Cloneable {
     private Cell[][] board;
     private final Player[] players;
 
     /**
-     * Constructor of the class
-     * @param players are the gamer of the actual game.
+     * This is the class' constructor.
+     * @param players are the game's players
      */
     public Board(Player[] players){
         this.players = players;
@@ -22,7 +22,7 @@ public class Board implements Serializable, Cloneable {
      * @param x is the x value of the cell.
      * @param y is the y value of the cell.
      * @return the cell (x,y).
-     * @throws IllegalArgumentException if the value 'x' or 'y' is higher or equal to 4 and if is lower then 0.
+     * @throws IllegalArgumentException if the value 'x' or 'y' is higher or equal than 4 and if they are lower than 0.
      */
     public Cell getCell(int x, int y) throws IllegalArgumentException{
         if((x < 0 || x >= 5) || (y < 0 || y >= 5)){
@@ -32,7 +32,7 @@ public class Board implements Serializable, Cloneable {
     }
 
     /**
-     * This method reset the board and set all precedent cells to new Cell.
+     * This method resets the board and sets all the previous cells to new ones.
      */
     public void reset(){
         board=new Cell[5][5];
@@ -93,7 +93,7 @@ public class Board implements Serializable, Cloneable {
     }
 
     /**
-     * @return a new instance of the class as clone
+     * @return a new instance of the class as a clone
      * @throws CloneNotSupportedException if it can't be cloneable
      */
     @Override

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * This class define the different level of blocks in the game.
+ * This class defines the different blocks' levels in the game.
  */
 public enum Blocks {
     EMPTY(0),
@@ -14,7 +14,7 @@ public enum Blocks {
     private final int block;
 
     /**
-     * Constructor of the class
+     * This is the class' constructor
      * @param block is the level of a cell.
      */
     Blocks(int block) {
@@ -22,17 +22,17 @@ public enum Blocks {
     }
 
     /**
-     * @return an int the represents the actual level of a cell.
+     * @return an int representing the actual level of a cell.
      */
     public int getBlockId() {
         return block;
     }
 
     /**
-     * This method assign a value to it's specific block.
-     * @param id define the id of the block. The value accepted are: 0 -> EMPTY, 1 -> LEVEL1, 2 -> LEVEL2, 3 -> LEVEL3, 4 -> DOME.
-     * @return the block assigned to a determined id.
-     * @throws IllegalArgumentException if the id is less then 0 or higher then 4.
+     * This method assigns a value to its specific block.
+     * @param id defines the block's id. The accepted values are: 0 -> EMPTY, 1 -> LEVEL1, 2 -> LEVEL2, 3 -> LEVEL3, 4 -> DOME.
+     * @return the block assigned to an id.
+     * @throws IllegalArgumentException if the id is less than 0 or higher than 4.
      */
     public static Blocks getBlock(int id) throws IllegalArgumentException {
         switch (id){

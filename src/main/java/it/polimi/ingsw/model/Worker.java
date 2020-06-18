@@ -3,15 +3,15 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 
 /**
- * This class define a worker in the game.
+ * This class defines a worker inside the game.
  */
 public class Worker implements Serializable {
     private Cell cell;
     public boolean available = true; //può muoversi
 
     /**
-     * Constructor of the class
-     * @param cell the cell where place the worker
+     * Class' constructor.
+     * @param cell the cell where place the worker.
      */
     public Worker(Cell cell){
         this.cell = cell;
@@ -19,14 +19,14 @@ public class Worker implements Serializable {
 
     /**
      *
-     * @return the actual cell of the worker
+     * @return the actual worker's cell.
      */
     public Cell getCell() {
         return cell;
     }
 
     /**
-     * Used to change the worker cell when move
+     * This function changes the worker's cell when it moves or it gets pushed/swapped by a God
      * @param cell a new cell for the worker
      */
     public void setCell(Cell cell){
@@ -35,15 +35,15 @@ public class Worker implements Serializable {
 
     /**
      *
-     * @return return false if the worker is stuck and it can't move
+     * @return return false if the worker can't move
      */
     public boolean getStatus () {
         return available;
     }
 
     /**
-     * Used to set that the worker can't move
-     * @param status a flag that indicate if the worker can move
+     * This function sets the worker's status (can move or not)
+     * @param status is a flag indicating if the worker can move
      */
     public void setStatus (boolean status) {
         this.available = status;
