@@ -215,6 +215,9 @@ public class GodCardController extends Controller {
                         model.notifyChanges();
                     }
                     if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId() == 3 && oldLevel!=3){
+                        model.setNextMessageType(MessageType.BUILD);
+                        model.setNextPlayerMessage(PlayerMessage.BUILD);
+                        model.setNextPhase(Phase.BUILD);
                         model.victory(move.getPlayer());
                     }
                     checkVictory();
