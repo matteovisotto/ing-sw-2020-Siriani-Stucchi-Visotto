@@ -21,11 +21,11 @@ public class GUIClient extends Observable<Object> {
     private PrintWriter socketOut;
     private boolean isConfig = false;
 
-    public GUIClient(String ip, int port){
+    public GUIClient(String ip, int port, int width){
         this.ip = ip;
         this.port = port;
         initialization= new Initialization(this);
-        game = new Game(this);
+        game = new Game(this, width);
         addObserver(initialization);
         addObserver(game);
     }
