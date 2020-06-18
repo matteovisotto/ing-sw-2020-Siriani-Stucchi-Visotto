@@ -115,6 +115,7 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color, int width, int height){
+        fontDimension=((float)(25*windowsSize.getHeight()))/1080;
         label.setLayout(new BorderLayout(hgap, vgap));
         label.setPreferredSize(new Dimension(width, height));
         label.revalidate();
