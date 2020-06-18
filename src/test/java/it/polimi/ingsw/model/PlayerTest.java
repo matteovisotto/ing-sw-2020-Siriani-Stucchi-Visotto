@@ -1,7 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.FullWorkerException;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.simplegod.Apollo;
+import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.view.RemoteView;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,6 +29,61 @@ public class PlayerTest {
         Player player = new Player("Luigi");
         player.setGodCard(Gods.getGod(2));
         assertEquals(Gods.getGod(2), player.getGodCard());
+    }
+
+    @Test
+    public void getUnusedWorker(){
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players,true);
+        Controller controller = new Controller(model);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        }, null);
+        PlayerWorker playerWorker = new PlayerWorker(players[0],1,2,remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0],1,4,remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        RemoteView remoteView1 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        }, null);
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1],3,4,remoteView1);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1],4,4,remoteView1);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMove = new PlayerMove(players[0],0,1,1,remoteView);
+        controller.move(playerMove);
+        assertEquals(players[0].getUnusedWorker(),1);
     }
 
     @Test
