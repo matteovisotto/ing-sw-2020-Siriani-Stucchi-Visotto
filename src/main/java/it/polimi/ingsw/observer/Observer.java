@@ -2,8 +2,8 @@ package it.polimi.ingsw.observer;
 
 public interface Observer<T> {
     /**
-     * This method when implemented in a class receive notify updates from a Observable class
-     * @param msg the message which has been sent
+     * This method receives updates from a Observable class
+     * @param msg is the message sent
      */
     void update(T msg);
 }

@@ -7,8 +7,8 @@ public class Observable<T> {
     private final List<Observer<T>> observers = new ArrayList<>();
 
     /**
-     * This method add a new Observer
-     * @param observer a class which implement Observer
+     * This method adds a new Observer
+     * @param observer is a class that implements Observer
      */
     public void addObserver(Observer<T> observer){
         synchronized (observers){
@@ -17,8 +17,8 @@ public class Observable<T> {
     }
 
     /**
-     * This method delete an observer
-     * @param observer the observer to remove
+     * This method deletes an observer
+     * @param observer is the observer that needs to be removed
      */
     public void removeObserver(Observer<T> observer){
         synchronized (observers) {
@@ -27,8 +27,8 @@ public class Observable<T> {
     }
 
     /**
-     * This method remove all the observes except the one which in given throw the param
-     * @param observer the observe not to remove
+     * This method removes every observer except the one given
+     * @param observer is the observer that doesn't have to be
      */
     public void removeExcept(Observer<T> observer){
         synchronized (observers){
@@ -41,8 +41,8 @@ public class Observable<T> {
     }
 
     /**
-     * This method notify all observers
-     * @param msg the message to notify all observers
+     * This method notifies every observer
+     * @param msg is the message that needs to be notified to every observer
      */
     public void notifyObservers(T msg){
         synchronized (observers){
