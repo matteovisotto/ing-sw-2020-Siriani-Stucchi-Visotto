@@ -102,6 +102,8 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setJPanelProperties(JPanel panel, int hgap, int vgap, int width, int height){
+        hgap=(int)((float)(hgap*windowsSize.getHeight()))/1080;
+        vgap=(int)((float)(vgap*windowsSize.getHeight()))/1080;
         panel.setLayout(new BorderLayout(hgap, vgap));
         panel.setPreferredSize(new Dimension(width, height));
         panel.revalidate();
@@ -115,7 +117,9 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void setJLabelProperties(JLabel label, int hgap, int vgap, float fontDimension, Color color, int width, int height){
-        fontDimension=((float)(25*windowsSize.getHeight()))/1080;
+        fontDimension=((float)(fontDimension*windowsSize.getHeight()))/1080;
+        hgap=(int)((float)(hgap*windowsSize.getHeight()))/1080;
+        vgap=(int)((float)(vgap*windowsSize.getHeight()))/1080;
         label.setLayout(new BorderLayout(hgap, vgap));
         label.setPreferredSize(new Dimension(width, height));
         label.revalidate();
