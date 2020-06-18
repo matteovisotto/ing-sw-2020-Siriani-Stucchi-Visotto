@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.view.RemoteView;
 
 /**
- * This class is used to parse the input command string received by the server from the client
- * Central point is the phase that is used to decide which type of string we expect
+ * This class parses the command string received from the client.
+ * The main information the parser receives is the game's phase, which is used to decide which type of string is expected
  */
 public class CommandParser {
     private final Phase phase;
@@ -16,11 +16,11 @@ public class CommandParser {
     private final RemoteView view;
 
     /**
-     * Class constructor
-     * @param phase the actual game phase
-     * @param string the client input string received
-     * @param player the player instance who is sending the command
-     * @param view the instance of the player view from which is asking to parse the command
+     * Class' constructor
+     * @param phase is the actual phase
+     * @param string is the client's sent string
+     * @param player is the instance of player that is sending the command
+     * @param view is the instance of the player view that is asking to parse the command
      */
     public CommandParser(Phase phase, String string, Player player, RemoteView view){
         this.phase = phase;
@@ -30,7 +30,7 @@ public class CommandParser {
     }
 
     /**
-     *  For each game phase is parsed the input string, if the format doesn't correspond an IllegalArgumentException is thrown.
+     *  The input string is parsed based on each game's phase: if the string's format doesn't pass a few tests (based on the phase) an IllegalArgumentException is thrown.
      *  DRAWCARD: expect x,y or x,y,z format.
      *  PICK_CARD: expect a single integer value.
      *  SETWORKER1 and SETWORKER2: expect x,y format representing the cell coordinates.
@@ -39,9 +39,9 @@ public class CommandParser {
      *  WAIT_GOD_ANSWER: expect a single char for the answer y or n.
      *  PROMETHEUS_WORKER: expect a single integer representing the selected worker id.
      *  END_GAME: expect a single char representing the player answer y or n.
-     * @return the specific Message subclass for notifying the controller.
-     * @throws IllegalArgumentException if the input string does not conform to the game phase.
-     * @throws IndexOutOfBoundsException report at the function caller errors sent by used class.
+     * @return the specific Message subclass to notify the controller.
+     * @throws IllegalArgumentException if the input string does not pass the game phase's tests.
+     * @throws IndexOutOfBoundsException reported at the function that called the parser the errors sent by the used class.
      */
     public Message parse() throws IllegalArgumentException, IndexOutOfBoundsException{
         String[] s;
