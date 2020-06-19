@@ -2503,16 +2503,17 @@ public class GodCardControllerTest {
         RemoteView remoteView2 = new RemoteView(players[2], players[0].getPlayerName(), players[1].getPlayerName(), clientConnection3, lobby);
 
         DrawedCards drawedCards = new DrawedCards(players[0], 1, 4, 0, remoteView);
-        controller.drawedCards(drawedCards);
+        drawedCards.handler(controller);
 
         PickedCard pickedCard = new PickedCard(players[1], remoteView1, 1);
         controller.pickACard(pickedCard);
 
         PickedCard pickedCard2 = new PickedCard(players[2], remoteView2, 1);
-        controller.pickACard(pickedCard2);
+        pickedCard2.handler(controller);
 
         PlayerWorker playerWorker = new PlayerWorker(players[0], 0, 0, remoteView);
-        controller.setPlayerWorker(playerWorker);
+        playerWorker.handler(controller);
+        //controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0], 1, 1, remoteView);
         controller.setPlayerWorker(playerWorker2);
 
@@ -2527,12 +2528,14 @@ public class GodCardControllerTest {
         controller.setPlayerWorker(playerWorker6);
 
         PlayerMove playerMoveWorker1_s = new PlayerMove(players[0], 1, 0, 1, remoteView);
-        controller.move(playerMoveWorker1_s);
+        playerMoveWorker1_s.handler(controller);
+        //controller.move(playerMoveWorker1_s);
         char ch = 'n';
         UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
         useGodPower.handler(controller);
         PlayerBuild playerBuildWorker1_d = new PlayerBuild(players[0], players[0].getUsedWorker(), 1, 0, remoteView);
-        controller.build(playerBuildWorker1_d);
+        //controller.build(playerBuildWorker1_d);
+        playerBuildWorker1_d.handler(controller);
 
 
         PlayerMove playerMove2Worker0_a = new PlayerMove(players[1], 0, 2, 1, remoteView1);
@@ -2549,8 +2552,8 @@ public class GodCardControllerTest {
         controller.build(playerBuild);
     }
 
-    /*@Test
-    public void dontSsePoseidonPowerTest() {
+    @Test
+    public void dontUsePoseidonPowerTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
@@ -2613,5 +2616,5 @@ public class GodCardControllerTest {
         UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
         useGodPower.handler(controller);
         assertEquals(model.getPhase(), Phase.MOVE);
-    }*/
+    }
 }
