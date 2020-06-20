@@ -1301,7 +1301,7 @@ public class Game extends JFrame implements Observer<Object> {
             @Override
             public void actionPerformed(ActionEvent e) {
                 guiClient.send("n");
-                dispose();
+                System.exit(0);
             }
         });
         endGamePanel.add(exitGame, BorderLayout.EAST);
