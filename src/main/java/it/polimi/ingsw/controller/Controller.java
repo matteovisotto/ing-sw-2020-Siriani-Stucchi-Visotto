@@ -299,7 +299,7 @@ public class Controller implements Observer<Message> {
                     model.updatePhase();
                     model.move(move);
                     model.notifyChanges();
-                    if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel().getBlockId()==3){
+                    if(model.getBoard().getCell(move.getRow(), move.getColumn()).getLevel()==Blocks.LEVEL3){
                         model.victory(move.getPlayer());
                     }
                     checkVictory();
