@@ -42,6 +42,10 @@ public class Game extends JFrame implements Observer<Object> {
     private GraphicsEnvironment ge;
     private Font customFont;
     private HashMap<String,String> godsFunction;
+    int labelWidth = 0;
+    int labelHeight = 0;
+    int cellWidth = 0;
+    int cellHeight = 0;
 
     public Game(final GUIClient guiClient, int width){
         windowsSize=new Dimension(width, (width/16)*9);
@@ -259,6 +263,10 @@ public class Game extends JFrame implements Observer<Object> {
         southPanel.repaint();
 
         mainPanel.add(southPanel, BorderLayout.SOUTH);
+        if (labelWidth == 0){
+            labelWidth = centerPanel.getWidth();
+            labelHeight = (int)(centerPanel.getHeight() * value);
+        }
 
         value = 0.2942708;
         leftPanel = new JPanel(true);
@@ -280,7 +288,7 @@ public class Game extends JFrame implements Observer<Object> {
         messageLabel = new JLabel();
         setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,centerPanel.getWidth(), (int)(centerPanel.getHeight() * value));
 
-        messageLabel.setIcon(loadImage("images/Santorini_GenericPopup.png", messageLabel.getWidth(), messageLabel.getHeight()));
+        messageLabel.setIcon(loadImage("images/Santorini_GenericPopup.png", labelWidth, labelHeight));
         messageLabel.revalidate();
         messageLabel.repaint();
 
@@ -582,10 +590,14 @@ public class Game extends JFrame implements Observer<Object> {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
                 setJButtonProperties(cell);
-                cell.setPreferredSize(new Dimension(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5));
+                if (cellWidth == 0){
+                    cellWidth = overlayPanel.getWidth() / 5;
+                    cellHeight = overlayPanel.getHeight() / 5;
+                }
+                cell.setPreferredSize(new Dimension(cellWidth, cellHeight));
                 cell.revalidate();
                 cell.repaint();
-                cell.setSize(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5);
+                cell.setSize(cellWidth, cellHeight);
                 cell.revalidate();
                 cell.repaint();
                 cell.setIcon(loadImage("images/blue_square.png",cell.getWidth(), cell.getHeight() ));
