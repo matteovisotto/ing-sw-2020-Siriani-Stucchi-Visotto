@@ -214,7 +214,7 @@ public class Game extends JFrame implements Observer<Object> {
         return imageIcon;
     }
 
-    private synchronized void initGame() {
+    private void initGame() {
         //this.guiClient.removeExcept(this);
         value = 0.484375;
         this.setEnabled(true);
