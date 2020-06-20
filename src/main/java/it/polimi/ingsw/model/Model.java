@@ -365,17 +365,21 @@ public class Model extends Observable<ViewMessage> {
         else{
             leftPlayers--;
             player.remove();
-            if(this.phase== Phase.BUILD){
-                updateTurn();
-            }
-            setNextPhase(Phase.MOVE);
-            setNextPlayerMessage(PlayerMessage.MOVE);
-            setNextMessageType(MessageType.MOVE);
-            if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
-                setNextPhase(Phase.WAIT_GOD_ANSWER);
-                setNextPlayerMessage(PlayerMessage.USE_POWER);
-                setNextMessageType(MessageType.USE_POWER);
-            }
+
+                if(turn[id]==player){
+                    //updateTurn();
+                    if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+                        setNextPhase(Phase.WAIT_GOD_ANSWER);
+                        setNextPlayerMessage(PlayerMessage.USE_POWER);
+                        setNextMessageType(MessageType.USE_POWER);
+                    }
+                    else{
+                        setNextPhase(Phase.MOVE);
+                        setNextPlayerMessage(PlayerMessage.MOVE);
+                        setNextMessageType(MessageType.MOVE);
+                    }
+                }
+
             notifyChanges();
         }
 
@@ -402,18 +406,20 @@ public class Model extends Observable<ViewMessage> {
         if(leftPlayers == 3){
             leftPlayers--;
             player.remove();
-            if(this.phase== Phase.BUILD){
-                updateTurn();
-            }
-            setNextPhase(Phase.MOVE);
-            setNextPlayerMessage(PlayerMessage.MOVE);
-            setNextMessageType(MessageType.MOVE);
 
-            if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
-                setNextPhase(Phase.WAIT_GOD_ANSWER);
-                setNextPlayerMessage(PlayerMessage.USE_POWER);
-                setNextMessageType(MessageType.USE_POWER);
-            }
+                if(turn[id]==player){
+                    //updateTurn();
+                    if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
+                        setNextPhase(Phase.WAIT_GOD_ANSWER);
+                        setNextPlayerMessage(PlayerMessage.USE_POWER);
+                        setNextMessageType(MessageType.USE_POWER);
+                    }
+                    else{
+                        setNextPhase(Phase.MOVE);
+                        setNextPlayerMessage(PlayerMessage.MOVE);
+                        setNextMessageType(MessageType.MOVE);
+                    }
+                }
             notifyChanges();
         }
         else{
