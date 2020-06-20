@@ -121,18 +121,19 @@ public class Controller implements Observer<Message> {
      */
     protected synchronized void checkVictory(){
         Player[] players = model.getPlayers();
-        try{
             for(int i = 0; i < model.getNumOfPlayers(); i++){
-                players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0), players[i])!=0);
-                players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1), players[i])!=0);
-                //No Worker can move anywhere
-                if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
-                    model.loose(players[i]);
+                try{
+                    players[i].getWorker(0).setStatus(canMove(players[i].getWorker(0), players[i])!=0);
+                    players[i].getWorker(1).setStatus(canMove(players[i].getWorker(1), players[i])!=0);
+                    //No Worker can move anywhere
+                    if(!players[i].getWorker(0).getStatus() && !players[i].getWorker(1).getStatus()){// controllo se nessun worker si può muovere
+                        model.loose(players[i]);
+                    }
+                }catch(IndexOutOfBoundsException e){
+                    //Ignored: this happen only when the player is placing his worker
                 }
+
             }
-        }catch(IndexOutOfBoundsException e){
-            //Ignored: this happen only when the player is placing his worker
-        }
 
     }
 
