@@ -280,6 +280,9 @@ public class GodCardController extends Controller {
         if(!turnCheck(playerBuild)){
             return;
         }
+        if(playerBuild.getPlayer().getGodCard().checkCanBuild(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), this).size()==0){
+            model.loose(playerBuild.getPlayer());
+        }
         if(playerBuild.getPlayer().getGodCard().checkBuilt(this, model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()), playerBuild)){
             if(!playerBuild.getPlayer().getGodCard().handlerBuild(model, this, playerBuild, model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()))){
                 model.setNextMessageType(MessageType.MOVE);
