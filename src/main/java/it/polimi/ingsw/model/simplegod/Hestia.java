@@ -105,7 +105,8 @@ public class Hestia extends GodCard {
             for(int j=y-1; j<=y+1; j++){
                 try{
                     if(board.getCell(i,j).getLevel().getBlockId() < 4 && i!=0 && i!=4 && j!=0 && j!=4 && board.getCell(i,j).isFree()){
-                        return true;
+                        if(i!=x && j!=y)
+                            return true;
                     }
                 }catch(IllegalArgumentException e){
                     //ignore
