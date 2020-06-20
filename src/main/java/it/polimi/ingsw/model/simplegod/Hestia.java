@@ -78,12 +78,22 @@ public class Hestia extends GodCard {
      */
     @Override
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell) {
-        if(!hasBuilt() && checkHestiaCells(model, build)){
-            model.setNextPhase(Phase.WAIT_GOD_ANSWER);
-            model.setNextPlayerMessage(PlayerMessage.USE_POWER);
-            model.setNextMessageType(MessageType.USE_POWER);
-            controller.godIncreaseLevel(buildingCell.getLevel().getBlockId(), buildingCell);
-            return true;
+        if(!hasBuilt()) {
+            if (checkHestiaCells(model, build) == 1) {
+                if (model.getBoard().getCell(build.getX(), build.getY()).getLevel() != Blocks.LEVEL3) {
+                    model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                    model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                    model.setNextMessageType(MessageType.USE_POWER);
+                    controller.godIncreaseLevel(buildingCell.getLevel().getBlockId(), buildingCell);
+                    return true;
+                }
+            } else if(checkHestiaCells(model, build) > 1)  {
+                model.setNextPhase(Phase.WAIT_GOD_ANSWER);
+                model.setNextPlayerMessage(PlayerMessage.USE_POWER);
+                model.setNextMessageType(MessageType.USE_POWER);
+                controller.godIncreaseLevel(buildingCell.getLevel().getBlockId(), buildingCell);
+                return true;
+            }
         }
 
         setHasBuilt(false);
@@ -97,21 +107,24 @@ public class Hestia extends GodCard {
      * @return true if it can build in the selected cell, false otherwise
      * The IllegalArgumentException is ignored due to return a false result
      */
-    private boolean checkHestiaCells(Model model, PlayerBuild playerBuild){
+    private int checkHestiaCells(Model model, PlayerBuild playerBuild){
         int x=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX();
         int y=playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY();
         Board board=model.getBoard();
+        int counter=0;
         for(int i=x-1; i<=x+1; i++){
             for(int j=y-1; j<=y+1; j++){
                 try{
-                    if(board.getCell(i,j).getLevel().getBlockId() < 4 && i!=0 && i!=4 && j!=0 && j!=4 && board.getCell(i,j).isFree()){
-                        return true;
+                    if(board.getCell(i,j).getLevel()!= Blocks.DOME && i!=0 && i!=4 && j!=0 && j!=4 && board.getCell(i,j).isFree()){
+                        if(!(i==x && j==y)) {
+                            counter++;
+                        }
                     }
                 }catch(IllegalArgumentException e){
                     //ignore
                 }
             }
         }
-        return false;
+        return counter;
     }
 }
