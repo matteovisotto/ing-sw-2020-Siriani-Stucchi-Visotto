@@ -56,7 +56,6 @@ public class GodCardController extends Controller {
                     }
                     else{
                         model.updateTurn();
-                        model.getActualPlayer().getGodCard().turnStartHandler(this, 0, null);
                         model.updatePhase();
                         model.setNextMessageType(MessageType.MOVE);
                         model.setNextPlayerMessage(PlayerMessage.MOVE);
