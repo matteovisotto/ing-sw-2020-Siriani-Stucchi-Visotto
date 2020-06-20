@@ -367,7 +367,7 @@ public class Model extends Observable<ViewMessage> {
             player.remove();
 
                 if(turn[id]==player){
-                    //updateTurn();
+                    updateTurn();
                     if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
                         setNextPhase(Phase.WAIT_GOD_ANSWER);
                         setNextPlayerMessage(PlayerMessage.USE_POWER);
@@ -408,7 +408,7 @@ public class Model extends Observable<ViewMessage> {
             player.remove();
 
                 if(turn[id]==player){
-                    //updateTurn();
+                    updateTurn();
                     if(getActualPlayer()==getGCPlayer(Gods.PROMETHEUS) && !((Prometheus)getGCPlayer(Gods.PROMETHEUS).getGodCard()).hasBuilt()){
                         setNextPhase(Phase.WAIT_GOD_ANSWER);
                         setNextPlayerMessage(PlayerMessage.USE_POWER);
