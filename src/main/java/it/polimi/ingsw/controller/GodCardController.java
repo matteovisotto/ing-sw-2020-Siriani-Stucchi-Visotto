@@ -213,6 +213,10 @@ public class GodCardController extends Controller {
                         model.victory(move.getPlayer());
                     }
                     checkVictory();
+                    if(move.getPlayer().getGodCard().checkCanBuild(move.getPlayer().getWorker(move.getWorkerId()), this).size()==0){
+                        model.loose(move.getPlayer());
+                        move.getView().reportError("You can't build anywhere, you lost");
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.err.println(e.getMessage());
                 }
@@ -279,9 +283,6 @@ public class GodCardController extends Controller {
     public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {
         if(!turnCheck(playerBuild)){
             return;
-        }
-        if(playerBuild.getPlayer().getGodCard().checkCanBuild(playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()), this).size()==0){
-            model.loose(playerBuild.getPlayer());
         }
         if(playerBuild.getPlayer().getGodCard().checkBuilt(this, model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()), playerBuild)){
             if(!playerBuild.getPlayer().getGodCard().handlerBuild(model, this, playerBuild, model.getBoard().getCell(playerBuild.getX(), playerBuild.getY()))){
