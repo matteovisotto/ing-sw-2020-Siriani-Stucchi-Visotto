@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.utils.PlayerMessage;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GodCard implements Serializable {
@@ -176,6 +177,33 @@ public class GodCard implements Serializable {
                 break;
         }
         model.notifyChanges();
+    }
+
+    /**
+     * This method checks every cell around the worker are free and with a level lower then a dome
+     * If true the cell is added to the available cells list.
+     * @param worker is the worker to control
+     * @return a list of cells where a build can be done
+     */
+    public ArrayList<Cell> checkCanBuild(Worker worker, GodCardController controller){
+        Model model=controller.getModel();
+        int x=worker.getCell().getX();
+        int y=worker.getCell().getY();
+        Board board=model.getBoard();
+        ArrayList<Cell> availableCells=new ArrayList<>();
+        for(int i=x-1; i<=x+1; i++){
+            for(int j=y-1; j<=y+1; j++){
+                try{
+                    if(board.getCell(i,j).getLevel() != Blocks.DOME && board.getCell(i,j).isFree()){
+                        if(!(i==x && j==y))
+                            availableCells.add(board.getCell(i,j));
+                    }
+                }catch(Exception e){
+                    //ignore
+                }
+            }
+        }
+        return availableCells;
     }
 
     /**
