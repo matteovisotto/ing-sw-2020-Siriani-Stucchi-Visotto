@@ -2006,7 +2006,7 @@ public class GodCardControllerTest {
         controller.move(playerMoveWorker0_win);
 
         assertTrue(model.getPlayer(0).hasWon());
-//        assertEquals(model.getActualPlayer(), model.getPlayer(1));
+        assertEquals(model.getActualPlayer(), model.getPlayer(1));
 
         PlayerMove playerMove2Worker0_win = new PlayerMove(players[1], 0, 2, 0, remoteView1);
         controller.move(playerMove2Worker0_win);
@@ -2019,7 +2019,7 @@ public class GodCardControllerTest {
 
         PlayerMove playerMove2Worker0_winNow = new PlayerMove(players[1], 0, 3, 0, remoteView1);
         controller.move(playerMove2Worker0_winNow);
-//        assertTrue(model.getPlayer(1).hasWon());
+        assertTrue(model.getPlayer(1).hasWon());
 
         char ch = 'y';
         NewGameMessage newGameMessage = new NewGameMessage(players[0], remoteView, ch, clientConnection, lobby);
@@ -2171,7 +2171,7 @@ public class GodCardControllerTest {
         controller.move(playerMoveWorker0_win);
 
         assertTrue(model.getPlayer(0).hasWon());
-//        assertEquals(model.getActualPlayer(), model.getPlayer(1));
+        assertEquals(model.getActualPlayer(), model.getPlayer(1));
 
         PlayerMove playerMove2Worker0_win = new PlayerMove(players[1], 0, 2, 0, remoteView1);
         controller.move(playerMove2Worker0_win);
@@ -2184,7 +2184,7 @@ public class GodCardControllerTest {
 
         PlayerMove playerMove2Worker0_winNow = new PlayerMove(players[1], 0, 3, 0, remoteView1);
         controller.move(playerMove2Worker0_winNow);
-//        assertTrue(model.getPlayer(1).hasWon());
+        assertTrue(model.getPlayer(1).hasWon());
 
         char ch = 'y';
         NewGameMessage newGameMessage = new NewGameMessage(players[0], remoteView, ch, clientConnection, lobby);
@@ -2516,7 +2516,6 @@ public class GodCardControllerTest {
 
         PlayerWorker playerWorker = new PlayerWorker(players[0], 0, 0, remoteView);
         playerWorker.handler(controller);
-        //controller.setPlayerWorker(playerWorker);
         PlayerWorker playerWorker2 = new PlayerWorker(players[0], 1, 1, remoteView);
         controller.setPlayerWorker(playerWorker2);
 
@@ -2532,12 +2531,10 @@ public class GodCardControllerTest {
 
         PlayerMove playerMoveWorker1_s = new PlayerMove(players[0], 1, 0, 1, remoteView);
         playerMoveWorker1_s.handler(controller);
-        //controller.move(playerMoveWorker1_s);
         char ch = 'n';
         UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
         useGodPower.handler(controller);
         PlayerBuild playerBuildWorker1_d = new PlayerBuild(players[0], players[0].getUsedWorker(), 1, 0, remoteView);
-        //controller.build(playerBuildWorker1_d);
         playerBuildWorker1_d.handler(controller);
 
 
