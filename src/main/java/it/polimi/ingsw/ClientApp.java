@@ -4,12 +4,20 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.GUIClient;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import static java.lang.StrictMath.abs;
 
 public class ClientApp
 {
+
+    private static File propFile = new File("server.properties");
+    private static Properties properties;
+
     /**
      * Client entry point main class
      * If the command line's arguments are null, the GUI client is created and started
@@ -19,19 +27,27 @@ public class ClientApp
      */
     public static void main(String[] args){
         Toolkit tk = Toolkit.getDefaultToolkit();
+        properties = new Properties();
+        String serverIp = "";
+        try {
+            InputStream inputStream = new FileInputStream(propFile);
+            properties.load(inputStream);
+            inputStream.close();
+            serverIp = properties.getProperty("serverIp");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         try{
             if(args.length!=0){
                 if(args[0].equals("-cli")){
-                    Client client = new Client("93.43.230.177", 15986);
-                    //Client client = new Client("127.0.0.1", 15986);
+                    Client client = new Client(serverIp, 15986);
                     client.run();
                 }
                 else{
                     try{
                         //se viene fornita una larghezza tra 500 e la larghezza dello schermo
                         if(abs(Integer.parseInt(args[0]))>500 && abs(Integer.parseInt(args[0]))<tk.getScreenSize().getWidth()){
-                            GUIClient client = new GUIClient("93.43.230.177", 15986, abs(Integer.parseInt(args[0])));
-                            //GUIClient client = new GUIClient("127.0.0.1", 15986, abs(Integer.parseInt(args[0])));
+                            GUIClient client = new GUIClient(serverIp, 15986, abs(Integer.parseInt(args[0])));
                             client.run();
                         }
                         else{
@@ -43,8 +59,7 @@ public class ClientApp
                 }
             }
             else{
-                GUIClient client = new GUIClient("93.43.230.177", 15986, (int)tk.getScreenSize().getWidth());
-                //GUIClient client = new GUIClient("127.0.0.1", 15986,(int)tk.getScreenSize().getWidth());
+                GUIClient client = new GUIClient(serverIp, 15986, (int)tk.getScreenSize().getWidth());
                 client.run();
             }
         }catch (IOException e){

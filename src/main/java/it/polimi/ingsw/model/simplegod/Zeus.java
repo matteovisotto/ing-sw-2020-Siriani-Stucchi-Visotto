@@ -33,7 +33,7 @@ public class Zeus extends GodCard {
 
         return Math.abs(buildingCell.getX() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getX())) <= 1 &&
                 Math.abs(buildingCell.getY() - (playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().getY())) <= 1 &&
-                (playerBuild.getPlayer().getWorker((playerBuild.getWorkerId()+1)%2).getCell() != buildingCell) &&
+                (buildingCell.isFree() || (!buildingCell.isFree() && playerBuild.getPlayer().getWorker(playerBuild.getWorkerId()).getCell().equals(buildingCell))) &&
                 (buildingCell.getX() >= 0 && buildingCell.getX() < 5) &&
                 (buildingCell.getY() >= 0 && buildingCell.getY() < 5) &&
                 (buildingCell.getLevel().getBlockId() <= 3);
