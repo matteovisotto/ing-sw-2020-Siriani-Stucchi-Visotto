@@ -261,9 +261,12 @@ public class Game extends JFrame implements Observer<Object> {
         southPanel.repaint();
 
         mainPanel.add(southPanel, BorderLayout.SOUTH);
-        if (labelWidth == 0){
+        if (labelWidth == 0 && centerPanel.getWidth() == (int)(mainPanel.getWidth() * 0.484375) && centerPanel.getHeight() != mainPanel.getHeight()){
             labelWidth = centerPanel.getWidth();
             labelHeight = (int)(centerPanel.getHeight() * value);
+        } else if (labelWidth == 0) {
+            labelWidth = (int)(mainPanel.getWidth() * 0.484375);
+            labelHeight = (int)(mainPanel.getHeight() * value);
         }
 
         value = 0.2942708;
