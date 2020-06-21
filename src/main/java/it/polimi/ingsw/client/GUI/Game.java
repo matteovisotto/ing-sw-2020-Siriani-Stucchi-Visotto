@@ -345,17 +345,19 @@ public class Game extends JFrame implements Observer<Object> {
             godLabel.setIcon(loadImage(path, godLabel.getWidth(), godLabel.getHeight()));
             godLabel.revalidate();
             godLabel.repaint();
-            godLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    String god = myGod.get(gameMessage.getPlayer().getPlayerName());
-                    String string;
-                    string = correspondingGod(god);
-                    //string = godsFunction.get(god);
-                    JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
-                }
-            });
+            if (!isSimplePlay){
+                godLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        String god = myGod.get(gameMessage.getPlayer().getPlayerName());
+                        String string;
+                        string = correspondingGod(god);
+                        //string = godsFunction.get(god);
+                        JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+            }
             int maxLength = Math.min(gameMessage.getPlayer().getPlayerName().length(), 9);
             nameLabel.setText(gameMessage.getPlayer().getPlayerName().substring(0,maxLength));
             playerPanel.add(nameLabel, BorderLayout.NORTH);
@@ -424,17 +426,19 @@ public class Game extends JFrame implements Observer<Object> {
                 godLabel.setIcon(loadImage("images/Podium/" + Parser.toCapitalize(godName) + "_podium.png", godLabel.getWidth(), godLabel.getHeight()));
                 godLabel.revalidate();
                 godLabel.repaint();
-                godLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        super.mouseClicked(e);
-                        String god = opponentGods.get(opponentNameForMouseClicked);
-                        String string;
-                        string = correspondingGod(god);
-                        //string = godsFunction.get(Parser.toCapitalize(god));
-                        JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
-                    }
-                });
+                if (!isSimplePlay){
+                    godLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            super.mouseClicked(e);
+                            String god = opponentGods.get(opponentNameForMouseClicked);
+                            String string;
+                            string = correspondingGod(god);
+                            //string = godsFunction.get(Parser.toCapitalize(god));
+                            JOptionPane.showMessageDialog(Game.this,string,Parser.toCapitalize(god) + "'s information",JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    });
+                }
                 int maxLength = Math.min(opponentName.length(), 9);
                 nameLabel.setText(opponentName.substring(0,maxLength));
                 playerPanel.add(nameLabel, BorderLayout.SOUTH);
