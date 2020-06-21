@@ -191,9 +191,12 @@ public class Initialization extends JDialog implements Observer<Object> {
                 instructions.setText("Legend: Id \t| Name \t| Free places \t| Play mode \t");
                 instructions.setSize(70,45);*/
                 lobbyPanel.setOpaque(false);
-                JPanel commandPanel = new JPanel(new GridLayout(2,1,0,0));
+                JPanel commandPanel = new JPanel(new GridLayout(2,1,0,2));
                 JButton refreshButton = new JButton("Refresh");
                 refreshButton.setSize(70, 45);
+                refreshButton.setBackground(new Color(76, 166, 220));
+                refreshButton.setForeground(Color.WHITE);
+                refreshButton.setBorder(new LineBorder(new Color(62, 136, 180), 2));
                 refreshButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -204,6 +207,9 @@ public class Initialization extends JDialog implements Observer<Object> {
                 commandPanel.add(refreshButton, BorderLayout.NORTH);
                 JButton backButton = new JButton("Back");
                 backButton.setSize(70, 45);
+                backButton.setBackground(new Color(76, 166, 220));
+                backButton.setForeground(Color.WHITE);
+                backButton.setBorder(new LineBorder(new Color(62, 136, 180), 2));
                 backButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
