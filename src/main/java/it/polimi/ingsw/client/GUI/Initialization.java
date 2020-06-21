@@ -186,11 +186,22 @@ public class Initialization extends JDialog implements Observer<Object> {
                 break;
             case LOBBY_SELECTOR:
                 messageLabel.setText("Please select the lobby you want to join");
-                JPanel lobbyPanel = new JPanel(new BorderLayout(10,10));
+                JPanel lobbyPanel = new JPanel(new BorderLayout(10,10));//new GridLayout(3,1,0,0));
                 /*final JLabel instructions = new JLabel();
                 instructions.setText("Legend: Id \t| Name \t| Free places \t| Play mode \t");
                 instructions.setSize(70,45);*/
                 lobbyPanel.setOpaque(false);
+                JPanel commandPanel = new JPanel(new GridLayout(2,1,0,0));
+                JButton refreshButton = new JButton("Refresh");
+                refreshButton.setSize(70, 45);
+                refreshButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        guiClient.send("0");
+                        guiClient.send("2");
+                    }
+                });
+                commandPanel.add(refreshButton, BorderLayout.NORTH);
                 JButton backButton = new JButton("Back");
                 backButton.setSize(70, 45);
                 backButton.addActionListener(new ActionListener() {
@@ -199,7 +210,8 @@ public class Initialization extends JDialog implements Observer<Object> {
                         guiClient.send("0");
                     }
                 });
-                lobbyPanel.add(backButton, BorderLayout.NORTH);
+                commandPanel.add(backButton, BorderLayout.NORTH);
+                lobbyPanel.add(commandPanel,BorderLayout.NORTH);
                 //lobbyPanel.add(instructions, BorderLayout.PAGE_END);
                 String[] columnNames = { "Id", "Name", "Free place", "Play mode"};
                 String [][] data = Parser.parseLobbies(message);
