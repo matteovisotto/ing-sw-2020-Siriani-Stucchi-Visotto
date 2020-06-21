@@ -48,7 +48,8 @@ public class Game extends JFrame implements Observer<Object> {
     public Game(final GUIClient guiClient, int width){
         windowsSize=new Dimension(width, (width/16)*9);
         customCursor();
-        setIconImage(Toolkit.getDefaultToolkit().getImage("/images/icon.png"));
+        Image img = Toolkit.getDefaultToolkit().getImage(Game.class.getResource("/images/icon.png"));
+        this.setIconImage(img);
         this.guiClient = guiClient;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Santorini");
