@@ -44,8 +44,6 @@ public class Game extends JFrame implements Observer<Object> {
     private HashMap<String,String> godsFunction;
     int labelWidth = 0;
     int labelHeight = 0;
-    int cellWidth = 0;
-    int cellHeight = 0;
 
     public Game(final GUIClient guiClient, int width){
         windowsSize=new Dimension(width, (width/16)*9);
@@ -237,7 +235,7 @@ public class Game extends JFrame implements Observer<Object> {
         background.repaint();
 
         centerPanel = new JPanel(true);
-        setJPanelProperties(centerPanel, 0,0,(int)(mainPanel.getWidth() * value),(int)(mainPanel.getHeight()));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
+        setJPanelProperties(centerPanel, 0,0,(int)(mainPanel.getWidth() * value),(mainPanel.getHeight()));//(int)(mainPanel.getHeight() - mainPanel.getHeight() * 0.1389));
         centerPanel.revalidate();
         centerPanel.repaint();
 
@@ -590,14 +588,10 @@ public class Game extends JFrame implements Observer<Object> {
             for (int j = 0; j < 5; j++){
                 final JButton cell = new JButton();
                 setJButtonProperties(cell);
-                if (cellWidth == 0){
-                    cellWidth = overlayPanel.getWidth() / 5;
-                    cellHeight = overlayPanel.getHeight() / 5;
-                }
-                cell.setPreferredSize(new Dimension(cellWidth, cellHeight));
+                cell.setPreferredSize(new Dimension(overlayPanel.getWidth() / 5, overlayPanel.getHeight() / 5));
                 cell.revalidate();
                 cell.repaint();
-                cell.setSize(cellWidth, cellHeight);
+                cell.setSize(overlayPanel.getWidth() / 5,overlayPanel.getHeight() / 5);
                 cell.revalidate();
                 cell.repaint();
                 cell.setIcon(loadImage("images/blue_square.png",cell.getWidth(), cell.getHeight() ));
@@ -1320,7 +1314,7 @@ public class Game extends JFrame implements Observer<Object> {
 
         value = 0.199074;
         messageLabel = new JLabel();
-        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,endGamePanelPlayers.getWidth(), (int)(endGamePanel.getHeight() * value));
+        setJLabelProperties(messageLabel,10,10, 25f, Color.WHITE,labelWidth, labelHeight);
         messageLabel.revalidate();
         messageLabel.repaint();
 
