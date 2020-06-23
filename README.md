@@ -1,5 +1,10 @@
 # ing-sw-2020-Siriani-Stucchi-Visotto
 
+## Gruppo (GC5)
+- Mattia Siriani - mattia.siriani@mail.polimi.it
+- Francesco Stucchi - francesco2.stucchi@mail.polimi.it
+- Matteo Visotto - matteo.visotto@mail.polimi.it
+
 ## Funzioni implementate
 
 | Funzionalità | Stato |
