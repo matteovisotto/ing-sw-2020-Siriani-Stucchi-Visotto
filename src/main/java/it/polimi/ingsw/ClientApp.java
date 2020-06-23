@@ -43,6 +43,13 @@ public class ClientApp
                     Client client = new Client(serverIp, 15986);
                     client.run();
                 }
+                else if(args[0].equals("-help")){
+                    System.out.println("Here are the accepted arguments:\n" +
+                            "EMPTY\t\t\t\t\t\t\tTo run the GUI client in full screen mode\n" +
+                            "-*int 30 to 100*\t\t\t\tTo scale the GUI client based on the given number\n" +
+                            "-*int 500 to screen size*\t\tTo set the GUI width to the given number\n" +
+                            "-cli\t\t\t\t\t\t\tTo run the CLI client\n");
+                }
                 else{
                     try{
                         //se viene fornita una larghezza tra 500 e la larghezza dello schermo
