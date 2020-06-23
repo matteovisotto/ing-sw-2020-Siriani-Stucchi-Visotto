@@ -353,6 +353,11 @@ public class Model extends Observable<ViewMessage> {
         ViewMessage win = new GameMessage(turn[id], "Player: " + player.getPlayerName() + " has won!!!!", MessageType.VICTORY, this.phase);
         notifyObservers(win);
         podium.put(player, playersWhoWon);
+        if(!isSimplePlay()){
+            if(player.getGodCard().getCardGod()== Gods.ATHENA){
+                setMovedUp(false);
+            }
+        }
         if(leftPlayers == 2){
             for (Player value : turn) {
                 if (!value.getHasLost() && !value.hasWon() && value != player) {
