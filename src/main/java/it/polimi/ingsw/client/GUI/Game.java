@@ -36,7 +36,7 @@ public class Game extends JFrame implements Observer<Object> {
     private String chosenCellY;
     private final JButton[][] board = new JButton[5][5];
     private double value = 0;
-    protected int selectedWorker;
+    protected int selectedWorker = -1;
     private final HashMap<JButton, Integer> cellsX = new HashMap<>();
     private final HashMap<JButton, Integer> cellsY = new HashMap<>();
     private GraphicsEnvironment ge;
@@ -1231,7 +1231,7 @@ public class Game extends JFrame implements Observer<Object> {
         opponentsNames.clear();
         opponentGods.clear();
         myGod.clear();
-        selectedWorker = 0;
+        selectedWorker = -1;
         response = "";
         multipleSelections.clear();
         chosenCellY = "";
@@ -1758,8 +1758,12 @@ public class Game extends JFrame implements Observer<Object> {
         yes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiClient.send(Integer.toString(selectedWorker));
-                resetGodPanel();
+                if(selectedWorker==0 || selectedWorker == 1) {
+                    guiClient.send(Integer.toString(selectedWorker));
+                    resetGodPanel();
+                } else {
+                    showError("Please select a worker");
+                }
             }
         });
 
@@ -1804,6 +1808,7 @@ public class Game extends JFrame implements Observer<Object> {
                 usePower();
                 break;
             case PROMETHEUS:
+                selectedWorker = -1;
                 prometheusPower();
                 break;
             case VICTORY:
