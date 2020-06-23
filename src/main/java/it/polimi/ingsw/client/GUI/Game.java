@@ -1908,19 +1908,19 @@ public class Game extends JFrame implements Observer<Object> {
 
     private void showError(String s){
         try{
-            southPanel.setText(s);
-            southPanel.setOpaque(false);
-            southPanel.setBackground(new Color(255, 0, 0, 60));
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    southPanel.setText("");
-                    southPanel.setBackground(new Color(255, 0, 0, 0));
-                }
-            }, 3000);
-
-
+            if (!s.equals("Wrong input, please insert x,y") || messageType.equals(MessageType.USE_POWER)){
+                southPanel.setText(s);
+                southPanel.setOpaque(false);
+                southPanel.setBackground(new Color(255, 0, 0, 60));
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        southPanel.setText("");
+                        southPanel.setBackground(new Color(255, 0, 0, 0));
+                    }
+                }, 3000);
+            }
         } catch (Exception e) {
             //ignore
         }
