@@ -49,16 +49,16 @@ public class Board implements Serializable, Cloneable {
     public synchronized String print(){
         StringBuilder s=new StringBuilder();
         try {
-            s.append(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4\n");
-            s.append("\t---------------------------------------------------\n");
+            s.append("         0         1         2         3         4\n");
+            s.append("    ---------------------------------------------------\n");
             for (int i = 0; i < 5; i++) {
-                s.append(i).append("\t| ");
+                s.append(i).append("   | ");
                 for (int j = 0; j < 5; j++) {//prima riga
                     s.append(board[j][i]).append(" | ");
                 }
                 s.append("\n");
                 //qui devo stampare player e worker (seconda riga)
-                s.append("\t");
+                s.append("    ");
                 for (int j = 0; j < 5; j++) {
                     s.append("| ");
                     if (!board[j][i].isFree()) {
@@ -79,7 +79,7 @@ public class Board implements Serializable, Cloneable {
                     }
                 }
                 s.append("|");
-                s.append("\n\t---------------------------------------------------\n");
+                s.append("\n    ---------------------------------------------------\n");
             }
         }catch (Exception e) {
             e.printStackTrace();
