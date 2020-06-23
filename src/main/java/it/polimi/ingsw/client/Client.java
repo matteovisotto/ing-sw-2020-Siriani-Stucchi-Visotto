@@ -34,12 +34,12 @@ public class Client {
         }
         if (this.player.equals(player)) {
             if(arg instanceof GameBoardMessage){
-                ((GameBoardMessage) arg).getBoard().print();
+                System.out.println(((GameBoardMessage) arg).getBoard().print());
             }
             System.out.println(arg.getMessage());
         } else if ((arg.getPhase() == Phase.BEGINNING) && !this.player.equals(player)) {
             if(arg instanceof GameBoardMessage){
-                ((GameBoardMessage) arg).getBoard().print();
+                System.out.println(((GameBoardMessage) arg).getBoard().print());
             }
             System.out.println("It's now " + player.getPlayerName() + "'s turn");
         }

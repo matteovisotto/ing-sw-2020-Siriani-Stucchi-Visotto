@@ -46,43 +46,45 @@ public class Board implements Serializable, Cloneable {
     /**
      * Print board in standard output as string
      */
-    public synchronized void print(){
+    public synchronized String print(){
+        StringBuilder s=new StringBuilder();
         try {
-            System.out.println(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4");
-            System.out.println("\t---------------------------------------------------");
+            s.append(" \t\t 0\t\t   1\t\t 2\t\t   3\t     4\n");
+            s.append("\t---------------------------------------------------\n");
             for (int i = 0; i < 5; i++) {
-                System.out.print(i + "\t| ");
+                s.append(i).append("\t| ");
                 for (int j = 0; j < 5; j++) {//prima riga
-                    System.out.print(board[j][i] + " | ");
+                    s.append(board[j][i]).append(" | ");
                 }
-                System.out.println();
+                s.append("\n");
                 //qui devo stampare player e worker (seconda riga)
-                System.out.print("\t");
+                s.append("\t");
                 for (int j = 0; j < 5; j++) {
-                    System.out.print("| ");
+                    s.append("| ");
                     if (!board[j][i].isFree()) {
                         for (int p = 0; p < players.length; p++) {
                             Player player = players[p];
 
                             if (player.getWorker(0).getCell().equals(board[j][i])) {
-                                System.out.print("P:" + p + " W:0 ");
+                                s.append("P:").append(p).append(" W:0 ");
                                 break;
                             } else if (player.getWorker(1).getCell().equals(board[j][i])) {
-                                System.out.print("P:" + p + " W:1 ");
+                                s.append("P:").append(p).append(" W:1 ");
                                 break;
                             }
 
                         }
                     } else {
-                        System.out.print("P:n W:n ");
+                        s.append("P:n W:n ");
                     }
                 }
-                System.out.print("|");
-                System.out.println("\n\t---------------------------------------------------");
+                s.append("|");
+                s.append("\n\t---------------------------------------------------\n");
             }
         }catch (Exception e) {
             e.printStackTrace();
         }
+        return s.toString();
     }
 
     /**
