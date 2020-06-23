@@ -1231,7 +1231,7 @@ public class Game extends JFrame implements Observer<Object> {
         opponentsNames.clear();
         opponentGods.clear();
         myGod.clear();
-        selectedWorker = - 1;
+        selectedWorker = 0;
         response = "";
         multipleSelections.clear();
         chosenCellY = "";
