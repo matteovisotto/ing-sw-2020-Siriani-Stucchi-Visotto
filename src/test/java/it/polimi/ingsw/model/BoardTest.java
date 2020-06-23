@@ -36,4 +36,31 @@ public class BoardTest {
         board.getCell(i,j).getX();
         board.getCell(i,j).getY();
     }
+
+    @Test
+    public void printTest(){
+        Player[] players = new Player[2];
+        players[0] = new Player("pioppo");
+        players[1] = new Player("Amedeus");
+        Board board = new Board(players);
+        String string = "         0         1         2         3         4\n" +
+                "    ---------------------------------------------------\n" +
+                "0   | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | \n" +
+                "    | P:n W:n | P:n W:n | P:n W:n | P:n W:n | P:n W:n |\n" +
+                "    ---------------------------------------------------\n" +
+                "1   | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | \n" +
+                "    | P:n W:n | P:n W:n | P:n W:n | P:n W:n | P:n W:n |\n" +
+                "    ---------------------------------------------------\n" +
+                "2   | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | \n" +
+                "    | P:n W:n | P:n W:n | P:n W:n | P:n W:n | P:n W:n |\n" +
+                "    ---------------------------------------------------\n" +
+                "3   | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | \n" +
+                "    | P:n W:n | P:n W:n | P:n W:n | P:n W:n | P:n W:n |\n" +
+                "    ---------------------------------------------------\n" +
+                "4   | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | L:0 F:0 | \n" +
+                "    | P:n W:n | P:n W:n | P:n W:n | P:n W:n | P:n W:n |\n" +
+                "    ---------------------------------------------------\n";
+        //string;
+        assertEquals(string,board.print());
+    }
 }
