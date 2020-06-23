@@ -50,6 +50,10 @@ public class ClientApp
                             GUIClient client = new GUIClient(serverIp, 15986, abs(Integer.parseInt(args[0])));
                             client.run();
                         }
+                        else if(abs(Integer.parseInt(args[0]))>30 && abs(Integer.parseInt(args[0]))<100){
+                            GUIClient client = new GUIClient(serverIp, 15986, abs(Integer.parseInt(args[0])));
+                            client.run();
+                        }
                         else{
                             System.out.println("Wrong args");
                         }

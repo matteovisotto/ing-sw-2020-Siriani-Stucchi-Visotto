@@ -46,6 +46,10 @@ public class Game extends JFrame implements Observer<Object> {
     int labelHeight = 0;
 
     public Game(final GUIClient guiClient, int width){
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        if(width>0 && width<100){
+            width=(int)(tk.getScreenSize().getWidth()*width)/100;
+        }
         windowsSize=new Dimension(width, (width/16)*9);
         customCursor();
         Image img = Toolkit.getDefaultToolkit().getImage(Game.class.getResource("/images/icon.png"));
