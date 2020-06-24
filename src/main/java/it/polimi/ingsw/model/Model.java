@@ -467,6 +467,7 @@ public class Model extends Observable<ViewMessage> {
         }
         else{
             playerCards.clear();
+            godsInPlay.clear();
             gods.clear();
             this.phase = Phase.DRAWCARD;
             this.messageType = MessageType.DRAW_CARD;
