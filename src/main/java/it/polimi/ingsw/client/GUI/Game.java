@@ -1528,7 +1528,11 @@ public class Game extends JFrame implements Observer<Object> {
     }
 
     private void updateBoard(Board board, boolean enable){
-        Player[] players = board.getPlayers();
+        for (Player player: board.getPlayers()){
+            if (player.equals(this.player)){
+                this.player = player;
+            }
+        }
         try{
             for(int i=0; i<5; i++){
                 for(int j=0; j<5; j++){
@@ -1537,7 +1541,7 @@ public class Game extends JFrame implements Observer<Object> {
                     if (!cell.isFree()){
                         try{
                             for (int p = 0; p < clientConfigurator.getNumberOfPlayer(); p++){
-                                Player play = players[p];
+                                Player play = board.getPlayers()[p];
                                 if(play.equals(player)){
                                     if (player.getWorker(0).getCell().equals(cell)){
                                         color = "blue";
