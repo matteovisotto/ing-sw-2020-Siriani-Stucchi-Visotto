@@ -144,7 +144,7 @@ public class GodCard implements Serializable {
      * @param model is the game's model
      * @param controller is the game's controller
      */
-    public void checkVictory(Model model, GodCardController controller){}
+    public boolean checkVictory(Model model, GodCardController controller){return false;}
 
     /**
      * This method is called when a player answers 'no' when a "use god power" request is asked

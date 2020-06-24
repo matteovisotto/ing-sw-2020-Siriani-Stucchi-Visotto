@@ -21,11 +21,13 @@ public class Chronus extends GodCard {
      * @param controller is the game's controller
      */
     @Override
-    public void checkVictory(Model model, GodCardController controller) {
+    public boolean checkVictory(Model model, GodCardController controller) {
         if(!model.getGCPlayer(Gods.CHRONUS).hasWon() && !model.getGCPlayer(Gods.CHRONUS).getHasLost()){
             if(controller.countTowers()>=5){
                 model.victory(model.getGCPlayer(Gods.CHRONUS));
+                return true;
             }
         }
+        return false;
     }
 }

@@ -341,7 +341,7 @@ public class GodCardController extends Controller {
     @Override
     protected synchronized void checkVictory() {
         for(GodCard godCard : model.getGodsInPlay()){
-            godCard.checkVictory(model, this);
+            if(godCard.checkVictory(model, this))  return;
         }
         super.checkVictory();
     }
