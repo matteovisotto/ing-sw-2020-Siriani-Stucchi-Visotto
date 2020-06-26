@@ -209,6 +209,7 @@ public class Game extends JFrame implements Observer<Object> {
 
 
         pack();
+        this.getRootPane().setDefaultButton(startPlayBtn);
 
     }
 
