@@ -52,6 +52,7 @@ public class GodCard implements Serializable {
 
     /**
      * This method returns the default controller check cell
+     * OVERRIDE this method to change the control
      * @param controller is the game's controller
      * @param x is the x value of the cell
      * @param y is the y value of the cell
@@ -59,8 +60,6 @@ public class GodCard implements Serializable {
      * @param maxUpDifference is the max difference between move cell levels allowed for the action
      * @return the result of controller check cell
      * @throws IllegalArgumentException if check cell throws it
-     *
-     * OVERRIDE this method to change the control
      */
     public boolean checkCell(GodCardController controller, int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException{
         return controller.checkCell(x,y, actualWorker, maxUpDifference);
@@ -76,13 +75,14 @@ public class GodCard implements Serializable {
 
     /**
      * This method can be used (by override) to perform controls for the move
+     *
+     * This has to return false if you want to use the standard move action and controls
+     * This has to return true if a different control has been done
+     *
      * @param model is the game's model
      * @param controller is the game's controller
      * @param move is the move message received from the view
      * @return always false if not overridden
-     *
-     * This has to return false if you want to use the standard move action and controls
-     * This has to return true if a different control has been done
      */
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move){return false;}
 
@@ -96,12 +96,13 @@ public class GodCard implements Serializable {
 
     /**
      * This returns the default controller's check build
+     *
+     * OVERRIDE this method to change the controls
+     *
      * @param controller is the game's controller
      * @param buildingCell the cell where the player wants to build
      * @param playerBuild the message received from the view
      * @return the controls results
-     *
-     * OVERRIDE this method to change the controls
      */
     public boolean checkBuilt(Controller controller, Cell buildingCell, PlayerBuild playerBuild) {
         return controller.checkBuild(buildingCell, playerBuild);
@@ -109,15 +110,16 @@ public class GodCard implements Serializable {
 
     /**
      * This method has to be overridden to make controls in a build action for a god power
+     *
+     * This has to return false if you want to use the standard move action and controls
+     * This has to return true if a different set of controls has been done (also report error have to return true in order to skip the move action)
+     *
      * @param model is the game's model
      * @param controller is the game's controller
      * @param build is the message received from the view
      * @param buildingCell is the cell where the player wants to build
      * @return always false if not overridden
-     *
-     * This has to return false if you want to use the standard move action and controls
-     * This has to return true if a different set of controls has been done (also report error have to return true in order to skip the move action)
-     */
+    */
     public boolean handlerBuild(Model model, GodCardController controller, PlayerBuild build, Cell buildingCell){return false;}
 
     /**
@@ -149,12 +151,12 @@ public class GodCard implements Serializable {
     /**
      * This method is called when a player answers 'no' when a "use god power" request is asked
      * It by default sets the model's phase and messages to the default next value, based on the god card's actual phase given as param
-     * @param phase is the god card phase given by the controller
-     * @param controller is the game's controller
-     * Always notify clients changes
      *
      * A particular control is made for Prometheus because his power has to be activated during the turn change
-     */
+     *
+     * @param phase is the god card phase given by the controller
+     * @param controller is the game's controller
+    */
     public void performGodMessageForPhaseWithNegativeAnswer(Phase phase, Controller controller){
         Model model = controller.getModel();
         switch(phase){

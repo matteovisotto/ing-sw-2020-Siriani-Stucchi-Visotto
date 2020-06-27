@@ -103,12 +103,13 @@ public class Lobby {
 
     /**
      * This method is used to add a player to the lobby
-     * @param playerName is the new player's name
-     * @param clientConnection is the ClientConnection instance of the new player
      *
-     *  A specific algorithm is used when the lobby is full to configure the beginning of the game
+     * A specific algorithm is used when the lobby is full to configure the beginning of the game
      *
      *  If the lobby is not full yet, a wait message is sent to the clients connected
+     *
+     * @param playerName is the new player's name
+     * @param clientConnection is the ClientConnection instance of the new player
      */
     public void addPlayer(String playerName, ClientConnection clientConnection) {
         connections.add(clientConnection);
@@ -151,11 +152,12 @@ public class Lobby {
 
     /**
      * This method configures a game for two players
-     * @param players is an arrayList containing the names of the player that joined the lobby
      * For each player, it creates a remove view instance linked to his connection, the lobby's instance,
      *                his own player object and the name of the opponents.
      *
      * A new model and a new controller objects are then created: SimpleController if it's supposed to be a simple game, a GodCardController otherwise
+     *
+     * @param players is an arrayList containing the names of the player that joined the lobby
      */
     private void twoPlayer(List<String> players){
         ClientConnection c1,c2;
@@ -195,12 +197,13 @@ public class Lobby {
 
     /**
      * This method configures a game for three players
-     * @param players is an arrayList containing the names of the player that joined the lobby
      * For each player, it creates a remove view instance linked to his connection, the lobby's instance,
      *                his own player object and the name of the opponents.
      *
-     *A new model and a new controller objects are then created: SimpleController if it's supposed to be a simple game, a GodCardController otherwise
-     **/
+     * A new model and a new controller objects are then created: SimpleController if it's supposed to be a simple game, a GodCardController otherwise
+     *
+     * @param players is an arrayList containing the names of the player that joined the lobby
+    **/
     private void threePlayer(List<String> players) {
         ClientConnection c1, c2, c3;
         Player player1, player2, player3;

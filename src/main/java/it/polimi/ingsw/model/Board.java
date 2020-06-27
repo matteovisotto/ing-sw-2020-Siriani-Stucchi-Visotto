@@ -44,7 +44,7 @@ public class Board implements Serializable, Cloneable {
     }
 
     /**
-     * Print board in standard output as string
+     * Return the board instance as a string
      */
     public synchronized String print(){
         StringBuilder s=new StringBuilder();

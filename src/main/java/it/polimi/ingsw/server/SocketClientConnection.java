@@ -45,9 +45,9 @@ public class SocketClientConnection extends ClientConnection implements Runnable
 
     /**
      * This method writes the string message "out" on the socket
-     * @param message is an Object representing the message that needs to be sent to the client
      * Every type of object is sent to the client except the EndGameServerMessage object, which is used
      * to configure a new lobby at the end of the game, just in case a player decides to play again
+     * @param message is an Object representing the message that needs to be sent to the client
      */
     @Override
     public synchronized void send(Object message) {
