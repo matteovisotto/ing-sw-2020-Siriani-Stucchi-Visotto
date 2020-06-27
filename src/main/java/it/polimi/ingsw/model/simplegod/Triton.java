@@ -69,11 +69,11 @@ public class Triton extends GodCard {
      * This method changes the game's flow by asking the player to use the god's power after a move
      * In particular, this god can move every time he wants around the perimeter of the board. It checks if the selected worker is in the perimeter and if it's true
      * it then asks the player if he/she wants to use the power again, until he gets stuck, he moved away from the perimeter or he answered no
+     * If the power has been used the worker flag is reset
      * @param model is the game's model
      * @param controller is the game's controller
      * @param move is the move's message received from the view
      * @return true if an error is reported or the flow has been modified, false otherwise
-     * If the power has been used the worker flag is reset
      */
     @Override
     public boolean handlerMove(Model model, GodCardController controller, PlayerMove move) {
@@ -102,8 +102,6 @@ public class Triton extends GodCard {
      * When a no answer is given for the power, the flow is restored to built (as default)
      * @param phase is the god card phase given by the controller
      * @param controller is the game's controller
-     * Always notify clients changes
-     *
      */
     @Override
     public void performGodMessageForPhaseWithNegativeAnswer(Phase phase, Controller controller) {

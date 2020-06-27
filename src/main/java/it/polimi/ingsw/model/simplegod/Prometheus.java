@@ -132,7 +132,7 @@ public class Prometheus extends GodCard {
      * @param actualWorker the selected worker by the player
      * @param maxUpDifference the max difference between move cell levels permitted for the action
      * @return super checkCell with set muxUpDifference
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the cell is out of range
      */
     @Override
     public boolean checkCell(GodCardController controller, int x, int y, Worker actualWorker, int maxUpDifference) throws IllegalArgumentException {

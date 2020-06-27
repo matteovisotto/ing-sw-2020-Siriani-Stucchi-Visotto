@@ -139,7 +139,6 @@ public class Controller implements Observer<Message> {
 
     /**
      * This method is called when the game is over
-     * @param newGameMessage contains the player's reply after the following question has been given: "Would you like to play again?"
      * When the number of received answers is equal to the number of players in the game it:
      *  CLEARS THE MODEL: it happens only if every player answered 'yes', then the model is cleared and a new game starts
      *  SENDS A MESSAGE TO THE SERVER: when the last player has answered and the number of 'yes' are less than
@@ -150,6 +149,8 @@ public class Controller implements Observer<Message> {
      *                       -  The instance of ClientSocketConnection of every player
      *                       -  The actual game mode (hard or simple)
      * CLOSES THE CONNECTION of every players who answered 'no'
+     *
+     * @param newGameMessage contains the player's reply after the following question has been given: "Would you like to play again?"
      */
     public synchronized void endGame(NewGameMessage newGameMessage){
         answers++;
@@ -217,7 +218,7 @@ public class Controller implements Observer<Message> {
 
     /**
      * This method receives a the information to place a worker on the board.
-     * @param playerWorker the Message subclass containing the information about the player and the cell chosen for the worker to be placed
+     *
      * At first it checks if the player who has sent the message is the actual turn's player
      * If he is, the worker is placed on the board using the model's setWorker function
      * Then:
@@ -226,7 +227,10 @@ public class Controller implements Observer<Message> {
      *                     - If the player wasn't the only one who didn't place the worker -> this method updates the turn and sets the phase to SETWORKER1 again
      *                     - Otherwise -> it updates the turn and sets model's phase to MOVE
      *
-     * If an error has been caught, it is sent only to che client which has generated it
+     * If an error has been caught, it is sent only to che client which has generated itù
+     *
+     * @param playerWorker the Message subclass containing the information about the player and the cell chosen for the worker to be placed
+     *
      */
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
         //Check for right turn
@@ -269,7 +273,7 @@ public class Controller implements Observer<Message> {
 
     /**
      * This method receives a move action
-     * @param move is the Message subclass containing every information needed
+     *
      * At first it checks if the player who has sent the message is turn's player
      * Then:
      *      - it checks if the selected worker can move, calling the canMove method
@@ -278,6 +282,8 @@ public class Controller implements Observer<Message> {
      * It then updates the model using the new board and notifies the clients
      * At the end, it checks if anyone won
      * If an error is caught, it is sent to the client which generated it
+     *
+     * @param move is the Message subclass containing every information needed
      */
     public synchronized void move(PlayerMove move) {
         boolean canMove;
@@ -317,14 +323,16 @@ public class Controller implements Observer<Message> {
 
     /**
      * This method receives a build action
-     * @param playerBuild is the Message subclass containing the every information needed
-     * @throws IllegalArgumentException if the player can't built in the selected cell
+     *
      * At first it checks if the player who sent the message is the turn's player
      * Then it uses the checkBuilt function to check if the player can built there, otherwise it throws a new IllegalArgumentException
      * If it is possible, it updates the model setting the next phase, the next turn and the next message
      * The increase level function is then called
      *
      * At last it checks if anyone won/lost
+     *
+     * @param playerBuild is the Message subclass containing the every information needed
+     * @throws IllegalArgumentException if the player can't built in the selected cell
      */
     public synchronized void build(PlayerBuild playerBuild) throws IllegalArgumentException {
         if(!turnCheck(playerBuild)){
@@ -352,11 +360,12 @@ public class Controller implements Observer<Message> {
 
     /**
      *This method is used to determine in which cells the worker can move, associating every cell around the worker to a boolean value
-     * @param actualWorker is the worker who wants to move
-     * @return a map containing the board cell as key and a boolean representing whether cell is available for the move or not
      *
      * This method checks every cell around the worker, then using the checkCell function it associates a cell to the returned boolean
      * The IllegalArgumentException is caught for the perimeter cells
+     *
+     * @param actualWorker is the worker who wants to move
+     * @return a map containing the board cell as key and a boolean representing whether cell is available for the move or not
      */
     protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){
         HashMap<Cell, Boolean> availableCells = new HashMap<>();

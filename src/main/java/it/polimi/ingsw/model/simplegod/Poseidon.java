@@ -130,8 +130,6 @@ public class Poseidon  extends GodCard {
      * When the player doesn't want to use the power, the model keeps the usual flow, it then updates the turn and resets the flags
      * @param phase is the god card's phase given by the controller
      * @param controller is the game's controller
-     * Always notify clients changes
-     *
      */
     @Override
     public void performGodMessageForPhaseWithNegativeAnswer(Phase phase, Controller controller) {

@@ -22,7 +22,6 @@ public class GodCardController extends Controller {
     /**
      * It overrides the Controller's setPlayerWorker function, if Prometheus' god card is used in the game, this function modifies the game flow, instead of starting in the moving phase it makes the game start asking
      * the Prometheus' owner to use the power, only if the starting player has that card.
-     * @param playerWorker is the Message subclass containing the information about player, and the cell chosen for the worker
      * At first it checks if the player who has sent the message is the actual turn's player
      *       If he is, the worker is placed on the board using the model's setWorker function
      *         Then:
@@ -38,6 +37,7 @@ public class GodCardController extends Controller {
      *                     - The player is not the last -> update turn and set the phase to SETWORKER1 again
      *                     - Otherwise -> it updates the turn and sets model's phase to MOVE only if the first player's god
      *                       card isn't Prometheus, in that case it sets the model's phase to WAIT_GOD_ANSWER
+     * @param playerWorker is the Message subclass containing the information about player, and the cell chosen for the worker
      */
     @Override
     public synchronized void setPlayerWorker(PlayerWorker playerWorker){
@@ -84,9 +84,8 @@ public class GodCardController extends Controller {
      * This method lets the first player choose 2 or 3 god cards (depending on the number of players in the game)
      * For each selected card the model's addGod function is called.
      * If the selected card number does not correspond to the number of players an error is reported and the action gets asked again
+     * After the cards are saved, the phase is changed to PICK_CARD, in order to let the other player(s) choose a god card
      * @param drawedCards is the message sent by the view containing the drawed cards
-     *
-     *  After the cards are saved, the phase is changed to PICK_CARD, in order to let the other player(s) choose a god card
      */
     public synchronized void drawedCards(DrawedCards drawedCards){
         if(drawedCards.getFirst() == drawedCards.getSecond() || drawedCards.getFirst()==drawedCards.getThird() || drawedCards.getSecond()==drawedCards.getThird()){
@@ -175,7 +174,6 @@ public class GodCardController extends Controller {
      * does the normal move, otherwise the normal control is skipped and each god card modifies the game flow as the power has defined.
      * Before confirming the normal move action, another function is called, the normalMoveModifier can change same model parameter, for example
      * Atlas card make a normal move but set next phase to ask god power.
-     * @param move is the Message subclass containing the information needed
      * At first it checks if it's the turn of the player who has sent the message
      * Then:
      *      - It checks if the selected worker can move using the function canMove
@@ -183,6 +181,8 @@ public class GodCardController extends Controller {
      * If every control has a positive outcome, it sets the next model phase to BUILT, it updates messages and MessageTypes and updates the turn
      * It then updates the model with the new board configuration and notifies clients about the update
      * At the end it checks if anyone won or not
+     *
+     * @param move is the Message subclass containing the information needed
      */
     @Override
     public synchronized void move(PlayerMove move) {
@@ -348,10 +348,10 @@ public class GodCardController extends Controller {
 
     /**
      * This method is used to determine in which cells the worker can move, associating every cell around the worker to a boolean value
+     *  The check is made by a god card function by default, if the god card doesn't have any different implementation
+     *   the GodCard.checkCell call the controller check cell {@link GodCard}
      * @param actualWorker is the worker who wants to move
      * @return a map containing the board cell as key and a boolean representing whether cell is available for the move or not
-     * The check is made by a god card function by default, if the god card doesn't have any different implementation
-     * the GodCard.checkCell call the controller check cell {@link GodCard}
      */
     @Override
     protected synchronized HashMap<Cell, Boolean> checkCellsAround (Worker actualWorker){
