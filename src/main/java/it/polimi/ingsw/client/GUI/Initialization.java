@@ -32,8 +32,8 @@ public class Initialization extends JDialog implements Observer<Object> {
 
     /**
      * Class constructor
+     * It sets the title for the GUI dialog and calls the set layout method
      * @param guiClient Main gui client class
-     * This method sets the title for the GUI dialog and calls the set layout method
      */
     public Initialization(GUIClient guiClient) {
         setTitle("Initialization");
@@ -92,10 +92,11 @@ public class Initialization extends JDialog implements Observer<Object> {
 
     /**
      * {@inheritDoc}
-     * @param msg is the message received
      * This method also checks if the received message is a String, in this case, if it's an error, it will be shown
      *            in a JOptionPane
      *            Otherwise the message is sent to setPanelContent method
+     *
+     * @param msg is the message received
      */
     @Override
     public void update(Object msg) {

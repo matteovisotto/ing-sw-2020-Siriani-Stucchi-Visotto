@@ -16,6 +16,9 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 
+/**
+ * GUI Class
+ */
 public class Game extends JFrame implements Observer<Object> {
     private final Dimension windowsSize;
     private final GUIClient guiClient;
@@ -45,6 +48,11 @@ public class Game extends JFrame implements Observer<Object> {
     int labelWidth = 0;
     int labelHeight = 0;
 
+    /**
+     * Class constructor
+     * @param guiClient GUI Application class instance
+     * @param width screen width
+     */
     public Game(final GUIClient guiClient, int width){
         Toolkit tk = Toolkit.getDefaultToolkit();
         if(width>0 && width<100){
@@ -62,10 +70,18 @@ public class Game extends JFrame implements Observer<Object> {
         godsFunction = assignGodsFunction();
     }
 
+    /**
+     *
+     * @param player the playerof this game
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    /**
+     *
+     * @param clientConfigurator the configuration message recived from the server
+     */
     public void setClientConfigurator(ClientConfigurator clientConfigurator) {
         this.clientConfigurator = clientConfigurator;
     }
@@ -89,7 +105,7 @@ public class Game extends JFrame implements Observer<Object> {
         return godsFunction;
     }
 
-    public void customCursor() {
+    private void customCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         toolkit.getBestCursorSize(32, 32);
         Image image = Toolkit.getDefaultToolkit().getImage((getClass().getClassLoader().getResource("images/godpower_hand_select2.png"))).getScaledInstance(32, 32,
@@ -521,22 +537,6 @@ public class Game extends JFrame implements Observer<Object> {
         }
     }
 
-    private void resetOverlayPanelContent(){
-        Component[] components = overlayPanel.getComponents();
-        for (Component component : components) {
-            overlayPanel.remove(component);
-        }
-    }
-
-    protected void removeOverlayPanel() {
-        resetOverlayPanelContent();
-        for (Component component: overlayPanel.getComponents()){
-            overlayPanel.remove(component);
-        }
-        centerPanel.remove(overlayPanel);
-        centerPanel.revalidate();
-        centerPanel.repaint();
-    }
 
     private void resetOverlayPanel(){
         for (int i = 0; i < 5; i++) {
@@ -622,7 +622,7 @@ public class Game extends JFrame implements Observer<Object> {
         centerPanel.repaint();
     }
 
-    public void addInitialBoard(){
+    private void addInitialBoard(){
         initialBoardPanel = new JPanel();
         initialBoardPanel.setLayout(new GridLayout(5,5,0,0));
         initialBoardPanel.setPreferredSize(new Dimension(centerPanel.getWidth(), centerPanel.getHeight()));
@@ -956,7 +956,7 @@ public class Game extends JFrame implements Observer<Object> {
         guiClient.send(response);
     }
 
-    public void placeWorker(Board board) {
+    private void placeWorker(Board board) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++){
                 if(board.getCell(i,j).isFree()){
