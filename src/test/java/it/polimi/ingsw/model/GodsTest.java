@@ -14,15 +14,15 @@ public class GodsTest {
 
     @Test
     public void getSimpleGodId() {
-        assertEquals(0, Gods.APOLLO.getSimpleGodId());
-        assertEquals(1, Gods.ARTEMIS.getSimpleGodId());
-        assertEquals(2, Gods.ATHENA.getSimpleGodId());
-        assertEquals(3, Gods.ATLAS.getSimpleGodId());
-        assertEquals(4, Gods.DEMETER.getSimpleGodId());
-        assertEquals(5, Gods.HEPHAESTUS.getSimpleGodId());
-        assertEquals(6, Gods.MINOTAUR.getSimpleGodId());
-        assertEquals(7, Gods.PAN.getSimpleGodId());
-        assertEquals(8, Gods.PROMETHEUS.getSimpleGodId());
+        assertEquals(0, Gods.APOLLO.getGodId());
+        assertEquals(1, Gods.ARTEMIS.getGodId());
+        assertEquals(2, Gods.ATHENA.getGodId());
+        assertEquals(3, Gods.ATLAS.getGodId());
+        assertEquals(4, Gods.DEMETER.getGodId());
+        assertEquals(5, Gods.HEPHAESTUS.getGodId());
+        assertEquals(6, Gods.MINOTAUR.getGodId());
+        assertEquals(7, Gods.PAN.getGodId());
+        assertEquals(8, Gods.PROMETHEUS.getGodId());
     }
 
     @Test

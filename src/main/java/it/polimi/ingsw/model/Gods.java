@@ -76,7 +76,7 @@ public enum Gods {
     /**
      * @return an int corresponding to a specific God.
      */
-    public int getSimpleGodId() {
+    public int getGodId() {
         return simplegod;
     }
 

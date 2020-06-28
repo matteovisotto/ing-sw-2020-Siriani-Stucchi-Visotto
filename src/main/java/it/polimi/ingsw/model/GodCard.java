@@ -222,7 +222,7 @@ public class GodCard implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof GodCard){
-            return ((GodCard) obj).card.getSimpleGodId() == this.card.getSimpleGodId();
+            return ((GodCard) obj).card.getGodId() == this.card.getGodId();
         }
         return false;
     }
