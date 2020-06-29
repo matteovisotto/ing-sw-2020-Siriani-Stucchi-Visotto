@@ -2866,7 +2866,7 @@ public class GodCardControllerTest {
     }
 
     @Test
-    public void prometheusPowersTest() {
+    public void losePrometheusTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
