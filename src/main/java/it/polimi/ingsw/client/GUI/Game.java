@@ -67,7 +67,6 @@ public class Game extends JFrame implements Observer<Object> {
         setTitle("Santorini");
         setResizable(false);
         setLayout();
-        godsFunction = assignGodsFunction();
     }
 
     /**
@@ -84,25 +83,6 @@ public class Game extends JFrame implements Observer<Object> {
      */
     public void setClientConfigurator(ClientConfigurator clientConfigurator) {
         this.clientConfigurator = clientConfigurator;
-    }
-
-    private HashMap<String,String> assignGodsFunction(){
-        HashMap<String,String> godsFunction = new HashMap<>();
-        godsFunction.put("Apollo","Your Worker may move into an opponent Worker’s space by forcing their Worker to the space yours just vacated.");
-        godsFunction.put("Artemis","Your Worker may move one additional time, but not back to its initial space.");
-        godsFunction.put("Athena","If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.");
-        godsFunction.put("Atlas","Your Worker may build a dome at any level.");
-        godsFunction.put("Demeter","Your Worker may build one additional time, but not on the same space.");
-        godsFunction.put("Hephaestus","Your Worker may build one additional block (not dome) on top of your first block.");
-        godsFunction.put("Minotaur","Your Worker may move into an opponent Worker’s space, if their Worker can be forced one space straight backwards to an unoccupied space at any level.");
-        godsFunction.put("Pan","You also win if your Worker moves down two or more levels.");
-        godsFunction.put("Prometheus","If your Worker does not move up, it may build both before and after moving.");
-        godsFunction.put("Chronus","You also win when there are at least five Complete Towers on the board.");
-        godsFunction.put("Hestia","Your Worker may build one additional time, but this cannot be on a perimeter space.");
-        godsFunction.put("Poseidon","If your unmoved Worker is on the ground level, it may build up to three times.");
-        godsFunction.put("Triton","Each time your Worker moves into a perimeter space, it may immediately move again.");
-        godsFunction.put("Zeus","Your Worker may build a block under itself.");
-        return godsFunction;
     }
 
     private void customCursor() {
@@ -804,7 +784,7 @@ public class Game extends JFrame implements Observer<Object> {
                     } else {
                         label.setIcon(loadImage("images/God_with_frame/"+ string +".png", (int)(god.getWidth() * 1.5), (int)(god.getHeight() * 1.5)));
                     }
-                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.85) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
+                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.85) + ";text-align:center;\">" + correspondingGod(Parser.toCapitalize(string)) + "</p></html>";// godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
                     label2.setText(labelText);
                     label2.setVerticalTextPosition(SwingConstants.TOP);
                     label2.setVerticalAlignment(SwingConstants.TOP);
@@ -918,7 +898,7 @@ public class Game extends JFrame implements Observer<Object> {
                     } else {//da mettere quando tocca al secondo giocatore
                         label.setIcon(loadImage("images/God_with_frame/"+ Parser.toCapitalize(string) +".png", (god.getWidth()), (god.getHeight())));
                     }
-                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
+                    String labelText = "<html><p style=\"width:" + (int)(label2.getWidth() * 0.9) + ";text-align:center;\">" + correspondingGod(Parser.toCapitalize(string)) + "</p></html>";//godsFunction.get(Parser.toCapitalize(string)) + "</p></html>";
                     label2.setText(labelText);
                     label2.setVerticalTextPosition(SwingConstants.TOP);
                     label2.setVerticalAlignment(SwingConstants.TOP);
