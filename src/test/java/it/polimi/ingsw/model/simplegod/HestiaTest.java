@@ -1,23 +1,20 @@
 package it.polimi.ingsw.model.simplegod;
 
 import it.polimi.ingsw.controller.GodCardController;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.messageModel.DrawedCards;
-import it.polimi.ingsw.model.messageModel.PickedCard;
-import it.polimi.ingsw.model.messageModel.PlayerMove;
-import it.polimi.ingsw.model.messageModel.PlayerWorker;
+import it.polimi.ingsw.model.Model;
+import it.polimi.ingsw.model.Phase;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.messageModel.*;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.view.RemoteView;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class MinotaurTest {
+public class HestiaTest {
 
     @Test
-    public void useMinotaurPowerTest() {
+    public void useHestiaPowerTest() {
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");
@@ -39,7 +36,7 @@ public class MinotaurTest {
 
             }
         }, null);
-        DrawedCards drawedCards = new DrawedCards(players[0], 0, 6, remoteView);
+        DrawedCards drawedCards = new DrawedCards(players[0], 0, 10, remoteView);
         controller.drawedCards(drawedCards);
         RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
             @Override
@@ -65,15 +62,22 @@ public class MinotaurTest {
         PlayerWorker playerWorker2 = new PlayerWorker(players[0], 1, 1, remoteView);
         controller.setPlayerWorker(playerWorker2);
 
-        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 0, 1, remoteView2);
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 2, 0, remoteView2);
         controller.setPlayerWorker(playerWorker3);
-        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 1, 0, remoteView2);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 3, 2, remoteView2);
         controller.setPlayerWorker(playerWorker4);
 
         PlayerMove playerMove = new PlayerMove(players[0], 0, 0, 1, remoteView);
         controller.move(playerMove);
 
-        assertEquals(model.getPlayer(0).getWorker(0).getCell(), model.getBoard().getCell(0, 1));
-        assertEquals(model.getPlayer(1).getWorker(0).getCell(), model.getBoard().getCell(0, 2));
+        PlayerBuild playerBuild = new PlayerBuild(players[0], players[0].getUsedWorker(), 0, 2, remoteView);
+        controller.build(playerBuild);
+        assertEquals(model.getPhase(), Phase.WAIT_GOD_ANSWER);
+        char ch = 'y';
+        UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
+        useGodPower.handler(controller);
+        PlayerBuild playerBuild2 = new PlayerBuild(players[0], players[0].getUsedWorker(), 1, 2, remoteView);
+        controller.build(playerBuild2);
+        assertEquals(model.getBoard().getCell(1, 2).getLevel().getBlockId(), 1);
     }
 }
