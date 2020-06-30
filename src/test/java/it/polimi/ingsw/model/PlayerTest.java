@@ -19,20 +19,25 @@ public class PlayerTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void getPlayerName() {
+    public void EqualsTest(){
+
+    }
+
+    @Test
+    public void getPlayerNameTest() {
         Player player = new Player("Mario");
         assertEquals("Mario", player.getPlayerName());
     }
 
     @Test
-    public void getGodCard() {
+    public void getGodCardTest() {
         Player player = new Player("Luigi");
         player.setGodCard(Gods.getGod(2));
         assertEquals(Gods.getGod(2), player.getGodCard());
     }
 
     @Test
-    public void getUnusedWorker(){
+    public void getUnusedWorkerTest(){
         Player[] players = new Player[2];
         players[0] = new Player("Mario");
         players[1] = new Player("Luigi");

@@ -17,16 +17,6 @@ public class Observable<T> {
     }
 
     /**
-     * This method deletes an observer
-     * @param observer is the observer that needs to be removed
-     */
-    public void removeObserver(Observer<T> observer){
-        synchronized (observers) {
-            observers.remove(observer);
-        }
-    }
-
-    /**
      * This method removes every observer except the one given
      * @param observer is the observer that doesn't have to be
      */

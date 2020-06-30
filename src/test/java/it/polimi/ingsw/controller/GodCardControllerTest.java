@@ -710,6 +710,7 @@ public class GodCardControllerTest {
 
         NewGameMessage newGameMessage3 = new NewGameMessage(players[2], remoteView2, ch, clientConnection3, lobby);
         newGameMessage3.handler(controller);
+        lobby.setEndGame();
 
         assertEquals(model.getPhase(), Phase.DRAWCARD);
     }
@@ -777,6 +778,7 @@ public class GodCardControllerTest {
             }
         };
         lobby.addPlayer(players[2].getPlayerName(), clientConnection3);
+
         RemoteView remoteView2 = new RemoteView(players[2], players[0].getPlayerName(), players[1].getPlayerName(), clientConnection3, lobby);
 
         DrawedCards drawedCards = new DrawedCards(players[0], 0, 6, 7, remoteView);
@@ -908,6 +910,7 @@ public class GodCardControllerTest {
         RemoteView remoteView4 = new RemoteView(players1[2], players1[0].getPlayerName(), players[1].getPlayerName(), clientConnection4, lobby1);
 
         assertEquals(model1.getPhase(), Phase.DRAWCARD);
+        lobby.closeLobby();
     }
 
     @Test

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.model.simplegod;
 
+import it.polimi.ingsw.controller.GodCardController;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
