@@ -31,8 +31,8 @@
 
 Nella cartella `deliveries/uml` sono presenti l'uml iniziale, vari flow diagram per rappresentare le interazioni con le carte divinità.
 
-In `deliveries/uml/Final UML` sono presenti gli UML finali generati con il tool di IntelliJ. E' presente un UML per ogni classe
-con attributi e metodi, uno per le dipendenze tra le classi all'interno dei package e uno generico
+In `deliveries/uml/Final UML` sono presenti gli UML finali generati con il tool di IntelliJ e/o creati appositamente. E' presente un UML per ogni package
+con attributi e metodi delle classi, uno per le dipendenze tra le classi all'interno dei package e uno generico
 per le dipendenze tra i package.
 
 ## JavaDoc
