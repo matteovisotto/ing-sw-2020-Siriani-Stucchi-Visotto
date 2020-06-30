@@ -1,5 +1,8 @@
 package it.polimi.ingsw.utils;
 
+/**
+ * Standard messages used during the play
+ */
 public class PlayerMessage {
 
     /* Configuration messages */

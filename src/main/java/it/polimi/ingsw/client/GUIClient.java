@@ -12,6 +12,9 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * GUI Client class
+ */
 public class GUIClient extends Observable<Object> {
     private final String ip;
     private final int port;
@@ -21,6 +24,12 @@ public class GUIClient extends Observable<Object> {
     private PrintWriter socketOut;
     private boolean isConfig = false;
 
+    /**
+     * Class constructor
+     * @param ip the server ip
+     * @param port the server port
+     * @param width a width for scaling mode
+     */
     public GUIClient(String ip, int port, int width){
         this.ip = ip;
         this.port = port;
@@ -30,27 +39,50 @@ public class GUIClient extends Observable<Object> {
         addObserver(game);
     }
 
+    /**
+     * Open the game initializer
+     */
     public synchronized void openInitializator() {
         initialization.setVisible(true);
     }
 
+    /**
+     * Close the game initializer
+     */
     public synchronized void closeInitializator() {
         game.setEnabled(true);
         this.isConfig = true;
     }
 
+    /**
+     *
+     * @return true if the client has been already cofing
+     */
     public boolean isConfig() {
         return isConfig;
     }
 
+    /**
+     *
+     * @return true if the connection is active
+     */
     public synchronized boolean isActive(){
         return active;
     }
 
+    /**
+     *
+     * @param active boolean containing the connection status
+     */
     public synchronized void setActive(boolean active){
         this.active = active;
     }
-    //Aggiorna la tabella quando chiamata
+
+    /**
+     * This method is used to receive messagges from the server throw the network using a different thread
+     * @param socketIn ObjectInputStream instance for receiving messages from the socket
+     * @return the created thread
+     */
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -74,7 +106,13 @@ public class GUIClient extends Observable<Object> {
         t.start();
         return t;
     }
-    //invia messaggi al server quando qualcosa nella view muta
+
+    /**
+     * This method is used to send messages throw the socket using a different thread
+     * @param stdin Scanner instance for reading inputs from command line
+     * @param socketOut the PrintWriter instance for writing messages in the socket
+     * @return the created thread
+     */
     public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -94,11 +132,19 @@ public class GUIClient extends Observable<Object> {
         return t;
     }
 
+    /**
+     * Send a message to the socket using the main thread
+     * @param s a string containing the message
+     */
     public synchronized void send(String s){
         socketOut.println(s);
         socketOut.flush();
     }
 
+    /**
+     * This method creates all objects the client need
+     * @throws IOException if the input stream give an error
+     */
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
