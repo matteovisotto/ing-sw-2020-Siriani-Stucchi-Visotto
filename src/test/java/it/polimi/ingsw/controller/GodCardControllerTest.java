@@ -342,30 +342,30 @@ public class GodCardControllerTest {
 
         PlayerWorker playerWorker = new PlayerWorker(players[0], 0, 0, remoteView);
         controller.setPlayerWorker(playerWorker);
-        PlayerWorker playerWorker2 = new PlayerWorker(players[0], 1, 0, remoteView);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0], 2, 2, remoteView);
         controller.setPlayerWorker(playerWorker2);
 
-        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 0, 1, remoteView2);
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 1, 1, remoteView2);
         controller.setPlayerWorker(playerWorker3);
-        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 1, 1, remoteView2);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 3, 3, remoteView2);
         controller.setPlayerWorker(playerWorker4);
 
-        PlayerMove playerMove = new PlayerMove(players[0], 0, 0, 1, remoteView);
+        PlayerMove playerMove = new PlayerMove(players[0], 0, 1, 1, remoteView);
         controller.move(playerMove);
-        PlayerBuild playerBuild = new PlayerBuild(players[0], players[0].getUsedWorker(), 0, 2, remoteView);
+        PlayerBuild playerBuild = new PlayerBuild(players[0], players[0].getUsedWorker(), 1, 0, remoteView);
         controller.build(playerBuild);
 
-        assertEquals(model.getPlayer(0).getWorker(0).getCell(), model.getBoard().getCell(0, 1));
+        assertEquals(model.getPlayer(0).getWorker(0).getCell(), model.getBoard().getCell(1, 1));
 
-        PlayerMove playerMove2 = new PlayerMove(players[1], 1, 2, 1, remoteView2);
+        PlayerMove playerMove2 = new PlayerMove(players[1], 1, 2, 3, remoteView2);
         controller.move(playerMove2);
-        PlayerBuild playerBuild2 = new PlayerBuild(players[1], players[1].getUsedWorker(), 3, 1, remoteView2);
+        PlayerBuild playerBuild2 = new PlayerBuild(players[1], players[1].getUsedWorker(), 3, 3, remoteView2);
         controller.build(playerBuild2);
 
-        PlayerMove playerMove3 = new PlayerMove(players[0], 1, 0, 0, remoteView);
+        PlayerMove playerMove3 = new PlayerMove(players[0], 1, 2, 3, remoteView);
         controller.move(playerMove3);
 
-        assertEquals(model.getPlayer(0).getWorker(1).getCell(), model.getBoard().getCell(0, 0));
+        assertEquals(model.getPlayer(0).getWorker(1).getCell(), model.getBoard().getCell(2, 3));
     }
 
     @Test
@@ -496,6 +496,10 @@ public class GodCardControllerTest {
         char ch = 'y';
         UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
         useGodPower.handler(controller);
+        PlayerMove playerMoveError = new PlayerMove(players[0], 1, 1, 2, remoteView);
+        model.getPlayer(0).getGodCard().handlerMove(model,controller,playerMoveError);
+        PlayerMove playerMoveError2 = new PlayerMove(players[0], 0, 0, 0, remoteView);
+        model.getPlayer(0).getGodCard().handlerMove(model,controller,playerMoveError2);
         PlayerMove playerMove2 = new PlayerMove(players[0], 0, 0, 2, remoteView);
         controller.move(playerMove2);
         assertEquals(model.getBoard().getCell(0, 2), players[0].getWorker(0).getCell());
@@ -3154,5 +3158,98 @@ public class GodCardControllerTest {
         assertEquals(Phase.BUILD,model.getPhase());
         assertEquals(players[0].getWorker(1).getCell(),model.getBoard().getCell(1,1));
         assertEquals(3,model.getBoard().getCell(1,1).getLevel().getBlockId());
+    }
+
+    @Test
+    public void cantUseArtemisPowerTest() {
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, false);
+        GodCardController controller = new GodCardController(model);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        }, null);
+        DrawedCards drawedCards = new DrawedCards(players[0], 3, 1, remoteView);
+        controller.drawedCards(drawedCards);
+        RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        }, null);
+        PickedCard pickedCard = new PickedCard(players[1], remoteView2, 1);
+        controller.pickACard(pickedCard);
+
+        PlayerWorker playerWorker = new PlayerWorker(players[0], 0, 3, remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0], 1, 3, remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 4, 4, remoteView2);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 2, 1, remoteView2);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMove = new PlayerMove(players[0], 0, 0, 2, remoteView);
+        controller.move(playerMove);
+        char ch = 'y';
+        UseGodPower useGodPower = new UseGodPower(players[0], remoteView, ch);
+        useGodPower.handler(controller);
+        PlayerBuild playerBuild = new PlayerBuild(players[0], players[0].getUsedWorker(), 0, 1, remoteView);
+        controller.build(playerBuild);
+
+        PlayerMove playerMove2 = new PlayerMove(players[1], 1, 2, 0, remoteView2);
+        controller.move(playerMove2);
+        UseGodPower useGodPower3 = new UseGodPower(players[1], remoteView2, 'n');
+        useGodPower3.handler(controller);
+        PlayerBuild playerBuild4 = new PlayerBuild(players[1], players[1].getUsedWorker(), 1, 0, remoteView2);
+        controller.build(playerBuild4);
+
+        PlayerMove playerMove3 = new PlayerMove(players[0], 1, 2, 2, remoteView);
+        controller.move(playerMove3);
+        useGodPower.handler(controller);
+        PlayerBuild playerBuild2 = new PlayerBuild(players[0], players[0].getUsedWorker(), 1, 1, remoteView);
+        controller.build(playerBuild2);
+
+        PlayerMove playerMove4 = new PlayerMove(players[1], 1, 1, 0, remoteView2);
+        controller.move(playerMove4);
+        useGodPower3.handler(controller);
+        PlayerBuild playerBuild3 = new PlayerBuild(players[1], players[1].getUsedWorker(), 2, 0, remoteView2);
+        controller.build(playerBuild3);
+
+        PlayerMove playerMove5 = new PlayerMove(players[0], 1, 1, 2, remoteView);
+        controller.move(playerMove5);
+        UseGodPower useGodPower2 = new UseGodPower(players[0], remoteView, 'y');
+        useGodPower2.handler(controller);
+        PlayerBuild playerBuild5 = new PlayerBuild(players[0], players[0].getUsedWorker(), 2, 2, remoteView);
+        controller.build(playerBuild5);
+
+        PlayerMove playerMove6 = new PlayerMove(players[1], 1, 0, 0, remoteView2);
+        controller.move(playerMove6);
+        assertEquals(Phase.BUILD,model.getPhase());
     }
 }
