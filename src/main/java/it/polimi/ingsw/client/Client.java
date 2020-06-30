@@ -12,17 +12,29 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * CLI Client class
+ */
 public class Client {
     private final String ip;
     private final int port;
     private boolean active = true;
     private Player player;
 
+    /**
+     * Class constructor
+     * @param ip server ip
+     * @param port server port
+     */
     public Client(String ip, int port){
         this.ip = ip;
         this.port = port;
     }
 
+    /**
+     *
+     * @return true if the connection is active
+     */
     public synchronized boolean isActive(){
         return active;
     }
@@ -54,10 +66,19 @@ public class Client {
         }
     }
 
+    /**
+     *
+     * @param active a boolean representing the connection status
+     */
     public synchronized void setActive(boolean active){
         this.active = active;
     }
-    //Aggiorna la tabella quando chiamata
+
+    /**
+     * This method is used to receive messagges from the server throw the network using a different thread
+     * @param socketIn ObjectInputStream instance for receiving messages from the socket
+     * @return the created thread
+     */
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -86,7 +107,13 @@ public class Client {
         t.start();
         return t;
     }
-    //invia messaggi al server quando qualcosa nella view muta
+
+    /**
+     * This method is used to send messages throw the socket using a different thread
+     * @param stdin Scanner instance for reading inputs from command line
+     * @param socketOut the PrintWriter instance for writing messages in the socket
+     * @return the created thread
+     */
     public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -106,6 +133,10 @@ public class Client {
         return t;
     }
 
+    /**
+     * This method creates all objects the client need
+     * @throws IOException if the input stream give an error
+     */
     public void run() throws IOException {
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
