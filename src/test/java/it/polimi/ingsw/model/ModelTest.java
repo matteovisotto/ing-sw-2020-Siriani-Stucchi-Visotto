@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
 import it.polimi.ingsw.model.simplegod.Apollo;
 import it.polimi.ingsw.model.simplegod.Athena;
 import it.polimi.ingsw.model.simplegod.Atlas;
 import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.RemoteView;
 import org.junit.Test;
 
@@ -13,6 +15,90 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ModelTest {
+
+    @Test
+    public void firstPlayerLoseTest() {
+        Player[] players = new Player[3];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        players[2] = new Player("Toad");
+        Model model = new Model(players, true);
+        Controller controller = new Controller(model);
+        ClientConnection clientConnection = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        Lobby lobby = new Lobby("ciao", players[0].getPlayerName(), clientConnection, 3, true);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), players[2].getPlayerName(), clientConnection, lobby);
+
+        ClientConnection clientConnection2 = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        lobby.addPlayer(players[1].getPlayerName(), clientConnection2);
+        RemoteView remoteView1 = new RemoteView(players[1], players[0].getPlayerName(), players[2].getPlayerName(), clientConnection2, lobby);
+
+        ClientConnection clientConnection3 = new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        };
+        lobby.addPlayer(players[2].getPlayerName(), clientConnection3);
+        RemoteView remoteView2 = new RemoteView(players[2], players[0].getPlayerName(), players[1].getPlayerName(), clientConnection3, lobby);
+
+        PlayerWorker playerWorker = new PlayerWorker(players[0], 0, 0, remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0], 0, 1, remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 0, 2, remoteView1);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 1, 2, remoteView1);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerWorker playerWorker5 = new PlayerWorker(players[2], 1, 1, remoteView2);
+        controller.setPlayerWorker(playerWorker5);
+        PlayerWorker playerWorker6 = new PlayerWorker(players[2], 1, 0, remoteView2);
+        controller.setPlayerWorker(playerWorker6);
+
+        assertTrue(model.getPlayer(0).getHasLost());
+    }
+
     @Test
     public void testIsPlayerTurn() {
         Player[] players = new Player[2];

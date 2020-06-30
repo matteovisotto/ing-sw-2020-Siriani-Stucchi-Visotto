@@ -7,6 +7,12 @@ import static org.junit.Assert.*;
 public class CellTest {
 
     @Test
+    public void equalsTest() {
+        Cell cell = new Cell(1,2);
+        assertFalse(cell.equals(new Object()));
+    }
+
+    @Test
     public void getX() {
         Cell cell = new Cell(1,2);
         assertEquals("Result", 1, cell.getX());

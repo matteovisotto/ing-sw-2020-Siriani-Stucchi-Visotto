@@ -20,7 +20,12 @@ public class PlayerTest {
 
     @Test
     public void EqualsTest(){
-
+        Player player = new Player("Toad");
+        Player player1 = new Player(null);
+        assertFalse(player.equals(null));
+        assertFalse(player.equals(new Object()));
+        assertFalse(player.equals(player1));
+        assertFalse(player1.equals(player));
     }
 
     @Test
