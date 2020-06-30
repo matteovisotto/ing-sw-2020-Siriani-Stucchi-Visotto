@@ -143,8 +143,9 @@ public class GodCard implements Serializable {
     /**
      * This function has to be overridden if a god card has a particular winning condition
      * In particular, it can be used to check if he has won when is not his turn
-     * @param model is the game's model
+     * @param model is the game's mode
      * @param controller is the game's controller
+     * @return false if not overridden.
      */
     public boolean checkVictory(Model model, GodCardController controller){return false;}
 
@@ -185,6 +186,7 @@ public class GodCard implements Serializable {
      * This method checks every cell around the worker are free and with a level lower then a dome
      * If true the cell is added to the available cells list.
      * @param worker is the worker to control
+     * @param controller the controller instance
      * @return a list of cells where a build can be done
      */
     public ArrayList<Cell> checkCanBuild(Worker worker, GodCardController controller){

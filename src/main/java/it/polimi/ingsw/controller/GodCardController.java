@@ -27,15 +27,15 @@ public class GodCardController extends Controller {
      *         Then:
      *            - If the phase is SETWORKER1 then it changes the model phase to SETWORKER2 but it doesn't change the turn
      *            - If the phase is SETWORKER2 we can have 2 different alternatives:
-     *                           - If the player wasn't the only one who didn't place the worker -> this method updates the turn and sets the phase to SETWORKER1 again
-     *                           - Otherwise -> it updates the turn and sets model's phase to MOVE
+     *                           - If the player wasn't the only one who didn't place the worker, then this method updates the turn and sets the phase to SETWORKER1 again
+     *                           - Otherwise it updates the turn and sets model's phase to MOVE
      *
      *       If an error has been caught, it is sent only to che client which has generated it
      *
      *
      *      - If the phase is SETWORKER2 we can have 2 different cases:
-     *                     - The player is not the last -> update turn and set the phase to SETWORKER1 again
-     *                     - Otherwise -> it updates the turn and sets model's phase to MOVE only if the first player's god
+     *                     - The player is not the last, then update turn and set the phase to SETWORKER1 again
+     *                     - Otherwise it updates the turn and sets model's phase to MOVE only if the first player's god
      *                       card isn't Prometheus, in that case it sets the model's phase to WAIT_GOD_ANSWER
      * @param playerWorker is the Message subclass containing the information about player, and the cell chosen for the worker
      */

@@ -34,9 +34,9 @@ public enum Gods {
 
     /**
      * This method assigns a value to its specific simpleGod.
-     * @param id defines the simpleGod's id. The values accepted are: 1 -> new Apollo(), 2 -> new Artemis(), 3 -> new Athena(), 4 -> new Atlas(), 5 -> new Demeter(), 6 -> new Hephaestus(), 7 -> new Minotaur(), 8 -> new Pan(), 9 -> new Prometheus().
+     * @param id defines the simpleGod's id. The values accepted are: 0 = new Apollo(), 1 = new Artemis(), 2 = new Athena(), 3 = new Atlas(), 4 = new Demeter(), 5 = new Hephaestus(), 6 = new Minotaur(), 7 = new Pan(), 8 = new Prometheus(), 9 = new Chronus(), 10 = new Hestia(), 11 = new Poseidon, 12 = new Triton, 13 = new Zeus.
      * @return the simpleGod assigned to a given id.
-     * @throws IllegalArgumentException if the id is less than 1 or higher than 9.
+     * @throws IllegalArgumentException if the id is less than 0 or higher than 13.
      */
     public static GodCard getGod(int id) throws IllegalArgumentException{
         switch(id) {

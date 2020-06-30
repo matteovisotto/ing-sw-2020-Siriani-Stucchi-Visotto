@@ -30,7 +30,7 @@ public enum Blocks {
 
     /**
      * This method assigns a value to its specific block.
-     * @param id defines the block's id. The accepted values are: 0 -> EMPTY, 1 -> LEVEL1, 2 -> LEVEL2, 3 -> LEVEL3, 4 -> DOME.
+     * @param id defines the block's id. The accepted values are: 0 = EMPTY, 1 = LEVEL1, 2 = LEVEL2, 3 = LEVEL3, 4 = DOME.
      * @return the block assigned to an id.
      * @throws IllegalArgumentException if the id is less than 0 or higher than 4.
      */

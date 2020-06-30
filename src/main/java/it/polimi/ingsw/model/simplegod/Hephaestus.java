@@ -60,7 +60,7 @@ public class Hephaestus extends GodCard {
     }
 
     /**
-     * This method change game flow if the cell used to built by the player have a level <2, so Hepheastus can built an other time
+     * This method change game flow if the cell used to built by the player have a level less then 2, so Hepheastus can built an other time
      * It change game model phase to ask the usage of god power
      * @param model the play model
      * @param controller the play controller

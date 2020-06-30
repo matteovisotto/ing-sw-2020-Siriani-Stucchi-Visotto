@@ -98,7 +98,7 @@ public class Controller implements Observer<Message> {
      *  1) if the given cell is next to the worker
      *  2) if it is not the cell where the player's worker is
      *  3) if the cell's coordinates are within the board range
-     *  4) if the cell's level is not greater than level 3 (it can build the last level -> DOME)
+     *  4) if the cell's level is not greater than level 3 (it can build the last level = DOME)
      *  5) if the cell is free
      * @param buildingCell is the cell where the player wants to build
      * @param playerBuild The Message subclass containing the information for this action
@@ -224,8 +224,8 @@ public class Controller implements Observer<Message> {
      * Then:
      *      - If the phase is SETWORKER1 then it changes the model phase to SETWORKER2 but it doesn't change the turn
      *      - If the phase is SETWORKER2 we can have 2 different alternatives:
-     *                     - If the player wasn't the only one who didn't place the worker -> this method updates the turn and sets the phase to SETWORKER1 again
-     *                     - Otherwise -> it updates the turn and sets model's phase to MOVE
+     *                     - If the player wasn't the only one who didn't place the worker, then this method updates the turn and sets the phase to SETWORKER1 again
+     *                     - Otherwise it updates the turn and sets model's phase to MOVE
      *
      * If an error has been caught, it is sent only to che client which has generated itù
      *

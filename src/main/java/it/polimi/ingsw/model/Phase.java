@@ -38,7 +38,7 @@ public enum Phase {
 
     /**
      * This method returns the next game's phase.
-     * @param p defines the id of the actual phase. The accepted values are: -5 -> DRAWCARD, -4 -> PICK_CARD, -3 -> SETWORKER1, -2 -> SETWORKER2, -1 || 0 || 2 -> MOVE, 1 || 6 -> BUILD, 10 -> END_GAME.
+     * @param p defines the id of the actual phase. The accepted values are: -5 = DRAWCARD, -4 = PICK_CARD, -3 = SETWORKER1, -2 = SETWORKER2, -1 || 0 || 2 = MOVE, 1 || 6 = BUILD, 10 = END_GAME.
      * @return the next phase.
      * @throws IllegalArgumentException if the id is less than -5 or higher than 2, except for 6, 10.
      */
@@ -69,7 +69,7 @@ public enum Phase {
 
     /**
      * This method assigns a value to its specific phase.
-     * @param id defines the phase's id. The accepted values are: -5 -> WAIT_PLAYERS, -4 -> DRAWCARD, -3 -> PICK_CARD, -2 -> SETWORKER1, -1 -> SETWORKER2, 0 -> BEGINNING, 1 -> MOVE, 2 -> BUILD, 5 -> WAIT_GOD_ANSWER, 6 -> PROMETHEUS_WORKER, 10 -> END_GAME.
+     * @param id defines the phase's id. The accepted values are: -5 = WAIT_PLAYERS, -4 = DRAWCARD, -3 = PICK_CARD, -2 = SETWORKER1, -1 = SETWORKER2, 0 = BEGINNING, 1 = MOVE, 2 = BUILD, 5 = WAIT_GOD_ANSWER, 6 = PROMETHEUS_WORKER, 10 = END_GAME.
      * @return the phase assigned to a given id.
      * @throws IllegalArgumentException if the id is less than -5 or higher than 2, except for 5, 6, 10.
      */
