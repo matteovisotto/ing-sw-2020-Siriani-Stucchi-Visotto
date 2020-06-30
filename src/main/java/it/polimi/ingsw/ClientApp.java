@@ -12,8 +12,10 @@ import java.util.Properties;
 
 import static java.lang.StrictMath.abs;
 
-public class ClientApp
-{
+/**
+ * Client executable class
+ */
+public class ClientApp {
 
     private static File propFile = new File("server.properties");
     private static Properties properties;

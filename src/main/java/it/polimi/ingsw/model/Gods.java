@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.simplegod.*;
+import it.polimi.ingsw.model.gods.*;
 
 /**
  * This class defines the different simpleGods of the game.

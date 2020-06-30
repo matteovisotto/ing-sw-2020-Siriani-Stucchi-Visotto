@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.exceptions.FullWorkerException;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
-import it.polimi.ingsw.model.simplegod.Apollo;
+import it.polimi.ingsw.model.gods.Apollo;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.view.RemoteView;
 import org.junit.Rule;

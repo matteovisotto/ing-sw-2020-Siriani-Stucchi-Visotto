@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.messageModel.NewGameMessage;
 import it.polimi.ingsw.model.messageModel.PlayerBuild;
 import it.polimi.ingsw.model.messageModel.PlayerMove;
 import it.polimi.ingsw.model.messageModel.PlayerWorker;
-import it.polimi.ingsw.model.simplegod.Apollo;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.RemoteView;
@@ -13,9 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-
-import java.util.List;
-import java.util.logging.Handler;
 
 import static org.junit.Assert.*;
 

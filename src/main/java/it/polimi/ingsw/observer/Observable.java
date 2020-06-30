@@ -3,6 +3,10 @@ package it.polimi.ingsw.observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Generic Observable class
+ * @param <T> as generic observer type
+ */
 public class Observable<T> {
     private final List<Observer<T>> observers = new ArrayList<>();
 

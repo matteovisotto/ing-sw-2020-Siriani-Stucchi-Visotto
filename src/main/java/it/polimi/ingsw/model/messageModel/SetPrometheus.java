@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Gods;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Phase;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.simplegod.Prometheus;
+import it.polimi.ingsw.model.gods.Prometheus;
 import it.polimi.ingsw.utils.PlayerMessage;
 import it.polimi.ingsw.view.View;
 

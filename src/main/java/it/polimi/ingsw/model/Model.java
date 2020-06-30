@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.messageModel.*;
-import it.polimi.ingsw.model.simplegod.Prometheus;
+import it.polimi.ingsw.model.gods.Prometheus;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utils.PlayerMessage;
 

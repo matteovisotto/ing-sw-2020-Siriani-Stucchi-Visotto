@@ -5,6 +5,9 @@ import it.polimi.ingsw.server.Lobby;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a message catch by the server to start a new play
+ */
 public class EndGameServerMessage {
     private final Lobby lobby;
     private final ArrayList<ClientConnection> clientConnections;

@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.messageModel.*;
-import it.polimi.ingsw.model.simplegod.*;
+import it.polimi.ingsw.model.gods.*;
 import it.polimi.ingsw.server.ClientConnection;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.view.RemoteView;

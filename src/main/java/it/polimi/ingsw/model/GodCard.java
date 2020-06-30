@@ -11,6 +11,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * General god card class
+ */
 public class GodCard implements Serializable {
 
     protected final Gods card;
