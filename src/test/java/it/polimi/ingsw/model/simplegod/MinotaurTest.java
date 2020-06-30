@@ -1,6 +1,13 @@
 package it.polimi.ingsw.model.simplegod;
 
+import it.polimi.ingsw.controller.GodCardController;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.messageModel.DrawedCards;
+import it.polimi.ingsw.model.messageModel.PickedCard;
+import it.polimi.ingsw.model.messageModel.PlayerMove;
+import it.polimi.ingsw.model.messageModel.PlayerWorker;
+import it.polimi.ingsw.server.ClientConnection;
+import it.polimi.ingsw.view.RemoteView;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,31 +15,65 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class MinotaurTest {
-    @Test
-    public void testUsePower() {
-        Cell cell = new Cell(3,2);
-        Cell cell2 = new Cell(2,2);
-        Cell backwardCell = new Cell(1,2);
-        Worker worker = new Worker(cell);
-        Worker worker1 = new Worker(cell2);
-        Player player = new Player("Mario");
-        Player player2 = new Player("Luigi");
-        player.setWorkers(worker);
-        player2.setWorkers(worker1);
-        List<Object> movedList = new ArrayList<>();
-        movedList.add(worker);
-        movedList.add(worker1);
-        movedList.add(backwardCell);
-        GodCard godCard = new Minotaur();
-        godCard.usePower(movedList);
-        assertTrue(player.getWorker(0).getCell().getX()==2 && player.getWorker(0).getCell().getY()==2);
-        assertTrue(player2.getWorker(0).getCell().getX()==1 && player2.getWorker(0).getCell().getY()==2);
-    }
 
     @Test
-    public void getPhaseTest(){
-        GodCard godCard = new Minotaur();
-        Phase phase = godCard.getPhase();
-        assertEquals(phase,Phase.MOVE);
+    public void useMinotaurPowerTest() {
+        Player[] players = new Player[2];
+        players[0] = new Player("Mario");
+        players[1] = new Player("Luigi");
+        Model model = new Model(players, false);
+        GodCardController controller = new GodCardController(model);
+        RemoteView remoteView = new RemoteView(players[0], players[1].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        }, null);
+        DrawedCards drawedCards = new DrawedCards(players[0], 0, 6, remoteView);
+        controller.drawedCards(drawedCards);
+        RemoteView remoteView2 = new RemoteView(players[1], players[0].getPlayerName(), new ClientConnection() {
+            @Override
+            public void closeConnection() {
+
+            }
+
+            @Override
+            public void send(Object message) {
+
+            }
+
+            @Override
+            public void asyncSend(Object message) {
+
+            }
+        }, null);
+        PickedCard pickedCard = new PickedCard(players[1], remoteView2, 0);
+        controller.pickACard(pickedCard);
+
+        PlayerWorker playerWorker = new PlayerWorker(players[0], 0, 0, remoteView);
+        controller.setPlayerWorker(playerWorker);
+        PlayerWorker playerWorker2 = new PlayerWorker(players[0], 1, 1, remoteView);
+        controller.setPlayerWorker(playerWorker2);
+
+        PlayerWorker playerWorker3 = new PlayerWorker(players[1], 0, 1, remoteView2);
+        controller.setPlayerWorker(playerWorker3);
+        PlayerWorker playerWorker4 = new PlayerWorker(players[1], 1, 0, remoteView2);
+        controller.setPlayerWorker(playerWorker4);
+
+        PlayerMove playerMove = new PlayerMove(players[0], 0, 0, 1, remoteView);
+        controller.move(playerMove);
+
+        assertEquals(model.getPlayer(0).getWorker(0).getCell(), model.getBoard().getCell(0, 1));
+        assertEquals(model.getPlayer(1).getWorker(0).getCell(), model.getBoard().getCell(0, 2));
     }
 }
