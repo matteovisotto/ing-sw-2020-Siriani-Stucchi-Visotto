@@ -12,15 +12,26 @@ import it.polimi.ingsw.utils.CommandParser;
 
 import java.util.HashMap;
 
+/**
+ * View implementation server side
+ */
 public class RemoteView extends View {
     private final ClientConnection clientConnection;
     private Phase phase = Phase.SETWORKER1;
 
+    /**
+     *
+     * @return the lobby connected to this view
+     */
     public Lobby getLobby() {
         return lobby;
     }
 
     private final Lobby lobby;
+
+    /**
+     * This class recive messages from the socket
+     */
     private class MessageReceiver implements Observer<String> {
 
         @Override
@@ -40,7 +51,13 @@ public class RemoteView extends View {
         }
     }
 
-    //Constructor for 2 players
+    /**
+     * Contructor for two players play
+     * @param player The player owner of the view
+     * @param opponent a string containing the opponent's name
+     * @param c the connection of the player
+     * @param lobby the lobby linked to this view
+     */
     public RemoteView(Player player, String opponent, ClientConnection c, Lobby lobby) {
         super(player);
         this.clientConnection = c;
@@ -54,7 +71,14 @@ public class RemoteView extends View {
         clientConnection.asyncSend(new ClientConfigurator(2, opponents, player));
     }
 
-    //Constructor for 3 players
+    /**
+     * Contructor for two players play
+     * @param player The player owner of the view
+     * @param opponent1 a string containing the first opponent's name
+     * @param opponent2 a stirng containing the second opponent's name
+     * @param c the connection of the player
+     * @param lobby the lobby linked to this view
+     */
     public RemoteView(Player player, String opponent1, String opponent2, ClientConnection c, Lobby lobby) {
         super(player);
         this.clientConnection = c;
@@ -85,7 +109,10 @@ public class RemoteView extends View {
     }
 
 
-
+    /**
+     *
+     * @return the player's connection
+     */
     public ClientConnection getConnection(){
         return this.clientConnection;
     }
