@@ -60,6 +60,7 @@ Ci sono due modi per far partire i jar:
 
 - Nel caso di utilizzo di Git Bash come terminale si possono utilizzare gli script `.sh`
 - Per utilizzare il prompt di windows utilizzare il comando `java -jar <jar file>`.
+- Viene anche fornito un file `.bat` per eseguire il client.
 
 ### File allegati
 
