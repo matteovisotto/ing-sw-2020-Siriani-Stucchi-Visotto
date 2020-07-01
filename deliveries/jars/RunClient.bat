@@ -1,1 +1,1 @@
-START java -jar target/GC5-1.0-SNAPSHOT
+START java -jar santoriniClient.jar
