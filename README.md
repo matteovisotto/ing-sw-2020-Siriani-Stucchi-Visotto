@@ -29,25 +29,25 @@
 
 ## UML
 
-Nella cartella `deliveries/uml` sono presenti l'uml iniziale, vari flow diagram per rappresentare le interazioni con le carte divinità (di inizio progetto, ovvero Simple Gods).
+Nella cartella `deliveries/uml` sono presenti l'uml iniziale e vari flow diagram per rappresentare le interazioni con le carte divinità (di inizio progetto, ovvero Simple Gods).
 
 In `deliveries/uml/Final UML` sono presenti gli UML finali generati con il tool di IntelliJ e/o creati appositamente. E' presente un UML per ogni package
 con attributi e metodi delle classi e uno per le dipendenze tra i package.
 
 ## JavaDoc
 
-I Javadoc generati si trovano nella cartella `javadoc`.
+I Javadoc generati si trovano nella cartella `JavaDoc`.
 
 ## Lancio JAR
 
-### Linux e macOs
+### Linux e macOS
 
 Esistono 2 jar che possono essere trovati nella cartella `deliveries/jars` e 3 script sh
-per il lancio che si trovano nella root del progetto:
+per il lancio che si trovano nella stessa cartella:
 
-- jar per il client (GUI) lanciabile tramite lo script `santorini-client.sh`
-- jar per il client (CLI) lanciabile tramite lo script `santorini-cli-client.sh`
-- jar per il server lanciabile tramite lo script `santorini-server.sh`
+- per il client (GUI) lanciabile tramite lo script `santorini-client.sh`
+- per il client (CLI) lanciabile tramite lo script `santorini-cli-client.sh`
+- per il server lanciabile tramite lo script `santorini-server.sh`
 
 I jar, invece, possono essere eseguiti tramite 
 - jar client GUI `java -jar santoriniClient.jar`
