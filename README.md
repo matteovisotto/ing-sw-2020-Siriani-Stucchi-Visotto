@@ -29,23 +29,23 @@
 
 ## UML
 
-Nella cartella `deliveries/uml` sono presenti l'uml iniziale e vari flow diagram per rappresentare le interazioni con le carte divinità (di inizio progetto, ovvero Simple Gods).
+Nella cartella `deliverables/uml` sono presenti l'uml iniziale e vari flow diagram per rappresentare le interazioni con le carte divinità (di inizio progetto, ovvero Simple Gods).
 
-In `deliveries/uml/Final UML` sono presenti gli UML finali generati con il tool di IntelliJ e/o creati appositamente. E' presente un UML per ogni package
+In `deliverables/uml/Final UML` sono presenti gli UML finali generati con il tool di IntelliJ e/o creati appositamente. E' presente un UML per ogni package
 con attributi e metodi delle classi e uno per le dipendenze tra i package.
 
 ## Test coverage
-Nella cartella `deliveries/TestCoverageReport` è stato inserito il documento navigabile (HTML) generato da IntelliJ contenente il report di coverage dei test.
+Nella cartella `deliverables/TestCoverageReport` è stato inserito il documento navigabile (HTML) generato da IntelliJ contenente il report di coverage dei test.
 
 ## JavaDoc
 
-I Javadoc generati si trovano nella cartella `JavaDoc`.
+I Javadoc generati si trovano nella cartella `deliverables/JavaDoc`.
 
 ## Lancio JAR
 
 ### Linux e macOS
 
-Esistono 2 jar che possono essere trovati nella cartella `deliveries/jars` e 3 script sh
+Esistono 2 jar che possono essere trovati nella cartella `deliverables/jars` e 3 script sh
 per il lancio che si trovano nella stessa cartella:
 
 - per il client (GUI) lanciabile tramite lo script `santorini-client.sh`
