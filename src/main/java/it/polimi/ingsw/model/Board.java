@@ -54,21 +54,21 @@ public class Board implements Serializable, Cloneable {
             for (int i = 0; i < 5; i++) {
                 s.append(i).append("   | ");
                 for (int j = 0; j < 5; j++) {//prima riga
-                    s.append(board[j][i]).append(" | ");
+                    s.append(board[i][j]).append(" | ");
                 }
                 s.append("\n");
                 //qui devo stampare player e worker (seconda riga)
                 s.append("    ");
                 for (int j = 0; j < 5; j++) {
                     s.append("| ");
-                    if (!board[j][i].isFree()) {
+                    if (!board[i][j].isFree()) {
                         for (int p = 0; p < players.length; p++) {
                             Player player = players[p];
 
-                            if (player.getWorker(0).getCell().equals(board[j][i])) {
+                            if (player.getWorker(0).getCell().equals(board[i][j])) {
                                 s.append("P:").append(p).append(" W:0 ");
                                 break;
-                            } else if (player.getWorker(1).getCell().equals(board[j][i])) {
+                            } else if (player.getWorker(1).getCell().equals(board[i][j])) {
                                 s.append("P:").append(p).append(" W:1 ");
                                 break;
                             }
