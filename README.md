@@ -29,7 +29,7 @@
 
 ## UML
 
-Nella cartella `deliveries/uml` sono presenti l'uml iniziale, vari flow diagram per rappresentare le interazioni con le carte divinità (di inizio progetto).
+Nella cartella `deliveries/uml` sono presenti l'uml iniziale, vari flow diagram per rappresentare le interazioni con le carte divinità (di inizio progetto, ovvero Simple Gods).
 
 In `deliveries/uml/Final UML` sono presenti gli UML finali generati con il tool di IntelliJ e/o creati appositamente. E' presente un UML per ogni package
 con attributi e metodi delle classi e uno per le dipendenze tra i package.
